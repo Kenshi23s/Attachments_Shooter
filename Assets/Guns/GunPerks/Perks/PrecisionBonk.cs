@@ -11,7 +11,7 @@ public class PrecisionBonk : Perk
     {
         myGun = gun;
 
-        myGun.OnPrecisionHit += AddPoint;
+        myGun.OnCritHit += AddPoint;
         myGun.OnShoot += CheckBullets;
 
         myGun.OnReload += ResetPoints;

@@ -29,6 +29,12 @@ public abstract class GunFather : MonoBehaviour
     [Header("Perks Stats")]
     [SerializeField] Perk[] GunPeks;
 
+    [Header("GunStats")]
+    [SerializeField] protected float _range;
+    [SerializeField] protected float _reloadSpeed;
+    [SerializeField] protected float _handling;
+
+
 
 
 
@@ -46,7 +52,7 @@ public abstract class GunFather : MonoBehaviour
 
     internal event Action OnHit;
 
-    internal event Action OnPrecisionHit;
+    internal event Action OnCritHit;
     #endregion
 
     private void Awake()
@@ -57,8 +63,11 @@ public abstract class GunFather : MonoBehaviour
         {
             item.InitializePerk(this);
         }
+        OptionalInitialize();
     }
 
+    protected virtual void OptionalInitialize() { }
+   
     public void AddDamage(float value) => _actualDamage += value;
     
     public void SubstractDamage(float value) => _actualDamage -= value;
@@ -70,11 +79,11 @@ public abstract class GunFather : MonoBehaviour
         OnReload?.Invoke();
     }
 
-    public abstract void PreShoot();
+    //public abstract void PreShoot();
 
     public abstract void GunShoot();
 
-    public abstract void PosShoot();
+    //public abstract void PosShoot();
 
     public virtual void Shoot()
     {
