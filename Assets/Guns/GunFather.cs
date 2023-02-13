@@ -91,6 +91,9 @@ public abstract class GunFather : MonoBehaviour
         OnShoot?.Invoke();
     }
 
-   
+    void DoDamage(IDamagable target)
+    {
+        target.TakeDamage(_actualDamage);
+    }
    
 }

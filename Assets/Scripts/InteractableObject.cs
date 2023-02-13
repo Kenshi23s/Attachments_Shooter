@@ -6,21 +6,22 @@ using UnityEngine.Events;
 [System.Serializable]
 public struct InteractableObjectData
 {
-    [SerializeField] public string _promptText = "Interact";
-    [SerializeField] public float _interactTimeNeeded = 2f;
+    [SerializeField] public string _promptText;
+    [SerializeField] public float _interactTimeNeeded;
     [SerializeField] public bool canInteract;
     [SerializeField] public UnityEvent _OnInteract;
 
-    public InteractableObjectData(UnityEvent _OnInteract, string _promptText = "Interact", float _interactTimeNeeded = 2f)
+    public InteractableObjectData(UnityEvent _OnInteract,bool canInteract ,string _promptText = "Interact", float _interactTimeNeeded = 2f)
     {
         this._OnInteract = _OnInteract;
         this._promptText = _promptText;
         this._interactTimeNeeded = _interactTimeNeeded;
+        this.canInteract = canInteract;
     }
 }
 public class InteractableObject : MonoBehaviour
 {
-    [SerializeField]InteractableObjectData data;
+    [SerializeField] InteractableObjectData data;
     [SerializeField] float _currentInteractionTime;
     [SerializeField] bool isInteracting;
 
