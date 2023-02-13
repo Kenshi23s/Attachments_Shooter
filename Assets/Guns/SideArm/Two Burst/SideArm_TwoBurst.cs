@@ -4,20 +4,33 @@ using UnityEngine;
 
 public class SideArm_TwoBurst : SideArm
 {
+    Transform _mainCam;
+
+    protected override void OptionalInitialize()
+    {
+        base.OptionalInitialize();
+        _mainCam = Camera.main.transform;
+    }
+
     public override void GunShoot()
     {
-        throw new System.NotImplementedException();
+        RaycastHit hit;
+        if (Physics.Raycast(_mainCam.position, _mainCam.forward, out hit, _range))
+        {
+            //quien se encarga de decir si fue un critico, el arma o el enemigo?
+            bool IsCrit = false;
+            var damagable = hit.transform.GetComponent<IDamagable>;
+
+            if (damagable != null)
+            {
+                
+                
+            }
+        }
+      
     }
 
-    public override void PosShoot()
-    {
-        throw new System.NotImplementedException();
-    }
-
-    public override void PreShoot()
-    {
-        throw new System.NotImplementedException();
-    }
+    
 
    
 }
