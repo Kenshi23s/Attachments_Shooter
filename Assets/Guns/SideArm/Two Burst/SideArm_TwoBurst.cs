@@ -18,7 +18,7 @@ public class SideArm_TwoBurst : SideArm
         if (Physics.Raycast(_mainCam.position, _mainCam.forward, out hit, _range))
         {
             //quien se encarga de decir si fue un critico, el arma o el enemigo?
-            bool IsCrit = false;
+            //bool IsCrit = false;
             var damagable = hit.transform.GetComponent<IDamagable>;
 
             if (damagable != null)
