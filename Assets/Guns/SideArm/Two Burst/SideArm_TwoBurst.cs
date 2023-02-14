@@ -24,7 +24,7 @@ public class SideArm_TwoBurst : SideArm
             if (damagable != null)
             {
               
-                if (enemy)
+                //if (enemy)
                 {
                     if (true)
                     {
