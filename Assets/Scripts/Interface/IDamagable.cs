@@ -1,5 +1,5 @@
 
 public interface IDamagable 
 {
-    void TakeDamage(float dmgDealt);
+    void OnTakeDamage(float dmgDealt);
 }
