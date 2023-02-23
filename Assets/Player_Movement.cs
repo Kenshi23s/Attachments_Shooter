@@ -37,22 +37,22 @@ public class Player_Movement : MonoBehaviour
 
         if (Input.GetKey(KeyCode.W))
         {
-            rb.velocity += transform.forward * speed;
+            rb.velocity += transform.forward * speed * Time.deltaTime;
         }
 
         if (Input.GetKey(KeyCode.S))
         {
-            rb.velocity -= transform.forward * speed;
+            rb.velocity -= transform.forward * speed * Time.deltaTime;
         }
 
         if (Input.GetKey(KeyCode.A))
         {
-            rb.velocity -= transform.right * speed;
+            rb.velocity -= transform.right * speed * Time.deltaTime;
         }
 
         if (Input.GetKey(KeyCode.D))
         {
-            rb.velocity += transform.right * speed;
+            rb.velocity += transform.right * speed * Time.deltaTime;
         }
 
         if (Input.GetKeyDown(KeyCode.Space))
