@@ -57,7 +57,7 @@ public class Player_Movement : MonoBehaviour
 
         if (Input.GetKeyDown(KeyCode.Space))
         {
-            rb.velocity += transform.up * speedJump;
+            rb.velocity = new Vector3(rb.velocity.x, speedJump, rb.velocity.z);
         }
 
         Vector3 HorizontalVelocity = new Vector3(rb.velocity.x, 0, rb.velocity.z);
