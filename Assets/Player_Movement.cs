@@ -5,10 +5,14 @@ using UnityEngine;
 public class Player_Movement : MonoBehaviour
 {
     public Camera MainCam;
+    public Transform Player;
 
     public float sens = 2;
     public float ejeY = 0;
     public float ejeX = 0;
+
+    public float Xrotation = 0;
+    public float Yrotation = 0;
 
     public float speed;
     public float speedJump;
@@ -20,39 +24,44 @@ public class Player_Movement : MonoBehaviour
     void Start()
     {
          rb = transform.GetComponent<Rigidbody>();
+        Cursor.lockState = CursorLockMode.Locked;
+        Cursor.visible = false;
+        Application.targetFrameRate = 140;
     }
 
     // Update is called once per frame
     void Update()
     {
-        if (Input.GetAxis("Mouse X") != 0)
+        if (Input.GetAxis("Mouse X") != 0 || Input.GetAxis("Mouse Y") != 0)
         {
-            ejeX += Input.GetAxis("Mouse X") * sens;
-            ejeY -= Input.GetAxis("Mouse Y") * sens;
+            ejeX = Input.GetAxis("Mouse X") * sens;
+            ejeY = Input.GetAxis("Mouse Y") * sens;
 
-            transform.eulerAngles = new Vector3(0, ejeX, 0);
+            Xrotation -= ejeY;
+            Xrotation = Mathf.Clamp(Xrotation,-90,90);
 
-            MainCam.transform.localEulerAngles = new Vector3(ejeY, 0, 0);
+            MainCam.transform.localRotation = Quaternion.Euler(Xrotation,0,0);
+            Player.Rotate(Vector3.up * ejeX);
         }
 
         if (Input.GetKey(KeyCode.W))
         {
-            rb.velocity += transform.forward * speed * Time.deltaTime;
+            rb.velocity += Player.forward * speed * Time.deltaTime;
         }
 
         if (Input.GetKey(KeyCode.S))
         {
-            rb.velocity -= transform.forward * speed * Time.deltaTime;
+            rb.velocity -= Player.forward * speed * Time.deltaTime;
         }
 
         if (Input.GetKey(KeyCode.A))
         {
-            rb.velocity -= transform.right * speed * Time.deltaTime;
+            rb.velocity -= Player.right * speed * Time.deltaTime;
         }
 
         if (Input.GetKey(KeyCode.D))
         {
-            rb.velocity += transform.right * speed * Time.deltaTime;
+            rb.velocity += Player.right * speed * Time.deltaTime;
         }
 
         if (Input.GetKeyDown(KeyCode.Space))
