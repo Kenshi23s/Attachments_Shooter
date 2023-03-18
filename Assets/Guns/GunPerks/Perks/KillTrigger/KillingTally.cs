@@ -4,10 +4,10 @@ using UnityEngine;
 
 public class KillingTally : Perk
 {
-    float damageAdded;
+    int damageAdded;
     [SerializeField,Range(0,2)]
-    float _dmgScaling;
-    float timesApplied;
+    int _dmgScaling;
+    int timesApplied;
     
 
 

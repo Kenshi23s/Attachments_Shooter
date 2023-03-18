@@ -1,8 +1,17 @@
 using System;
 using UnityEngine;
 
+
 public abstract class Attachment : MonoBehaviour
 {
+    public enum AttachmentType
+    {
+        Muzzle,
+        Magazine,
+        Sight
+    }
+
+    AttachmentType myType;
     protected GunStats _atacchmentStats; 
 
     protected event Action OnAtach;
@@ -20,6 +29,7 @@ public abstract class Attachment : MonoBehaviour
         this.transform.parent = parent;
         transform.position = Pos;
         gunAttachedTo = gun;
+
         gunAttachedTo.Stats.ChangeStats(_atacchmentStats,true);
         OnAtach?.Invoke();
     }
@@ -27,7 +37,7 @@ public abstract class Attachment : MonoBehaviour
     {
         gunAttachedTo.Stats.ChangeStats(_atacchmentStats, false);
         OnUnAttach?.Invoke();
-        gameObject.SetActive(false);
+       
     }
    
 }

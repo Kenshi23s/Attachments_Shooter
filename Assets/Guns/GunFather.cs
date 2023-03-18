@@ -15,74 +15,91 @@ public struct GunAudioClips
 
     [SerializeField] public AudioClip _ReloadClip;
 }
-[System.Serializable]
-public struct GunStats
-{
-    //quien deberia hacer el cambio de estadistica, el arma o el accesorio?
-    //el arma deberia tener referencia de todos sus accesorios o no es de gran importancia?
-    [Header("GunStats")]
-    [SerializeField, Range(1,100)]  float _aimingZoom;
-    [SerializeField, Range(1, 100)]  float _range;
 
-    [SerializeField, Range(1, 100)]  float _handling;
-    [SerializeField, Range(1, 100)]  float _stability;
+//[System.Serializable]
+//public struct GunStats
+//{
+//    //quien deberia hacer el cambio de estadistica, el arma o el accesorio?
+//    //el arma deberia tener referencia de todos sus accesorios o no es de gran importancia?
+//    [Header("GunStats")]
+//    [SerializeField, Range(1,100)]  float _aimingZoom;
+//    [SerializeField, Range(1, 100)]  float _range;
 
-    [SerializeField, Range(1, 100)]  float _reloadSpeed;
-    [SerializeField, Range(1, 100)]  float _maxMagazineAmmo;
+//    [SerializeField, Range(1, 100)]  float _handling;
+//    [SerializeField, Range(1, 100)]  float _stability;
 
-    public float aimingZoom => _aimingZoom;
-    public float range => _range;
+//    [SerializeField, Range(1, 100)]  float _reloadSpeed;
+//    [SerializeField, Range(1, 100)]  float _maxMagazineAmmo;
 
-    public float handling => _handling;
-    public float stability => _stability;
+//    public float aimingZoom => _aimingZoom;
+//    public float range => _range;
 
-    public float reloadSpeed => _reloadSpeed;
-    public float maxMagazineAmmo => _maxMagazineAmmo;
+//    public float handling => _handling;
+//    public float stability => _stability;
 
-    Transform shootPos;
+//    public float reloadSpeed => _reloadSpeed;
+//    public float maxMagazineAmmo => _maxMagazineAmmo;
+
+//    [SerializeField]Transform defaultShootPos;
+//    public Transform _shootPos => shootPos;
+//    Transform shootPos;
 
 
 
 
 
-    #region StatMethods
-    private void AddAimZoom(float value)     => _aimingZoom += Mathf.Clamp(value, 1, 100);
-    private void AddRange(float value)       => _range += Mathf.Clamp(value,1,value);
+//    #region StatMethods
+//    private void AddAimZoom(float value)     => _aimingZoom += Mathf.Clamp(value, 1, 100);
+//    private void AddRange(float value)       => _range += Mathf.Clamp(value,1,value);
   
-    private void AddReloadSpeed(float value) => _reloadSpeed += Mathf.Clamp(value, 1, 100);
-    private void AddHandling(float value)    => _handling += Mathf.Clamp(value, 1, 100);
+//    private void AddReloadSpeed(float value) => _reloadSpeed += Mathf.Clamp(value, 1, 100);
+//    private void AddHandling(float value)    => _handling += Mathf.Clamp(value, 1, 100);
    
-    private void AddStability(float value)   => _stability += Mathf.Clamp(value, 1, 100);
-    private void AddMaxMagCapacity(float value)   => _stability += Mathf.Clamp(value, 1, 100);
-    #endregion
+//    private void AddStability(float value)   => _stability += Mathf.Clamp(value, 1, 100);
+//    private void AddMaxMagCapacity(float value)   => _stability += Mathf.Clamp(value, 1, 100);
+
+//    private void ChangeShootPos(Transform newShootpos)
+//    {
+//        if (newShootpos != null)
+//        {
+//            shootPos = newShootpos;
+//        }
+//        else
+//        {
+//            shootPos = defaultShootPos;
+//        }
+//    }
+//    #endregion
 
 
-    
-    /// <summary>
-    /// cambia las stats del arma, si el booleano se pasa como verdadero las armas aumentan sus stats.
-    /// en caso contrario las reduce
-    /// </summary>
-    /// <param name="NewStats"></param>
-    /// <param name="_isBeingAttached"></param>
-    public void ChangeStats(GunStats NewStats,bool _isBeingAttached)
-    {
-        int x = _isBeingAttached ? 1 : -1;
-        
-       
-        AddAimZoom(NewStats.aimingZoom * x);
-        AddRange(NewStats._range * x);
 
-        AddReloadSpeed(NewStats.reloadSpeed * x);
-        AddHandling(NewStats.handling * x);
+//    /// <summary>
+//    /// cambia las stats del arma, si el booleano se pasa como verdadero las armas aumentan sus stats.
+//    /// en caso contrario las reduce
+//    /// </summary>
+//    /// <param name="NewStats"></param>
+//    /// <param name="_isBeingAttached"></param>
+//    public void ChangeStats(GunStats NewStats, bool _isBeingAttached)
+//    {
+//        int x = _isBeingAttached ? 1 : -1;
 
-        AddStability(NewStats.stability * x);
-        AddMaxMagCapacity(NewStats.maxMagazineAmmo * x);
 
-        OnStatsChange?.Invoke(this);
-    }
+//        AddAimZoom(NewStats.aimingZoom * x);
+//        AddRange(NewStats._range * x);
 
-    event Action<GunStats> OnStatsChange;
-}
+//        AddReloadSpeed(NewStats.reloadSpeed * x);
+//        AddHandling(NewStats.handling * x);
+
+//        AddStability(NewStats.stability * x);
+//        AddMaxMagCapacity(NewStats.maxMagazineAmmo * x); 
+
+
+
+//        OnStatsChange?.Invoke(this);
+//    }
+
+//    event Action<GunStats> OnStatsChange;
+//}
 
 
 public abstract class GunFather : MonoBehaviour
@@ -100,8 +117,8 @@ public abstract class GunFather : MonoBehaviour
     
 
     [Header("Damage")]
-    [SerializeField] float _baseDamage;
-    [SerializeField] public float _actualDamage;
+    [SerializeField] int _baseDamage;
+    [SerializeField] public int _actualDamage;
 
     [Header("Crit")]
     [SerializeField] bool CanCrit;
@@ -116,14 +133,14 @@ public abstract class GunFather : MonoBehaviour
 
     public GunStats Stats;
 
-    [SerializeField]GunAudioClips clips;
+    [SerializeField] GunAudioClips clips;
 
     [Header("Attachments")]
     [SerializeField] Sight mySight;
     [SerializeField] Magazine myMagazine;
     [SerializeField] Muzzle myMuzzle;
 
-    Transform defaultShootPos;
+    
     #region Events
     internal event Action OnReload;
 
@@ -157,9 +174,9 @@ public abstract class GunFather : MonoBehaviour
 
     protected virtual void OptionalInitialize() { }
    
-    public void AddDamage(float value) => _actualDamage += value;
+    public void AddDamage(int value) => _actualDamage += value;
     
-    public void SubstractDamage(float value) => _actualDamage -= value;
+    public void SubstractDamage(int value) => _actualDamage -= value;
     
 
     public void Reload()
