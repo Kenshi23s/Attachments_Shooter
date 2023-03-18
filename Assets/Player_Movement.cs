@@ -34,8 +34,8 @@ public class Player_Movement : MonoBehaviour
     {
         if (Input.GetAxis("Mouse X") != 0 || Input.GetAxis("Mouse Y") != 0)
         {
-            ejeX = Input.GetAxis("Mouse X") * sens * Time.deltaTime * 100;
-            ejeY = Input.GetAxis("Mouse Y") * sens * Time.deltaTime * 100;
+            ejeX = Input.GetAxis("Mouse X") * sens;
+            ejeY = Input.GetAxis("Mouse Y") * sens;
 
             Xrotation -= ejeY;
             Xrotation = Mathf.Clamp(Xrotation,-90,90);
