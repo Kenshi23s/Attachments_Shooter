@@ -1,7 +1,12 @@
 using System;
+using System.Collections.Generic;
 using UnityEngine;
+using static GunStats;
 
-
+public struct AttachmentStats
+{
+    public Dictionary<StatNames, float> _Stats;
+}
 public abstract class Attachment : MonoBehaviour
 {
     public enum AttachmentType
@@ -12,17 +17,12 @@ public abstract class Attachment : MonoBehaviour
     }
 
     AttachmentType myType;
-    protected GunStats _atacchmentStats; 
+    protected AttachmentStats _stats; 
 
     protected event Action OnAtach;
     protected event Action OnUnAttach;
 
     protected GunFather gunAttachedTo;
-
-    private void Awake()
-    {
-        
-    }
 
     public void Attach(GunFather gun,Transform parent,Vector3 Pos)
     {
@@ -30,12 +30,13 @@ public abstract class Attachment : MonoBehaviour
         transform.position = Pos;
         gunAttachedTo = gun;
 
-        gunAttachedTo.Stats.ChangeStats(_atacchmentStats,true);
+        gunAttachedTo._thisGunStats.ChangeStats(_stats, true);
         OnAtach?.Invoke();
     }
+
     public void UnAttach()
     {
-        gunAttachedTo.Stats.ChangeStats(_atacchmentStats, false);
+        gunAttachedTo._thisGunStats.ChangeStats(_stats, false);
         OnUnAttach?.Invoke();
        
     }

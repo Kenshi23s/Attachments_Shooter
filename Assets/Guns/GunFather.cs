@@ -108,7 +108,7 @@ public abstract class GunFather : MonoBehaviour
     [SerializeField] Animator _gunAnim;
 
 
-    [SerializeField] public float _actualAmmo 
+    [SerializeField] public int _actualAmmo 
     { 
         get => _actualAmmo; 
 
@@ -131,11 +131,12 @@ public abstract class GunFather : MonoBehaviour
     [SerializeField] Perk[] GunPeks;
     
 
-    public GunStats Stats;
+    public GunStats _thisGunStats;
 
     [SerializeField] GunAudioClips clips;
 
     [Header("Attachments")]
+    public AttachmentManager myAttachMents;
     [SerializeField] Sight mySight;
     [SerializeField] Magazine myMagazine;
     [SerializeField] Muzzle myMuzzle;
@@ -181,7 +182,7 @@ public abstract class GunFather : MonoBehaviour
 
     public void Reload()
     {
-        _actualAmmo = Stats.maxMagazineAmmo;
+        _actualAmmo = (int)_thisGunStats.myGunStats[GunStats.StatNames.MaxMagazine];
         OnReload?.Invoke();
     }
 

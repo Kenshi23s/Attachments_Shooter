@@ -19,16 +19,20 @@ public class AttachmentManager
 
     public void AddAttachment(AttachmentType key, Attachment value)
     {
-        if (!_activeAttachments.ContainsKey(key))
+        if (_attachmentPos.ContainsKey(key))
         {
-            _activeAttachments.Add(key, value);
-            _activeAttachments[key].Attach(gun, gun.transform, _attachmentPos[key]);
+            if (!_activeAttachments.ContainsKey(key))
+            {
+                _activeAttachments.Add(key, value);
+                _activeAttachments[key].Attach(gun, gun.transform, _attachmentPos[key]);
 
+            }
+            else
+            {
+                ReplaceAttachment(key, value);
+            }
         }
-        else
-        {
-            ReplaceAttachment(key, value);
-        }
+       
     }
 
     void ReplaceAttachment(AttachmentType key, Attachment value)

@@ -20,7 +20,7 @@ public class KillClip : OverTimePerks
         if (!is_Active && condition == true)
         {
             float newdmg = myGun._actualDamage * multiplyBy;
-            myGun.AddDamage(newdmg);
+            myGun.AddDamage((int)newdmg);
 
             condition = false;
             myGun.OnKill -= KillClipCondition;
