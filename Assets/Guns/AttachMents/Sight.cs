@@ -5,5 +5,8 @@ using UnityEngine;
 public class Sight : Attachment
 {
 
-    
+    private void Awake()
+    {
+        myType = AttachmentType.Sight;
+    }
 }

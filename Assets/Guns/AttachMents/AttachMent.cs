@@ -13,10 +13,13 @@ public abstract class Attachment : MonoBehaviour
     {
         Muzzle,
         Magazine,
-        Sight
+        Sight,
+        Grip,
+        LaserSight
+
     }
 
-    AttachmentType myType;
+    protected AttachmentType myType;
     protected AttachmentStats _stats; 
 
     protected event Action OnAtach;
