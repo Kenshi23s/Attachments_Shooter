@@ -8,12 +8,20 @@ public class KillClip : OverTimePerks
     internal override void InitializePerk(GunFather gun)
     {
         myGun = gun;
-        myGun.OnKill += KillClipCondition;
+        myGun.OnHit += KillClipCondition;
         myGun.OnReload += ActivateKillClip;      
        
     }
 
-    void KillClipCondition() => condition = true;
+    void KillClipCondition(HitData data)
+    {
+        if (data.wasKill) 
+        {
+            condition= true;
+            myGun.OnHit -= KillClipCondition ;
+
+        }
+    }
 
     void ActivateKillClip() 
     {
@@ -23,7 +31,7 @@ public class KillClip : OverTimePerks
             myGun.AddDamage((int)newdmg);
 
             condition = false;
-            myGun.OnKill -= KillClipCondition;
+            myGun.OnHit -= KillClipCondition;
 
             TimerUpdate += CountDown;
         }
@@ -36,7 +44,7 @@ public class KillClip : OverTimePerks
         if (_actualTime<=0)
         {
             TimerUpdate -= CountDown;
-            myGun.OnKill += KillClipCondition;
+            myGun.OnHit += KillClipCondition;
             is_Active = false;
 
           

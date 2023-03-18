@@ -14,6 +14,7 @@ public class GunStats : MonoBehaviour
         Stability,
         ReloadSpeed,
         MaxMagazine,
+        AmooPerShoot,
         BulletRadius,
 
     }

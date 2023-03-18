@@ -1,6 +1,7 @@
 using UnityEngine;
 using System;
 using System.Collections.Generic;
+using static GunStats;
 
 [System.Serializable]
 public struct GunAudioClips
@@ -14,6 +15,17 @@ public struct GunAudioClips
     [SerializeField] public AudioClip _EndShootingClip;
 
     [SerializeField] public AudioClip _ReloadClip;
+}
+
+public struct HitData
+{
+    public Vector3 Pos;
+    public IDamagable Target;
+    public bool wasKill;
+    public bool wasCrit;
+    public int dmgDealt;
+    public GunFather weapon;
+
 }
 
 //[System.Serializable]
@@ -126,12 +138,13 @@ public abstract class GunFather : MonoBehaviour
 
     [Header("RateOfFire")]
     [SerializeField] float _actualRateOfFire;
+    [SerializeField] float rateOfFireCD;
 
     [Header("Perks Stats")]
     [SerializeField] Perk[] GunPeks;
     
 
-    public GunStats _thisGunStats;
+    public GunStats _stats;
 
     [SerializeField] GunAudioClips clips;
 
@@ -151,13 +164,13 @@ public abstract class GunFather : MonoBehaviour
 
     internal event Action OnShoot;
 
-    internal event Action OnKill;
+    //internal event Action OnKill;
 
-    internal event Action OnHit;
+    internal event Action<HitData> OnHit;
 
-    internal event Action OnCritHit;
+    //internal event Action OnCritHit;
 
-    internal event Action OnCritKill;
+    //internal event Action OnCritKill;
 
     
     #endregion
@@ -165,6 +178,8 @@ public abstract class GunFather : MonoBehaviour
     protected virtual void Awake()
     {
         _actualDamage = _baseDamage;
+
+        rateOfFireCD = 0;
 
         foreach (Perk item in GunPeks)
         {
@@ -182,25 +197,45 @@ public abstract class GunFather : MonoBehaviour
 
     public void Reload()
     {
-        _actualAmmo = (int)_thisGunStats.myGunStats[GunStats.StatNames.MaxMagazine];
+        _actualAmmo = (int)_stats.myGunStats[StatNames.MaxMagazine];
         OnReload?.Invoke();
     }
 
     //public abstract void PreShoot();
 
-    public abstract void GunShoot();
+    public abstract void Shoot();
 
     //public abstract void PosShoot();
 
-    public virtual void Shoot()
+    public virtual void Trigger()
     {
-        GunShoot();
-        OnShoot?.Invoke();
+        if (_actualAmmo >= _stats.myGunStats[StatNames.AmooPerShoot] && rateOfFireCD<=0)
+        {
+             Shoot();
+            _actualAmmo -= (int)_stats.myGunStats[StatNames.AmooPerShoot];
+            OnShoot?.Invoke();
+        }
+      
+    }
+    
+    void Equip()
+    {
+
     }
 
-    void DoDamage(IDamagable target)
+    public void Draw()
     {
-        target.TakeDamage(_actualDamage);
+        OnDraw?.Invoke();
     }
-   
+
+    public void Stow()
+    {
+        OnStow?.Invoke();
+    }
+
+    //void DoDamage(IDamagable target)
+    //{
+    //    target.TakeDamage(_actualDamage);
+    //}
+
 }

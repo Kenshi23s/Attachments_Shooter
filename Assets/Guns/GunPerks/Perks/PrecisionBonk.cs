@@ -11,7 +11,7 @@ public class PrecisionBonk : Perk
     {
         myGun = gun;
 
-        myGun.OnCritHit += AddPoint;
+        myGun.OnHit += AddPoint;
         myGun.OnShoot += CheckBullets;
 
         myGun.OnReload += ResetPoints;
@@ -21,7 +21,8 @@ public class PrecisionBonk : Perk
 
     }
 
-    void AddPoint() => precisionHits = Mathf.Clamp(precisionHits++ , 1, maxPrecisionHits);
+    void AddPoint(HitData data) => precisionHits = data.wasCrit? Mathf.Clamp(precisionHits++, 1, maxPrecisionHits) : precisionHits;
+    //Mathf.Clamp(precisionHits++ , 1, maxPrecisionHits)
 
     void ResetPoints()
     {

@@ -33,13 +33,13 @@ public abstract class Attachment : MonoBehaviour
         transform.position = Pos;
         gunAttachedTo = gun;
 
-        gunAttachedTo._thisGunStats.ChangeStats(_stats, true);
+        gunAttachedTo._stats.ChangeStats(_stats, true);
         OnAtach?.Invoke();
     }
 
     public void UnAttach()
     {
-        gunAttachedTo._thisGunStats.ChangeStats(_stats, false);
+        gunAttachedTo._stats.ChangeStats(_stats, false);
         OnUnAttach?.Invoke();
        
     }
