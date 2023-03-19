@@ -2,42 +2,42 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class SideArm_TwoBurst : SideArm
-{
-    Transform _mainCam;
+//public class SideArm_TwoBurst : SideArm
+//{
+//    Transform _mainCam;
 
-    protected override void OptionalInitialize()
-    {
-        base.OptionalInitialize();
-        _mainCam = Camera.main.transform;
-    }
+//    protected override void OptionalInitialize()
+//    {
+//        base.OptionalInitialize();
+//        _mainCam = Camera.main.transform;
+//    }
 
-    public override void GunShoot()
-    {
-        RaycastHit hit;
-        if (Physics.Raycast(_mainCam.position, _mainCam.forward, out hit, _range))
-        {
-            //quien se encarga de decir si fue un critico, el arma o el enemigo?
-            //bool IsCrit = false;
-            var damagable = hit.transform.GetComponent<IDamagable>();
+//    //public override void GunShoot()
+//    //{
+//    //    RaycastHit hit;
+//    //    if (Physics.Raycast(_mainCam.position, _mainCam.forward, out hit, Stats.range))
+//    //    {
+//    //        //quien se encarga de decir si fue un critico, el arma o el enemigo?
+//    //        //bool IsCrit = false;
+//    //        var damagable = hit.transform.GetComponent<IDamagable>();
 
-            if (damagable != null)
-            {
+//    //        if (damagable != null)
+//    //        {
               
-                //if (enemy)
-                {
-                    if (true)
-                    {
+//    //            //if (enemy)
+//    //            {
+//    //                if (true)
+//    //                {
 
-                    }
-                }
+//    //                }
+//    //            }
                 
-            }
-        }
+//    //        }
+//    //    }
       
-    }
+//    //}
 
     
 
    
-}
+//}

@@ -41,12 +41,15 @@ public class InteractableObject : MonoBehaviour
    
     public bool Interact()
     {
+        //si puedo interactuar
         if (data.canInteract)
         {
+            //sumo cuanto tiempo mantuve pulsado el boton
             currentInteractionTime += Time.deltaTime;
-
+            //si pase el tiempo indicado
             if (currentInteractionTime >= data._interactTimeNeeded)
             {
+                //ejecuto los eventos
                 data._OnInteract?.Invoke();
             }
             return true;
@@ -57,6 +60,7 @@ public class InteractableObject : MonoBehaviour
     }
     private void LateUpdate()
     {
+        //si no estoy interactuando bajo el tiempo q se mantuvo pulsado
         if (!isInteracting)
         {
             currentInteractionTime -= Time.deltaTime;

@@ -4,10 +4,10 @@ using UnityEngine;
 
 public class KillingTally : Perk
 {
-    float damageAdded;
+    int damageAdded;
     [SerializeField,Range(0,2)]
-    float _dmgScaling;
-    float timesApplied;
+    int _dmgScaling;
+    int timesApplied;
     
 
 
@@ -16,7 +16,7 @@ public class KillingTally : Perk
        myGun = gun;
        timesApplied = 0;
 
-       myGun.OnKill += AddDamage;
+       myGun.OnHit += AddDamage;
 
        myGun.OnReload += ResetDamage;
        myGun.OnStow += ResetDamage;
@@ -31,12 +31,12 @@ public class KillingTally : Perk
         }
     }
 
-    private void AddDamage()
+    private void AddDamage(HitData data)
     {
-        if (timesApplied >= 1)
+        if (timesApplied >= 1&& data.wasKill==true)
         {
-            myGun.SubstractDamage(damageAdded);
-            timesApplied = 0;
+            myGun.AddDamage(damageAdded);
+            
         }
     }
 

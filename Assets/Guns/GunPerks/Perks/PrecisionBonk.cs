@@ -2,16 +2,16 @@ using UnityEngine;
 
 public class PrecisionBonk : Perk
 {
-    float precisionHits;
-    float maxPrecisionHits;
-    float damageAux;
+    int precisionHits;
+    int maxPrecisionHits;
+    int damageAux;
     bool damageApplied;
 
     internal override void InitializePerk(GunFather gun)
     {
         myGun = gun;
 
-        myGun.OnCritHit += AddPoint;
+        myGun.OnHit += AddPoint;
         myGun.OnShoot += CheckBullets;
 
         myGun.OnReload += ResetPoints;
@@ -21,14 +21,15 @@ public class PrecisionBonk : Perk
 
     }
 
-    void AddPoint() => precisionHits = Mathf.Clamp(precisionHits++ , 1, maxPrecisionHits);
+    void AddPoint(HitData data) => precisionHits = data.wasCrit? Mathf.Clamp(precisionHits++, 1, maxPrecisionHits) : precisionHits;
+    //Mathf.Clamp(precisionHits++ , 1, maxPrecisionHits)
 
     void ResetPoints()
     {
         
         if (damageApplied)
         {
-            myGun.AddDamage(-myGun._actualDamage * precisionHits);
+            myGun.AddDamage((int)(-myGun._actualDamage * precisionHits));
             damageApplied= false;
         }
         precisionHits = 1;
@@ -39,7 +40,7 @@ public class PrecisionBonk : Perk
         if (myGun._actualAmmo <= 1)
         {
 
-            myGun.AddDamage(myGun._actualDamage * precisionHits);
+            myGun.AddDamage((myGun._actualDamage * precisionHits));
             damageApplied = true;
         }
     }

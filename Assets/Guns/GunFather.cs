@@ -1,44 +1,160 @@
 using UnityEngine;
 using System;
+using System.Collections.Generic;
+using static GunStats;
+
+[System.Serializable]
+public struct GunAudioClips
+{
+    [Header("SFX")]
+    //sonido inicial
+    [SerializeField] public AudioClip _StartShootingClip;
+    //sonido loop
+    [SerializeField] public AudioClip _LoopShootingClip;
+    //sonido final
+    [SerializeField] public AudioClip _EndShootingClip;
+
+    [SerializeField] public AudioClip _ReloadClip;
+}
+
+public struct HitData
+{
+    public Vector3 Pos;
+    public IDamagable Target;
+    public bool wasKill;
+    public bool wasCrit;
+    public int dmgDealt;
+    public GunFather weapon;
+
+}
+
+//[System.Serializable]
+//public struct GunStats
+//{
+//    //quien deberia hacer el cambio de estadistica, el arma o el accesorio?
+//    //el arma deberia tener referencia de todos sus accesorios o no es de gran importancia?
+//    [Header("GunStats")]
+//    [SerializeField, Range(1,100)]  float _aimingZoom;
+//    [SerializeField, Range(1, 100)]  float _range;
+
+//    [SerializeField, Range(1, 100)]  float _handling;
+//    [SerializeField, Range(1, 100)]  float _stability;
+
+//    [SerializeField, Range(1, 100)]  float _reloadSpeed;
+//    [SerializeField, Range(1, 100)]  float _maxMagazineAmmo;
+
+//    public float aimingZoom => _aimingZoom;
+//    public float range => _range;
+
+//    public float handling => _handling;
+//    public float stability => _stability;
+
+//    public float reloadSpeed => _reloadSpeed;
+//    public float maxMagazineAmmo => _maxMagazineAmmo;
+
+//    [SerializeField]Transform defaultShootPos;
+//    public Transform _shootPos => shootPos;
+//    Transform shootPos;
+
+
+
+
+
+//    #region StatMethods
+//    private void AddAimZoom(float value)     => _aimingZoom += Mathf.Clamp(value, 1, 100);
+//    private void AddRange(float value)       => _range += Mathf.Clamp(value,1,value);
+  
+//    private void AddReloadSpeed(float value) => _reloadSpeed += Mathf.Clamp(value, 1, 100);
+//    private void AddHandling(float value)    => _handling += Mathf.Clamp(value, 1, 100);
+   
+//    private void AddStability(float value)   => _stability += Mathf.Clamp(value, 1, 100);
+//    private void AddMaxMagCapacity(float value)   => _stability += Mathf.Clamp(value, 1, 100);
+
+//    private void ChangeShootPos(Transform newShootpos)
+//    {
+//        if (newShootpos != null)
+//        {
+//            shootPos = newShootpos;
+//        }
+//        else
+//        {
+//            shootPos = defaultShootPos;
+//        }
+//    }
+//    #endregion
+
+
+
+//    /// <summary>
+//    /// cambia las stats del arma, si el booleano se pasa como verdadero las armas aumentan sus stats.
+//    /// en caso contrario las reduce
+//    /// </summary>
+//    /// <param name="NewStats"></param>
+//    /// <param name="_isBeingAttached"></param>
+//    public void ChangeStats(GunStats NewStats, bool _isBeingAttached)
+//    {
+//        int x = _isBeingAttached ? 1 : -1;
+
+
+//        AddAimZoom(NewStats.aimingZoom * x);
+//        AddRange(NewStats._range * x);
+
+//        AddReloadSpeed(NewStats.reloadSpeed * x);
+//        AddHandling(NewStats.handling * x);
+
+//        AddStability(NewStats.stability * x);
+//        AddMaxMagCapacity(NewStats.maxMagazineAmmo * x); 
+
+
+
+//        OnStatsChange?.Invoke(this);
+//    }
+
+//    event Action<GunStats> OnStatsChange;
+//}
+
 
 public abstract class GunFather : MonoBehaviour
 {
     [Header("Animator")]
     [SerializeField] Animator _gunAnim;
 
-    //sonido inicial
-    //sonido loop
-    //sonido final
 
-    [Header("Ammo")]
-    [SerializeField] float baseMagazine;
-    [SerializeField] public float _actualAmmo { get => _actualAmmo; private set => _actualAmmo = Mathf.Abs(value); }
-    [SerializeField] float _maxAmmo;
+    [SerializeField] public int _actualAmmo 
+    { 
+        get => _actualAmmo; 
+
+        private set => _actualAmmo = Mathf.Abs(value); 
+    }
+    
 
     [Header("Damage")]
-    [SerializeField] float _baseDamage;
-    [SerializeField] public float _actualDamage;
+    [SerializeField] int _baseDamage;
+    [SerializeField] public int _actualDamage;
 
     [Header("Crit")]
     [SerializeField] bool CanCrit;
     [SerializeField] public float CritMultiplier;
 
     [Header("RateOfFire")]
-    [SerializeField] float rateOfFire;
+    [SerializeField] float _actualRateOfFire;
+    [SerializeField] float rateOfFireCD;
 
     [Header("Perks Stats")]
     [SerializeField] Perk[] GunPeks;
+    
 
-    [Header("GunStats")]
-    [SerializeField] protected float _range;
-    [SerializeField] protected float _reloadSpeed;
-    [SerializeField] protected float _handling;
+    public GunStats _stats;
 
+    [SerializeField] GunAudioClips clips;
 
+    [Header("Attachments")]
+    public AttachmentManager myAttachMents;
+    [SerializeField] Sight mySight;
+    [SerializeField] Magazine myMagazine;
+    [SerializeField] Muzzle myMuzzle;
 
-
-
-
+    
     #region Events
     internal event Action OnReload;
 
@@ -48,16 +164,22 @@ public abstract class GunFather : MonoBehaviour
 
     internal event Action OnShoot;
 
-    internal event Action OnKill;
+    //internal event Action OnKill;
 
-    internal event Action OnHit;
+    internal event Action<HitData> OnHit;
 
-    internal event Action OnCritHit;
+    //internal event Action OnCritHit;
+
+    //internal event Action OnCritKill;
+
+    
     #endregion
 
-    private void Awake()
+    protected virtual void Awake()
     {
         _actualDamage = _baseDamage;
+
+        rateOfFireCD = 0;
 
         foreach (Perk item in GunPeks)
         {
@@ -68,32 +190,52 @@ public abstract class GunFather : MonoBehaviour
 
     protected virtual void OptionalInitialize() { }
    
-    public void AddDamage(float value) => _actualDamage += value;
+    public void AddDamage(int value) => _actualDamage += value;
     
-    public void SubstractDamage(float value) => _actualDamage -= value;
+    public void SubstractDamage(int value) => _actualDamage -= value;
     
 
     public void Reload()
     {
-        _actualAmmo = _maxAmmo;
+        _actualAmmo = (int)_stats.myGunStats[StatNames.MaxMagazine];
         OnReload?.Invoke();
     }
 
     //public abstract void PreShoot();
 
-    public abstract void GunShoot();
+    public abstract void Shoot();
 
     //public abstract void PosShoot();
 
-    public virtual void Shoot()
+    public virtual void Trigger()
     {
-        GunShoot();
-        OnShoot?.Invoke();
+        if (_actualAmmo >= _stats.myGunStats[StatNames.AmooPerShoot] && rateOfFireCD<=0)
+        {
+             Shoot();
+            _actualAmmo -= (int)_stats.myGunStats[StatNames.AmooPerShoot];
+            OnShoot?.Invoke();
+        }
+      
+    }
+    
+    void Equip()
+    {
+
     }
 
-    void DoDamage(IDamagable target)
+    public void Draw()
     {
-        target.TakeDamage(_actualDamage);
+        OnDraw?.Invoke();
     }
-   
+
+    public void Stow()
+    {
+        OnStow?.Invoke();
+    }
+
+    //void DoDamage(IDamagable target)
+    //{
+    //    target.TakeDamage(_actualDamage);
+    //}
+
 }
