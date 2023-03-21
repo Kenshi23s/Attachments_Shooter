@@ -4,9 +4,10 @@ using UnityEngine;
 
 public class SideArm_Clasicc : SideArm
 {
+    
     public override void Shoot()
     {
-        throw new System.NotImplementedException();
+        Debug.Log("a");
     }
 
    

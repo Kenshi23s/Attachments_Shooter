@@ -33,7 +33,7 @@ public class KillingTally : Perk
 
     private void AddDamage(HitData data)
     {
-        if (timesApplied >= 1&& data.wasKill==true)
+        if (timesApplied >= 1 && data.Target.WasKilled()==true)
         {
             myGun.AddDamage(damageAdded);
             

@@ -1,38 +1,34 @@
 using System;
-
+using FacundoColomboMethods;
 using System.Collections.Generic;
 using UnityEngine;
-
+using System.Linq;
 
 public class GunManager : MonoBehaviour
 {
-    List<GunFather> myGuns=new List<GunFather>();
-    GunFather actualGun;
+    [SerializeField]List<GunFather> myGuns = new List<GunFather>();
+    [SerializeField]GunFather _actualGun;
+     public GunFather actualGun=> _actualGun;
 
     public static GunManager instance;
 
-    event Action onActualGunKill;
-    event Action onActualGunHit;
-    event Action onActualGunCritHit;
-    event Action onActualGunCritKill;
-
+    event Action<HitData> onActualGunHit;
+    
     event Action OnSwapWeapons;
 
+    //awake para inicializacion
     void Awake()
     {
         instance = this;
-        OnSwapWeapons += () =>
-        {
-          
-
-        };
-        
+        //myGuns = ColomboMethods.GetChildrenComponents<GunFather>(this.transform).ToList();
     }
+
+    //start para comunicacion
     void Start()
     {
         if (actualGun == null)
         {
-           actualGun = myGuns[UnityEngine.Random.Range(0, myGuns.Count)];
+            _actualGun = myGuns[UnityEngine.Random.Range(0, myGuns.Count)];
         }
     }
 

@@ -21,98 +21,17 @@ public struct HitData
 {
     public Vector3 Pos;
     public IDamagable Target;
-    public bool wasKill;
-    public bool wasCrit;
     public int dmgDealt;
     public GunFather weapon;
 
+    public HitData(Vector3 pos, IDamagable target, int dmgDealt, GunFather weapon)
+    {
+        Pos = pos;
+        Target = target;
+        this.dmgDealt = dmgDealt;
+        this.weapon = weapon;
+    }
 }
-
-//[System.Serializable]
-//public struct GunStats
-//{
-//    //quien deberia hacer el cambio de estadistica, el arma o el accesorio?
-//    //el arma deberia tener referencia de todos sus accesorios o no es de gran importancia?
-//    [Header("GunStats")]
-//    [SerializeField, Range(1,100)]  float _aimingZoom;
-//    [SerializeField, Range(1, 100)]  float _range;
-
-//    [SerializeField, Range(1, 100)]  float _handling;
-//    [SerializeField, Range(1, 100)]  float _stability;
-
-//    [SerializeField, Range(1, 100)]  float _reloadSpeed;
-//    [SerializeField, Range(1, 100)]  float _maxMagazineAmmo;
-
-//    public float aimingZoom => _aimingZoom;
-//    public float range => _range;
-
-//    public float handling => _handling;
-//    public float stability => _stability;
-
-//    public float reloadSpeed => _reloadSpeed;
-//    public float maxMagazineAmmo => _maxMagazineAmmo;
-
-//    [SerializeField]Transform defaultShootPos;
-//    public Transform _shootPos => shootPos;
-//    Transform shootPos;
-
-
-
-
-
-//    #region StatMethods
-//    private void AddAimZoom(float value)     => _aimingZoom += Mathf.Clamp(value, 1, 100);
-//    private void AddRange(float value)       => _range += Mathf.Clamp(value,1,value);
-  
-//    private void AddReloadSpeed(float value) => _reloadSpeed += Mathf.Clamp(value, 1, 100);
-//    private void AddHandling(float value)    => _handling += Mathf.Clamp(value, 1, 100);
-   
-//    private void AddStability(float value)   => _stability += Mathf.Clamp(value, 1, 100);
-//    private void AddMaxMagCapacity(float value)   => _stability += Mathf.Clamp(value, 1, 100);
-
-//    private void ChangeShootPos(Transform newShootpos)
-//    {
-//        if (newShootpos != null)
-//        {
-//            shootPos = newShootpos;
-//        }
-//        else
-//        {
-//            shootPos = defaultShootPos;
-//        }
-//    }
-//    #endregion
-
-
-
-//    /// <summary>
-//    /// cambia las stats del arma, si el booleano se pasa como verdadero las armas aumentan sus stats.
-//    /// en caso contrario las reduce
-//    /// </summary>
-//    /// <param name="NewStats"></param>
-//    /// <param name="_isBeingAttached"></param>
-//    public void ChangeStats(GunStats NewStats, bool _isBeingAttached)
-//    {
-//        int x = _isBeingAttached ? 1 : -1;
-
-
-//        AddAimZoom(NewStats.aimingZoom * x);
-//        AddRange(NewStats._range * x);
-
-//        AddReloadSpeed(NewStats.reloadSpeed * x);
-//        AddHandling(NewStats.handling * x);
-
-//        AddStability(NewStats.stability * x);
-//        AddMaxMagCapacity(NewStats.maxMagazineAmmo * x); 
-
-
-
-//        OnStatsChange?.Invoke(this);
-//    }
-
-//    event Action<GunStats> OnStatsChange;
-//}
-
 
 public abstract class GunFather : MonoBehaviour
 {
@@ -120,21 +39,21 @@ public abstract class GunFather : MonoBehaviour
     [SerializeField] Animator _gunAnim;
 
 
-    [SerializeField] public int _actualAmmo 
-    { 
-        get => _actualAmmo; 
+    [SerializeField] public int _actualAmmo;
+    //{ 
+    //    get => _actualAmmo; 
 
-        private set => _actualAmmo = Mathf.Abs(value); 
-    }
-    
+    //    set => _actualAmmo = Mathf.Abs(value); 
+    //}
+
 
     [Header("Damage")]
     [SerializeField] int _baseDamage;
     [SerializeField] public int _actualDamage;
 
-    [Header("Crit")]
-    [SerializeField] bool CanCrit;
-    [SerializeField] public float CritMultiplier;
+    //[Header("Crit")]
+    //[SerializeField] bool CanCrit;
+    //[SerializeField] public float CritMultiplier;
 
     [Header("RateOfFire")]
     [SerializeField] float _actualRateOfFire;
@@ -142,17 +61,14 @@ public abstract class GunFather : MonoBehaviour
 
     [Header("Perks Stats")]
     [SerializeField] Perk[] GunPeks;
-    
 
+    [SerializeField]
     public GunStats _stats;
 
     [SerializeField] GunAudioClips clips;
 
     [Header("Attachments")]
     public AttachmentManager myAttachMents;
-    [SerializeField] Sight mySight;
-    [SerializeField] Magazine myMagazine;
-    [SerializeField] Muzzle myMuzzle;
 
     
     #region Events
@@ -185,6 +101,7 @@ public abstract class GunFather : MonoBehaviour
         {
             item.InitializePerk(this);
         }
+        _stats.Initialize();
         OptionalInitialize();
     }
 
@@ -238,4 +155,12 @@ public abstract class GunFather : MonoBehaviour
     //    target.TakeDamage(_actualDamage);
     //}
 
+    private void OnDrawGizmos()
+    {
+        //if (_stats.shootPos!=null)
+        //{
+        //    Gizmos.DrawLine(_stats.shootPos.position, _stats.shootPos.position + _stats.shootPos.forward * 11);
+        //}
+        
+    }
 }

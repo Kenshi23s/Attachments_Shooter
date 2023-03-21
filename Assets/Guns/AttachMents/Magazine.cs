@@ -4,7 +4,8 @@ using UnityEngine;
 
 public class Magazine : Attachment
 {
-    [SerializeField]GameObject bulletPrefab;
+    [SerializeField]BaseBulltet bulletPrefab;
+
     private void Awake()
     {
         myType = AttachmentType.Magazine;

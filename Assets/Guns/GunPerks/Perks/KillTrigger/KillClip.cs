@@ -15,7 +15,7 @@ public class KillClip : OverTimePerks
 
     void KillClipCondition(HitData data)
     {
-        if (data.wasKill) 
+        if (data.Target.WasKilled()) 
         {
             condition= true;
             myGun.OnHit -= KillClipCondition ;

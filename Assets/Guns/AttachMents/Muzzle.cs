@@ -5,7 +5,10 @@ using System;
 
 public class Muzzle : Attachment
 {
-    //float rangeStat;
+    [Space(5f)]
+    [Header("Muzzle Variables")]
+    [SerializeField]Transform _shootPos;
+    public Transform shootPos => _shootPos;
 
     //private void Awake()
     //{

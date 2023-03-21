@@ -5,7 +5,7 @@ using static GunStats;
 
 public struct AttachmentStats
 {
-    public Dictionary<StatNames, float> _Stats;
+    public Dictionary<StatNames, int> _Stats;
 }
 public abstract class Attachment : MonoBehaviour
 {

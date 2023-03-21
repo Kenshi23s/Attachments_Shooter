@@ -4,7 +4,7 @@ using UnityEngine;
 
 
 [System.Serializable]
-public class GunStats : MonoBehaviour
+public class GunStats
 {
     public enum StatNames
     {
@@ -15,57 +15,38 @@ public class GunStats : MonoBehaviour
         ReloadSpeed,
         MaxMagazine,
         AmooPerShoot,
-        BulletRadius,
+        BulletRadius
 
     }
-    //quien deberia hacer el cambio de estadistica, el arma o el accesorio?
+    //quien deberia hacer el cambio de estadistica, el arma o el accesorio?(lo hace el arma, a partir de que el accesorio pase sus stats)
     //el arma deberia tener referencia de todos sus accesorios o no es de gran importancia?
     //(si, deberia para saber donde posicionarlos)
-    public Dictionary<StatNames, float> myGunStats => _myGunStats;
-    Dictionary<StatNames,float> _myGunStats = new Dictionary<StatNames,float>();
+
+    public Dictionary<StatNames, int> myGunStats => _myGunStats;
+    Dictionary<StatNames,int> _myGunStats = new Dictionary<StatNames,int>();
 
     [SerializeField] Transform defaultShootPos;
-    public Transform _shootPos => shootPos;
-    Transform shootPos;
+    public Transform shootPos => shootPos;
+    [SerializeField]Transform _shootPos;
 
-    //[Header("GunStats")]
-    //[SerializeField, Range(1, 100)] float _aimingZoom;
-    //[SerializeField, Range(1, 100)] float _range;
+    [SerializeField]
+    public List<StatNames> myGunStatsList = new List<StatNames>();
 
-    //[SerializeField, Range(1, 100)] float _handling;
-    //[SerializeField, Range(1, 100)] float _stability;
+    public void Initialize()
+    {
+        //temporal, solo para testeo
+        foreach (StatNames stat in myGunStatsList)
+        {
+            myGunStats[stat] = Random.Range(0, 101);
 
-    //[SerializeField, Range(1, 100)] float _reloadSpeed;
+        }
+    }
+    
 
-    //[SerializeField, Range(1, 100)] float _bulletMagnetism;
-
-    //[SerializeField] int _maxMagazineAmmo;
-    //#region Stat Getters    
-
-    //public float aimingZoom => _aimingZoom;
-    //public float range => _range;
-
-    //public float handling => _handling;
-    //public float stability => _stability;
-
-    //public float reloadSpeed => _reloadSpeed;
-    //public int maxMagazineAmmo => _maxMagazineAmmo;
-
-    //#endregion
-
-    //#region StatMethods
-    //private void AddAimZoom(float value) => _aimingZoom += Mathf.Clamp(value, 1, 100);
-    //private void AddRange(float value) => _range += Mathf.Clamp(value, 1, value);
-
-    //private void AddReloadSpeed(float value) => _reloadSpeed += Mathf.Clamp(value, 1, 100);
-    //private void AddHandling(float value) => _handling += Mathf.Clamp(value, 1, 100);
-
-    //private void AddStability(float value) => _stability += Mathf.Clamp(value, 1, 100);
-    //private void AddMaxMagCapacity(float value) => _stability += Mathf.Clamp(value, 1, 100);
+    
 
     public void ChangeStats(AttachmentStats NewStats, bool _isBeingAttached)
     {       
-
         int x = _isBeingAttached ? 1 : -1;
 
         foreach (StatNames actualKey in NewStats._Stats.Keys)
@@ -75,8 +56,64 @@ public class GunStats : MonoBehaviour
                 _myGunStats[actualKey] = Mathf.Clamp(_myGunStats[actualKey] + (NewStats._Stats[actualKey] * x),0,100);            
             }
         } 
+
+        
+    }
+
+    void CheckShootPos()
+    {
+        if (shootPos==null)
+        {
+            _shootPos = defaultShootPos;
+        }
+    }
+    public void ChangeShootPos(Transform newShootPos)
+    {
+        if (newShootPos!=null)
+        {
+            _shootPos=newShootPos;
+        }
+        else
+        {
+            _shootPos = defaultShootPos;
+        }
     }
 }
+
+//[Header("GunStats")]
+//[SerializeField, Range(1, 100)] float _aimingZoom;
+//[SerializeField, Range(1, 100)] float _range;
+
+//[SerializeField, Range(1, 100)] float _handling;
+//[SerializeField, Range(1, 100)] float _stability;
+
+//[SerializeField, Range(1, 100)] float _reloadSpeed;
+
+//[SerializeField, Range(1, 100)] float _bulletMagnetism;
+
+//[SerializeField] int _maxMagazineAmmo;
+//#region Stat Getters    
+
+//public float aimingZoom => _aimingZoom;
+//public float range => _range;
+
+//public float handling => _handling;
+//public float stability => _stability;
+
+//public float reloadSpeed => _reloadSpeed;
+//public int maxMagazineAmmo => _maxMagazineAmmo;
+
+//#endregion
+
+//#region StatMethods
+//private void AddAimZoom(float value) => _aimingZoom += Mathf.Clamp(value, 1, 100);
+//private void AddRange(float value) => _range += Mathf.Clamp(value, 1, value);
+
+//private void AddReloadSpeed(float value) => _reloadSpeed += Mathf.Clamp(value, 1, 100);
+//private void AddHandling(float value) => _handling += Mathf.Clamp(value, 1, 100);
+
+//private void AddStability(float value) => _stability += Mathf.Clamp(value, 1, 100);
+//private void AddMaxMagCapacity(float value) => _stability += Mathf.Clamp(value, 1, 100);
 //AddAimZoom(NewStats.aimingZoom * x);
 //AddRange(NewStats._range * x);
 
