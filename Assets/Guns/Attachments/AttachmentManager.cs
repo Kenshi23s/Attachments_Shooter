@@ -15,6 +15,9 @@ public class AttachmentManager
     //[SerializeField, SerializedDictionary("Type,Class")]
     SerializedDictionary<AttachmentType, Attachment> _activeAttachments = new SerializedDictionary<AttachmentType, Attachment>();
 
+    [SerializeField,SerializedDictionary("Attachment Type","Position In Gun")]
+    SerializedDictionary<AttachmentType, Attachment> _DefaultAttachMent = new SerializedDictionary<AttachmentType, Attachment>();
+
     public AttachmentManager(GunFather gun)
     {
         this.gun = gun;
@@ -46,5 +49,17 @@ public class AttachmentManager
         AddAttachment(key, value);
     }
 
+    void RemoveAttachment(AttachmentType key)
+    {
+        if (_activeAttachments.ContainsKey(key))
+        {
+            _activeAttachments.Remove(key);
+
+            if (_DefaultAttachMent.ContainsKey(key))
+            {
+                AddAttachment(key, _DefaultAttachMent[key]);
+            }
+        }
+    }
 
 }
