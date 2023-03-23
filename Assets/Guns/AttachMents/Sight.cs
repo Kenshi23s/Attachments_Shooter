@@ -8,6 +8,6 @@ public class Sight : Attachment
     public SpriteRenderer sightDot => _sightDot;
     private void Awake()
     {
-        myType = AttachmentType.Sight;
+        _myType = AttachmentType.Sight;
     }
 }

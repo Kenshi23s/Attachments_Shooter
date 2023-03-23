@@ -16,7 +16,8 @@ public abstract class Attachment : MonoBehaviour
 
     }
 
-    protected AttachmentType myType;
+   [SerializeField] protected AttachmentType _myType;
+    public AttachmentType myType => _myType;
     //protected AttachmentStats _stats;
 
     //se le pueden pasar valores negativos para que alguna estadistica disminuya

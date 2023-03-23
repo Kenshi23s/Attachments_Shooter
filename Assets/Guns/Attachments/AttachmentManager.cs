@@ -7,6 +7,10 @@ public class AttachmentManager
 {
 
     GunFather gun;
+    public void AssignGun(GunFather gun)
+    {
+        this.gun = gun;
+    }
 
     //si no existe una posicion para el accesorio, es imposible colocarlo
     [SerializeField,SerializedDictionary("Attachment Type","Position In Gun")]
@@ -30,16 +34,18 @@ public class AttachmentManager
         {
             if (!_activeAttachments.ContainsKey(key))
             {
-                _activeAttachments.Add(key, value);
+                _activeAttachments.Add(key, value);               
                 _activeAttachments[key].Attach(gun, gun.transform, _attachmentPos[key].position);
-
+                Debug.Log($"conecte el attachment de tipo{key} a el arma");
+                return;
             }
             else
             {
                 ReplaceAttachment(key, value);
             }
         }
-       
+        Debug.Log($"NO conecte el attachment de tipo{key} a el arma, ya que no tengo una posicion para darle");
+
     }
 
     void ReplaceAttachment(AttachmentType key, Attachment value)
@@ -49,7 +55,7 @@ public class AttachmentManager
         AddAttachment(key, value);
     }
 
-    void RemoveAttachment(AttachmentType key)
+    public void RemoveAttachment(AttachmentType key)
     {
         if (_activeAttachments.ContainsKey(key))
         {

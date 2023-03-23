@@ -8,7 +8,7 @@ public class Magazine : Attachment
 
     private void Awake()
     {
-        myType = AttachmentType.Magazine;
+        _myType = AttachmentType.Magazine;
     }
 }
 
