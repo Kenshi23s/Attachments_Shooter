@@ -1,11 +1,13 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-
+using AYellowpaper.SerializedCollections;
 
 [System.Serializable]
 public class GunStats
 {
+
+    
     public enum StatNames
     {
         AimZoom,
@@ -23,61 +25,69 @@ public class GunStats
     //(si, deberia para saber donde posicionarlos)
 
     public Dictionary<StatNames, int> myGunStats => _myGunStats;
-    Dictionary<StatNames,int> _myGunStats = new Dictionary<StatNames,int>();
+    [SerializeField,SerializedDictionary("Stat", "Value")]
+    SerializedDictionary<StatNames, int> _myGunStats;
 
-    [SerializeField] Transform defaultShootPos;
-    public Transform shootPos => shootPos;
-    [SerializeField]Transform _shootPos;
 
-    [SerializeField]
-    public List<StatNames> myGunStatsList = new List<StatNames>();
+
+    //[SerializeField] Transform defaultShootPos;
+    //public Transform shootPos => shootPos;
+    //[SerializeField]Transform _shootPos;
+
+    //[SerializeField]
+    //public List<StatNames> myGunStatsList = new List<StatNames>();
 
     public void Initialize()
     {
         //temporal, solo para testeo
-        foreach (StatNames stat in myGunStatsList)
-        {
-            myGunStats[stat] = Random.Range(0, 101);
+        //foreach (StatNames stat in myGunStatsList)
+        //{
+        //    myGunStats[stat] = Random.Range(0, 101);
 
-        }
+        //}
     }
     
 
     
-
-    public void ChangeStats(AttachmentStats NewStats, bool _isBeingAttached)
+    /// <summary>
+    /// este metodo cambia las estadisticas del arma, se le debe pasar un diccionario de "Stat names" como key y q el value sea un int.
+    /// el booleano determina si se le restan stat(false) o se le suman(true)
+    /// </summary>
+    /// <param name="NewStats"></param>
+    /// <param name="_isBeingAttached"></param>
+    public void ChangeStats(Dictionary<StatNames, int> NewStats, bool _isBeingAttached)
     {       
         int x = _isBeingAttached ? 1 : -1;
 
-        foreach (StatNames actualKey in NewStats._Stats.Keys)
+        foreach (StatNames actualKey in NewStats.Keys)
         {
             if (_myGunStats.ContainsKey(actualKey))
-            {             
-                _myGunStats[actualKey] = Mathf.Clamp(_myGunStats[actualKey] + (NewStats._Stats[actualKey] * x),0,100);            
+            {
+                _myGunStats[actualKey] = Mathf.Clamp(_myGunStats[actualKey] + (NewStats[actualKey] * x), 0, 100);          
             }
         } 
 
         
     }
 
-    void CheckShootPos()
-    {
-        if (shootPos==null)
-        {
-            _shootPos = defaultShootPos;
-        }
-    }
-    public void ChangeShootPos(Transform newShootPos)
-    {
-        if (newShootPos!=null)
-        {
-            _shootPos=newShootPos;
-        }
-        else
-        {
-            _shootPos = defaultShootPos;
-        }
-    }
+    //void CheckShootPos()
+    //{
+    //    if (shootPos==null)
+    //    {
+    //        _shootPos = defaultShootPos;
+    //    }
+    //}
+    //public void ChangeShootPos(Transform newShootPos)
+    //{
+    //    if (newShootPos!=null)
+    //    {
+    //        _shootPos=newShootPos;
+    //    }
+    //    else
+    //    {
+    //        _shootPos = defaultShootPos;
+    //    }
+    //}
 }
 
 //[Header("GunStats")]

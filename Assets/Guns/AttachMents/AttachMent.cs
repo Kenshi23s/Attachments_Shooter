@@ -1,12 +1,9 @@
+using AYellowpaper.SerializedCollections;
 using System;
 using System.Collections.Generic;
 using UnityEngine;
 using static GunStats;
 
-public struct AttachmentStats
-{
-    public Dictionary<StatNames, int> _Stats;
-}
 public abstract class Attachment : MonoBehaviour
 {
     public enum AttachmentType
@@ -20,8 +17,10 @@ public abstract class Attachment : MonoBehaviour
     }
 
     protected AttachmentType myType;
-    protected AttachmentStats _stats; 
-
+    //protected AttachmentStats _stats;
+    [SerializeField,SerializedDictionary("Stat Name","Value")]
+    SerializedDictionary<StatNames, int> _stats;
+    
     protected event Action OnAtach;
     protected event Action OnUnAttach;
 
@@ -29,12 +28,16 @@ public abstract class Attachment : MonoBehaviour
 
     public void Attach(GunFather gun,Transform parent,Vector3 Pos)
     {
-        this.transform.parent = parent;
-        transform.position = Pos;
-        gunAttachedTo = gun;
+        if (gun!=null)
+        {
+            this.transform.parent = parent;
+            transform.position = Pos;
+            gunAttachedTo = gun;
 
-        gunAttachedTo._stats.ChangeStats(_stats, true);
-        OnAtach?.Invoke();
+            gunAttachedTo._stats.ChangeStats(_stats, true);
+            OnAtach?.Invoke();
+        }
+        
     }
 
     public void UnAttach()

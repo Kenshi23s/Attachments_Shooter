@@ -2,6 +2,7 @@ using UnityEngine;
 using System;
 using System.Collections.Generic;
 using static GunStats;
+using AYellowpaper.SerializedCollections;
 
 [System.Serializable]
 public struct GunAudioClips
@@ -64,7 +65,8 @@ public abstract class GunFather : MonoBehaviour
 
     [SerializeField]
     public GunStats _stats;
-
+    //[SerializedDictionary("name","Value")]
+    //public SerializedDictionary <string, int> DiccionarioSerializado;
     [SerializeField] GunAudioClips clips;
 
     [Header("Attachments")]

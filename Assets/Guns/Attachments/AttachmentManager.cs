@@ -1,20 +1,24 @@
+using AYellowpaper.SerializedCollections;
 using System.Collections.Generic;
 using UnityEngine;
 using static Attachment;
-
+[System.Serializable]
 public class AttachmentManager
 {
 
     GunFather gun;
 
-    Dictionary<AttachmentType, Vector3> _attachmentPos = new Dictionary<AttachmentType, Vector3>();
+    //si no existe una posicion para el accesorio, es imposible colocarlo
+    [SerializeField,SerializedDictionary("Attachment Type","Position In Gun")]
+    SerializedDictionary<AttachmentType, Transform> _attachmentPos = new SerializedDictionary<AttachmentType, Transform>();
 
-    Dictionary<AttachmentType, Attachment> _activeAttachments = new Dictionary<AttachmentType, Attachment>();
+    //[SerializeField, SerializedDictionary("Type,Class")]
+    SerializedDictionary<AttachmentType, Attachment> _activeAttachments = new SerializedDictionary<AttachmentType, Attachment>();
 
-    public AttachmentManager(GunFather gun, Dictionary<AttachmentType, Vector3> _attachmentPos)
+    public AttachmentManager(GunFather gun)
     {
         this.gun = gun;
-        this._attachmentPos = _attachmentPos;
+      
     }
 
     public void AddAttachment(AttachmentType key, Attachment value)
@@ -24,7 +28,7 @@ public class AttachmentManager
             if (!_activeAttachments.ContainsKey(key))
             {
                 _activeAttachments.Add(key, value);
-                _activeAttachments[key].Attach(gun, gun.transform, _attachmentPos[key]);
+                _activeAttachments[key].Attach(gun, gun.transform, _attachmentPos[key].position);
 
             }
             else
