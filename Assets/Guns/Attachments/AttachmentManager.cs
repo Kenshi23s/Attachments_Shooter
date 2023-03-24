@@ -16,10 +16,10 @@ public class AttachmentManager
     [SerializeField,SerializedDictionary("Attachment Type","Position In Gun")]
     SerializedDictionary<AttachmentType, Transform> _attachmentPos = new SerializedDictionary<AttachmentType, Transform>();
 
-    //[SerializeField, SerializedDictionary("Type,Class")]
+    [SerializeField, SerializedDictionary("Type,Class")]
     SerializedDictionary<AttachmentType, Attachment> _activeAttachments = new SerializedDictionary<AttachmentType, Attachment>();
 
-    [SerializeField,SerializedDictionary("Attachment Type","Position In Gun")]
+    [SerializeField,SerializedDictionary("Attachment Type","Attachment")]
     SerializedDictionary<AttachmentType, Attachment> _DefaultAttachMent = new SerializedDictionary<AttachmentType, Attachment>();
 
     public AttachmentManager(GunFather gun)
@@ -35,14 +35,16 @@ public class AttachmentManager
             if (!_activeAttachments.ContainsKey(key))
             {
                 _activeAttachments.Add(key, value);               
-                _activeAttachments[key].Attach(gun, gun.transform, _attachmentPos[key].position);
+                _activeAttachments[key].Attach(gun, _attachmentPos[key], _attachmentPos[key].position);
                 Debug.Log($"conecte el attachment de tipo{key} a el arma");
-                return;
+               
             }
             else
             {
                 ReplaceAttachment(key, value);
+                
             }
+            return;
         }
         Debug.Log($"NO conecte el attachment de tipo{key} a el arma, ya que no tengo una posicion para darle");
 

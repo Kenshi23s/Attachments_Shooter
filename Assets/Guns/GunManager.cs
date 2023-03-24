@@ -20,7 +20,7 @@ public class GunManager : MonoBehaviour
     void Awake()
     {
         instance = this;
-        //myGuns = ColomboMethods.GetChildrenComponents<GunFather>(this.transform).ToList();
+        myGuns = ColomboMethods.GetChildrenComponents<GunFather>(this.transform).ToList();
     }
 
     //start para comunicacion
