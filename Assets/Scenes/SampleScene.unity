@@ -12153,6 +12153,7 @@ Transform:
   - {fileID: 1101985826}
   - {fileID: 854417360}
   - {fileID: 801762121}
+  - {fileID: 1641803757}
   m_Father: {fileID: 692129381}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -12161,6 +12162,61 @@ Transform:
   m_CorrespondingSourceObject: {fileID: -8679921383154817045, guid: 947a4112b4bea1744a96dc0ab7a4a5fe, type: 3}
   m_PrefabInstance: {fileID: 995677197}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &1641803756
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1641803757}
+  - component: {fileID: 1641803758}
+  m_Layer: 6
+  m_Name: Decal Projector (3)
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1641803757
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1641803756}
+  m_LocalRotation: {x: 0.6615792, y: -0.12806113, z: 0.08515193, w: 0.73393637}
+  m_LocalPosition: {x: -1.687, y: 15.839, z: 97.424}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 1624153260}
+  m_RootOrder: 10
+  m_LocalEulerAnglesHint: {x: 83.18, y: -39.355, z: -21.982}
+--- !u!114 &1641803758
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1641803756}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0777d029ed3dffa4692f417d4aba19ca, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Material: {fileID: 2100000, guid: dc9e41ea95e539242ab22f02fc66db04, type: 2}
+  m_DrawDistance: 1000
+  m_FadeScale: 0.584
+  m_StartAngleFade: 180
+  m_EndAngleFade: 180
+  m_UVScale: {x: 1.21, y: 1}
+  m_UVBias: {x: -0.13, y: 0}
+  m_ScaleMode: 0
+  m_Offset: {x: 0, y: 0, z: 2.215}
+  m_Size: {x: 9.36, y: 13.62, z: 4.43}
+  m_FadeFactor: 1
 --- !u!1001 &1649597622
 PrefabInstance:
   m_ObjectHideFlags: 0
