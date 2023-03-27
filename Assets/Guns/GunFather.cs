@@ -131,17 +131,9 @@ public abstract class GunFather : MonoBehaviour
         if (_actualAmmo >= _stats.myGunStats[StatNames.AmooPerShoot] && rateOfFireCD<=0)
         {
              Shoot();
-            _actualAmmo -= 1;
-            //_actualAmmo -= (int)_stats.myGunStats[StatNames.AmooPerShoot];
+            _actualAmmo -= (int)_stats.myGunStats[StatNames.AmooPerShoot];
             OnShoot?.Invoke();
-            return;
         }
-
-        if (_actualAmmo<=0)
-        {
-            Reload();
-        }
-        Debug.Log("No se pudo Disparar");
       
     }
     

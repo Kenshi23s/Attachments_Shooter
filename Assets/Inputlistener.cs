@@ -7,9 +7,8 @@ public class Inputlistener : MonoBehaviour
     //Dictionary<KeyCode,Action> inputs= new Dictionary<KeyCode,Action>();
     void Update()
     {
-        if (Input.GetKeyDown(KeyCode.Space))
+        if (Input.GetKeyDown(KeyCode.Mouse0))
         {
-            Debug.Log("Input");
             GunManager.instance.TriggerActualGun();
         }
     }

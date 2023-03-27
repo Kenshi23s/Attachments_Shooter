@@ -40,7 +40,7 @@ public class GunStats
 
     public void Initialize()
     {
-        string debugStatsName = ""; 
+        string statsname = ""; 
         foreach (StatNames item in Enum.GetValues(typeof(StatNames)))
         {
            
@@ -48,12 +48,12 @@ public class GunStats
             {
                 _myGunStats.Add(item, 1);
 
-                debugStatsName += item.ToString()+ ", ";
+                statsname += item.ToString()+ ", ";
             }
 
            
         }
-        Debug.LogWarning($"El arma no contenia la/s estadistica {debugStatsName} asi que la/s cree y le asigne valor = 1");
+        Debug.LogWarning($"El arma no contenia la/s estadistica {statsname} asi que la/s cree y le asigne valor = 1");
         //temporal, solo para testeo
         //foreach (StatNames stat in myGunStatsList)
         //{
@@ -78,16 +78,31 @@ public class GunStats
         {
             if (_myGunStats.ContainsKey(actualKey))
             {
-                // el valor cambai aunque no se refleje en el inspector
-                _myGunStats[actualKey] = Mathf.Clamp(_myGunStats[actualKey] + (NewStats[actualKey] * x), 1, 100);
-                
+                _myGunStats[actualKey] = Mathf.Clamp(_myGunStats[actualKey] + (NewStats[actualKey] * x), 0, 100);          
             }
         } 
 
         
     }
 
-
+    //void CheckShootPos()
+    //{
+    //    if (shootPos==null)
+    //    {
+    //        _shootPos = defaultShootPos;
+    //    }
+    //}
+    //public void ChangeShootPos(Transform newShootPos)
+    //{
+    //    if (newShootPos!=null)
+    //    {
+    //        _shootPos=newShootPos;
+    //    }
+    //    else
+    //    {
+    //        _shootPos = defaultShootPos;
+    //    }
+    //}
 }
 
 //[Header("GunStats")]
