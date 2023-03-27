@@ -18,6 +18,7 @@ public class AttachmentManager
 
     //[SerializeField, SerializedDictionary("Type,Class")]
     SerializedDictionary<AttachmentType, Attachment> _activeAttachments = new SerializedDictionary<AttachmentType, Attachment>();
+    public SerializedDictionary<AttachmentType, Attachment> activeAttachments => _activeAttachments;
 
     [SerializeField,SerializedDictionary("Attachment Type","Position In Gun")]
     SerializedDictionary<AttachmentType, Attachment> _DefaultAttachMent = new SerializedDictionary<AttachmentType, Attachment>();
