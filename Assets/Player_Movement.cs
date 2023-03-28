@@ -18,7 +18,7 @@ public class Player_Movement : MonoBehaviour
     public float speedJump;
     public float maxvelocity;
 
-    public Rigidbody rb;
+    Rigidbody rb;
 
     // Start is called before the first frame update
     void Start()
@@ -27,6 +27,8 @@ public class Player_Movement : MonoBehaviour
         Cursor.lockState = CursorLockMode.Locked;
         Cursor.visible = false;
         Application.targetFrameRate = 140;
+
+        Physics.gravity = new Vector3(0, -20f, 0);
     }
 
     // Update is called once per frame
