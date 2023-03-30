@@ -26,8 +26,6 @@ public class TrailFollowNode : MonoBehaviour
     {
         for (int i = 0; i < TrailNode.Count - 1; i++)
         {
-            // i es parent
-            // i+1 es child
 
             FollowNext(TrailNode[i+1], TrailNode[i]);
         }
