@@ -20,7 +20,7 @@ public class GunManager : MonoBehaviour
     void Awake()
     {
         instance = this;
-        //myGuns = ColomboMethods.GetChildrenComponents<GunFather>(this.transform).ToList();
+        myGuns = ColomboMethods.GetChildrenComponents<GunFather>(this.transform).ToList();
     }
 
     //start para comunicacion
@@ -35,7 +35,10 @@ public class GunManager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        
+        if (Input.GetKeyDown(KeyCode.Mouse0))
+        {
+            TriggerActualGun();
+        }
     }
 
     

@@ -5,10 +5,10 @@ using UnityEngine;
 
 public abstract class BulletMovement
 {
-
-    public static BulletMovement MovementSelected(Transform tr,Rigidbody rb,BulletProperties bulletStats)
+    // se debe seleccionar el movimiento SOLO EN EL AWAKE(es decir, al inicializar)
+    public static BulletMovement MovementSelected(Transform tr,Rigidbody rb, BulletMoveType type )
     {
-        switch (bulletStats.movementType)
+        switch (type)
         {
             
             //case Type.Tracking:
@@ -20,11 +20,11 @@ public abstract class BulletMovement
             //case Type.FallOff:
             //    break;
             default:
-                return new BulletMovement_Default(tr, rb, bulletStats.stats[BulletProperties.Stat.Speed]);
+                return new BulletMovement_Default(tr, rb);
              
         }
     }
-    public enum Type
+    public enum BulletMoveType
     {
         Default,
         Tracking,
@@ -38,19 +38,16 @@ public abstract class BulletMovement
     public float speed => _speed;
     protected Transform _myTransform;
 
-    protected BulletMovement(Transform _myTransform, Rigidbody _rb, float _speed)
+    protected BulletMovement(Transform _myTransform, Rigidbody _rb)
     {
         this._myTransform = _myTransform;
         this._rb = _rb;
-        this._speed = _speed;
     }
-    public void Initialize()
+    public virtual void Initialize()
     {
         _rb.velocity = Vector3.zero;
-        
-
-
     }
-
+    public void SetSpeed(float _speed) => this._speed = _speed;
+ 
     public abstract void MoveBullet();
 }
