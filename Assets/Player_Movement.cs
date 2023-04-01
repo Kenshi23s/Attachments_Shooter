@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class Player_Movement : MonoBehaviour
 {
-    public Camera MainCam;
+    public Transform MainCam;
     public Transform Player;
 
     public float sens = 2;
