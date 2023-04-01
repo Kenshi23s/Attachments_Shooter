@@ -6,6 +6,8 @@ public class Player_Movement : MonoBehaviour
 {
     public Transform MainCam;
     public Transform Player;
+    CapsuleCollider mycollider;
+    public LayerMask mycolision;
 
     public float sens = 2;
     float ejeY = 0;
@@ -23,7 +25,8 @@ public class Player_Movement : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-         rb = transform.GetComponent<Rigidbody>();
+        rb = transform.GetComponent<Rigidbody>();
+        mycollider = transform.GetComponent<CapsuleCollider>();
         Cursor.lockState = CursorLockMode.Locked;
         Cursor.visible = false;
         Application.targetFrameRate = 140;
@@ -46,25 +49,10 @@ public class Player_Movement : MonoBehaviour
             Player.Rotate(Vector3.up * ejeX);
         }
 
-        if (Input.GetKey(KeyCode.W))
-        {
-            rb.velocity += Player.forward * speed * Time.deltaTime;
-        }
-
-        if (Input.GetKey(KeyCode.S))
-        {
-            rb.velocity -= Player.forward * speed * Time.deltaTime;
-        }
-
-        if (Input.GetKey(KeyCode.A))
-        {
-            rb.velocity -= Player.right * speed * Time.deltaTime;
-        }
-
-        if (Input.GetKey(KeyCode.D))
-        {
-            rb.velocity += Player.right * speed * Time.deltaTime;
-        }
+        MovementKey(KeyCode.A, -Player.right, speed);
+        MovementKey(KeyCode.W, Player.forward, speed);
+        MovementKey(KeyCode.S, -Player.forward, speed);
+        MovementKey(KeyCode.D, Player.right, speed);
 
         if (Input.GetKeyDown(KeyCode.Space))
         {
@@ -78,5 +66,42 @@ public class Player_Movement : MonoBehaviour
             HorizontalVelocity = HorizontalVelocity.normalized * maxvelocity;
             rb.velocity = new Vector3(HorizontalVelocity.x, rb.velocity.y, HorizontalVelocity.z);
         }
+
+        FixFriccionMove();
+    }
+
+    public void MovementKey(KeyCode mykey, Vector3 newMovement, float force)
+    {
+        RaycastHit myhit;
+
+        if (Input.GetKey(mykey))
+        {
+            if (Physics.CapsuleCast(
+                transform.position + Vector3.down * ((mycollider.height / 2) - mycollider.radius*2) * transform.localScale.y,
+                transform.position + Vector3.up * ((mycollider.height / 2) - mycollider.radius) * transform.localScale.y,
+                mycollider.radius * transform.localScale.y * 1.05f, newMovement.normalized, out myhit, force * Time.deltaTime, mycolision))
+            {
+                newMovement = Vector3.ProjectOnPlane(newMovement, myhit.normal);
+                Debug.LogWarning("se colisiono");
+            }
+
+            rb.velocity += newMovement.normalized * force * Time.deltaTime;
+        }
+    }
+
+    public void FixFriccionMove()
+    {
+
+        RaycastHit myhit;
+
+            if (Physics.CapsuleCast(
+                transform.position + Vector3.down * ((mycollider.height / 2) - mycollider.radius * 2) * transform.localScale.y,
+                transform.position + Vector3.up * ((mycollider.height / 2) - mycollider.radius) * transform.localScale.y,
+                mycollider.radius * transform.localScale.y * 1.1f, rb.velocity.normalized, out myhit, rb.velocity.magnitude * Time.deltaTime, mycolision))
+            {
+                rb.velocity = Vector3.ProjectOnPlane(rb.velocity, myhit.normal);
+                Debug.LogWarning("se colisiono");
+            }
+        
     }
 }
