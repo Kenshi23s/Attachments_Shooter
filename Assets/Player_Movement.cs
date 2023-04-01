@@ -12,7 +12,6 @@ public class Player_Movement : MonoBehaviour
     public float sens = 2;
     float ejeY = 0;
     float ejeX = 0;
-
     float Xrotation = 0;
 
     public bool OnGrounded;
@@ -75,7 +74,7 @@ public class Player_Movement : MonoBehaviour
         {
             if (Physics.CapsuleCast(transform.position + Vector3.down * ((mycollider.height / 2) - mycollider.radius*2) * transform.localScale.y,
                                     transform.position + Vector3.up * ((mycollider.height / 2) - mycollider.radius) * transform.localScale.y,
-                                    mycollider.radius * transform.localScale.y * 1.05f, newMovement.normalized, out myhit, force * Time.deltaTime, mycolision))
+                                    mycollider.radius * transform.localScale.y * 0.9f, newMovement.normalized, out myhit, force * Time.deltaTime, mycolision))
             {
                 newMovement = Vector3.ProjectOnPlane(newMovement, myhit.normal);
                 Debug.LogWarning("se colisiono");
@@ -96,7 +95,7 @@ public class Player_Movement : MonoBehaviour
             if (Physics.CapsuleCast(
                 transform.position + Vector3.down * ((mycollider.height / 2) - mycollider.radius * 2) * transform.localScale.y,
                 transform.position + Vector3.up * ((mycollider.height / 2) - mycollider.radius) * transform.localScale.y,
-                mycollider.radius * transform.localScale.y * 1.1f, rb.velocity.normalized, out myhit, rb.velocity.magnitude * Time.deltaTime, mycolision))
+                mycollider.radius * transform.localScale.y, rb.velocity.normalized * 0.9f, out myhit, rb.velocity.magnitude * Time.deltaTime, mycolision))
             {
                 rb.velocity = Vector3.ProjectOnPlane(rb.velocity, myhit.normal);
                 Debug.LogWarning("se colisiono");
@@ -129,5 +128,10 @@ public class Player_Movement : MonoBehaviour
             HorizontalVelocity = HorizontalVelocity.normalized * maxvelocity;
             rb.velocity = new Vector3(HorizontalVelocity.x, rb.velocity.y, HorizontalVelocity.z);
         }
+    }
+
+    public void SetVelocity()
+    {
+
     }
 }
