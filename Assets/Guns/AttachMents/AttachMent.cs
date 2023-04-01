@@ -6,6 +6,20 @@ using static GunStats;
 
 public abstract class Attachment : MonoBehaviour
 {
+    [System.Serializable]
+   public struct StatChangeParams
+   {
+
+        [Range(-100,100),SerializeField] int _value;
+        public int value => _value;
+
+        #region Obsolete
+        //[SerializeField] bool isMinus;
+        //private int mySignValue;
+        //public void SetSign()  => mySignValue = isMinus == true ? -1 : 1;
+        #endregion
+    }
+
     public enum AttachmentType
     {
         Muzzle,
@@ -22,16 +36,33 @@ public abstract class Attachment : MonoBehaviour
 
     //se le pueden pasar valores negativos para que alguna estadistica disminuya
     [SerializeField, SerializedDictionary("Stat Name", "Value To Add/Substract")]
-    public SerializedDictionary<StatNames, int> Attachment_stats;
+    public SerializedDictionary<StatNames, StatChangeParams> Attachment_stats;
     //SerializedDictionary<StatNames, int> _stats= new SerializedDictionary<StatNames, int>();
-
-    public bool isAttached => _isAttached;
+    
     bool _isAttached;
+    public bool isAttached => _isAttached;
 
     protected event Action OnAtach;
     protected event Action OnUnAttach;
 
     protected GunFather gunAttachedTo;
+
+    private void Awake()
+    {
+        Initialize();
+    }
+
+    protected virtual void Initialize() { }
+
+    //void SetStatsSign()
+    //{
+    //    foreach (StatNames key in Enum.GetValues(typeof(StatNames)))      
+    //        if (Attachment_stats.ContainsKey(key))
+    //                 Attachment_stats[key].SetSign();
+            
+
+        
+    //}
 
     public void Attach(GunFather gun,Transform parent,Vector3 Pos)
     {
@@ -42,7 +73,7 @@ public abstract class Attachment : MonoBehaviour
             gunAttachedTo = gun;
             _isAttached = true;
 
-            gunAttachedTo._stats.ChangeStats(Attachment_stats, true);
+            gunAttachedTo._myStats.ChangeStats(Attachment_stats, true);
             OnAtach?.Invoke();
         }
         
@@ -50,7 +81,7 @@ public abstract class Attachment : MonoBehaviour
 
     public void UnAttach()
     {
-        gunAttachedTo._stats.ChangeStats(Attachment_stats, false);
+        gunAttachedTo._myStats.ChangeStats(Attachment_stats, false);
 
         gunAttachedTo=null;
         this.transform.parent=null;

@@ -64,15 +64,17 @@ public abstract class GunFather : MonoBehaviour
     [SerializeField] Perk[] GunPeks;
 
     [SerializeField]
-    public GunStats _stats;
-    //[SerializedDictionary("name","Value")]
-    //public SerializedDictionary <string, int> DiccionarioSerializado;
-    [SerializeField] GunAudioClips clips;
+    public GunStats _myStats;
+
+
+    //Des-comentar mas adelante
+    //[SerializeField] GunAudioClips Audioclips;
 
     [Header("Attachments")]
-    public AttachmentManager myAttachMents;
+    public AttachmentManager _myAttachMents;
 
-    
+   
+
     #region Events
     internal event Action OnReload;
 
@@ -93,6 +95,8 @@ public abstract class GunFather : MonoBehaviour
     
     #endregion
 
+    protected void OnHitCallBack(HitData data) => OnHit?.Invoke(data);
+
     protected virtual void Awake()
     {
         _actualDamage = _baseDamage;
@@ -103,7 +107,9 @@ public abstract class GunFather : MonoBehaviour
         {
             item.InitializePerk(this);
         }
-        _stats.Initialize();
+        
+        _myStats.Initialize();
+        _myAttachMents.Initialize(this);
         OptionalInitialize();
     }
 
@@ -116,7 +122,7 @@ public abstract class GunFather : MonoBehaviour
 
     public void Reload()
     {
-        _actualAmmo = (int)_stats.myGunStats[StatNames.MaxMagazine];
+        _actualAmmo = (int)_myStats.myGunStats[StatNames.MaxMagazine];
         OnReload?.Invoke();
     }
 
@@ -128,10 +134,11 @@ public abstract class GunFather : MonoBehaviour
 
     public virtual void Trigger()
     {
-        if (_actualAmmo >= _stats.myGunStats[StatNames.AmooPerShoot] && rateOfFireCD<=0)
+        Shoot();
+        if (_actualAmmo >= _myStats.myGunStats[StatNames.AmooPerShoot] && rateOfFireCD<=0)
         {
-             Shoot();
-            _actualAmmo -= (int)_stats.myGunStats[StatNames.AmooPerShoot];
+             
+            _actualAmmo -= (int)_myStats.myGunStats[StatNames.AmooPerShoot];
             OnShoot?.Invoke();
         }
       

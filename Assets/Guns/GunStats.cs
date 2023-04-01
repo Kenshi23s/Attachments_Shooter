@@ -4,6 +4,7 @@ using UnityEngine;
 using AYellowpaper.SerializedCollections;
 using System;
 using static UnityEditor.Progress;
+using static Attachment;
 
 [System.Serializable]
 public class GunStats
@@ -70,7 +71,7 @@ public class GunStats
     /// </summary>
     /// <param name="NewStats"></param>
     /// <param name="_isBeingAttached"></param>
-    public void ChangeStats(Dictionary<StatNames, int> NewStats, bool _isBeingAttached)
+    public void ChangeStats(Dictionary<StatNames, StatChangeParams> NewStats, bool _isBeingAttached)
     {       
         int x = _isBeingAttached ? 1 : -1;
 
@@ -78,7 +79,7 @@ public class GunStats
         {
             if (_myGunStats.ContainsKey(actualKey))
             {
-                _myGunStats[actualKey] = Mathf.Clamp(_myGunStats[actualKey] + (NewStats[actualKey] * x), 0, 100);          
+                _myGunStats[actualKey] = Mathf.Clamp(_myGunStats[actualKey] + (NewStats[actualKey].value * x), 0, 100);          
             }
         } 
 
