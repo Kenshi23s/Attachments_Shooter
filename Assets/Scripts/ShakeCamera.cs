@@ -21,18 +21,19 @@ public class ShakeCamera : MonoBehaviour
     [Header("Referencias"), Space(1)]
     public Transform hands;
     public Camera cam;
+    [SerializeField] Player_Movement playerMov;
     [SerializeField] Rigidbody rb;
 
     public void Update()
     {
-        if (rb.velocity.magnitude > _minRun)
+        if (rb.velocity.magnitude > _minRun && playerMov.OnGrounded)
         {
             cam.transform.localPosition = Vector3.Lerp(cam.transform.localPosition, FootStepMotion(_runFrequency, _runAmplitude), soft);
             hands.transform.localPosition = Vector3.Lerp(hands.transform.localPosition, FootStepMotion(_runFrequency, _runAmplitude) * handsInfluence, soft);
         }
         else
         {
-            if (rb.velocity.magnitude > _minWalk)
+            if (rb.velocity.magnitude > _minWalk && playerMov.OnGrounded)
             {
                 cam.transform.localPosition = Vector3.Lerp(cam.transform.localPosition, FootStepMotion(_walkFrequency, _walkAmplitude), soft);
                 hands.transform.localPosition = Vector3.Lerp(hands.transform.localPosition, FootStepMotion(_walkFrequency, _walkAmplitude) * handsInfluence, soft);

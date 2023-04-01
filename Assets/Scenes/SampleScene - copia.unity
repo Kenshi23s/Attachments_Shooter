@@ -410,6 +410,7 @@ MonoBehaviour:
   handsInfluence: 0.7
   hands: {fileID: 320644344}
   cam: {fileID: 1356284499}
+  playerMov: {fileID: 1302400611}
   rb: {fileID: 1302400612}
 --- !u!4 &108426008 stripped
 Transform:
@@ -12254,7 +12255,12 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   MainCam: {fileID: 102595912}
   Player: {fileID: 86584677}
+  mycolision:
+    serializedVersion: 2
+    m_Bits: 2147483647
   sens: 2.5
+  OnGrounded: 0
+  groundDistance: 2
   speed: 50
   speedJump: 10
   maxvelocity: 16
