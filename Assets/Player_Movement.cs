@@ -8,11 +8,11 @@ public class Player_Movement : MonoBehaviour
     public Transform Player;
 
     public float sens = 2;
-    public float ejeY = 0;
-    public float ejeX = 0;
+    float ejeY = 0;
+    float ejeX = 0;
 
-    public float Xrotation = 0;
-    public float Yrotation = 0;
+    float Xrotation = 0;
+
 
     public float speed;
     public float speedJump;
