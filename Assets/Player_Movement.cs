@@ -15,7 +15,8 @@ public class Player_Movement : MonoBehaviour
 
     float Xrotation = 0;
 
-
+    public bool OnGrounded;
+    public float groundDistance;
     public float speed;
     public float speedJump;
     public float maxvelocity;
@@ -49,24 +50,20 @@ public class Player_Movement : MonoBehaviour
             Player.Rotate(Vector3.up * ejeX);
         }
 
+        //movimiento de teclas wasd
         MovementKey(KeyCode.A, -Player.right, speed);
         MovementKey(KeyCode.W, Player.forward, speed);
         MovementKey(KeyCode.S, -Player.forward, speed);
         MovementKey(KeyCode.D, Player.right, speed);
+        DetectOnGrounded();
 
-        if (Input.GetKeyDown(KeyCode.Space))
+        //salto basico
+        if (Input.GetKeyDown(KeyCode.Space) && OnGrounded)
         {
             rb.velocity = new Vector3(rb.velocity.x, speedJump, rb.velocity.z);
         }
 
-        Vector3 HorizontalVelocity = new Vector3(rb.velocity.x, 0, rb.velocity.z);
-
-        if (HorizontalVelocity.magnitude > maxvelocity)
-        {
-            HorizontalVelocity = HorizontalVelocity.normalized * maxvelocity;
-            rb.velocity = new Vector3(HorizontalVelocity.x, rb.velocity.y, HorizontalVelocity.z);
-        }
-
+        LimitVelocity();
         FixFriccionMove();
     }
 
@@ -76,10 +73,9 @@ public class Player_Movement : MonoBehaviour
 
         if (Input.GetKey(mykey))
         {
-            if (Physics.CapsuleCast(
-                transform.position + Vector3.down * ((mycollider.height / 2) - mycollider.radius*2) * transform.localScale.y,
-                transform.position + Vector3.up * ((mycollider.height / 2) - mycollider.radius) * transform.localScale.y,
-                mycollider.radius * transform.localScale.y * 1.05f, newMovement.normalized, out myhit, force * Time.deltaTime, mycolision))
+            if (Physics.CapsuleCast(transform.position + Vector3.down * ((mycollider.height / 2) - mycollider.radius*2) * transform.localScale.y,
+                                    transform.position + Vector3.up * ((mycollider.height / 2) - mycollider.radius) * transform.localScale.y,
+                                    mycollider.radius * transform.localScale.y * 1.05f, newMovement.normalized, out myhit, force * Time.deltaTime, mycolision))
             {
                 newMovement = Vector3.ProjectOnPlane(newMovement, myhit.normal);
                 Debug.LogWarning("se colisiono");
@@ -89,6 +85,9 @@ public class Player_Movement : MonoBehaviour
         }
     }
 
+    /// <summary>
+    /// este sistema funciona para perdonar choques contra paredes o rampas (desliza sobre superficies en diagonal)
+    /// </summary>
     public void FixFriccionMove()
     {
 
@@ -103,5 +102,32 @@ public class Player_Movement : MonoBehaviour
                 Debug.LogWarning("se colisiono");
             }
         
+    }
+
+    public void DetectOnGrounded()
+    {
+        RaycastHit myhit;
+
+        if (Physics.SphereCast(transform.position + (Vector3.down * ((mycollider.height / 2) - mycollider.radius * 2) * transform.localScale.y),
+                                mycollider.radius * transform.localScale.y, -Player.up, out myhit, groundDistance, mycolision))
+        {
+            Debug.Log("piso");
+            OnGrounded = true;
+        }
+        else
+        {
+            OnGrounded = false;
+        }       
+    }
+
+    public void LimitVelocity()
+    {
+        Vector3 HorizontalVelocity = new Vector3(rb.velocity.x, 0, rb.velocity.z);
+
+        if (HorizontalVelocity.magnitude > maxvelocity)
+        {
+            HorizontalVelocity = HorizontalVelocity.normalized * maxvelocity;
+            rb.velocity = new Vector3(HorizontalVelocity.x, rb.velocity.y, HorizontalVelocity.z);
+        }
     }
 }
