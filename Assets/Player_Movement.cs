@@ -77,7 +77,6 @@ public class Player_Movement : MonoBehaviour
                                     mycollider.radius * transform.localScale.y * 0.9f, newMovement.normalized, out myhit, force * Time.deltaTime, mycolision))
             {
                 newMovement = Vector3.ProjectOnPlane(newMovement, myhit.normal);
-                Debug.LogWarning("se colisiono");
             }
 
             rb.velocity += newMovement.normalized * force * Time.deltaTime;
