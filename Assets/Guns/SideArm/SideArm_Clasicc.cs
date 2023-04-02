@@ -24,10 +24,10 @@ public class SideArm_Clasicc : SideArm
     public override void Shoot()
     {
          Debug.Log("Shoot");
-         BaseBulltet bullet = Get(_myAttachMents.magazineAmmoType);
+         BaseBulltet bullet = Get(attachMents.magazineAmmoType);
          bullet.SetGunAndCallback(this, OnHitCallBack);
-         bullet.transform.position = _myAttachMents.shootPos.position;
-         bullet.transform.forward = _myAttachMents.shootPos.forward;
+         bullet.transform.position = attachMents.shootPos.position;
+         bullet.transform.forward = attachMents.shootPos.forward;
         
        
     }

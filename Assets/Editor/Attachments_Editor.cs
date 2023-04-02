@@ -68,7 +68,7 @@ public class Attachments_Editor : EditorWindow
                 Debug.Log("el arma es == a null");
             }
             //SelectedGun._myAttachMents.AssignGun(SelectedGun);
-            SelectedGun._myAttachMents.AddAttachment(attachmentSelected.myType, attachmentSelected);
+            SelectedGun.attachMents.AddAttachment(attachmentSelected.myType, attachmentSelected);
             availableButtons = Attach;
 
         }
@@ -82,7 +82,7 @@ public class Attachments_Editor : EditorWindow
                 Debug.Log("el arma es == a null");
             }
             //SelectedGun._myAttachMents.AssignGun(SelectedGun);
-            SelectedGun._myAttachMents.RemoveAttachment(attachmentSelected.myType);
+            SelectedGun.attachMents.RemoveAttachment(attachmentSelected.myType);
             availableButtons = Detach;
         }
     }

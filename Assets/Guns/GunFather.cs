@@ -17,7 +17,7 @@ public struct GunAudioClips
 
     [SerializeField] public AudioClip _ReloadClip;
 }
-
+//struct encargado de recolectar datos de los "Hits"
 public struct HitData
 {
     public Vector3 Pos;
@@ -48,34 +48,40 @@ public abstract class GunFather : MonoBehaviour
     //}
 
 
-    [Header("Damage")]
-    [SerializeField] int _baseDamage;
-    [SerializeField] public int _actualDamage;
+    //[Header("Damage"),Tooltip("el daño base y actual del arma(deberia tener un damageManager?)")]
+    //[SerializeField] int _baseDamage;
+    //[SerializeField] public int _actualDamage;
 
     //[Header("Crit")]
     //[SerializeField] bool CanCrit;
     //[SerializeField] public float CritMultiplier;
 
-    [Header("RateOfFire")]
-    [SerializeField] float _actualRateOfFire;
-    [SerializeField] float rateOfFireCD;
+    public GunDamageManager damageManager;
 
-    [Header("Perks Stats")]
+    public RateOfFireManager rateFireManager;
+
+   
+  
+
+    [Header("Perks Stats"),Tooltip("perk equipados,(se deberia de hacer un PERK MANAGER creo," +
+        " no estoy seguro)")]
     [SerializeField] Perk[] GunPeks;
 
-    [SerializeField]
-    public GunStats _myStats;
+    [SerializeField,Tooltip("Las estadisticas del arma (no se muestra una actualizacion in game " +
+        "en caso de que se tenga un accesorio)")]
+    public GunStats stats;
 
 
-    //Des-comentar mas adelante
+    //Des-comentar mas adelante, struct para clips de audios
     //[SerializeField] GunAudioClips Audioclips;
 
     [Header("Attachments")]
-    public AttachmentManager _myAttachMents;
+    public AttachmentManager attachMents;
+
 
    
-
     #region Events
+    //estos eventos se usarian para callback hacia los perks y para feedback(particulas, sonidos,animaciones) 
     internal event Action OnReload;
 
     internal event Action OnStow;
@@ -92,53 +98,58 @@ public abstract class GunFather : MonoBehaviour
 
     //internal event Action OnCritKill;
 
-    
+
     #endregion
+
+    public abstract void Shoot();
 
     protected void OnHitCallBack(HitData data) => OnHit?.Invoke(data);
 
     protected virtual void Awake()
     {
-        _actualDamage = _baseDamage;
 
-        rateOfFireCD = 0;
+
+      
 
         foreach (Perk item in GunPeks)
         {
             item.InitializePerk(this);
         }
-        
-        _myStats.Initialize();
-        _myAttachMents.Initialize(this);
+        damageManager.initialize();
+        rateFireManager.Initialize();
+        stats.Initialize();
+        attachMents.Initialize(this);
         OptionalInitialize();
     }
 
     protected virtual void OptionalInitialize() { }
    
-    public void AddDamage(int value) => _actualDamage += value;
+   
     
-    public void SubstractDamage(int value) => _actualDamage -= value;
-    
-
+    //lo ideal seria tener un metodo q llame a la animacion de recarga,
+    //y que en algun frame la animacion de recarga llame a este metodo
     public void Reload()
     {
-        _actualAmmo = (int)_myStats.myGunStats[StatNames.MaxMagazine];
+        _actualAmmo = (int)stats.myGunStats[StatNames.MaxMagazine];
         OnReload?.Invoke();
     }
 
     //public abstract void PreShoot();
 
-    public abstract void Shoot();
+  
 
     //public abstract void PosShoot();
-
+    /// <summary>
+    /// dispara el arma, solo si no esta en cd y tiene balas
+    /// </summary>
     public virtual void Trigger()
     {
+        //solo para testo no esta pasando por las condiciones
         Shoot();
-        if (_actualAmmo >= _myStats.myGunStats[StatNames.AmooPerShoot] && rateOfFireCD<=0)
+        if (_actualAmmo >= stats.myGunStats[StatNames.AmooPerShoot] && rateFireManager.canShoot)
         {
-             
-            _actualAmmo -= (int)_myStats.myGunStats[StatNames.AmooPerShoot];
+            Shoot();
+            _actualAmmo -= (int)stats.myGunStats[StatNames.AmooPerShoot];
             OnShoot?.Invoke();
         }
       
@@ -159,17 +170,4 @@ public abstract class GunFather : MonoBehaviour
         OnStow?.Invoke();
     }
 
-    //void DoDamage(IDamagable target)
-    //{
-    //    target.TakeDamage(_actualDamage);
-    //}
-
-    private void OnDrawGizmos()
-    {
-        //if (_stats.shootPos!=null)
-        //{
-        //    Gizmos.DrawLine(_stats.shootPos.position, _stats.shootPos.position + _stats.shootPos.forward * 11);
-        //}
-        
-    }
 }

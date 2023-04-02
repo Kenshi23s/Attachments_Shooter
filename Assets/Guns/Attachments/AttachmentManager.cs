@@ -11,17 +11,36 @@ public class AttachmentManager
     
 
     //si no existe una posicion para el accesorio, es imposible colocarlo
-    [SerializeField,SerializedDictionary("Attachment Type","Position In Gun")]
+    [SerializeField,SerializedDictionary("Attachment Type","Position In Gun"),
+     Tooltip("diccionario usado para asignarle a un accesorio x su posicion. " +
+        "si el accesorio de tipo x NO tiene posicion no se podra equipar ")]
     SerializedDictionary<AttachmentType, Transform> _attachmentPos = new SerializedDictionary<AttachmentType, Transform>();
 
-    //[SerializeField, SerializedDictionary("Type,Class")]
+   // mis accesorios activos en este momento
     SerializedDictionary<AttachmentType, Attachment> _activeAttachments = new SerializedDictionary<AttachmentType, Attachment>();
     public SerializedDictionary<AttachmentType, Attachment> activeAttachments => _activeAttachments;
 
-    [SerializeField,SerializedDictionary("Attachment Type","Position In Gun")]
+    [SerializeField,SerializedDictionary("Attachment Type","Attachment Prefab"),
+        Tooltip("se define un accesorio default en caso de sacar alguno, no es necesario para algunas armas probablemente")]
     SerializedDictionary<AttachmentType, Attachment> _DefaultAttachMent = new SerializedDictionary<AttachmentType, Attachment>();
 
-   public void Initialize(GunFather gun)
+    public Action<AttachmentType> OnChange;
+    public string magazineAmmoType => _magazineAmmoType;
+    [SerializeField, Tooltip("no modificar, solo lectura")]
+    string _magazineAmmoType;
+
+
+
+    public Transform shootPos => _shootPos;
+    Transform _shootPos;
+    [SerializeField, Tooltip("La posicion default de salida de bala en caso de no tener cañon")]
+    Transform _defaultShootPos;
+
+    /// <summary>
+    /// este metodo inicializa la clase, requiere q pases un "GunFather"
+    /// </summary>
+    /// <param name="gun"></param>
+    public void Initialize(GunFather gun)
    {
         this.gun = gun;
         //si se cambia el cargador chequea q tipo de municion usa
@@ -66,35 +85,31 @@ public class AttachmentManager
        
     }
 
-    public Action<AttachmentType> OnChange;
-    public string magazineAmmoType => _magazineAmmoType;
-    [SerializeField,Tooltip("no modificar, solo lectura")]
-    string _magazineAmmoType;
-    
-
-
-    public Transform shootPos => _shootPos;
-    Transform _shootPos;
-    [SerializeField,Tooltip("La posicion default de la mira en caso de no tener cañon")]
-    Transform _defaultShootPos;
+   
 
 
 
 
 
 
-
+    /// <summary>
+    /// añade los accesorios default, en caso de tener alguno
+    /// </summary>
     void SetDefaultAttachments()
     {
         foreach (AttachmentType key in Enum.GetValues(typeof(AttachmentType)))
         {
+            //pregunta si tiene un accesorio default de ese tipo y si tengo una posicion para el
             if (_DefaultAttachMent.ContainsKey(key) && _attachmentPos.ContainsKey(key))
             {
+                //pregunto si el value no es null
                 if (_DefaultAttachMent[key] != null && _attachmentPos[key] != null)
                 {
+                    //añado
                     AddAttachment(key, _DefaultAttachMent[key]);
                     continue;
                 }
+                //chequeo por las dudas para que no salten errores
                 OnChange(key);
             }
             
@@ -102,21 +117,30 @@ public class AttachmentManager
         
         
     }
-  
+  /// <summary>
+  /// Añade un accesorio al arma, requiere q le pases el tipo(key) y la clase de tipo attachment que deseas agregar
+  /// </summary>
+  /// <param name="key"></param>
+  /// <param name="value"></param>
     public void AddAttachment(AttachmentType key, Attachment value)
     {
+        //si contengo una posicion
         if (_attachmentPos.ContainsKey(key))
         {
+            //y no tengo un accesorio de ese tipo ya activo
             if (!_activeAttachments.ContainsKey(key))
             {
+                //lo añado y agrego sus stats
                 _activeAttachments.Add(key, value);               
                 _activeAttachments[key].Attach(gun, gun.transform, _attachmentPos[key].position);
+                //hago un callback para chequear que cambio
                 OnChange?.Invoke(key);
                 Debug.Log($"conecte el attachment de tipo{key} a el arma");
                 return;
             }
             else
             {
+                //si ya tenia un accesorio de ese tipo lo remplazo
                 ReplaceAttachment(key, value);
             }
         }
@@ -124,13 +148,21 @@ public class AttachmentManager
 
     }
 
+    /// <summary>
+    /// remplaza el accesorio que ya hay por el que se me pasa por parametro
+    /// </summary>
+    /// <param name="key"></param>
+    /// <param name="value"></param>
     void ReplaceAttachment(AttachmentType key, Attachment value)
     {
         _activeAttachments[key].UnAttach();
         _activeAttachments.Remove(key);
         AddAttachment(key, value);
     }
-
+    /// <summary>
+    /// saca el accesorio del arma, si tengo un accesorio default para esa ranura, lo añado
+    /// </summary>
+    /// <param name="key"></param>
     public void RemoveAttachment(AttachmentType key)
     {
         if (!_activeAttachments.ContainsKey(key))

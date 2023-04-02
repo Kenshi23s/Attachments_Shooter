@@ -7,6 +7,8 @@ using static GunStats;
 public abstract class Attachment : MonoBehaviour
 {
     [System.Serializable]
+    // queria que la variable de "value" tuviera un range,
+    // pero no era posible si no estaba en un struct
    public struct StatChangeParams
    {
 
@@ -18,7 +20,7 @@ public abstract class Attachment : MonoBehaviour
         //private int mySignValue;
         //public void SetSign()  => mySignValue = isMinus == true ? -1 : 1;
         #endregion
-    }
+   }
 
     public enum AttachmentType
     {
@@ -30,11 +32,11 @@ public abstract class Attachment : MonoBehaviour
 
     }
 
-   [SerializeField] protected AttachmentType _myType;
+    [SerializeField] protected AttachmentType _myType;
     public AttachmentType myType => _myType;
     //protected AttachmentStats _stats;
 
-    //se le pueden pasar valores negativos para que alguna estadistica disminuya
+    //se le pueden pasar valores negativos para que alguna estadistica disminuya.
     [SerializeField, SerializedDictionary("Stat Name", "Value To Add/Substract")]
     public SerializedDictionary<StatNames, StatChangeParams> Attachment_stats;
     //SerializedDictionary<StatNames, int> _stats= new SerializedDictionary<StatNames, int>();
@@ -64,6 +66,7 @@ public abstract class Attachment : MonoBehaviour
         
     //}
 
+    // hace que el accesorio se vuelva hijo del arma y le añada sus estadisticas
     public void Attach(GunFather gun,Transform parent,Vector3 Pos)
     {
         if (gun!=null)
@@ -73,15 +76,16 @@ public abstract class Attachment : MonoBehaviour
             gunAttachedTo = gun;
             _isAttached = true;
 
-            gunAttachedTo._myStats.ChangeStats(Attachment_stats, true);
+            gunAttachedTo.stats.ChangeStats(Attachment_stats, true);
             OnAtach?.Invoke();
         }
         
     }
 
+    //saca sus stats del arma y queda sin padre
     public void UnAttach()
     {
-        gunAttachedTo._myStats.ChangeStats(Attachment_stats, false);
+        gunAttachedTo.stats.ChangeStats(Attachment_stats, false);
 
         gunAttachedTo=null;
         this.transform.parent=null;

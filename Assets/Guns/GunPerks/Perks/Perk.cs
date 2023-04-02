@@ -1,7 +1,11 @@
 using UnityEngine;
 [System.Serializable]
-public abstract class Perk : MonoBehaviour
+public abstract class Perk : MonoBehaviour// deberia heredar de monobehaiviour??
+                                          // porque la idea seria q las armas creen sus perks,
+                                          // por lo que no estarian en escena
+                                          // sino que las crearian sus armas por composicion
 {
+    //todos los perks deben de heredar de esta clase para su correcto funcionamiento
     protected GunFather myGun;
     internal abstract void InitializePerk(GunFather gun);
     [SerializeField] string perkName;

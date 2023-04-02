@@ -37,7 +37,7 @@ namespace FacundoColomboMethods
         /// <param name="Father"></param>
         /// <returns></returns>
         /// 
-        public static T[] GetChildrenComponents<T>(Transform Father)
+        public static T[] GetChildrenComponents<T>(this Transform Father)
         {
             T[] Components = new T[Father.childCount];
             for (int i = 0; i < Father.childCount; i++)
@@ -54,13 +54,13 @@ namespace FacundoColomboMethods
         /// obtiene todos los componentes de tipo T que haya cerca
         /// </summary>
         /// <typeparam name="T"></typeparam>
-        /// <param name="pos"></param>
+        /// <param name="tr"></param>
         /// <param name="radius"></param>
         /// <returns></returns>
-        public static List<T> GetNearby<T>(Vector3 pos, float radius)
+        public static List<T> GetNearby<T>(this Transform tr, float radius)
         {
             List<T> list = new List<T>();
-            Collider[] colliders = Physics.OverlapSphere(pos, radius);
+            Collider[] colliders = Physics.OverlapSphere(tr.position, radius);
 
             foreach (Collider Object in colliders)
             {
@@ -82,16 +82,16 @@ namespace FacundoColomboMethods
         /// <param name="radius"></param>
         /// <param name="Wall"></param>
         /// <returns></returns>
-        public static bool CheckNearbyInSigth<T>(Vector3 pos, float radius, LayerMask Wall) where T : MonoBehaviour
+        public static bool CheckNearbyInSigth<T>(this Transform pos, float radius, LayerMask Wall) where T : MonoBehaviour
         {
             
-            Collider[] colliders = Physics.OverlapSphere(pos, radius);
+            Collider[] colliders = Physics.OverlapSphere(pos.position, radius);
             foreach (Collider Object in colliders)
             {
                 var item = Object.GetComponent<T>();
                 if (item != null)
                 {
-                    if (InLineOffSight(pos, item.transform.position, Wall))
+                    if (InLineOffSight(pos.position, item.transform.position, Wall))
                     {
                         return true;
                     }
@@ -110,17 +110,17 @@ namespace FacundoColomboMethods
         /// <param name="radius"></param>
         /// <param name="Wall"></param>
         /// <returns></returns>
-        public static List<T> GetALLNearbyInSigth<T>(Vector3 pos, float radius,LayerMask Wall) where T: MonoBehaviour
+        public static List<T> GetALLNearbyInSigth<T>(this Transform pos, float radius,LayerMask Wall) where T: MonoBehaviour
         {
             List<T> list = new List<T>();
-            Collider[] colliders = Physics.OverlapSphere(pos, radius);
+            Collider[] colliders = Physics.OverlapSphere(pos.position, radius);
 
             foreach (Collider Object in colliders)
             {
                 var item = Object.GetComponent<T>();
                 if (item != null)
                 {
-                    if (InLineOffSight(pos,item.transform.position, Wall))
+                    if (InLineOffSight(pos.position,item.transform.position, Wall))
                     {
                         list.Add(item);
                     }
@@ -218,9 +218,9 @@ namespace FacundoColomboMethods
         /// <param name="myPos"></param>
         /// <param name="walls"></param>
         /// <returns></returns>
-        public static T GetNearestOnSigth<T>(List<T> objPosition, Vector3 myPos,LayerMask walls) where T : MonoBehaviour
+        public static T GetNearestOnSigth<T>(this Transform myPos, List<T> objPosition,LayerMask walls) where T : MonoBehaviour
         {
-            List<T> listOnSigth = GetWhichAreOnSight(objPosition, myPos,walls);
+            List<T> listOnSigth = GetWhichAreOnSight(objPosition, myPos.position,walls);
            
             switch (listOnSigth.Count)
             {
@@ -233,12 +233,12 @@ namespace FacundoColomboMethods
                     return listOnSigth[0];
                 //mas de  1 a la vista
                 default:
-                 float nearestMagnitude = (listOnSigth[0].transform.position - myPos).magnitude;
+                 float nearestMagnitude = (listOnSigth[0].transform.position - myPos.position).magnitude;
                  int nearestIndex = 0;
 
                  for (int i = 1; i < listOnSigth.Count; i++)
                  {
-                     float tempMagnitude = (listOnSigth[i].transform.position - myPos).magnitude;
+                     float tempMagnitude = (listOnSigth[i].transform.position - myPos.position).magnitude;
                    
                      if (nearestMagnitude > tempMagnitude)
                      {

@@ -54,7 +54,7 @@ public class HitScan
     void GetShootPos()
     {       
         //es bastante largo o esta bien?
-       _shootPos = myGun._myAttachMents.activeAttachments[AttachmentType.Muzzle].GetComponent<Muzzle>().shootPos;      
+       _shootPos = myGun.attachMents.activeAttachments[AttachmentType.Muzzle].GetComponent<Muzzle>().shootPos;      
     }
 
 

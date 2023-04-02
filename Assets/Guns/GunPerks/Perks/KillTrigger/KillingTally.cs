@@ -26,7 +26,7 @@ public class KillingTally : Perk
     {
         if (timesApplied >= 1)
         {
-            myGun.SubstractDamage(damageAdded);
+            myGun.damageManager.DecraseDamage(damageAdded);
             timesApplied = 0;
         }
     }
@@ -35,7 +35,7 @@ public class KillingTally : Perk
     {
         if (timesApplied >= 1 && data.Target.WasKilled()==true)
         {
-            myGun.AddDamage(damageAdded);
+            myGun.damageManager.IncreaseDamage(damageAdded);
             
         }
     }

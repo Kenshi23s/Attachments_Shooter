@@ -21,8 +21,8 @@ public class PrecisionBonk : Perk
 
     }
 
-    void AddPoint(HitData data) => precisionHits = data.Target.WasCrit() ? Mathf.Clamp(precisionHits++, 1, maxPrecisionHits) 
-                                                                         : precisionHits;
+    void AddPoint(HitData data) => precisionHits =
+    data.Target.WasCrit() ? Mathf.Clamp(precisionHits++, 1, maxPrecisionHits) : precisionHits;
     //Mathf.Clamp(precisionHits++ , 1, maxPrecisionHits)
 
     void ResetPoints()
@@ -30,7 +30,7 @@ public class PrecisionBonk : Perk
         
         if (damageApplied)
         {
-            myGun.AddDamage((int)(-myGun._actualDamage * precisionHits));
+            myGun.damageManager.DecraseDamage((int)(-myGun.damageManager.actualDamage * precisionHits));
             damageApplied= false;
         }
         precisionHits = 1;
@@ -38,10 +38,10 @@ public class PrecisionBonk : Perk
 
     void CheckBullets()
     {
-        if (myGun._actualAmmo <= 1)
+        if (myGun._actualAmmo == 1)
         {
 
-            myGun.AddDamage((myGun._actualDamage * precisionHits));
+            myGun.damageManager.IncreaseDamage((myGun.damageManager.actualDamage * precisionHits));
             damageApplied = true;
         }
     }
