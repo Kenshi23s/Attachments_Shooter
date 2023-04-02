@@ -8,20 +8,23 @@ public class AttachmentManager
 {
 
     GunFather gun;
-    
 
+    #region Descripcion Pos
     //si no existe una posicion para el accesorio, es imposible colocarlo
     [SerializeField,SerializedDictionary("Attachment Type","Position In Gun"),
      Tooltip("diccionario usado para asignarle a un accesorio x su posicion. " +
         "si el accesorio de tipo x NO tiene posicion no se podra equipar ")]
+    #endregion
     SerializedDictionary<AttachmentType, Transform> _attachmentPos = new SerializedDictionary<AttachmentType, Transform>();
 
    // mis accesorios activos en este momento
     SerializedDictionary<AttachmentType, Attachment> _activeAttachments = new SerializedDictionary<AttachmentType, Attachment>();
     public SerializedDictionary<AttachmentType, Attachment> activeAttachments => _activeAttachments;
-
+    #region Descripcion _Default
+    //AAAA
     [SerializeField,SerializedDictionary("Attachment Type","Attachment Prefab"),
         Tooltip("se define un accesorio default en caso de sacar alguno, no es necesario para algunas armas probablemente")]
+    #endregion
     SerializedDictionary<AttachmentType, Attachment> _DefaultAttachMent = new SerializedDictionary<AttachmentType, Attachment>();
 
     public Action<AttachmentType> OnChange;
@@ -41,7 +44,7 @@ public class AttachmentManager
     /// </summary>
     /// <param name="gun"></param>
     public void Initialize(GunFather gun)
-   {
+    {
         this.gun = gun;
         //si se cambia el cargador chequea q tipo de municion usa
         OnChange += (x) =>
@@ -67,31 +70,27 @@ public class AttachmentManager
             if (x == AttachmentType.Muzzle && activeAttachments[x].TryGetComponent(out Muzzle muzzle))
             {
 
-                if (shootPos != default)
+                if (muzzle.shootPos != null)
                 {
                     _shootPos = muzzle.shootPos;
+                }
+                else
+                {
+                    _shootPos = _defaultShootPos;
                 }
                 return;
             }
 
             Debug.Log("Shoot Pos Default");
-            _shootPos = _defaultShootPos;
+         
 
 
         };
 
-        SetDefaultAttachments();
-
-       
+        SetDefaultAttachments();       
     }
 
    
-
-
-
-
-
-
     /// <summary>
     /// añade los accesorios default, en caso de tener alguno
     /// </summary>
@@ -112,7 +111,7 @@ public class AttachmentManager
                 //chequeo por las dudas para que no salten errores
                 OnChange(key);
             }
-            
+            OnChange(key);
         }
         
         

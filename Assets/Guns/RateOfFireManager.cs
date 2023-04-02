@@ -1,10 +1,9 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 //Manager de cadencia de tiro
+[System.Serializable]
 public class RateOfFireManager 
 {
-
+    //deberia tener un rate of fire manager para cada tipo de cadencia, uno para automatico/singleShot y otro para rafaga
     [SerializeField] float _actualRateOfFire;
     [SerializeField] float _rateOfFireCD;
     bool _canShoot;

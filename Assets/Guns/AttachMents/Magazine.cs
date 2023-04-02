@@ -10,7 +10,7 @@ public class Magazine : Attachment
     private string _bulletKey;
     private void Awake()
     {
-        _myType = AttachmentType.Magazine;
+        
     }
     private void Start()
     {

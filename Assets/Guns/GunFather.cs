@@ -64,8 +64,8 @@ public abstract class GunFather : MonoBehaviour
   
 
     [Header("Perks Stats"),Tooltip("perk equipados,(se deberia de hacer un PERK MANAGER creo," +
-        " no estoy seguro)")]
-    [SerializeField] Perk[] GunPeks;
+        " no estoy seguro)"),SerializeField]
+     PerkManager perkManager;
 
     [SerializeField,Tooltip("Las estadisticas del arma (no se muestra una actualizacion in game " +
         "en caso de que se tenga un accesorio)")]
@@ -108,16 +108,10 @@ public abstract class GunFather : MonoBehaviour
     protected virtual void Awake()
     {
 
-
-      
-
-        foreach (Perk item in GunPeks)
-        {
-            item.InitializePerk(this);
-        }
         damageManager.initialize();
         rateFireManager.Initialize();
         stats.Initialize();
+        //perkManager.Initialize(this);
         attachMents.Initialize(this);
         OptionalInitialize();
     }
@@ -134,11 +128,6 @@ public abstract class GunFather : MonoBehaviour
         OnReload?.Invoke();
     }
 
-    //public abstract void PreShoot();
-
-  
-
-    //public abstract void PosShoot();
     /// <summary>
     /// dispara el arma, solo si no esta en cd y tiene balas
     /// </summary>

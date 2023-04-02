@@ -1,9 +1,7 @@
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using AYellowpaper.SerializedCollections;
 using System;
-using static UnityEditor.Progress;
 using static Attachment;
 
 [System.Serializable]
@@ -20,7 +18,8 @@ public class GunStats
         ReloadSpeed,
         MaxMagazine,
         AmooPerShoot,
-        BulletRadius
+        BulletRadius,
+        BulletSpeed
 
     }
     //quien deberia hacer el cambio de estadistica, el arma o el accesorio?(lo hace el arma, a partir de que el accesorio pase sus stats)
@@ -31,36 +30,20 @@ public class GunStats
     [SerializeField,SerializedDictionary("Stat", "Value")]
     SerializedDictionary<StatNames, int> _myGunStats;
 
-
-    //[SerializeField] Transform defaultShootPos;
-    //public Transform shootPos => shootPos;
-    //[SerializeField]Transform _shootPos;
-
-    //[SerializeField]
-    //public List<StatNames> myGunStatsList = new List<StatNames>();
-
     public void Initialize()
     {
         string statsname = ""; 
         foreach (StatNames item in Enum.GetValues(typeof(StatNames)))
-        {
-           
+        {     
             if (!_myGunStats.ContainsKey(item))
             {
                 _myGunStats.Add(item, 1);
 
                 statsname += item.ToString()+ ", ";
-            }
-
-           
+            }          
         }
         Debug.LogWarning($"El arma no contenia la/s estadistica {statsname} asi que la/s cree y le asigne valor = 1");
-        //temporal, solo para testeo
-        //foreach (StatNames stat in myGunStatsList)
-        //{
-        //    myGunStats[stat] = Random.Range(0, 101);
 
-        //}
     }
     
 

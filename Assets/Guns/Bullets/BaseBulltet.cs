@@ -47,10 +47,13 @@ public abstract class BaseBulltet : MonoBehaviour,IPausable
     /// </summary>
     /// <param name="myGun"></param>
     /// <param name="_hitCallBack"></param>
-   public void SetGunAndCallback(GunFather myGun,Action<HitData> _hitCallBack)
+   public void SetGunAndDispatch(GunFather myGun,Action<HitData> _hitCallBack)
    {
         this.myGun = myGun;
         myGun.OnHit += OnHitEffect;
+        Transform tr = myGun.attachMents.shootPos;
+        transform.position = tr.position;
+        transform.position = tr.forward;
 
         this._hitCallBack = _hitCallBack;
 

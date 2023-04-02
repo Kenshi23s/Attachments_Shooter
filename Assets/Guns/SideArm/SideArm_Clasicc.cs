@@ -25,9 +25,8 @@ public class SideArm_Clasicc : SideArm
     {
          Debug.Log("Shoot");
          BaseBulltet bullet = Get(attachMents.magazineAmmoType);
-         bullet.SetGunAndCallback(this, OnHitCallBack);
-         bullet.transform.position = attachMents.shootPos.position;
-         bullet.transform.forward = attachMents.shootPos.forward;
+         bullet.SetGunAndDispatch(this, OnHitCallBack);
+        
         
        
     }
