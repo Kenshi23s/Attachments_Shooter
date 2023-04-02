@@ -201,15 +201,16 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _gunAnim: {fileID: 0}
   _actualAmmo: 0
-  _baseDamage: 0
-  _actualDamage: 0
-  _actualRateOfFire: 0
-  rateOfFireCD: 0
-  GunPeks: []
-  _myStats:
+  damageManager:
+    _baseDamage: 0
+    _actualDamage: 0
+  rateFireManager:
+    _actualRateOfFire: 0
+    _rateOfFireCD: 0
+  stats:
     _myGunStats:
       _serializedList: []
-  _myAttachMents:
+  attachMents:
     _attachmentPos:
       _serializedList:
       - Key: 0
@@ -768,7 +769,7 @@ MonoBehaviour:
     _serializedList:
     - Key: 1
       Value:
-        _value: 31
+        _value: 30
   _shootPos: {fileID: 1984232292}
 --- !u!23 &1782054455
 MeshRenderer:
@@ -828,7 +829,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1782054453}
   m_LocalRotation: {x: -0, y: -0, z: -0.70710576, w: 0.70710784}
-  m_LocalPosition: {x: -108.59226, y: 7.4055, z: 19.2}
+  m_LocalPosition: {x: -104.62, y: 7.4055, z: 19.2}
   m_LocalScale: {x: 0.20451, y: 0.20451, z: 0.20451}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -989,7 +990,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2002284335}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -107.43078, y: 6.9899225, z: 18.49123}
+  m_LocalPosition: {x: -104.71, y: 6.9899225, z: 18.49123}
   m_LocalScale: {x: 0.34859, y: 1.4719, z: 0.32247}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -1013,5 +1014,8 @@ MonoBehaviour:
     _serializedList:
     - Key: 5
       Value:
-        _value: 48
+        _value: -13
+    - Key: 7
+      Value:
+        _value: -10
   _bulletPrefab: {fileID: 8610898634898071310, guid: f8c643faac39a024dab193fcac2433c2, type: 3}
