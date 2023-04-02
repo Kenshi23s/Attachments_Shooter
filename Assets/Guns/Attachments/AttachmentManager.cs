@@ -49,7 +49,7 @@ public class AttachmentManager
         //si se cambia el cargador chequea q tipo de municion usa
         OnChange += (x) =>
         {
-            if (x == AttachmentType.Magazine && activeAttachments[x].TryGetComponent(out Magazine magazine))
+            if (x == AttachmentType.Magazine && activeAttachments.ContainsKey(x) && activeAttachments[x].TryGetComponent(out Magazine magazine))
             {
 
                 if (_magazineAmmoType != default)
@@ -67,7 +67,7 @@ public class AttachmentManager
         //si se cambia el cargador chequea q tipo de municion usa
         OnChange += (x) =>
         {
-            if (x == AttachmentType.Muzzle && activeAttachments[x].TryGetComponent(out Muzzle muzzle))
+            if (x == AttachmentType.Muzzle && activeAttachments.ContainsKey(x) && activeAttachments[x].TryGetComponent(out Muzzle muzzle))
             {
 
                 if (muzzle.shootPos != null)
