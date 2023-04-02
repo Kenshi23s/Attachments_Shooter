@@ -71,6 +71,7 @@ public class AttachmentManager
         {
             if (x == AttachmentType.Muzzle && activeAttachments.ContainsKey(x) && activeAttachments[x].TryGetComponent(out Muzzle muzzle))
             {
+
                
                 if (muzzle.shootPos != null)
                 {

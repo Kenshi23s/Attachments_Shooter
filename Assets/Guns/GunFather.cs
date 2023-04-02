@@ -135,12 +135,12 @@ public abstract class GunFather : MonoBehaviour
     {
         //solo para testo no esta pasando por las condiciones
         Shoot();
-        if (_actualAmmo >= stats.myGunStats[StatNames.AmooPerShoot] && rateFireManager.canShoot)
-        {
-            Shoot();
-            _actualAmmo -= (int)stats.myGunStats[StatNames.AmooPerShoot];
-            OnShoot?.Invoke();
-        }
+        //if (_actualAmmo >= stats.myGunStats[StatNames.AmooPerShoot] && rateFireManager.canShoot)
+        //{
+        //    Shoot();
+        //    _actualAmmo -= (int)stats.myGunStats[StatNames.AmooPerShoot];
+        //    OnShoot?.Invoke();
+        //}
       
     }
     
