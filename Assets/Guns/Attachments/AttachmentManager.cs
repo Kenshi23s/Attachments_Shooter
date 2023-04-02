@@ -52,7 +52,7 @@ public class AttachmentManager
             if (x == AttachmentType.Magazine && activeAttachments.ContainsKey(x) && activeAttachments[x].TryGetComponent(out Magazine magazine))
             {
 
-                if (_magazineAmmoType != default)
+                if (_magazineAmmoType != null)
                 {
                     _magazineAmmoType = magazine.bulletKey;
                 }
@@ -64,12 +64,14 @@ public class AttachmentManager
 
         };
 
+        _magazineAmmoType = Bullet_Manager.defaultBulletKey;
+
         //si se cambia el cargador chequea q tipo de municion usa
         OnChange += (x) =>
         {
             if (x == AttachmentType.Muzzle && activeAttachments.ContainsKey(x) && activeAttachments[x].TryGetComponent(out Muzzle muzzle))
             {
-
+               
                 if (muzzle.shootPos != null)
                 {
                     _shootPos = muzzle.shootPos;
@@ -77,15 +79,19 @@ public class AttachmentManager
                 else
                 {
                     _shootPos = _defaultShootPos;
+                    Debug.Log("Shoot Pos Default");
                 }
                 return;
+               
+
             }
 
-            Debug.Log("Shoot Pos Default");
+          
          
 
 
         };
+        _shootPos = _defaultShootPos;
 
         SetDefaultAttachments();       
     }

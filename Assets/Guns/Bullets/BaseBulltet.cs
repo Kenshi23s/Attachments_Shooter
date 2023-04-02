@@ -32,6 +32,8 @@ public abstract class BaseBulltet : MonoBehaviour,IPausable
         _rb = GetComponent<Rigidbody>();
         // creo el tipo de movimiento q voy a usar
         myMovement = BulletMovement.MovementSelected(transform,_rb, myType);
+        //test
+        myMovement.SetSpeed(12);
     }
 
     private void Update() => myMovement?.MoveBullet();
@@ -51,14 +53,15 @@ public abstract class BaseBulltet : MonoBehaviour,IPausable
    {
         this.myGun = myGun;
         myGun.OnHit += OnHitEffect;
-        Transform tr = myGun.attachMents.shootPos;
-        transform.position = tr.position;
-        transform.position = tr.forward;
-
         this._hitCallBack = _hitCallBack;
+    
+
+        transform.position = myGun.attachMents.shootPos.position;
+        transform.forward = myGun.attachMents.shootPos.forward;
 
 
-   }
+
+    }
 
     public void Hit(IDamagable target)
     {
