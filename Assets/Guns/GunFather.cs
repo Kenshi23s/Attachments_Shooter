@@ -41,6 +41,7 @@ public abstract class GunFather : MonoBehaviour
 
 
     [SerializeField] public int _actualAmmo;
+
     //{ 
     //    get => _actualAmmo; 
 
@@ -135,6 +136,9 @@ public abstract class GunFather : MonoBehaviour
     {
         //solo para testo no esta pasando por las condiciones
         Shoot();
+
+            //talvez deberia tener un metodo abstracto para las condiciones de disparo,
+            //y cada arma eligiria cual quiere que sean sus condiciones para dispararse
         //if (_actualAmmo >= stats.myGunStats[StatNames.AmooPerShoot] && rateFireManager.canShoot)
         //{
         //    Shoot();

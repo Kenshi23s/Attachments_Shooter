@@ -4,22 +4,25 @@ using System.Collections.Generic;
 using UnityEngine;
 using System.Linq;
 
-public class GunManager : MonoBehaviour
+public class GunManager : MonoSingleton<GunManager>
 {
     [SerializeField]List<GunFather> myGuns = new List<GunFather>();
     [SerializeField]GunFather _actualGun;
      public GunFather actualGun=> _actualGun;
 
-    public static GunManager instance;
 
     event Action<HitData> onActualGunHit;
     
     event Action OnSwapWeapons;
 
     //awake para inicializacion
-    void Awake()
+    
+    
+      
+       
+    protected override void ArtificialAwake()
     {
-        instance = this;
+        base.ArtificialAwake();
         myGuns = ColomboMethods.GetChildrenComponents<GunFather>(this.transform).ToList();
     }
 
@@ -46,20 +49,10 @@ public class GunManager : MonoBehaviour
 
     void SwapWeapons(GunFather actualWeapon)
     {
-        if (!myGuns.Contains(actualWeapon))
-        {
-            AddGun(actualWeapon);
-        }
-        
-        foreach (GunFather gun in myGuns)
-        {
-            if (actualGun != gun)
-            {
-               gun.Stow();
-               
-            }
-         
-        }
+        if (!myGuns.Contains(actualWeapon)) AddGun(actualWeapon);
+
+        foreach (GunFather gun in myGuns) if (actualGun != gun) gun.Stow();
+
         actualGun.Draw();
     }
 
