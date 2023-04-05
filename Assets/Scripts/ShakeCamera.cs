@@ -22,6 +22,7 @@ public class ShakeCamera : MonoBehaviour
 
     [Header("Apuntado"), Space(1)]
     public Vector3 aimPos;
+    bool aiming;
     Vector3 actualAimPos;
 
     [Header("Referencias"), Space(1)]
@@ -32,25 +33,43 @@ public class ShakeCamera : MonoBehaviour
 
     public void Update()
     {
+        Vector3 temp1;
+        Vector3 temp2;
+
         if (rb.velocity.magnitude > _minRun && playerMov.OnGrounded)
         {
-            cam.transform.localPosition = Vector3.Lerp(cam.transform.localPosition, FootStepMotion(_runFrequency, _runAmplitude), soft);
-            hands.transform.localPosition = Vector3.Lerp(hands.transform.localPosition, FootStepMotion(_runFrequency, _runAmplitude) * handsInfluence, soft);
+            temp1 = Vector3.Lerp(cam.transform.localPosition, FootStepMotion(_runFrequency, _runAmplitude), soft);
+            temp2 = Vector3.Lerp(hands.transform.localPosition, FootStepMotion(_runFrequency, _runAmplitude) * handsInfluence, soft);
         }
         else
         {
             if (rb.velocity.magnitude > _minWalk && playerMov.OnGrounded)
             {
-                cam.transform.localPosition = Vector3.Lerp(cam.transform.localPosition, FootStepMotion(_walkFrequency, _walkAmplitude), soft);
-                hands.transform.localPosition = Vector3.Lerp(hands.transform.localPosition, FootStepMotion(_walkFrequency, _walkAmplitude) * handsInfluence, soft);
+                temp1 = Vector3.Lerp(cam.transform.localPosition, FootStepMotion(_walkFrequency, _walkAmplitude), soft);
+                temp2 = Vector3.Lerp(hands.transform.localPosition, FootStepMotion(_walkFrequency, _walkAmplitude) * handsInfluence, soft);
             }
             else
             {
-                cam.transform.localPosition = Vector3.Lerp(cam.transform.localPosition, Vector3.zero, soft);
-                hands.transform.localPosition = Vector3.Lerp(hands.transform.localPosition, Vector3.zero, soft);
+                temp1 = Vector3.Lerp(cam.transform.localPosition, Vector3.zero, soft);
+                temp2 = Vector3.Lerp(hands.transform.localPosition, Vector3.zero, soft);
             }
         }
+
+        if (Input.GetKey(KeyCode.Mouse1))
+        {
+            actualAimPos = Vector3.Lerp(actualAimPos,aimPos,soft);
+
+            hands.transform.localPosition = actualAimPos + temp1;
+        } 
+        else
+        {
+            hands.transform.localPosition = temp2;
+            actualAimPos = Vector3.zero;
+        }
+        cam.transform.localPosition = temp1;
         
+
+
 
     }
 
