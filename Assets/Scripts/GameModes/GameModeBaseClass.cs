@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public abstract class GameModeBaseClass : MonoSingleton<GameModeBaseClass> 
+public abstract class GameModeBaseClass : MonoBehaviour
 {
     
 
@@ -16,11 +16,9 @@ public abstract class GameModeBaseClass : MonoSingleton<GameModeBaseClass>
 
     public abstract void InitializeMode();
 
-    protected override void ArtificialAwake()
+    private void Awake()
     {
-        base.ArtificialAwake();
         InitializeMode();
-
     }
 
     public void AddPoints(float value)

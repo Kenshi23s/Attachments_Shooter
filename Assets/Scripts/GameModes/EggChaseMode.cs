@@ -2,12 +2,14 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class EggChaseMode : GameModeBaseClass
+public class EggGameChaseMode : GameModeBaseClass
 {
     EggEscapeModel model;
     [SerializeField] int _eggsQuantity;
     [SerializeField,Tooltip("huevos en el mapa, solo lectura")]
     EggEscapeModel[] eggsEscaping;
+    public Node[] nodes => _nodes;
+    [SerializeField]Node[] _nodes; 
     
 
 

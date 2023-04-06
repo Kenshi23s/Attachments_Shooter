@@ -3,11 +3,20 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
 
+
 [RequireComponent(typeof(NavMeshAgent))]
 public class EggEscapeModel : Entity
 {
     NavMeshAgent agent;
 
+    StateMachine _fsm;
+
+    public enum EggStates
+    {
+        Patrol,
+        Escape,
+        Kidnapped
+    }
     //tendria que tener 3 estados:
     // Patrullar, hago la mia y sigo los waypoints, trato de no hacer el mismo camino q otro huevo en caso q haya
     // Escapar: vi al player con FOV al patrullar asi q me re tomo el palo en la direccion contraria a la q viene
@@ -30,7 +39,7 @@ public class EggEscapeModel : Entity
     // Update is called once per frame
     void Update()
     {
-        
+        _fsm.Execute();
     }
 
     public override void Pause()
