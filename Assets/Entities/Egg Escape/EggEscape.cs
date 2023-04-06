@@ -9,7 +9,7 @@ public class EggEscapeModel : Entity
 {
     NavMeshAgent agent;
 
-    StateMachine _fsm;
+    StateMachine<EggStates> _fsm;
 
     public enum EggStates
     {
