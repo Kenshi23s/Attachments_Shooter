@@ -1,35 +1,52 @@
+using System.Collections;
+using System;
 using UnityEngine;
 //Manager de cadencia de tiro
 [System.Serializable]
-public class RateOfFireManager 
+public class RateOfFireHandler 
 {
     //deberia tener un rate of fire manager para cada tipo de cadencia, uno para automatico/singleShot y otro para rafaga
+    //respondiendo a lo de arriba, quizas no
     [SerializeField] float _actualRateOfFire;
-    [SerializeField] float _rateOfFireCD;
+    public float actualRateOfFire => _actualRateOfFire;
+
+    [SerializeField,Tooltip("Variable para ver el cd restante, no tocar")]float _rateOfFireCD;
+
     bool _canShoot;
     public bool canShoot=> _canShoot;
 
-    public float actualRateOfFire => _actualRateOfFire;
-
-    public void Initialize()
+   
+    GunFather gun;
+    public void Initialize(GunFather gun)
     {
         _rateOfFireCD = 0;
         _canShoot = true;
+        this.gun = gun;
+        gun.onShoot += StartCooldown;
+
     }
 
-    void Start()
+    //podria encapsular el primero en un lambda, lo dejo asi para mejor lectura
+
+    void StartCooldown() 
     {
-        
+        if (canShoot)
+        {
+            _canShoot = false;
+            _rateOfFireCD = _actualRateOfFire;
+            gun.everyTick += CoolDownRF;
+        }
     }
-
-    // Update is called once per frame
-    void Update()
+    //el segundo no lo podria encapsular pq se perderia la referencia del metodo al substraerlo del evento
+    void CoolDownRF()
     {
-        
-    }
+        _rateOfFireCD -= Time.deltaTime;
+        if (_rateOfFireCD <= 0)
+        {
 
-    void EnterCooldown()
-    {
-
+            _rateOfFireCD = _actualRateOfFire;
+            _canShoot = true;
+            gun.everyTick -= CoolDownRF;
+        }
     }
 }

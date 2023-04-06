@@ -16,17 +16,17 @@ public class KillingTally : Perk
        myGun = gun;
        timesApplied = 0;
 
-       myGun.OnHit += AddDamage;
+       myGun.onHit += AddDamage;
 
-       myGun.OnReload += ResetDamage;
-       myGun.OnStow += ResetDamage;
+       myGun.onReload += ResetDamage;
+       myGun.onStow += ResetDamage;
     }
 
     private void ResetDamage()
     {
         if (timesApplied >= 1)
         {
-            myGun.damageManager.DecraseDamage(damageAdded);
+            myGun.damageHandler.DecraseDamage(damageAdded);
             timesApplied = 0;
         }
     }
@@ -35,7 +35,7 @@ public class KillingTally : Perk
     {
         if (timesApplied >= 1 && data.Target.WasKilled()==true)
         {
-            myGun.damageManager.IncreaseDamage(damageAdded);
+            myGun.damageHandler.IncreaseDamage(damageAdded);
             
         }
     }

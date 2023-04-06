@@ -4,7 +4,7 @@ using UnityEngine;
 using static Attachment;
 
 [System.Serializable]
-public class AttachmentManager
+public class AttachmentHandler
 {
 
     GunFather gun;

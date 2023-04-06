@@ -11,11 +11,11 @@ public class PrecisionBonk : Perk
     {
         myGun = gun;
 
-        myGun.OnHit += AddPoint;
-        myGun.OnShoot += CheckBullets;
+        myGun.onHit += AddPoint;
+        myGun.onShoot += CheckBullets;
 
-        myGun.OnReload += ResetPoints;
-        myGun.OnStow += ResetPoints;
+        myGun.onReload += ResetPoints;
+        myGun.onStow += ResetPoints;
 
         precisionHits = 1;
 
@@ -30,7 +30,7 @@ public class PrecisionBonk : Perk
         
         if (damageApplied)
         {
-            myGun.damageManager.DecraseDamage((int)(-myGun.damageManager.actualDamage * precisionHits));
+            myGun.damageHandler.DecraseDamage((int)(-myGun.damageHandler.actualDamage * precisionHits));
             damageApplied= false;
         }
         precisionHits = 1;
@@ -41,7 +41,7 @@ public class PrecisionBonk : Perk
         if (myGun._actualAmmo == 1)
         {
 
-            myGun.damageManager.IncreaseDamage((myGun.damageManager.actualDamage * precisionHits));
+            myGun.damageHandler.IncreaseDamage((myGun.damageHandler.actualDamage * precisionHits));
             damageApplied = true;
         }
     }

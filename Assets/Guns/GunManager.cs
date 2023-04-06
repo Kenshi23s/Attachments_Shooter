@@ -13,7 +13,7 @@ public class GunManager : MonoSingleton<GunManager>
 
     event Action<HitData> onActualGunHit;
     
-    event Action OnSwapWeapons;
+    //event Action OnSwapWeapons;
 
     //awake para inicializacion
     
@@ -33,12 +33,14 @@ public class GunManager : MonoSingleton<GunManager>
         {
             _actualGun = myGuns[UnityEngine.Random.Range(0, myGuns.Count)];
         }
+        Debug.LogWarning("Armas en full auto, asegurarse q tengan el RateofFire != 0 ");
     }
 
     // Update is called once per frame
     void Update()
     {
-        if (Input.GetKeyDown(KeyCode.Mouse0))
+      
+        if (Input.GetKey(KeyCode.Mouse0))
         {
             TriggerActualGun();
         }

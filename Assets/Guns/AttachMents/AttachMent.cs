@@ -2,7 +2,7 @@ using AYellowpaper.SerializedCollections;
 using System;
 using System.Collections.Generic;
 using UnityEngine;
-using static GunStats;
+using static StatsHandler;
 
 public abstract class Attachment : MonoBehaviour
 {

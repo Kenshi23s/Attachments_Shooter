@@ -1,7 +1,7 @@
 using UnityEngine;
 using System;
 using System.Collections.Generic;
-using static GunStats;
+using static StatsHandler;
 using AYellowpaper.SerializedCollections;
 
 [System.Serializable]
@@ -57,43 +57,50 @@ public abstract class GunFather : MonoBehaviour
     //[SerializeField] bool CanCrit;
     //[SerializeField] public float CritMultiplier;
 
-    public GunDamageManager damageManager;
+    public DamageHandler damageHandler;
 
-    public RateOfFireManager rateFireManager;
+    public RateOfFireHandler rateFireHandler;
 
    
   
 
     [Header("Perks Stats"),Tooltip("perk equipados,(se deberia de hacer un PERK MANAGER creo," +
         " no estoy seguro)"),SerializeField]
-     PerkManager perkManager;
+     PerkHandler perkHandler;
 
     [SerializeField,Tooltip("Las estadisticas del arma (no se muestra una actualizacion in game " +
         "en caso de que se tenga un accesorio)")]
-    public GunStats stats;
+    public StatsHandler stats;
 
 
     //Des-comentar mas adelante, struct para clips de audios
     //[SerializeField] GunAudioClips Audioclips;
 
     [Header("Attachments")]
-    public AttachmentManager attachMents;
+    public AttachmentHandler attachmentHandler;
 
 
-   
+
     #region Events
     //estos eventos se usarian para callback hacia los perks y para feedback(particulas, sonidos,animaciones) 
-    internal event Action OnReload;
 
-    internal event Action OnStow;
+    public event Action everyTick;
 
-    internal event Action OnDraw;
+    public event Action onReload;
 
-    internal event Action OnShoot;
+    public event Action onStow;
+
+    public event Action onDraw;
+
+    public event Action onShoot;
+
+    public event Action<HitData> onHit;
+
+    //en vez de tener un evento para cada una de estas condiciones, paso toda la info en un struct(hitData),
+    //lo malo de esto es que va a haber llamados a los cual no les importe algo de lo q hay guardado en el struct,
+    //por ej si le paso a la pool de particulas donde fue el impacto, no le va a importar si fue critico o no(o quizas si?)
 
     //internal event Action OnKill;
-
-    internal event Action<HitData> OnHit;
 
     //internal event Action OnCritHit;
 
@@ -103,49 +110,49 @@ public abstract class GunFather : MonoBehaviour
     #endregion
 
     public abstract void Shoot();
+    public abstract bool ShootCondition();
 
-    protected void OnHitCallBack(HitData data) => OnHit?.Invoke(data);
+    protected void OnHitCallBack(HitData data) => onHit?.Invoke(data);
 
     protected virtual void Awake()
     {
 
-        damageManager.initialize();
-        rateFireManager.Initialize();
         stats.Initialize();
-        //perkManager.Initialize(this);
-        attachMents.Initialize(this);
+        damageHandler.initialize();
+        //perkHandler.
+        rateFireHandler.Initialize(this);
+        attachmentHandler.Initialize(this);
         OptionalInitialize();
     }
 
     protected virtual void OptionalInitialize() { }
-   
-   
+
+    private void Update() => everyTick?.Invoke();
     
+    
+
     //lo ideal seria tener un metodo q llame a la animacion de recarga,
     //y que en algun frame la animacion de recarga llame a este metodo
     public void Reload()
     {
         _actualAmmo = (int)stats.myGunStats[StatNames.MaxMagazine];
-        OnReload?.Invoke();
+        onReload?.Invoke();
     }
 
     /// <summary>
     /// dispara el arma, solo si no esta en cd y tiene balas
     /// </summary>
     public virtual void Trigger()
-    {
-        //solo para testo no esta pasando por las condiciones
-        Shoot();
+    { 
+        //talvez deberia tener un metodo abstracto para las condiciones de disparo,
+        //y cada arma eligiria cual quiere que sean sus condiciones para dispararse
+        if (ShootCondition())
+        {
+            Shoot();
+            onShoot?.Invoke();
+            //_actualAmmo -= (int)stats.myGunStats[StatNames.AmooPerShoot];
+        }
 
-            //talvez deberia tener un metodo abstracto para las condiciones de disparo,
-            //y cada arma eligiria cual quiere que sean sus condiciones para dispararse
-        //if (_actualAmmo >= stats.myGunStats[StatNames.AmooPerShoot] && rateFireManager.canShoot)
-        //{
-        //    Shoot();
-        //    _actualAmmo -= (int)stats.myGunStats[StatNames.AmooPerShoot];
-        //    OnShoot?.Invoke();
-        //}
-      
     }
     
     void Equip()
@@ -155,12 +162,12 @@ public abstract class GunFather : MonoBehaviour
 
     public void Draw()
     {
-        OnDraw?.Invoke();
+        onDraw?.Invoke();
     }
 
     public void Stow()
     {
-        OnStow?.Invoke();
+        onStow?.Invoke();
     }
 
 }

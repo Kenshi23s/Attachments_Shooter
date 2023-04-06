@@ -1,11 +1,11 @@
 using System;
 using UnityEngine;
 using static Attachment;
-using static GunStats;
+using static StatsHandler;
 
 public class HitScan
 {
-    GunStats stats;
+    StatsHandler stats;
     Camera cam;
     Transform myShootPos;
     float range;
@@ -54,7 +54,7 @@ public class HitScan
     void GetShootPos()
     {       
         //es bastante largo o esta bien?
-       _shootPos = myGun.attachMents.activeAttachments[AttachmentType.Muzzle].GetComponent<Muzzle>().shootPos;      
+       _shootPos = myGun.attachmentHandler.activeAttachments[AttachmentType.Muzzle].GetComponent<Muzzle>().shootPos;      
     }
 
 

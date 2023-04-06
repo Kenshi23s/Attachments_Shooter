@@ -201,28 +201,20 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _gunAnim: {fileID: 0}
   _actualAmmo: 0
-  damageManager:
+  damageHandler:
     _baseDamage: 0
     _actualDamage: 0
-  rateFireManager:
-    _actualRateOfFire: 0
+  rateFireHandler:
+    _actualRateOfFire: 1
     _rateOfFireCD: 0
   stats:
     _myGunStats:
       _serializedList: []
-  attachMents:
+  attachmentHandler:
     _attachmentPos:
-      _serializedList:
-      - Key: 0
-        Value: {fileID: 1129500230}
-      - Key: 1
-        Value: {fileID: 1845931089}
+      _serializedList: []
     _DefaultAttachMent:
-      _serializedList:
-      - Key: 0
-        Value: {fileID: 1782054454}
-      - Key: 1
-        Value: {fileID: 2002284340}
+      _serializedList: []
     _magazineAmmoType: 
     _defaultShootPos: {fileID: 1129500230}
 --- !u!23 &450550953

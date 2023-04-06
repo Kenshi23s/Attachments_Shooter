@@ -5,7 +5,7 @@ using System;
 using static Attachment;
 
 [System.Serializable]
-public class GunStats
+public class StatsHandler
 {
 
     

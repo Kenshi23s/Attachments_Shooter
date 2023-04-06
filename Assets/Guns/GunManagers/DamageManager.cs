@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using UnityEngine;
 [System.Serializable]
-public class GunDamageManager
+public class DamageHandler
 {
    
     public void initialize()

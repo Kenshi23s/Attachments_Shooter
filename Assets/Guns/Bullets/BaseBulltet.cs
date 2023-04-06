@@ -33,7 +33,7 @@ public abstract class BaseBulltet : MonoBehaviour,IPausable
         // creo el tipo de movimiento q voy a usar
         myMovement = BulletMovement.MovementSelected(transform,_rb, myType);
         //test
-        myMovement.SetSpeed(12);
+       
     }
 
     private void Update() => myMovement?.MoveBullet();
@@ -52,12 +52,12 @@ public abstract class BaseBulltet : MonoBehaviour,IPausable
    public void SetGunAndDispatch(GunFather myGun,Action<HitData> _hitCallBack)
    {
         this.myGun = myGun;
-        myGun.OnHit += OnHitEffect;
+        myGun.onHit += OnHitEffect;
         this._hitCallBack = _hitCallBack;
     
 
-        transform.position = myGun.attachMents.shootPos.position;
-        transform.forward = myGun.attachMents.shootPos.forward;
+        transform.position = myGun.attachmentHandler.shootPos.position;
+        transform.forward = myGun.attachmentHandler.shootPos.forward;
 
 
 
@@ -65,7 +65,7 @@ public abstract class BaseBulltet : MonoBehaviour,IPausable
 
     public void Hit(IDamagable target)
     {
-        int dmgDealt = target.TakeDamage(myGun.damageManager.actualDamage);
+        int dmgDealt = target.TakeDamage(myGun.damageHandler.actualDamage);
 
         HitData hit = new HitData(transform.position,target,dmgDealt, myGun);
 
@@ -78,13 +78,12 @@ public abstract class BaseBulltet : MonoBehaviour,IPausable
 
     private void OnTriggerEnter(Collider other)
     {
-        if (TryGetComponent(out IDamagable x ))
-        {
+        if (TryGetComponent(out IDamagable x ))        
             Hit(x);
-        }
+        
 
         //me desuscribo de el evento y borro la referencia al callback
-        myGun.OnHit -= OnHitEffect;
+         myGun.onHit -= OnHitEffect;
         _hitCallBack=null;
         _poolReturn.Invoke(this, poolKey);
     }

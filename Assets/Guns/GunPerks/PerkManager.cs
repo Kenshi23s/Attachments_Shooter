@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 [System.Serializable]
-public class PerkManager 
+public class PerkHandler 
 {
 
     //deberia de alguna manera poder obtener 2 perks randoms de todos los perks que existen
