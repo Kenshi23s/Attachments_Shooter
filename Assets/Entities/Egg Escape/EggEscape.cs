@@ -37,15 +37,19 @@ public class EggEscapeModel : Entity
 
         _eggStates_Var = new EggStates_Var();
 
+        #region Setting Struct
         _eggStates_Var.agent = GetComponent<NavMeshAgent>();
         _eggStates_Var.gameMode= gameMode;
         _eggStates_Var.fov = new FOVAgent(transform);
         _eggStates_Var._fsm = new StateMachine<EggStates>();
+        #endregion
 
-
+        #region Setting Finite State Machine
         _eggStates_Var._fsm.CreateState(EggStates.Patrol,new EggPatrolState(_eggStates_Var));
         _eggStates_Var._fsm.CreateState(EggStates.Escape, new EggEscapeState(_eggStates_Var));
+        #endregion
 
+        _eggStates_Var._fsm.ChangeState(EggStates.Patrol);
 
     }
     // Start is called before the first frame update
@@ -67,9 +71,21 @@ public class EggEscapeModel : Entity
         throw new System.NotImplementedException();
     }
 
-    public override int TakeDamage(int dmgDealt)
+    public override int TakeDamage(int dmgValue)
     {
-        throw new System.NotImplementedException();
+        int _dmgDealt = lifeHandler.Damage(dmgValue);
+        if (lifeHandler.life<=0)
+        {
+            _eggStates_Var._fsm.ChangeState(EggStates.Escape);
+        }
+
+        return _dmgDealt;
+    }
+
+    public void EscapeSuccesfull()
+    {
+        lifeHandler.Heal(lifeHandler.maxLife);
+        _eggStates_Var._fsm.ChangeState(EggStates.Escape);
     }
 
     public override bool WasCrit() => false;
