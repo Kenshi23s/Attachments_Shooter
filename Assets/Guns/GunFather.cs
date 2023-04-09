@@ -20,14 +20,14 @@ public struct GunAudioClips
 //struct encargado de recolectar datos de los "Hits"
 public struct HitData
 {
-    public Vector3 Pos;
+    public Vector3 _impactPos;
     public IDamagable Target;
     public int dmgDealt;
     public GunFather weapon;
 
     public HitData(Vector3 pos, IDamagable target, int dmgDealt, GunFather weapon)
     {
-        Pos = pos;
+        _impactPos = pos;
         Target = target;
         this.dmgDealt = dmgDealt;
         this.weapon = weapon;
