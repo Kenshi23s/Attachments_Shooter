@@ -11470,7 +11470,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &1583371097
 Transform:
   m_ObjectHideFlags: 0
@@ -12889,8 +12889,8 @@ MonoBehaviour:
     _baseDamage: 0
     _actualDamage: 0
   rateFireHandler:
-    _actualRateOfFire: 0
-    _rateOfFireCD: 0
+    _actualRateOfFire: 0.1
+    _rateOfFireCD: 0.1
   stats:
     _myGunStats:
       _serializedList: []
@@ -12900,7 +12900,7 @@ MonoBehaviour:
     _DefaultAttachMent:
       _serializedList: []
     _magazineAmmoType: 
-    _defaultShootPos: {fileID: 0}
+    _defaultShootPos: {fileID: 650548341}
 --- !u!1 &1733233826 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 919132149155446097, guid: e9f3aafd6d6c0ba4e904c820d765d51f, type: 3}
