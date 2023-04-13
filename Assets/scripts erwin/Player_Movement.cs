@@ -76,7 +76,10 @@ public class Player_Movement : MonoBehaviour
                                     transform.position + Vector3.up * ((mycollider.height / 2) - mycollider.radius) * transform.localScale.y,
                                     mycollider.radius * transform.localScale.y * 0.9f, newMovement.normalized, out myhit, force * Time.deltaTime, mycolision))
             {
-                newMovement = Vector3.ProjectOnPlane(newMovement, myhit.normal);
+                if (!myhit.collider.isTrigger)
+                {
+                    newMovement = Vector3.ProjectOnPlane(newMovement, myhit.normal);
+                }                
             }
 
             rb.velocity += newMovement.normalized * force * Time.deltaTime;
@@ -96,8 +99,11 @@ public class Player_Movement : MonoBehaviour
                 transform.position + Vector3.up * ((mycollider.height / 2) - mycollider.radius) * transform.localScale.y,
                 mycollider.radius * transform.localScale.y, rb.velocity.normalized * 0.9f, out myhit, rb.velocity.magnitude * Time.deltaTime, mycolision))
             {
-                rb.velocity = Vector3.ProjectOnPlane(rb.velocity, myhit.normal);
-                Debug.LogWarning("se colisiono");
+                if (!myhit.collider.isTrigger)
+                {
+                    rb.velocity = Vector3.ProjectOnPlane(rb.velocity, myhit.normal);
+                }
+            
             }
         
     }
@@ -107,9 +113,10 @@ public class Player_Movement : MonoBehaviour
         RaycastHit myhit;
 
         if (Physics.SphereCast(transform.position + (Vector3.down * ((mycollider.height / 2) - mycollider.radius * 2) * transform.localScale.y),
-                                mycollider.radius * transform.localScale.y, -Player.up, out myhit, groundDistance, mycolision))
+                                mycollider.radius * transform.localScale.y, -Player.up, out myhit, groundDistance, mycolision)
+                               && !myhit.collider.isTrigger)
         {
-            Debug.Log("piso");
+
             OnGrounded = true;
         }
         else
