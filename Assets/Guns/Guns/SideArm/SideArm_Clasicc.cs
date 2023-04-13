@@ -24,6 +24,7 @@ public class SideArm_Clasicc : SideArm
          Debug.Log("Shoot");
          BaseBulltet bullet = Get(attachmentHandler.magazineAmmoType);
          bullet.SetGunAndDispatch(this, OnHitCallBack);
+
         
         
        

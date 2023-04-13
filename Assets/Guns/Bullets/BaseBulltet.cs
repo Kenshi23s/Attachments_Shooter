@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Threading;
 using UnityEngine;
+using static StatsHandler;
 
 
 
@@ -53,15 +54,16 @@ public abstract class BaseBulltet : MonoBehaviour,IPausable
    {
         this.myGun = myGun;
         myGun.onHit += OnHitEffect;
+        myMovement.SetSpeed(myGun.stats.myGunStats[StatNames.BulletSpeed]);
+       
         this._hitCallBack = _hitCallBack;
-    
 
         transform.position = myGun.attachmentHandler.shootPos.position;
         transform.forward = myGun.attachmentHandler.shootPos.forward;
 
 
 
-    }
+   }
 
     public void Hit(IDamagable target)
     {
@@ -84,7 +86,8 @@ public abstract class BaseBulltet : MonoBehaviour,IPausable
 
         //me desuscribo de el evento y borro la referencia al callback
          myGun.onHit -= OnHitEffect;
-        _hitCallBack=null;
+        _hitCallBack = null;
+        Debug.Log("return");
         _poolReturn.Invoke(this, poolKey);
     }
     public void Pause()

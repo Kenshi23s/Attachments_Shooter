@@ -21,6 +21,7 @@ public struct InteractableObjectData
 }
 public class InteractableObject : MonoBehaviour
 {
+    [Header("InteractableObject")]
     [SerializeField] InteractableObjectData data;
     [SerializeField] float _currentInteractionTime;
     [SerializeField] bool isInteracting;
@@ -32,10 +33,7 @@ public class InteractableObject : MonoBehaviour
     }
         
 
-    private void Awake()
-    {
-        currentInteractionTime = 0;
-    }
+    private void Awake() => currentInteractionTime = 0;
 
     public void Init_InteractableObject(InteractableObjectData newData) => data = newData;
    
@@ -46,6 +44,7 @@ public class InteractableObject : MonoBehaviour
         {
             //sumo cuanto tiempo mantuve pulsado el boton
             currentInteractionTime += Time.deltaTime;
+            isInteracting= true;
             //si pase el tiempo indicado
             if (currentInteractionTime >= data._interactTimeNeeded)
             {
@@ -54,7 +53,7 @@ public class InteractableObject : MonoBehaviour
             }
             return true;
         }
-
+        isInteracting= false;
         return false;
         
     }

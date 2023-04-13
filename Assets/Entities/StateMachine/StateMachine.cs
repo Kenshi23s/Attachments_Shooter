@@ -4,11 +4,13 @@ using UnityEngine;
 //T sera mi key
 public class StateMachine<T> : MonoBehaviour
 {
+    public T actualState=> _actualState;
+    public T _actualState;
+
     IState _currentState;
 
     Dictionary<T, IState> _statesList = new Dictionary<T, IState>();
 
-    IState _actualState;
   
 
 
@@ -25,13 +27,14 @@ public class StateMachine<T> : MonoBehaviour
     public void Execute()
     {
         _currentState.OnUpdate();
+        _currentState.MakeDecision();
     }
 
     public void ChangeState(T name)
     {
         if (_statesList.ContainsKey(name))
         {
-            _actualState = _statesList[name];
+            _currentState = _statesList[name];
             if (_currentState != null)
             {
                 _currentState.OnExit();

@@ -1,10 +1,12 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using static EggEscapeModel;
 
 public class EggGameChaseMode : GameModeBaseClass
 {
-    EggEscapeModel model;
+    [Header(" EggGameMode")]
+    [SerializeField]EggEscapeModel model;
 
     [SerializeField] int _eggsQuantity;
 
@@ -20,6 +22,8 @@ public class EggGameChaseMode : GameModeBaseClass
     public Vector3 playerPos => _player.position;
     [SerializeField] Transform _player;
 
+    [SerializeField]EggStats eggStats;
+
 
     public override void InitializeMode()
     {
@@ -30,7 +34,7 @@ public class EggGameChaseMode : GameModeBaseClass
         for (int i = 0; i < eggsEscaping.Length; i++)
         {
             eggsEscaping[i] = GameObject.Instantiate(model);
-            eggsEscaping[i].Initialize(this, _waypoints[Random.Range(0,waypoints.Length)].position) ;
+            eggsEscaping[i].Initialize(eggStats, _waypoints[Random.Range(0,waypoints.Length)].position) ;
           
         }
     }

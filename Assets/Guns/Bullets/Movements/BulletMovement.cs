@@ -47,7 +47,11 @@ public abstract class BulletMovement
     {
         _rb.velocity = Vector3.zero;
     }
-    public void SetSpeed(float _speed) => this._speed = _speed;
+    public void SetSpeed(float _speed)
+    {
+        this._speed = _speed;
+        Debug.Log("speed Change");
+    } 
  
     public abstract void MoveBullet();
 }
