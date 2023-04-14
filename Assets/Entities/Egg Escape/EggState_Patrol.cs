@@ -13,14 +13,14 @@ public class EggState_Patrol:IState
 
     FOVAgent fov;
     NavMeshAgent agent;
-    StateMachine<EggStates> _fsm;
+    StateMachine<EggStates> fsm;
     EggStats eggStats;
 
-    public EggState_Patrol(EggStats eggStats, FOVAgent fov, NavMeshAgent agent, StateMachine<EggStates> _fsm)
+    public EggState_Patrol(EggStats eggStats, FOVAgent fov, NavMeshAgent agent, StateMachine<EggStates> fsm)
     {
         this.fov = fov;
         this.agent = agent;
-        this._fsm = _fsm;
+        this.fsm = fsm;
         this.eggStats = eggStats;
     }
 
@@ -41,7 +41,7 @@ public class EggState_Patrol:IState
     public void MakeDecision() 
     {
         if (fov.inFOV(eggStats.gameMode.playerPos)) 
-            _fsm.ChangeState(EggStates.Escape);
+            fsm.ChangeState(EggStates.Escape);
     }
 
     public void OnExit() { }
