@@ -1,19 +1,32 @@
 using System;
-using System.Collections;
-using System.Collections.Generic;
+
 using UnityEngine;
 
 public abstract class Entity : MonoBehaviour,IDamagable,IPausable
 {
 
     public LifeHandler lifeHandler;
-    public event Action everyTick; 
-   
+    public event Action everyTick;
+
+    #region Events
+
+    public event Action OnDeath;
+    public event Action<int> onTakeDamage;
+    #endregion
+
     public abstract void Pause();
 
     public abstract void Resume();
+    // se debe devolver el valor con el que se restara la vida(si tiene armadura o toma menos daño por x motivo)
+    public abstract int OnTakeDamage(int dmgDealt);
 
-    public abstract int TakeDamage(int dmgDealt);
+    public override int TakeDamage(int dmgDealt) 
+    {    
+        int aux = lifeHandler.Damage(OnTakeDamage(dmgDealt));
+        onTakeDamage?.Invoke(aux);
+        return aux;
+
+    }
 
     public abstract bool WasCrit();
 
@@ -34,4 +47,6 @@ public abstract class Entity : MonoBehaviour,IDamagable,IPausable
     {
         everyTick?.Invoke();
     }
+
+    void
 }
