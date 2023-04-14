@@ -1,7 +1,7 @@
 
 public interface IDamagable 
 {
-    int TakeDamage(int dmgDealt);
+    public virtual int TakeDamage(int dmgDealt) { return default; }
     bool WasKilled();
     bool WasCrit();
 }
