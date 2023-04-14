@@ -20,7 +20,7 @@ public abstract class Entity : MonoBehaviour, IPausable, IDamagable
     // se debe devolver el valor con el que se restara la vida(si tiene armadura o toma menos daño por x motivo)
     public abstract int OnTakeDamage(int dmgDealt);
 
-    public override int TakeDamage(int dmgDealt)
+    public virtual int TakeDamage(int dmgDealt)
     {   
         int aux = lifeHandler.Damage(OnTakeDamage(dmgDealt));
         onTakeDamage?.Invoke(aux);
