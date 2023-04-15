@@ -4,6 +4,11 @@ using UnityEngine;
 
 public class Player_Movement : MonoBehaviour
 {
+
+    public static Vector3 _velocity;
+
+    Rigidbody rb;
+
     public Transform MainCam;
     public Transform Player;
     CapsuleCollider mycollider;
@@ -20,7 +25,7 @@ public class Player_Movement : MonoBehaviour
     public float speedJump;
     public float maxvelocity;
 
-    Rigidbody rb;
+    
 
     // Start is called before the first frame update
     void Start()
@@ -64,6 +69,10 @@ public class Player_Movement : MonoBehaviour
 
         LimitVelocity();
         FixFriccionMove();
+    }
+    private void FixedUpdate()
+    {
+        _velocity = rb.velocity;
     }
 
     public void MovementKey(KeyCode mykey, Vector3 newMovement, float force)
