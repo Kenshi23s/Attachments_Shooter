@@ -101,6 +101,7 @@ public class InteractableObject : MonoBehaviour
         {
             Vector3 dir = _canvas.transform.position - Camera.main.transform.position;
             _canvas.transform.forward = dir.normalized;
+            
         }
     }
 

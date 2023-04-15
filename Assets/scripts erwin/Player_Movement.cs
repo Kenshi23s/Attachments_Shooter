@@ -65,15 +65,14 @@ public class Player_Movement : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.Space) && OnGrounded)
         {
             rb.velocity = new Vector3(rb.velocity.x, speedJump, rb.velocity.z);
+            
         }
 
         LimitVelocity();
         FixFriccionMove();
-    }
-    private void FixedUpdate()
-    {
         _velocity = rb.velocity;
     }
+    
 
     public void MovementKey(KeyCode mykey, Vector3 newMovement, float force)
     {
