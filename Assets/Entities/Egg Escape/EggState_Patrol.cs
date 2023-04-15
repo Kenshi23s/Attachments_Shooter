@@ -21,10 +21,16 @@ public class EggState_Patrol:IState
         this.fov = fov;
         this.agent = agent;
         this.fsm = fsm;
+        Debug.Log(eggStats.gameMode);
         this.eggStats = eggStats;
     }
 
-    public void OnEnter() => actualWaypoint = GetRandomWaypoint();
+    public void OnEnter()
+    {
+        actualWaypoint = GetRandomWaypoint();
+        
+        
+    } 
 
     public void OnUpdate()
     {
@@ -35,8 +41,12 @@ public class EggState_Patrol:IState
             actualWaypoint = GetRandomWaypoint();
     }
 
-    Transform GetRandomWaypoint() =>
-   eggStats.gameMode.waypoints[Random.Range(0, eggStats.gameMode.waypoints.Length - 1)];
+    Transform GetRandomWaypoint()
+    {
+        Debug.Log(eggStats.gameMode);
+        return eggStats.gameMode.waypoints[Random.Range(0, eggStats.gameMode.waypoints.Length)];
+    } 
+  
 
     public void MakeDecision() 
     {

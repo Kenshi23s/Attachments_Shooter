@@ -7,7 +7,7 @@ using UnityEngine.AI;
 [RequireComponent(typeof(NavMeshAgent))]
 public class EggEscapeModel : InteractableObject,IDamagable,IPausable
 {
-    
+    [System.Serializable]
     public struct EggStats
     {
         [Header("Components")]
@@ -65,7 +65,7 @@ public class EggEscapeModel : InteractableObject,IDamagable,IPausable
         #region Setting Finite State Machine
         _fsm.CreateState(EggStates.Patrol, new EggState_Patrol   (_eggStats, fov, agent, _fsm));
         _fsm.CreateState(EggStates.Escape, new EggState_Escape   (_eggStats, fov, agent, _fsm));
-        _fsm.CreateState(EggStates.Kidnapped, /*new EggState_Escape(_eggStats, fov, agent, _fsm))*/null);
+        //_fsm.CreateState(EggStates.Kidnapped, /*new EggState_Escape(_eggStats, fov, agent, _fsm))*/null);
         #endregion
 
         _fsm.ChangeState(EggStates.Patrol);
