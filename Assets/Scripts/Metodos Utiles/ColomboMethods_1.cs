@@ -1,7 +1,9 @@
 
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
+using UnityEngine.UIElements;
 
 namespace FacundoColomboMethods
 {
@@ -20,6 +22,21 @@ namespace FacundoColomboMethods
     public static class ColomboMethods
     {
         //metodos utiles que puede ayudar a la hora de desarrollar el juego
+        /// <summary>
+        /// Soporta hasta 180 grados
+        /// </summary>
+        /// <param name="myDir"></param>
+        /// <param name="angle"></param>
+        /// <returns></returns>
+       public static Vector3 RandomDirFrom(this Vector3 myDir,float angle)
+       {
+            Vector3 random = UnityEngine.Random.insideUnitSphere;
+
+            angle =  Mathf.Clamp(MathF.Abs(angle),0,180);
+            // lo divido por 180 para "Remapearlo a un valor mas bajo"
+            Vector3 Randomdir = Vector3.Slerp(myDir.normalized, random, angle / 180f);
+            return Randomdir;
+       }
 
         public static List<T> CloneList<T>(List<T> listToClone)
         {

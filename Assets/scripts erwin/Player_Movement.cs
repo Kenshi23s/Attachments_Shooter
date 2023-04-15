@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Player_Movement : MonoBehaviour
+public class Player_Movement :Entity
 {
 
     public static Vector3 _velocity;
@@ -70,6 +70,8 @@ public class Player_Movement : MonoBehaviour
 
         LimitVelocity();
         FixFriccionMove();
+        // devuelvo a la velocidad que voy a una variable estatica
+        // (para que las balas no colisionen conmigo sumo su velocidad con la mia)
         _velocity = rb.velocity;
     }
     
@@ -147,5 +149,30 @@ public class Player_Movement : MonoBehaviour
     public void SetVelocity()
     {
 
+    }
+
+    public override void Pause()
+    {
+        throw new System.NotImplementedException();
+    }
+
+    public override void Resume()
+    {
+        throw new System.NotImplementedException();
+    }
+
+    public override int OnTakeDamage(int dmgDealt)
+    {
+       return lifeHandler.Damage(dmgDealt / 10);
+    }
+
+    public override bool WasCrit()
+    {
+        return false;
+    }
+
+    public override bool WasKilled()
+    {
+        return false;
     }
 }
