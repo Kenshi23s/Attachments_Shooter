@@ -11,11 +11,6 @@ public class StateMachine<T> : MonoBehaviour
 
     Dictionary<T, IState> _statesList = new Dictionary<T, IState>();
 
-  
-
-
-
-
     public void CreateState(T name, IState state)
     {
         // si en mi diccionario no tengo esa llave 
@@ -34,21 +29,17 @@ public class StateMachine<T> : MonoBehaviour
     {
         if (_statesList.ContainsKey(name))
         {
-            _currentState = _statesList[name];
+            var aux = _currentState;
             if (_currentState != null)
-            {
                 _currentState.OnExit();
-            }
-
+          
+            
             _currentState = _statesList[name];
+            Debug.Log($"changed state : {aux} ===> {_currentState}");
             _currentState.OnEnter();
             
         }
-
     }
-    public void StateGizmos()
-    {
-        _currentState.GizmoState();
-    }
+    public void StateGizmos() => _currentState.GizmoState();
 }
 

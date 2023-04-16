@@ -6,7 +6,7 @@ using UnityEngine.AI;
 
 public abstract class EggState : IState
 {
-    public enum EggStates
+    public enum States
     {
         Patrol,
         Escape,
@@ -18,7 +18,7 @@ public abstract class EggState : IState
         public EggStats _eggStats;
         public FOVAgent _fov;
         public NavMeshAgent _agent;
-        public StateMachine<EggStates> _fsm;
+        public StateMachine<States> _fsm;
     }
 
     public EggState(EggStateData data)
@@ -31,7 +31,7 @@ public abstract class EggState : IState
     public EggStats _eggStats;
     public FOVAgent _fov;
     public NavMeshAgent _agent;
-    public StateMachine<EggStates> _fsm;
+    public StateMachine<States> _fsm;
 
   
     

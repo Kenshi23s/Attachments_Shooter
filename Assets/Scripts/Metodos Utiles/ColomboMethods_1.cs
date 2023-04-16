@@ -21,6 +21,14 @@ namespace FacundoColomboMethods
 
     public static class ColomboMethods
     {
+
+        public static T[] GetItemsOFTypeAround<T>(this Vector3 pos, float radius)
+        {
+            return Physics.OverlapSphere(pos, radius)
+                 .Where(x => x.TryGetComponent(out T arg))
+                 .Select(x => x.GetComponent<T>()).ToArray();
+
+        }
         //metodos utiles que puede ayudar a la hora de desarrollar el juego
         /// <summary>
         /// Soporta hasta 180 grados
@@ -28,7 +36,8 @@ namespace FacundoColomboMethods
         /// <param name="myDir"></param>
         /// <param name="angle"></param>
         /// <returns></returns>
-       public static Vector3 RandomDirFrom(this Vector3 myDir,float angle)
+        /// 
+        public static Vector3 RandomDirFrom(this Vector3 myDir,float angle)
        {
             Vector3 random = UnityEngine.Random.insideUnitSphere;
 

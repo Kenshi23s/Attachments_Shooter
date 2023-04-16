@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -11,9 +12,14 @@ public class EggEscapeModel : MonoBehaviour,IDamagable,IPausable
     [System.Serializable]
     public struct EggStats
     {
+        //ahora mismo "cualquiera" puede acceder al gamemode, estaria bueno despues volver
+        //y dejar todo con getter y setter
         [Header("Components")]
-        public EggGameChaseMode gameMode;
+        [NonSerialized]public EggGameChaseMode gameMode;
 
+        // preguntarle a algun profe como podria dejar una variable por codigo
+        // como get pero modificarla por inspector
+        // (sin nesecidad de una variable como auxiliar)
         [Header("Stats")]
         public int requiredDmg4stun;
         public float stunTime;
@@ -23,9 +29,9 @@ public class EggEscapeModel : MonoBehaviour,IDamagable,IPausable
         public float escapeSpeed;
 
     }
-
+    public States actualState => _fsm.actualState;
     NavMeshAgent _agent;
-    StateMachine<EggStates> _fsm;
+    StateMachine<States> _fsm;
     FOVAgent _fov;
     EggStats _eggStats;
 
@@ -36,7 +42,7 @@ public class EggEscapeModel : MonoBehaviour,IDamagable,IPausable
     //tendria que tener 4 estados:
     // Patrullar, hago la mia y sigo los waypoints, trato de no hacer el mismo camino q otro huevo en caso q haya(Obsoleto)
     // Escapar: vi al player con FOV al patrullar asi q me re tomo el palo en la direccion contraria a la q viene
-    //
+    // Stuneado: el player me disparo y quede stuneado, no me puedo mover
     // Secuestrado: el player me agarro, desp de x segundos me libero y paso directo a el estado escapar
 
 
@@ -50,7 +56,7 @@ public class EggEscapeModel : MonoBehaviour,IDamagable,IPausable
         #region GetComponents
         _agent = GetComponent<NavMeshAgent>();
         _fov = new FOVAgent(transform);
-        _fsm = new StateMachine<EggStates>();
+        _fsm = new StateMachine<States>();
         #endregion
 
         #region DataSet
@@ -62,14 +68,14 @@ public class EggEscapeModel : MonoBehaviour,IDamagable,IPausable
         #endregion
 
         #region Setting Finite State Machine
-        _fsm.CreateState(EggStates.Patrol, new EggState_Patrol(data));
-        _fsm.CreateState(EggStates.Escape, new EggState_Escape(data));
-        _fsm.CreateState(EggStates.Stunned, new EggState_Stunned(data));
-        _fsm.CreateState(EggStates.Patrol, new EggState_Kidnaped(data));
+        _fsm.CreateState(States.Patrol, new EggState_Patrol(data));
+        _fsm.CreateState(States.Escape, new EggState_Escape(data));
+        _fsm.CreateState(States.Stunned, new EggState_Stunned(data));
+        _fsm.CreateState(States.Patrol, new EggState_Kidnaped(data));
         //_fsm.CreateState(EggStates.Kidnapped, /*new EggState_Escape(_eggStats, fov, agent, _fsm))*/null);
         #endregion
 
-        _fsm.ChangeState(EggStates.Patrol);
+        _fsm.ChangeState(States.Patrol);
 
     }
 
@@ -77,9 +83,9 @@ public class EggEscapeModel : MonoBehaviour,IDamagable,IPausable
 
     public void Grab()
     {
-        if (_fsm.actualState != EggStates.Kidnapped)
-        {
-            _fsm.ChangeState(EggStates.Kidnapped);
+        if (_fsm.actualState != States.Kidnapped)
+        {         
+            _fsm.ChangeState(States.Kidnapped);
             Debug.Log("Egg Grabbed");
         }      
     }
@@ -88,19 +94,19 @@ public class EggEscapeModel : MonoBehaviour,IDamagable,IPausable
     #region Damagable
     public int TakeDamage(int dmgValue)
     {
-        if (_fsm.actualState == EggStates.Kidnapped && _fsm.actualState == EggStates.Stunned)
+        if (_fsm.actualState == States.Kidnapped && _fsm.actualState == States.Stunned)
             return 0;
 
         dmgCount += dmgValue;
 
         if (dmgCount > _eggStats.requiredDmg4stun)
         {
-            _fsm.ChangeState(EggStates.Kidnapped);
+            _fsm.ChangeState(States.Kidnapped);
             dmgCount= 0;
         }
         return dmgValue;       
     }
-    public bool WasCrit() => _fsm.actualState == EggStates.Stunned;
+    public bool WasCrit() => _fsm.actualState == States.Stunned;
 
     public bool WasKilled() => false;
     #endregion

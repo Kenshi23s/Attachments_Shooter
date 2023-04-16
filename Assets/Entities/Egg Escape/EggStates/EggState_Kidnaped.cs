@@ -16,7 +16,7 @@ public class EggState_Kidnaped : EggState
     public override void MakeDecision()
     {
         if (_actualKidnapTime<=0)        
-            _fsm.ChangeState(EggStates.Escape);  
+            _fsm.ChangeState(States.Escape);  
     }
   
     public override void OnExit() { }

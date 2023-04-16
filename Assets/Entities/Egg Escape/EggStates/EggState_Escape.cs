@@ -14,12 +14,13 @@ public class EggState_Escape : EggState
     Transform GetFurthestWaypoint() => _eggStats.gameMode.waypoints.GetFurthest(_agent.transform.position);
 
     public override void OnEnter()
-    {
-         actualWaypoint = GetFurthestWaypoint();
+    {  
         _agent.speed = _eggStats.escapeSpeed;
+        actualWaypoint = GetFurthestWaypoint();
+        _agent.SetDestination(actualWaypoint.position);
     }
 
-    public override void OnUpdate() => _agent.SetDestination(actualWaypoint.position);
+    public override void OnUpdate() { }
 
     public override void MakeDecision()
     {
@@ -28,10 +29,10 @@ public class EggState_Escape : EggState
         {
             if (_fov.inFOV(_eggStats.gameMode.playerPos))
             {
-                _fsm.ChangeState(EggStates.Patrol);
+                _fsm.ChangeState(States.Patrol);
                 return;
             }
-            actualWaypoint = GetFurthestWaypoint();
+            OnEnter();
         }
     }
     public override void GizmoState()

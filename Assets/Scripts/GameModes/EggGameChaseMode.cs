@@ -24,6 +24,8 @@ public class EggGameChaseMode : GameModeBaseClass
 
     [SerializeField]EggStats eggStats;
 
+    public bool _hasEgg;
+
 
     public override void InitializeMode()
     {

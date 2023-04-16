@@ -34,7 +34,7 @@ public class EggState_Patrol:EggState
     public override void MakeDecision() 
     {
         if (_fov.inFOV(_eggStats.gameMode.playerPos)) 
-            _fsm.ChangeState(EggStates.Escape);
+            _fsm.ChangeState(States.Escape);
     }
 
     public override void OnExit() { }

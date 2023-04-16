@@ -19,9 +19,9 @@ public class EggState_Stunned : EggState
         if (_actualTimeStunned<=0)
         {
             if (_fov.inFOV(_eggStats.gameMode.playerPos))       
-                _fsm.ChangeState(EggStates.Escape); 
+                _fsm.ChangeState(States.Escape); 
             else
-                _fsm.ChangeState(EggStates.Patrol);
+                _fsm.ChangeState(States.Patrol);
         }      
     }
 

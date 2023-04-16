@@ -19,13 +19,14 @@ public struct InteractableObjectData
         this._promptText = _promptText;
         this._interactTimeNeeded = _interactTimeNeeded;
         this.canInteract = canInteract;
+       
     }
 }
 [RequireComponent(typeof(SphereCollider))]
 public class InteractableObject : MonoBehaviour
 {
     [Header("InteractableObject")]
-    [SerializeField] InteractableObjectData InteractData;
+    [SerializeField] protected InteractableObjectData InteractData;
     [SerializeField] float _currentInteractionTime;
     [SerializeField] bool isTriyingToInteract;
 
@@ -53,7 +54,10 @@ public class InteractableObject : MonoBehaviour
         onDataChange?.Invoke(InteractData);
     }
 
-    private void Awake()
+    protected void DataChange() => onDataChange?.Invoke(InteractData);
+
+
+    protected virtual void Awake()
     {
         currentInteractionTime = 0;
         this.GetComponent<SphereCollider>().isTrigger = true;
@@ -105,20 +109,23 @@ public class InteractableObject : MonoBehaviour
         }
     }
 
-    private void OnTriggerEnter(Collider other)
+    protected virtual void OnTriggerEnter(Collider other)
     {
         if (other.TryGetComponent(out Player_Movement player))
         {
             _canvas.gameObject.SetActive(true);
+            
         }
     }
-    private void OnTriggerExit(Collider other)
+    protected virtual void OnTriggerExit(Collider other)
     {
         if (other.TryGetComponent(out Player_Movement player))
         {
             _canvas.gameObject.SetActive(false);
         }
     }
+
+ 
     public void SetUICalls()
     {
         #region Slider
