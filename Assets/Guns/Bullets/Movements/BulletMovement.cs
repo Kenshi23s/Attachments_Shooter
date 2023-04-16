@@ -48,7 +48,7 @@ public abstract class BulletMovement
         _rb.velocity = Vector3.zero;
         Vector3 aux = Player_Movement._velocity != Vector3.zero ? Player_Movement._velocity : Vector3.one;
 
-        _rb.AddForce(aux + (_rb.transform.forward* speed * 10) ,ForceMode.Force);
+        _rb.AddForce(aux + (_rb.transform.forward * speed * 10),ForceMode.Impulse);
     }
     public void SetSpeed(float _speed)
     {
