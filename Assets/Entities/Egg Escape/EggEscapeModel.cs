@@ -2,10 +2,11 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
+using static EggState;
 
 
 [RequireComponent(typeof(NavMeshAgent))]
-public class EggEscapeModel : InteractableObject,IDamagable,IPausable
+public class EggEscapeModel : MonoBehaviour,IDamagable,IPausable
 {
     [System.Serializable]
     public struct EggStats
@@ -15,56 +16,56 @@ public class EggEscapeModel : InteractableObject,IDamagable,IPausable
 
         [Header("Stats")]
         public int requiredDmg4stun;
-        public int stunTime;
-        public float speed;
+        public float stunTime;
+
+        public float kidnapedTime;
+        public float patrolSpeed;
         public float escapeSpeed;
 
     }
 
-    
-    NavMeshAgent agent;
+    NavMeshAgent _agent;
     StateMachine<EggStates> _fsm;
-    FOVAgent fov;
-
-    [Header("EggEscape")]
-    [SerializeField] int dmgCount=0;
-
-    [SerializeField] bool stunned=false;
-    
+    FOVAgent _fov;
     EggStats _eggStats;
 
-    public enum EggStates
-    {
-        Patrol,
-        Escape,
-        Kidnapped
-    }
-    //tendria que tener 3 estados:
+    [Header("EggEscape")]
+    [SerializeField] int dmgCount = 0;
+
+
+    //tendria que tener 4 estados:
     // Patrullar, hago la mia y sigo los waypoints, trato de no hacer el mismo camino q otro huevo en caso q haya(Obsoleto)
     // Escapar: vi al player con FOV al patrullar asi q me re tomo el palo en la direccion contraria a la q viene
-    // Liberarse: el player me agarro, desp de x segundos me libero y paso directo a el estado escapar
-   
+    //
+    // Secuestrado: el player me agarro, desp de x segundos me libero y paso directo a el estado escapar
+
 
     public void Initialize(EggStats stats, Vector3 SpawnPos)
     {
         transform.position = SpawnPos;
-        stunned = false;
 
         _eggStats = stats;
 
-        
-        #region Agent Set
-        agent = GetComponent<NavMeshAgent>();
-        agent.speed=_eggStats.speed;
+
+        #region GetComponents
+        _agent = GetComponent<NavMeshAgent>();
+        _fov = new FOVAgent(transform);
+        _fsm = new StateMachine<EggStates>();
         #endregion
 
-         fov = new FOVAgent(transform);
-        _fsm = new StateMachine<EggStates>();
-       
+        #region DataSet
+        EggStateData data;
+        data._eggStats = _eggStats;
+        data._fov = _fov;
+        data._fsm = _fsm;
+        data._agent = _agent;
+        #endregion
 
         #region Setting Finite State Machine
-        _fsm.CreateState(EggStates.Patrol, new EggState_Patrol   (_eggStats, fov, agent, _fsm));
-        _fsm.CreateState(EggStates.Escape, new EggState_Escape   (_eggStats, fov, agent, _fsm));
+        _fsm.CreateState(EggStates.Patrol, new EggState_Patrol(data));
+        _fsm.CreateState(EggStates.Escape, new EggState_Escape(data));
+        _fsm.CreateState(EggStates.Stunned, new EggState_Stunned(data));
+        _fsm.CreateState(EggStates.Patrol, new EggState_Kidnaped(data));
         //_fsm.CreateState(EggStates.Kidnapped, /*new EggState_Escape(_eggStats, fov, agent, _fsm))*/null);
         #endregion
 
@@ -73,6 +74,36 @@ public class EggEscapeModel : InteractableObject,IDamagable,IPausable
     }
 
     void Update() => _fsm.Execute();
+
+    public void Grab()
+    {
+        if (_fsm.actualState != EggStates.Kidnapped)
+        {
+            _fsm.ChangeState(EggStates.Kidnapped);
+            Debug.Log("Egg Grabbed");
+        }      
+    }
+
+
+    #region Damagable
+    public int TakeDamage(int dmgValue)
+    {
+        if (_fsm.actualState == EggStates.Kidnapped && _fsm.actualState == EggStates.Stunned)
+            return 0;
+
+        dmgCount += dmgValue;
+
+        if (dmgCount > _eggStats.requiredDmg4stun)
+        {
+            _fsm.ChangeState(EggStates.Kidnapped);
+            dmgCount= 0;
+        }
+        return dmgValue;       
+    }
+    public bool WasCrit() => _fsm.actualState == EggStates.Stunned;
+
+    public bool WasKilled() => false;
+    #endregion
 
     #region Pausable
     public void Pause()
@@ -86,31 +117,6 @@ public class EggEscapeModel : InteractableObject,IDamagable,IPausable
     }
     #endregion
 
-    public int TakeDamage(int dmgValue)
-    {
-        if (stunned)
-            return 0;
-
-        dmgCount += dmgValue;
-        if (dmgCount > _eggStats.requiredDmg4stun)
-         StartCoroutine(StunnedCooldown());
-
-        return dmgValue;       
-    }
-
-    IEnumerator StunnedCooldown()
-    {
-        agent.speed = 0;
-        stunned = true;
-
-        yield return new WaitForSeconds(_eggStats.stunTime);
-        
-
-        stunned= false;
-        agent.speed = _eggStats.speed;
-    }
-
-    public  bool WasCrit() => stunned;
    
-    public  bool WasKilled()=> false;
+   
 }
