@@ -106,8 +106,6 @@ public class TurretMisile : MonoBehaviour
         _movement = null;
 
         //devolver a la pool de proyectiles enemigos, feedback, etc
-
-
     }
 
     float GetForce(Vector3 target)
