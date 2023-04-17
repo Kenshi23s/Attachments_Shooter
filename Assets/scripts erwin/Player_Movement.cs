@@ -25,8 +25,6 @@ public class Player_Movement :Entity
     public float speedJump;
     public float maxvelocity;
 
-    
-
     // Start is called before the first frame update
     void Start()
     {
@@ -101,12 +99,13 @@ public class Player_Movement :Entity
     /// </summary>
     public void FixFriccionMove()
     {
+        float top = (mycollider.height / 2) - mycollider.radius;
 
         RaycastHit myhit;
 
             if (Physics.CapsuleCast(
-                transform.position + Vector3.down * ((mycollider.height / 2) - mycollider.radius * 2) * transform.localScale.y,
-                transform.position + Vector3.up * ((mycollider.height / 2) - mycollider.radius) * transform.localScale.y,
+                transform.position + Vector3.down * (top * 2) * transform.localScale.y,
+                transform.position + Vector3.up * (top) * transform.localScale.y,
                 mycollider.radius * transform.localScale.y, rb.velocity.normalized * 0.9f, out myhit, rb.velocity.magnitude * Time.deltaTime, mycolision))
             {
                 if (!myhit.collider.isTrigger)

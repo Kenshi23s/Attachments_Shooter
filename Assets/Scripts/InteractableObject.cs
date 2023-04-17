@@ -73,7 +73,7 @@ public class InteractableObject : MonoBehaviour
 
     public void Interact()
     {      
-       
+        
         //sumo cuanto tiempo mantuve pulsado el boton       
         currentInteractionTime += Time.deltaTime;
         WhileInteracting?.Invoke(currentInteractionTime);
@@ -82,6 +82,7 @@ public class InteractableObject : MonoBehaviour
         {
             //ejecuto los eventos
             InteractData._OnInteract?.Invoke();
+            InteractData.canInteract = false;
             
         }
         
@@ -96,7 +97,7 @@ public class InteractableObject : MonoBehaviour
 
         else if (!isTriyingToInteract && currentInteractionTime > 0)
         {
-            currentInteractionTime -= Time.deltaTime;
+            currentInteractionTime = 0f;
             While_NOT_Interacting?.Invoke(currentInteractionTime);
         }
 
@@ -104,8 +105,13 @@ public class InteractableObject : MonoBehaviour
         if (_canvas.gameObject.activeInHierarchy)
         {
             Vector3 dir = _canvas.transform.position - Camera.main.transform.position;
-            _canvas.transform.forward = dir.normalized;
+            _canvas.transform.forward = new Vector3 (dir.x, 0, dir.z).normalized;
             
+        }
+
+        if (!InteractData.canInteract && Input.GetKeyUp(KeyCode.E))
+        {
+            InteractData.canInteract = true;
         }
     }
 

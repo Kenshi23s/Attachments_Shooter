@@ -20,7 +20,6 @@ public class StandardElevator : MonoBehaviour
 
     //para testear sin poner inputs al jugador (luego se borra)
     [Header("luego se borra")]
-    public bool boton;
 
     bool _executable;
 
@@ -35,24 +34,6 @@ public class StandardElevator : MonoBehaviour
 
     void Update()
     {
-        if (boton)
-        {
-            //intercambia el estado
-            _activated = !_activated;
-
-            if (_activated)
-            {
-                objective = _originalPos + otherPos;
-            }
-            else
-            {
-                objective = _originalPos;
-            }
-
-            myOrders = new myActions(MovePlataform);
-
-            boton = false;
-        }
 
         if (myOrders != null)
         {
@@ -99,6 +80,23 @@ public class StandardElevator : MonoBehaviour
         Debug.Log(Mathf.Min(min, max));
 
         return Mathf.Min(min,max);
+    }
+
+    public void OnInteract()
+    {
+        //intercambia el estado
+        _activated = !_activated;
+
+        if (_activated)
+        {
+            objective = _originalPos + otherPos;
+        }
+        else
+        {
+            objective = _originalPos;
+        }
+
+        myOrders = new myActions(MovePlataform);
     }
 
     private void OnDrawGizmos()
