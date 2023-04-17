@@ -23,7 +23,15 @@ public class SideArm_Clasicc : SideArm
     {
          Debug.Log("Shoot");
          BaseBulltet bullet = Get(attachmentHandler.magazineAmmoType);
-         bullet.SetGunAndDispatch(this, OnHitCallBack);
+        if (bullet!=null)
+        {
+            bullet.SetGunAndDispatch(this, OnHitCallBack);
+        }
+        else
+        {
+            Debug.LogError("Error, bala == null, la pool no esta integrada o la bala default cambio");
+        }
+        
 
         
         

@@ -28,7 +28,8 @@ public abstract class Attachment : MonoBehaviour
         Magazine,
         Sight,
         Grip,
-        LaserSight
+        LaserSight,
+        Stock
 
     }
 

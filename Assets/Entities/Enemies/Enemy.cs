@@ -4,36 +4,22 @@ using UnityEngine;
 
 public abstract class Enemy : Entity
 {
-   
-
     public override int TakeDamage(int dmgDealt)
     {
         lifeHandler.Damage(dmgDealt);
         return dmgDealt;
     }
 
-    //public abstract bool WasCrit();
-
     public override bool WasKilled()
     {
-        //if (lifeHandler.life<0)
-        //{
-        //    OnDeath?.Invoke();
-        //    return true;
-        //} 
-            
+        if (lifeHandler.life < 0)             
+            return true;
 
         return false;
-        
+
     }
 
-    public override void Pause() 
-    {
-
-       
-    }
    
-    public override void Resume() { }
 
    
 }

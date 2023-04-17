@@ -6,10 +6,12 @@ public class BulletMovement_Default : BulletMovement
     {
     }
 
+
     public override void MoveBullet()
     {
-        float t = Time.deltaTime * speed * ScreenManager.time;
-        _rb.velocity = Vector3.ClampMagnitude(_rb.velocity + _myTransform.forward * t ,speed);
+        return;
+        //float t = Time.deltaTime * speed * ScreenManager.time;
+        //_rb.velocity = Vector3.ClampMagnitude(_rb.velocity + _myTransform.forward * t ,speed);
       
     }
 

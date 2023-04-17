@@ -2,8 +2,13 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Player_Movement : MonoBehaviour
+public class Player_Movement :Entity
 {
+
+    public static Vector3 _velocity;
+
+    Rigidbody rb;
+
     public Transform MainCam;
     public Transform Player;
     CapsuleCollider mycollider;
@@ -20,7 +25,7 @@ public class Player_Movement : MonoBehaviour
     public float speedJump;
     public float maxvelocity;
 
-    Rigidbody rb;
+    
 
     // Start is called before the first frame update
     void Start()
@@ -60,11 +65,16 @@ public class Player_Movement : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.Space) && OnGrounded)
         {
             rb.velocity = new Vector3(rb.velocity.x, speedJump, rb.velocity.z);
+            
         }
 
         LimitVelocity();
         FixFriccionMove();
+        // devuelvo a la velocidad que voy a una variable estatica
+        // (para que las balas no colisionen conmigo sumo su velocidad con la mia)
+        _velocity = rb.velocity;
     }
+    
 
     public void MovementKey(KeyCode mykey, Vector3 newMovement, float force)
     {
@@ -139,5 +149,30 @@ public class Player_Movement : MonoBehaviour
     public void SetVelocity()
     {
 
+    }
+
+    public override void Pause()
+    {
+        throw new System.NotImplementedException();
+    }
+
+    public override void Resume()
+    {
+        throw new System.NotImplementedException();
+    }
+
+    public override int OnTakeDamage(int dmgDealt)
+    {
+       return lifeHandler.Damage(dmgDealt / 10);
+    }
+
+    public override bool WasCrit()
+    {
+        return false;
+    }
+
+    public override bool WasKilled()
+    {
+        return false;
     }
 }

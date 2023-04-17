@@ -10,8 +10,8 @@ public class EggGameChaseMode : GameModeBaseClass
 
     [SerializeField] int _eggsQuantity;
 
-    public float interactRadius=> _interactRadius;
-    float _interactRadius;
+    public float interactRadius=> _egg_interactRadius;
+    [SerializeField]float _egg_interactRadius;
 
     [SerializeField,Tooltip("huevos en el mapa, solo lectura")]
     EggEscapeModel[] eggsEscaping;
@@ -24,21 +24,34 @@ public class EggGameChaseMode : GameModeBaseClass
 
     [SerializeField]EggStats eggStats;
 
+    public bool _hasEgg;
+
 
     public override void InitializeMode()
     {
-        // no sabia q se podia hacer esto,
+        eggStats.gameMode = this;
+     
         // preguntarle a algun profe o compañero si esto esta bien
         eggsEscaping = new EggEscapeModel[_eggsQuantity];
 
         for (int i = 0; i < eggsEscaping.Length; i++)
         {
-            eggsEscaping[i] = GameObject.Instantiate(model);
-            eggsEscaping[i].Initialize(eggStats, _waypoints[Random.Range(0,waypoints.Length)].position) ;
+            eggsEscaping[i] = Instantiate(model).GetComponent<EggEscapeModel>();
+            eggsEscaping[i].Initialize(eggStats, GetMeshPath());
           
         }
     }
 
+    Vector3 GetMeshPath()
+    {
+        Transform pos = _waypoints[Random.Range(0, waypoints.Length)];
+        RaycastHit hit;
+        if(Physics.Raycast(pos.position,-pos.up,out hit))
+        {
+            return hit.point;
+        }
+        return pos.position;
+    }
     protected override void ModeFinish()
     {
         // que deberia pasar aca¿?

@@ -56,14 +56,18 @@ public abstract class BaseBulltet : MonoBehaviour,IPausable
         myGun.onHit += OnHitEffect;
         myMovement.SetSpeed(myGun.stats.myGunStats[StatNames.BulletSpeed]);
        
+       
         this._hitCallBack = _hitCallBack;
 
-        transform.position = myGun.attachmentHandler.shootPos.position;
-        transform.forward = myGun.attachmentHandler.shootPos.forward;
+        Transform shootPos = myGun.attachmentHandler.shootPos;
+
+        transform.position = shootPos.position;
+        transform.forward = shootPos.forward;
+        myMovement.Initialize();
 
 
 
-   }
+    }
 
     public void Hit(IDamagable target)
     {
@@ -87,7 +91,8 @@ public abstract class BaseBulltet : MonoBehaviour,IPausable
         //me desuscribo de el evento y borro la referencia al callback
          myGun.onHit -= OnHitEffect;
         _hitCallBack = null;
-        Debug.Log("return");
+
+        _rb.velocity = Vector3.zero;
         _poolReturn.Invoke(this, poolKey);
     }
     public void Pause()
