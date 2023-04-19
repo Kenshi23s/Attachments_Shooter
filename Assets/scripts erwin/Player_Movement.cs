@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Player_Movement :Entity
+public class Player_Movement : Entity
 {
 
     public static Vector3 _velocity;
@@ -20,7 +20,10 @@ public class Player_Movement :Entity
     float Xrotation = 0;
 
     public bool OnGrounded;
+    public bool Running;
+
     public float groundDistance;
+    public float friction;
     public float speed;
     public float speedJump;
     public float maxvelocity;
@@ -29,6 +32,7 @@ public class Player_Movement :Entity
     void Start()
     {
         rb = transform.GetComponent<Rigidbody>();
+
         mycollider = transform.GetComponent<CapsuleCollider>();
         Cursor.lockState = CursorLockMode.Locked;
         Cursor.visible = false;
@@ -37,20 +41,9 @@ public class Player_Movement :Entity
         Physics.gravity = new Vector3(0, -20f, 0);
     }
 
-    // Update is called once per frame
     void Update()
     {
-        if (Input.GetAxis("Mouse X") != 0 || Input.GetAxis("Mouse Y") != 0)
-        {
-            ejeX = Input.GetAxis("Mouse X") * sens;
-            ejeY = Input.GetAxis("Mouse Y") * sens;
-
-            Xrotation -= ejeY;
-            Xrotation = Mathf.Clamp(Xrotation,-90,90);
-
-            MainCam.transform.localRotation = Quaternion.Euler(Xrotation,0,0);
-            Player.Rotate(Vector3.up * ejeX);
-        }
+        RotateCamera("Mouse X", "Mouse Y");
 
         //movimiento de teclas wasd
         MovementKey(KeyCode.A, -Player.right, speed);
@@ -62,12 +55,10 @@ public class Player_Movement :Entity
         //salto basico
         if (Input.GetKeyDown(KeyCode.Space) && OnGrounded)
         {
-            rb.velocity = new Vector3(rb.velocity.x, speedJump, rb.velocity.z);
-            
+            rb.velocity = new Vector3(rb.velocity.x, speedJump, rb.velocity.z);            
         }
 
         LimitVelocity();
-        FixFriccionMove();
         // devuelvo a la velocidad que voy a una variable estatica
         // (para que las balas no colisionen conmigo sumo su velocidad con la mia)
         _velocity = rb.velocity;
@@ -80,41 +71,8 @@ public class Player_Movement :Entity
 
         if (Input.GetKey(mykey))
         {
-            if (Physics.CapsuleCast(transform.position + Vector3.down * ((mycollider.height / 2) - mycollider.radius*2) * transform.localScale.y,
-                                    transform.position + Vector3.up * ((mycollider.height / 2) - mycollider.radius) * transform.localScale.y,
-                                    mycollider.radius * transform.localScale.y * 0.9f, newMovement.normalized, out myhit, force * Time.deltaTime, mycolision))
-            {
-                if (!myhit.collider.isTrigger)
-                {
-                    newMovement = Vector3.ProjectOnPlane(newMovement, myhit.normal);
-                }                
-            }
-
             rb.velocity += newMovement.normalized * force * Time.deltaTime;
         }
-    }
-
-    /// <summary>
-    /// este sistema funciona para perdonar choques contra paredes o rampas (desliza sobre superficies en diagonal)
-    /// </summary>
-    public void FixFriccionMove()
-    {
-        float top = (mycollider.height / 2) - mycollider.radius;
-
-        RaycastHit myhit;
-
-            if (Physics.CapsuleCast(
-                transform.position + Vector3.down * (top * 2) * transform.localScale.y,
-                transform.position + Vector3.up * (top) * transform.localScale.y,
-                mycollider.radius * transform.localScale.y, rb.velocity.normalized * 0.9f, out myhit, rb.velocity.magnitude * Time.deltaTime, mycolision))
-            {
-                if (!myhit.collider.isTrigger)
-                {
-                    rb.velocity = Vector3.ProjectOnPlane(rb.velocity, myhit.normal);
-                }
-            
-            }
-        
     }
 
     public void DetectOnGrounded()
@@ -125,8 +83,8 @@ public class Player_Movement :Entity
                                 mycollider.radius * transform.localScale.y, -Player.up, out myhit, groundDistance, mycolision)
                                && !myhit.collider.isTrigger)
         {
-
             OnGrounded = true;
+            Friction();
         }
         else
         {
@@ -145,10 +103,34 @@ public class Player_Movement :Entity
         }
     }
 
-    public void SetVelocity()
+    public void Friction()
     {
+        if (OnGrounded)
+        {
+            rb.velocity -= rb.velocity * friction * Time.deltaTime;
+        }
+    }
+
+    public void SetVelocity(Vector3 dir, float force)
+    {
+        rb.velocity = dir.normalized * force;
+    }
+
+    public void RotateCamera(string axisX, string axisY)
+    {
+        
+            ejeX = Input.GetAxisRaw(axisX) * sens;
+            ejeY = Input.GetAxisRaw(axisY) * sens;
+
+            Xrotation -= ejeY;
+            Xrotation = Mathf.Clamp(Xrotation, -90, 90);
+
+            Player.Rotate(Vector3.up * ejeX);
+            MainCam.transform.localRotation = Quaternion.Euler(Xrotation, 0, 0);
 
     }
+
+    #region UtilidadesEntidad
 
     public override void Pause()
     {
@@ -174,4 +156,5 @@ public class Player_Movement :Entity
     {
         return false;
     }
+    #endregion
 }
