@@ -9,8 +9,10 @@ public class EggState_Patrol:EggState
  
    
     public EggState_Patrol(EggStateData data) : base(data) 
-    { _getRandomWaypoint = () =>
-    _eggStats.gameMode.waypoints[UnityEngine.Random.Range(0, _eggStats.gameMode.waypoints.Length)]; }
+    {
+     _getRandomWaypoint = () =>
+    _eggStats.gameMode.waypoints[UnityEngine.Random.Range(0, _eggStats.gameMode.waypoints.Length)]; 
+    }
     //como podria acortar este func?, consultar a alguien
     Transform actualWaypoint;
 
@@ -19,12 +21,13 @@ public class EggState_Patrol:EggState
     public override void OnEnter()
     {      
         actualWaypoint = _getRandomWaypoint?.Invoke();
-        _agent.speed = _eggStats.patrolSpeed;       
+        _agent.speed = _eggStats.patrolSpeed;
+        _agent.SetDestination(actualWaypoint.position);
     } 
 
     public override void OnUpdate()
     {
-        _agent.SetDestination(actualWaypoint.position);
+       
         float distance = Vector3.Distance(actualWaypoint.position, _agent.transform.position);
 
         if (distance < _eggStats.gameMode.interactRadius)
@@ -39,7 +42,7 @@ public class EggState_Patrol:EggState
 
     public override void OnExit() { }
  
-    public override void GizmoState()
+    public override void GizmoShow()
     {
         Gizmos.color = Color.green;
         Gizmos.DrawWireSphere(actualWaypoint.position, _eggStats.gameMode.interactRadius);

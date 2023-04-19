@@ -40,7 +40,7 @@ public abstract class EggState : IState
     public abstract void OnExit();
     public abstract void OnUpdate();
 
-    public virtual void GizmoState()
+    public virtual void GizmoShow()
     {
 
     }
