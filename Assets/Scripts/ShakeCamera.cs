@@ -36,14 +36,14 @@ public class ShakeCamera : MonoBehaviour
         Vector3 temp1;
         Vector3 temp2;
 
-        if (rb.velocity.magnitude > _minRun && playerMov.OnGrounded)
+        if (rb.velocity.magnitude > _minRun && playerMov.onGrounded)
         {
             temp1 = Vector3.Lerp(cam.transform.localPosition, FootStepMotion(_runFrequency, _runAmplitude), soft);
             temp2 = Vector3.Lerp(hands.transform.localPosition, FootStepMotion(_runFrequency, _runAmplitude) * handsInfluence, soft);
         }
         else
         {
-            if (rb.velocity.magnitude > _minWalk && playerMov.OnGrounded)
+            if (rb.velocity.magnitude > _minWalk && playerMov.onGrounded)
             {
                 temp1 = Vector3.Lerp(cam.transform.localPosition, FootStepMotion(_walkFrequency, _walkAmplitude), soft);
                 temp2 = Vector3.Lerp(hands.transform.localPosition, FootStepMotion(_walkFrequency, _walkAmplitude) * handsInfluence, soft);

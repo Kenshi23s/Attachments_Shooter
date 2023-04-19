@@ -19,14 +19,22 @@ public class Player_Movement : Entity
     float ejeX = 0;
     float Xrotation = 0;
 
-    public bool OnGrounded;
-    public bool Running;
+    public bool onGrounded;
+    public bool onRunning;
+    public bool onCrouch;
 
     public float groundDistance;
     public float friction;
     public float speed;
     public float speedJump;
     public float maxvelocity;
+
+    public float heightCrouch;
+    public float heightStand;
+
+
+    public float maxRunningVel;
+    public float maxWalkingVel;
 
     // Start is called before the first frame update
     void Start()
@@ -39,26 +47,53 @@ public class Player_Movement : Entity
         Application.targetFrameRate = 140;
 
         Physics.gravity = new Vector3(0, -20f, 0);
+
+        heightStand = mycollider.height;
     }
 
     void Update()
     {
+        //detecta si el jugador corre (si el personaje no avanza hacia adelante no puede correr)
+        if (Input.GetKey(KeyCode.W) && Input.GetKey(KeyCode.LeftShift) && !onCrouch)
+        {
+            onRunning = true;
+            maxvelocity = maxRunningVel;
+        }
+        if (Input.GetKeyUp(KeyCode.W))
+        {
+            onRunning = false;
+            maxvelocity = maxWalkingVel;
+        }
+
         RotateCamera("Mouse X", "Mouse Y");
 
         //movimiento de teclas wasd
-        MovementKey(KeyCode.A, -Player.right, speed);
-        MovementKey(KeyCode.W, Player.forward, speed);
-        MovementKey(KeyCode.S, -Player.forward, speed);
-        MovementKey(KeyCode.D, Player.right, speed);
+        if (onGrounded)
+        {
+            MovementKey(KeyCode.A, -Player.right, speed);
+            MovementKey(KeyCode.W, Player.forward, speed);
+            MovementKey(KeyCode.S, -Player.forward, speed);
+            MovementKey(KeyCode.D, Player.right, speed);
+        }
         DetectOnGrounded();
 
         //salto basico
-        if (Input.GetKeyDown(KeyCode.Space) && OnGrounded)
+        if (Input.GetKeyDown(KeyCode.Space) && onGrounded)
         {
             rb.velocity = new Vector3(rb.velocity.x, speedJump, rb.velocity.z);            
         }
 
-        LimitVelocity();
+        if (Input.GetKeyDown(KeyCode.LeftControl))
+        {
+            mycollider.height = heightCrouch;
+            onCrouch = true;
+        }
+        if (Input.GetKeyUp(KeyCode.LeftControl))
+        {
+            mycollider.height = heightStand;
+            onCrouch = false;
+        }
+
         // devuelvo a la velocidad que voy a una variable estatica
         // (para que las balas no colisionen conmigo sumo su velocidad con la mia)
         _velocity = rb.velocity;
@@ -83,12 +118,13 @@ public class Player_Movement : Entity
                                 mycollider.radius * transform.localScale.y, -Player.up, out myhit, groundDistance, mycolision)
                                && !myhit.collider.isTrigger)
         {
-            OnGrounded = true;
+            onGrounded = true;
+            
             Friction();
         }
         else
         {
-            OnGrounded = false;
+            onGrounded = false;
         }       
     }
 
@@ -105,10 +141,8 @@ public class Player_Movement : Entity
 
     public void Friction()
     {
-        if (OnGrounded)
-        {
-            rb.velocity -= rb.velocity * friction * Time.deltaTime;
-        }
+        rb.velocity -= rb.velocity.normalized * friction * Time.deltaTime;
+        LimitVelocity();
     }
 
     public void SetVelocity(Vector3 dir, float force)
@@ -158,3 +192,5 @@ public class Player_Movement : Entity
     }
     #endregion
 }
+
+
