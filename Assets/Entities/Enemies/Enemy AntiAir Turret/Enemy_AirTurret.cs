@@ -61,6 +61,7 @@ public class Enemy_AirTurret : Enemy
 
     private void Awake()
     {
+        SetTurretFSM();
         ChangMaxAngleValue();
         //SetTurretFSM();
     }
@@ -82,9 +83,9 @@ public class Enemy_AirTurret : Enemy
     }
     private void Update()
     {
-        //_fsm.Execute();      
+        _fsm.Execute();
 
-        AlignCanon(Input.GetKey(KeyCode.Z));
+
     }
 
     private void LateUpdate()
@@ -146,10 +147,10 @@ public class Enemy_AirTurret : Enemy
 
         //la rotacion es en negativo, pero euler angles por codigo da positivo, maldigo unity
     
-        if (dir && pivotMisileBattery.eulerAngles.x <= _maxBatteryAngle)
+        if (dir && pivotMisileBattery.eulerAngles.x >= _maxBatteryAngle)
         {           
            pivotMisileBattery.eulerAngles = new Vector3(_maxBatteryAngle, 0,0);
-            Debug.Log(new Vector3(_maxBatteryAngle, 0, 0));
+            Debug.Log("Canon Aligned!");
            return true;          
         }
         //harcodeado mal D:, despues fijarse como obtener el valor negativo
@@ -166,7 +167,7 @@ public class Enemy_AirTurret : Enemy
     }
 
     public Transform ActualShootPos()
-   => _shootPositions.Skip(UnityEngine.Random.Range(0, _shootPositions.Length)).First();
+    => _shootPositions.Skip(UnityEngine.Random.Range(0, _shootPositions.Length)).First();
     #endregion
 
     public void ShootMisile(Transform _target)
