@@ -1,8 +1,9 @@
+using System;
 using System.Collections.Generic;
 using UnityEngine;
 
 //T sera mi key
-public class StateMachine<T> : MonoBehaviour
+public class StateMachine<T> 
 {
     public T actualState=> _actualState;
     public T _actualState;
@@ -22,7 +23,7 @@ public class StateMachine<T> : MonoBehaviour
     public void Execute()
     {
         _currentState.OnUpdate();
-        _currentState.MakeDecision();
+
     }
 
     public void ChangeState(T name)
@@ -32,14 +33,15 @@ public class StateMachine<T> : MonoBehaviour
             var aux = _currentState;
             if (_currentState != null)
                 _currentState.OnExit();
-          
-            
+
+
             _currentState = _statesList[name];
             Debug.Log($"changed state : {aux} ===> {_currentState}");
             _currentState.OnEnter();
-            
         }
+        else        
+            Debug.Log($"el estado { name } no existe");  
     }
-    public void StateGizmos() => _currentState.GizmoState();
+    public void StateGizmos() => _currentState.GizmoShow();
 }
 

@@ -10,6 +10,7 @@ using UnityEngine;
 [RequireComponent(typeof(Rigidbody))]
 public class TurretMisile : MonoBehaviour
 {
+    [System.Serializable]
     public struct MisileStats
     {
         public int damage;

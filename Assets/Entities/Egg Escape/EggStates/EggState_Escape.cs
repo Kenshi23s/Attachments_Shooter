@@ -35,7 +35,7 @@ public class EggState_Escape : EggState
             OnEnter();
         }
     }
-    public override void GizmoState()
+    public override void GizmoShow()
     {
         Gizmos.color = Color.red;
         Gizmos.DrawWireSphere(actualWaypoint.position, _eggStats.gameMode.interactRadius);
