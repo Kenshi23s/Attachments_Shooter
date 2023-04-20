@@ -7,21 +7,34 @@ public class AirTurretState_Shoot : IState
 {
 
     Enemy_AirTurret _turret;
+
     float _misileCD,_volleyCD;
+
     float _actualVolleyCD, actualMisileCD;
+
     float misilesPerVolley, misilesLeft;
+
     StateMachine<string> _turretFsm;
 
-
-    Action _updateEvent;
+    event Action _updateEvent;
 
     Transform misileTarget;
+
+    public AirTurretState_Shoot(Enemy_AirTurret _turret, float _misileCD, float _volleyCD, float _misilesPerVolley, StateMachine<string> _turretFsm)
+    {
+        this._turret = _turret;
+        this._misileCD = _misileCD;
+        this._volleyCD = _volleyCD;
+        this.misilesPerVolley = _misilesPerVolley;
+        this._turretFsm = _turretFsm;
+    }
 
     public void OnEnter()
     {
         _actualVolleyCD = 0;
-
         actualMisileCD = 0;
+
+        misilesLeft = misilesPerVolley;
 
         misileTarget = _turret.target;
         _updateEvent += ShootVolley;
@@ -29,15 +42,7 @@ public class AirTurretState_Shoot : IState
 
     public void OnUpdate() => _updateEvent?.Invoke();
 
-    public void OnExit()
-    {
-        _updateEvent= null;
-    }
-    public void GizmoShow()
-    {
-        throw new System.NotImplementedException();
-    }
-
+    public void OnExit() => _updateEvent = null;
 
     void ShootVolley()
     {
@@ -76,8 +81,13 @@ public class AirTurretState_Shoot : IState
         misileTarget = _turret.target;
 
         _updateEvent -= VolleyCD;
-        _updateEvent += ShootVolley;
+        OnEnter();
 
+
+    }
+
+    public void GizmoShow()
+    {
 
     }
 }
