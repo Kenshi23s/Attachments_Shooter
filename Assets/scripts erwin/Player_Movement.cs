@@ -141,7 +141,13 @@ public class Player_Movement : Entity
 
     public void Friction()
     {
+        Vector3 tempDir = rb.velocity.normalized;
         rb.velocity -= rb.velocity.normalized * friction * Time.deltaTime;
+
+        if(rb.velocity.normalized * -1 == tempDir)
+        {
+            rb.velocity = Vector3.zero;
+        }
         LimitVelocity();
     }
 
