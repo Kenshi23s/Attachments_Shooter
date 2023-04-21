@@ -51,13 +51,18 @@ public class TurretMisile : MonoBehaviour
     Rigidbody _rb;
     Action _movement;
 
+    private void Awake()
+    {
+        _rb= GetComponent<Rigidbody>();
+    }
     public void Initialize(MisileStats _myNewStats,Transform _newTarget)
-   {
+    {
         this._myStats = _myNewStats;
         this._target = _newTarget;
         _movement = MoveForward;
+
         StartCoroutine(ChangeCourse());
-   }
+    }
 
     #region Updates
     private void FixedUpdate() => _movement?.Invoke();

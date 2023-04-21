@@ -32,7 +32,7 @@ public class Enemy_AirTurret : Enemy
     [SerializeField]TurretMisile.MisileStats _misileStats;
  
     [SerializeField, Space] TurretMisile misilePrefab;
-    [SerializeField,Range(1,30)] float misilesPerVolley;
+    [SerializeField,Range(1,30)] int misilesPerVolley;
     #endregion
 
     #region Cooldowns

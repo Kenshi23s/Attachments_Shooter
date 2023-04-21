@@ -50,9 +50,11 @@ public class AirTurretState_Shoot : IState
         {
             _turret.ShootMisile(misileTarget);
             misilesLeft--;
+            Debug.Log(misilesLeft);
             if (misilesLeft <= 0)
             {
-                
+              
+                _updateEvent -= ShootVolley;
                 _updateEvent += VolleyCD;
             } 
         }
