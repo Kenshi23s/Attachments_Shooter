@@ -149,7 +149,7 @@ public class Enemy_AirTurret : Enemy
     
         if (dir && pivotMisileBattery.eulerAngles.x >= _maxBatteryAngle)
         {           
-           pivotMisileBattery.eulerAngles = new Vector3(_maxBatteryAngle, 0,0);
+           pivotMisileBattery.eulerAngles = new Vector3(_maxBatteryAngle, pivotMisileBattery.eulerAngles.y, 0);
             Debug.Log("Canon Aligned!");
            return true;          
         }
@@ -173,7 +173,7 @@ public class Enemy_AirTurret : Enemy
     public void ShootMisile(Transform _target)
     {
         Transform shootPos = ActualShootPos();
-        Instantiate(misilePrefab, shootPos.position, Quaternion.identity).Initialize(_misileStats, _target);
+        Instantiate(misilePrefab, shootPos.position, Quaternion.identity).Initialize(_misileStats, _target, shootPos.forward);
     }
 
 

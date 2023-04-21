@@ -34,7 +34,7 @@ public class TurretMisile : MonoBehaviour
         public float steeringSpeed;
         [Tooltip("Tiempo antes de empezar a trackear al objetivo"),Range(0,7)]
         public float timeBeforeTracking;
-        [Tooltip("La distancia a la que el misil deja de trackear(Por estar cerca del target)"), Range(0, 7)]
+        [Tooltip("La distancia a la que el misil deja de trackear(Por estar cerca del target)"), Range(0, 100)]
         public float stopTrackingRadius;
      
 
@@ -53,12 +53,13 @@ public class TurretMisile : MonoBehaviour
 
     private void Awake()
     {
-        _rb= GetComponent<Rigidbody>();
+        _rb = GetComponent<Rigidbody>();
     }
-    public void Initialize(MisileStats _myNewStats,Transform _newTarget)
+    public void Initialize(MisileStats _myNewStats,Transform _newTarget,Vector3 forward)
     {
         this._myStats = _myNewStats;
         this._target = _newTarget;
+        transform.forward = forward;
         _movement = MoveForward;
 
         StartCoroutine(ChangeCourse());
@@ -76,23 +77,36 @@ public class TurretMisile : MonoBehaviour
  
     #region Movement Logic
 
-    void MoveForward() => _rb.velocity = Vector3.ClampMagnitude(transform.forward * Time.deltaTime * _myStats.force, _myStats.maxSpeed);
+    void MoveForward()
+    {
+        Vector3 fwd = transform.forward * Time.deltaTime * _myStats.force;
+        _rb.velocity = Vector3.ClampMagnitude(_rb.velocity + fwd, _myStats.maxSpeed);
+    } 
 
     void TrackTarget()
     {
-        transform.forward = (_target.position - transform.forward).normalized;
-        if (_myStats.stopTrackingRadius > Vector3.Distance(transform.position, _target.position))
+        Vector3 desiredDir = _target.position - transform.position;
+        Vector3 steering = desiredDir - _rb.velocity;
+        transform.forward += steering.normalized * Time.deltaTime * _myStats.steeringSpeed* steering.magnitude;
+
+        if (_myStats.stopTrackingRadius > desiredDir.magnitude)
         {
             _movement -= TrackTarget;
+            transform.forward = desiredDir.normalized;
         }
       
     }
+
+
     IEnumerator ChangeCourse()
     {
         yield return new WaitForSeconds(_myStats.timeBeforeTracking);
-        _rb.velocity = Vector3.zero;
+        _rb.velocity = _rb.velocity / 1.5f ;
+        _movement = null;
         _movement += TrackTarget;
-        
+        _movement += MoveForward;
+     
+
     }
 
     #endregion
@@ -121,7 +135,11 @@ public class TurretMisile : MonoBehaviour
             x.TakeDamage(_myStats.damage);
 
         foreach (Rigidbody rb in transform.position.GetItemsOFTypeAround<Rigidbody>(_myStats.explosionRadius))
+        {
+           
             rb.AddExplosionForce(GetForce(rb.position), transform.position, _myStats.explosionRadius);
+        }
+           
 
         _movement = null;
 
@@ -157,8 +175,10 @@ public class TurretMisile : MonoBehaviour
             Gizmos.DrawLine(transform.position, _target.position);
             Gizmos.DrawWireSphere(_target.position,3f);
         }
-       
-        
+        Gizmos.color = Color.green;
+        Gizmos.DrawWireSphere(_target.position, _myStats.stopTrackingRadius);
+
+
 
     }
 
