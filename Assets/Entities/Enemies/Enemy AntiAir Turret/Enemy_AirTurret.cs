@@ -3,14 +3,14 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using System.Linq;
+using UnityEditor;
 
-public class Enemy_AirTurret : MonoBehaviour
+public class Enemy_AirTurret : Enemy
 {
     //aca me guardo el target actual
     public Transform target => _target;
-    Transform _target;
-    StateMachine<string> _fsm;
-
+   [SerializeField] Transform _target;
+  
     #region Pivots
     //x                   //y //pensar mejores nombres
     [Header("Base Pivot"), Space]
@@ -19,7 +19,7 @@ public class Enemy_AirTurret : MonoBehaviour
 
     [Header("Misile Battery Pivot"), Space]
     [SerializeField] Transform pivotMisileBattery;
-    [SerializeField, Range(0, 90f)] float _maxBatteryAngle;
+    [SerializeField, Range(0, 50f)] float _maxBatteryAngle;
     [SerializeField] float _canonRotationSpeed;
  
 
@@ -32,15 +32,18 @@ public class Enemy_AirTurret : MonoBehaviour
     [SerializeField]TurretMisile.MisileStats _misileStats;
  
     [SerializeField, Space] TurretMisile misilePrefab;
-    [SerializeField] float misilesPerShoot;
+    [SerializeField,Range(1,30)] int misilesPerVolley;
     #endregion
 
     #region Cooldowns
     [Header("Cooldowns"), Space]
-    [SerializeField,Tooltip("El tiempo entre misil y misil en una rafaga de misiles")] 
+    [SerializeField,Tooltip("El tiempo entre misil y misil en una rafaga de misiles"),Range(0.1f,1)] 
     float cd_BetweenMisiles;
-    [SerializeField,Tooltip("El tiempo entre rafaga de misiles y rafaga de misiles")]  
+    [SerializeField,Tooltip("El tiempo entre rafaga de misiles y rafaga de misiles"),Range(3, 10)]  
     float cd_Volleys;
+
+
+  
     #endregion
    
     #region Solo Lectura en editor
@@ -49,78 +52,123 @@ public class Enemy_AirTurret : MonoBehaviour
     [SerializeField]float actualMisileCD;
     [SerializeField]float actualVolleyCD;
     [SerializeField]float misilesLeft;
+    [SerializeField] bool button = false;
     #endregion
 
 
-    Action TurretUpdate;
+    [SerializeField]Transform[] _batteries;
+    StateMachine<string> _fsm;
 
+    private void Awake()
+    {
+        SetTurretFSM();
+        ChangMaxAngleValue();
+        //SetTurretFSM();
+    }
+
+    void ChangMaxAngleValue()
+    {
+        _maxBatteryAngle *= -1;
+    }
+    void SetTurretFSM()
+    {
+        _fsm = new StateMachine<string>();
+        _fsm.CreateState("Idle", new AirTurretState_Idle(this));
+        _fsm.CreateState("Align", new AirTurretState_Align(this, _fsm));
+        _fsm.CreateState("Shoot", new AirTurretState_Shoot(this,cd_BetweenMisiles,cd_Volleys,misilesPerVolley, _fsm));
+        _fsm.CreateState("Rest",  new AirTurretState_Rest(this, _fsm));
+        
+        _fsm.ChangeState("Idle");
+       
+    }
     private void Update()
     {
-        TurretUpdate?.Invoke();
         _fsm.Execute();
+
+
+    }
+
+    private void LateUpdate()
+    {
+        if (Input.GetKeyDown(KeyCode.T))
+        {
+            TargetDetected(target);
+            button= false;
+        }
     }
     //tendria q hacer otra clase q haga un callback hacia esta?
     void TargetDetected(Transform target)
     {
-        if (target!=null)
+        if (target!=null && _fsm.actualState!= "Shoot")
         {
             this._target = target;
-            _fsm.ChangeState("Preparing");
+            _fsm.ChangeState("Align");
         }    
     }
 
-    #region PrepareState
-    //void PrepareTurret()
-    //{
-    //    if (target!=null && AlignBase(target.position) && AlignCanon(Vector3.up))
-    //    {
-    //        TurretUpdate += ShootState;
-    //        TurretUpdate -= PrepareTurret;
-    //    }
-           
-
-    //}
+    #region AlignMethods
+  
 
     public bool AlignBase(Vector3 _target)
     {
-        Vector3 dir = _target - transform.position;
-        Vector3 desiredForward = new Vector3(0, 0, dir.z);
-        if (desiredForward.z >= dir.z) return true;
-
-
-        pivotBase.forward += dir.normalized * Time.deltaTime * _baseRotationSpeed;
-        return false;
-
-    }
-
-    public bool AlignCanon(Vector3 dir)
-    {
-
-        Vector3 desiredForward = dir * _canonRotationSpeed * Time.deltaTime;
-
-        if (desiredForward.z >= _maxBatteryAngle) return true;
-
+        Vector3 dir = _target - pivotBase.position;
+        Vector3 desiredForward = new Vector3(dir.x, 0, dir.z).normalized * Time.deltaTime * _baseRotationSpeed;
         pivotBase.forward += desiredForward;
-        return false;
-    }
-    #endregion
+        Debug.Log("Aligning Base...");
+        float angle = Vector3.Angle(pivotBase.forward, desiredForward.normalized);
+     
+        if (angle > 5) return false;
+        Debug.Log("Base Aligned...");
+        return true;
 
-    #region ShootState
-    void ShootState()
-    {
-        if (target==null)     
-            TurretUpdate -= ShootState;
-        
-      
-        
-        if (MisileCD())
-        {
-           
-            misilesLeft--;
-            if (misilesLeft<=0) TurretUpdate += VolleyCD;
-        }
-      
     }
+
+    //true es para mover hacia arriba
+    //false para mover hacia abajo
+    public bool AlignCanon(bool goUp)
+    {
+
+        if (CheckIFMaxAngle(goUp))
+         return true;
+        Debug.Log("Aligning Canon...");
+        Vector3 AlignDir = goUp ? Vector3.left : Vector3.right;
+        pivotMisileBattery.eulerAngles += AlignDir * _canonRotationSpeed * Time.deltaTime;
+
+        return CheckIFMaxAngle(goUp);
+    }
+
+    bool CheckIFMaxAngle(bool dir)
+    {
+
+        //si esta en alguno de los limites devuelvo true(deberia setearlos a su limite por las dudas?)
+
+        //por ejemplo, se paso de 0 por un poco, lo seteo a 0?
+        //esto es legible?, creo que no. Consultar a alguien
+
+        //la rotacion es en negativo, pero euler angles por codigo da positivo, maldigo unity
+    
+        if (dir && pivotMisileBattery.eulerAngles.x >= _maxBatteryAngle)
+        {           
+           pivotMisileBattery.eulerAngles = new Vector3(_maxBatteryAngle, 0,0);
+            Debug.Log("Canon Aligned!");
+           return true;          
+        }
+        //harcodeado mal D:, despues fijarse como obtener el valor negativo
+        else if(!dir && pivotMisileBattery.eulerAngles.x >= 0 && pivotMisileBattery.eulerAngles.x <10)
+        {
+            Debug.Log(pivotMisileBattery.eulerAngles.x+"es mayor a 0");
+           pivotMisileBattery.eulerAngles = Vector3.zero;
+           return true;          
+        }
+   
+        return false;
+
+
+    }
+
+    public Transform ActualShootPos()
+    => _shootPositions.Skip(UnityEngine.Random.Range(0, _shootPositions.Length)).First();
+    #endregion
 
     public void ShootMisile(Transform _target)
     {
@@ -129,52 +177,45 @@ public class Enemy_AirTurret : MonoBehaviour
     }
 
 
-    //tiempo entre misil y misil, se pregunta en un if
-    bool MisileCD()
+    private void OnDrawGizmos()
     {
-        actualMisileCD -= Time.deltaTime;
-        if (actualMisileCD <= 0)
+
+        if (target!=null)
         {
-            actualMisileCD = cd_BetweenMisiles;
-            return true;
+            Gizmos.DrawLine(transform.position, target.position);
         }
-        return false;
+        Gizmos.color = Color.blue;
+        Vector3 MaxAnglePoint = pivotMisileBattery.position + new Vector3(0, _maxBatteryAngle, 0);
+
+        Gizmos.DrawLine(pivotMisileBattery.position, pivotMisileBattery.position + MaxAnglePoint.normalized * 12);
+
+        Gizmos.DrawLine(transform.position, transform.position + transform.right * 12);
+        //union de mis 2 puntos
+        Gizmos.DrawLine(pivotMisileBattery.position + MaxAnglePoint.normalized * 12, transform.position + transform.right * 12);
     }
 
-
-
-    //tiempo entre rafaga de misiles, se suma a un action
-    void VolleyCD()
+    public override void Pause()
     {
-        actualVolleyCD -= Time.deltaTime;
-        if (actualVolleyCD > 0) return;
-
-        actualVolleyCD = cd_Volleys;
-        TurretUpdate -= VolleyCD;
-
+        throw new NotImplementedException();
     }
 
-    public Transform ActualShootPos() 
-    => _shootPositions.Skip(UnityEngine.Random.Range(0, _shootPositions.Length)).First();
-    #endregion
-
-    #region Idle
-
-    void StartGoingIdle()
+    public override void Resume()
     {
-        if (AlignBase(Vector3.zero)&&AlignCanon(Vector3.zero))
-        {
-            TurretUpdate += Idle;
-            TurretUpdate -= StartGoingIdle;
-        }
+        throw new NotImplementedException();
     }
 
-    void Idle()
+    public override int OnTakeDamage(int dmgDealt)
     {
-        AlignBase(Vector3.right);
+        return dmgDealt;
     }
 
+    public override bool WasCrit() => false;
+  
 
-    #endregion
+   
+    //private void OnValidate()
+    //{
+    //    pivotMisileBattery.localEulerAngles = new Vector3(0, 0, _maxBatteryAngle);
+    //}
 
 }

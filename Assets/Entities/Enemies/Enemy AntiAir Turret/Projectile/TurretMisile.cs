@@ -18,34 +18,51 @@ public class TurretMisile : MonoBehaviour
 
         public float life;
 
+        [Header("Explosion")]
         public float explosionRadius;
+        [Tooltip("La fuerza que le aplica a otros rigidboy al explotar(Varia segun la distancia a la que el misil explote)")]
         public float explosionForce;
+        [Tooltip("La distancia necesaria para explotar"), Range(0, 7)]
         public float triggerRadius;
 
-
+        [Header("Movement")]
+        [Range(0,100),Tooltip("la fuerza no deberia ser mayor a la velocidad maxima")] 
         public float force;
-        public float maxSpeed;
-        public float timeBeforeTracking;
-        public float stopTrackingRadius;
+        [Range(0, 100)] public float maxSpeed;
+
+        [Header("Tracking")]
         public float steeringSpeed;
+        [Tooltip("Tiempo antes de empezar a trackear al objetivo"),Range(0,7)]
+        public float timeBeforeTracking;
+        [Tooltip("La distancia a la que el misil deja de trackear(Por estar cerca del target)"), Range(0, 7)]
+        public float stopTrackingRadius;
+     
 
 
 
 
     }
    
-    MisileStats _myStats;
+    [SerializeField,Tooltip("La torreta pasa estos parametros")]
+     MisileStats _myStats;
+    [SerializeField]
     Transform _target;
+
     Rigidbody _rb;
     Action _movement;
 
+    private void Awake()
+    {
+        _rb= GetComponent<Rigidbody>();
+    }
     public void Initialize(MisileStats _myNewStats,Transform _newTarget)
-   {
+    {
         this._myStats = _myNewStats;
         this._target = _newTarget;
         _movement = MoveForward;
+
         StartCoroutine(ChangeCourse());
-   }
+    }
 
     #region Updates
     private void FixedUpdate() => _movement?.Invoke();
@@ -105,6 +122,9 @@ public class TurretMisile : MonoBehaviour
             rb.AddExplosionForce(GetForce(rb.position), transform.position, _myStats.explosionRadius);
 
         _movement = null;
+
+        //esto sacarlo y meterlo en una pool mas adelante
+        Destroy(this.gameObject);
 
         //devolver a la pool de proyectiles enemigos, feedback, etc
     }
