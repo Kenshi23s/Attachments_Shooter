@@ -56,7 +56,7 @@ public class Enemy_AirTurret : Enemy
     #endregion
 
 
-    [SerializeField]Transform[] _batteries;
+    //[SerializeField]Transform[] _batteries;
     StateMachine<string> _fsm;
 
     private void Awake()

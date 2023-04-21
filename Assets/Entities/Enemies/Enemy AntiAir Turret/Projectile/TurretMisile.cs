@@ -76,11 +76,11 @@ public class TurretMisile : MonoBehaviour
  
     #region Movement Logic
 
-    void MoveForward() => _rb.velocity += Vector3.ClampMagnitude(transform.forward * Time.deltaTime * _myStats.force, _myStats.maxSpeed);
+    void MoveForward() => _rb.velocity = Vector3.ClampMagnitude(transform.forward * Time.deltaTime * _myStats.force, _myStats.maxSpeed);
 
     void TrackTarget()
     {
-        transform.forward = (_target.position - transform.forward) * Time.deltaTime * _myStats.steeringSpeed;
+        transform.forward = (_target.position - transform.forward).normalized;
         if (_myStats.stopTrackingRadius > Vector3.Distance(transform.position, _target.position))
         {
             _movement -= TrackTarget;
@@ -90,7 +90,9 @@ public class TurretMisile : MonoBehaviour
     IEnumerator ChangeCourse()
     {
         yield return new WaitForSeconds(_myStats.timeBeforeTracking);
+        _rb.velocity = Vector3.zero;
         _movement += TrackTarget;
+        
     }
 
     #endregion
@@ -149,6 +151,13 @@ public class TurretMisile : MonoBehaviour
         Gizmos.DrawLine(transform.position,(transform.forward * _myStats.force) + transform.position);
 
         Gizmos.DrawWireSphere(transform.position, _myStats.explosionRadius);
+        if (_target!=null)
+        {
+            Gizmos.color = Color.red;
+            Gizmos.DrawLine(transform.position, _target.position);
+            Gizmos.DrawWireSphere(_target.position,3f);
+        }
+       
         
 
     }

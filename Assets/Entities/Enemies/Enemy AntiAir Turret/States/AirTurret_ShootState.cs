@@ -16,7 +16,7 @@ public class AirTurretState_Shoot : IState
 
     StateMachine<string> _turretFsm;
 
-    event Action _updateEvent;
+    Action _updateEvent;
 
     Transform misileTarget;
 
@@ -37,7 +37,7 @@ public class AirTurretState_Shoot : IState
         misilesLeft = misilesPerVolley;
 
         misileTarget = _turret.target;
-        _updateEvent += ShootVolley;
+        _updateEvent = ShootVolley;
     }   
 
     public void OnUpdate() => _updateEvent?.Invoke();
@@ -54,8 +54,8 @@ public class AirTurretState_Shoot : IState
             if (misilesLeft <= 0)
             {
               
-                _updateEvent -= ShootVolley;
-                _updateEvent += VolleyCD;
+               
+                _updateEvent = VolleyCD;
             } 
         }
     }
