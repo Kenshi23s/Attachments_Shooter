@@ -3752,19 +3752,19 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2092784011247790337, guid: 1acadf6786b8dbc4e94f9fc539941b3b, type: 3}
       propertyPath: _misileStats.explosionForce
-      value: 30
+      value: 1000
       objectReference: {fileID: 0}
     - target: {fileID: 2092784011247790337, guid: 1acadf6786b8dbc4e94f9fc539941b3b, type: 3}
       propertyPath: _misileStats.explosionRadius
-      value: 30
+      value: 43
       objectReference: {fileID: 0}
     - target: {fileID: 2092784011247790337, guid: 1acadf6786b8dbc4e94f9fc539941b3b, type: 3}
       propertyPath: _misileStats.stopTrackingRadius
-      value: 7
+      value: 65.1
       objectReference: {fileID: 0}
     - target: {fileID: 2092784011247790337, guid: 1acadf6786b8dbc4e94f9fc539941b3b, type: 3}
       propertyPath: _misileStats.timeBeforeTracking
-      value: 4.01
+      value: 1.02
       objectReference: {fileID: 0}
     - target: {fileID: 2092784011247790338, guid: 1acadf6786b8dbc4e94f9fc539941b3b, type: 3}
       propertyPath: m_RootOrder
@@ -3813,6 +3813,10 @@ PrefabInstance:
     - target: {fileID: 2092784011247790343, guid: 1acadf6786b8dbc4e94f9fc539941b3b, type: 3}
       propertyPath: m_Name
       value: Turret
+      objectReference: {fileID: 0}
+    - target: {fileID: 2092784011247790343, guid: 1acadf6786b8dbc4e94f9fc539941b3b, type: 3}
+      propertyPath: m_IsActive
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 2092784011589646414, guid: 1acadf6786b8dbc4e94f9fc539941b3b, type: 3}
       propertyPath: m_LocalPosition.x

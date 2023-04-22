@@ -22,6 +22,8 @@ namespace FacundoColomboMethods
     public static class ColomboMethods
     {
 
+        public static bool InBetween(this float value, float lessThan, float moreThan) => value < lessThan && value > moreThan;
+ 
         public static T[] GetItemsOFTypeAround<T>(this Vector3 pos, float radius)
         {
             return Physics.OverlapSphere(pos, radius)
@@ -38,14 +40,14 @@ namespace FacundoColomboMethods
         /// <returns></returns>
         /// 
         public static Vector3 RandomDirFrom(this Vector3 myDir,float angle)
-       {
+        {
             Vector3 random = UnityEngine.Random.insideUnitSphere;
 
             angle =  Mathf.Clamp(MathF.Abs(angle),0,180);
             // lo divido por 180 para "Remapearlo a un valor mas bajo"
             Vector3 Randomdir = Vector3.Slerp(myDir.normalized, random, angle / 180f);
             return Randomdir;
-       }
+        }
 
         public static List<T> CloneList<T>(List<T> listToClone)
         {

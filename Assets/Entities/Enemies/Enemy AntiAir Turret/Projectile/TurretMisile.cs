@@ -178,6 +178,9 @@ public class TurretMisile : MonoBehaviour
         Gizmos.color = Color.green;
         Gizmos.DrawWireSphere(_target.position, _myStats.stopTrackingRadius);
 
+        Gizmos.color = Color.red;
+        Gizmos.DrawWireSphere(_target.position, _myStats.triggerRadius);
+
 
 
     }

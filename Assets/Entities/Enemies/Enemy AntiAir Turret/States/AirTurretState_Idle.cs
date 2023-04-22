@@ -5,15 +5,18 @@ using UnityEngine;
 public class AirTurretState_Idle : IState
 {
     Enemy_AirTurret _turret;
+    Transform _pivotBase;
 
-    public AirTurretState_Idle(Enemy_AirTurret turret)
+    public AirTurretState_Idle(Enemy_AirTurret turret,Transform _pivotBase)
     {
         _turret = turret;
+        this._pivotBase = _pivotBase;
     }
 
     public void OnUpdate()
     {
-        _turret.AlignBase(_turret.transform.right);
+        Vector3 dir = _pivotBase.right;
+        _turret.AlignBase(dir + _turret.transform.position);
        
     }
 

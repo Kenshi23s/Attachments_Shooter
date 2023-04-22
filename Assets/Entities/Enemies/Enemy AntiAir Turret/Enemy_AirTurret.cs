@@ -4,6 +4,8 @@ using System.Collections.Generic;
 using UnityEngine;
 using System.Linq;
 using UnityEditor;
+using Unity.Mathematics;
+using FacundoColomboMethods;
 
 public class Enemy_AirTurret : Enemy
 {
@@ -62,18 +64,18 @@ public class Enemy_AirTurret : Enemy
     private void Awake()
     {
         SetTurretFSM();
-        ChangMaxAngleValue();
+      
         //SetTurretFSM();
     }
 
-    void ChangMaxAngleValue()
-    {
-        _maxBatteryAngle *= -1;
-    }
+    //void ChangMaxAngleValue()
+    //{
+    //    _maxBatteryAngle *= -1;
+    //}
     void SetTurretFSM()
     {
         _fsm = new StateMachine<string>();
-        _fsm.CreateState("Idle", new AirTurretState_Idle(this));
+        _fsm.CreateState("Idle", new AirTurretState_Idle(this,pivotBase));
         _fsm.CreateState("Align", new AirTurretState_Align(this, _fsm));
         _fsm.CreateState("Shoot", new AirTurretState_Shoot(this,cd_BetweenMisiles,cd_Volleys,misilesPerVolley, _fsm));
         _fsm.CreateState("Rest",  new AirTurretState_Rest(this, _fsm));
@@ -146,17 +148,20 @@ public class Enemy_AirTurret : Enemy
         //esto es legible?, creo que no. Consultar a alguien
 
         //la rotacion es en negativo, pero euler angles por codigo da positivo, maldigo unity
-    
-        if (dir && pivotMisileBattery.eulerAngles.x >= _maxBatteryAngle)
-        {           
-           pivotMisileBattery.eulerAngles = new Vector3(_maxBatteryAngle, pivotMisileBattery.eulerAngles.y, 0);
+                                                     // si mi angulo esta entre (360 - angulo deseado) y 180
+                                                     //esto lo hago porque euler angles va de 0 a 360
+                                                     //ej, si mi angulo esta entre 360 - 36 = 324 y 180, lo clampeo 
+        if (dir && pivotMisileBattery.localEulerAngles.x.InBetween(360 - _maxBatteryAngle, 180))
+        {                                                // unity en editor opera con negativo
+            pivotMisileBattery.eulerAngles = new Vector3(-_maxBatteryAngle, pivotMisileBattery.eulerAngles.y, 0);
             Debug.Log("Canon Aligned!");
-           return true;          
+            return true;          
+          
         }
         //harcodeado mal D:, despues fijarse como obtener el valor negativo
-        else if(!dir && pivotMisileBattery.eulerAngles.x >= 0 && pivotMisileBattery.eulerAngles.x <10)
+        else if(!dir && pivotMisileBattery.eulerAngles.x.InBetween(10, 0))
         {
-            Debug.Log(pivotMisileBattery.eulerAngles.x+"es mayor a 0");
+           Debug.Log(pivotMisileBattery.eulerAngles.x+"es mayor a 0");
            pivotMisileBattery.eulerAngles = Vector3.zero;
            return true;          
         }
@@ -165,6 +170,8 @@ public class Enemy_AirTurret : Enemy
 
 
     }
+
+    
 
     public Transform ActualShootPos()
     => _shootPositions.Skip(UnityEngine.Random.Range(0, _shootPositions.Length)).First();
