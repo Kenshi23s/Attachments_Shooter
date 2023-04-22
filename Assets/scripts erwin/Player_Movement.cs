@@ -196,6 +196,11 @@ public class Player_Movement : Entity
     {
         return false;
     }
+
+    public override void OnDeath()
+    {
+        //Debug.LogError("moriste, pero como se esta testeando no pasa nada");
+    }
     #endregion
 }
 

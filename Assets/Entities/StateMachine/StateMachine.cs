@@ -43,6 +43,6 @@ public class StateMachine<T>
         else        
             Debug.Log($"el estado { name } no existe");  
     }
-    public void StateGizmos() => _currentState.GizmoShow();
+    public void StateGizmos() => _currentState?.GizmoShow();
 }
 

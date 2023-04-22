@@ -78,4 +78,9 @@ public class Enemy_Turret : Enemy
         Gizmos.DrawLine(_shootPos[_actualShootPos].position,transform.position +  dir);
         ChangeShootPos();
     }
+
+    public override void OnDeath()
+    {
+        throw new System.NotImplementedException();
+    }
 }

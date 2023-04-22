@@ -4,13 +4,11 @@ using UnityEngine;
 public abstract class Entity : MonoBehaviour, IPausable, IDamagable
 {
    
-    [SerializeField]LifeHandler lifeHandler;
+    [SerializeField]protected LifeHandler lifeHandler;
     public event Action everyTick;
 
     #region Events
-
-    public event Action OnDeath;
-    public event Action<int> onTakeDamage;
+    //public event Action<int> onTakeDamage;
     #endregion
 
     public abstract void Pause();
@@ -21,35 +19,27 @@ public abstract class Entity : MonoBehaviour, IPausable, IDamagable
     /// </summary>
     /// <param name="dmgDealt"></param>
     /// <returns></returns>
-    protected abstract int OnTakeDamage(int dmgDealt);
+   
 
-    public virtual int TakeDamage(int dmgDealt)
-    {   
-        int aux = lifeHandler.Damage(OnTakeDamage(dmgDealt));
-        onTakeDamage?.Invoke(aux);
-        return aux;
 
-    }
+    public abstract void OnDeath();
 
     public abstract bool WasCrit();
 
     public abstract bool WasKilled();
 
-    private void Awake()
-    {
-        lifeHandler.Initialize(this);
-    }
-    // Start is called before the first frame update
-    void Start()
-    {
-        
+    protected abstract int OnTakeDamage(int dmgDealt);
+
+    public virtual int TakeDamage(int dmgDealt)
+    {   
+        int aux = lifeHandler.Damage(OnTakeDamage(dmgDealt));
+        //onTakeDamage?.Invoke(aux);
+        return aux;
+
     }
 
-    // Update is called once per frame
-    void Update()
-    {
-        everyTick?.Invoke();
-    }
+    protected virtual void Awake() => lifeHandler.Initialize(this, OnDeath);
 
-    //void
+    void Update() => everyTick?.Invoke();
+ 
 }

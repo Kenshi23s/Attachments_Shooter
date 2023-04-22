@@ -4,15 +4,13 @@ using UnityEngine;
 
 public abstract class Enemy : Entity
 {
-    public override int TakeDamage(int dmgDealt)
-    {
-        return OnTakeDamage(dmgDealt);
-    ;
-    }
+   
+    
+ 
 
     public override bool WasKilled()
     {
-        return true;
+        return lifeHandler.life<=0;
 
     }
 

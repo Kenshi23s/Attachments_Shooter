@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -13,18 +14,28 @@ public class LifeHandler
     public int life=> _life;
     public int maxLife=> _maxLife;
 
+    Action OnDeath;
 
 
-    public void Initialize(Entity _entity)
+    public void Initialize(Entity _entity,Action OnDeath)
     {
         _myEntity=_entity;
         _life = _maxLife;
+      
+        this.OnDeath = OnDeath;
+        Debug.Log(OnDeath.ToString());
     }
     public void Heal(int AddValue) => _life = Mathf.Clamp(_life, _life+ Mathf.Abs(AddValue), _maxLife);
     
     public int Damage(int value)
     {
         _life -= value;
+        bool a = _life <= 0;
+        Debug.Log(a);
+        if (a)
+        {        
+            OnDeath?.Invoke();
+        }
         return _life;
     }
 

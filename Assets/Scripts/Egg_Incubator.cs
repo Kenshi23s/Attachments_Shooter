@@ -42,9 +42,9 @@ public class Egg_Incubator : InteractableObject
         {
             if (egg.actualState == States.Kidnapped)
             {
+                EggsKidnapped.Add(egg);
                 InteractData._promptText = Can_InteractText;
                 InteractData.canInteract = true;
-                EggsKidnapped.Add(egg);
                 DataChange();
             }
             else

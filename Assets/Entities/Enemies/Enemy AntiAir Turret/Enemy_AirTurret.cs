@@ -7,7 +7,7 @@ using UnityEditor;
 using Unity.Mathematics;
 using FacundoColomboMethods;
 
-public class Enemy_AirTurret : Enemy,IDetector
+public class Enemy_AirTurret : Enemy, IDetector
 {
     //aca me guardo el target actual
     public Transform target => _target;
@@ -51,27 +51,23 @@ public class Enemy_AirTurret : Enemy,IDetector
     #region Solo Lectura en editor
     //desp hacerle una pool
     [Header("VARIABLES DE SOLO LECTURA"), Space]
-    [SerializeField]float actualMisileCD;
-    [SerializeField]float actualVolleyCD;
-    [SerializeField]float misilesLeft;
-    [SerializeField] bool button = false;
+    [SerializeField] float actualMisileCD;
+    [SerializeField] float actualVolleyCD;
+    [SerializeField] float misilesLeft;
     #endregion
 
 
     //[SerializeField]Transform[] _batteries;
     StateMachine<string> _fsm;
 
-    private void Awake()
+    protected override void Awake()
     {
+        base.Awake();
         SetTurretFSM();
       
         //SetTurretFSM();
     }
 
-    //void ChangMaxAngleValue()
-    //{
-    //    _maxBatteryAngle *= -1;
-    //}
     void SetTurretFSM()
     {
         _fsm = new StateMachine<string>();
@@ -84,15 +80,10 @@ public class Enemy_AirTurret : Enemy,IDetector
        
     }
 
-    public void OnRangeCallBack(Player_Movement item)
-    {
-        TargetDetected(item.transform);
-    }
+    public void OnRangeCallBack(Player_Movement item) => TargetDetected(item.transform);
 
-    public void OutOfRangeCallBack(Player_Movement item)
-    {
-        _target = null;
-    }
+    public void OutOfRangeCallBack(Player_Movement item) => _target = null;
+
     private void Update()
     {
         _fsm.Execute();
@@ -101,7 +92,7 @@ public class Enemy_AirTurret : Enemy,IDetector
     //tendria q hacer otra clase q haga un callback hacia esta?
     void TargetDetected(Transform target)
     {
-        if (target!=null && _fsm.actualState!= "Shoot")
+        if (target!=null && _fsm.actualState != "Shoot")
         {
             this._target = target;
             _fsm.ChangeState("Align");
@@ -116,11 +107,10 @@ public class Enemy_AirTurret : Enemy,IDetector
         Vector3 dir = _target - pivotBase.position;
         Vector3 desiredForward = new Vector3(dir.x, 0, dir.z).normalized * Time.deltaTime * _baseRotationSpeed;
         pivotBase.forward += desiredForward;
-        Debug.Log("Aligning Base...");
         float angle = Vector3.Angle(pivotBase.forward, desiredForward.normalized);
      
         if (angle > 5) return false;
-        Debug.Log("Base Aligned...");
+      
         return true;
 
     }
@@ -132,7 +122,6 @@ public class Enemy_AirTurret : Enemy,IDetector
 
         if (CheckIFMaxAngle(goUp))
          return true;
-        Debug.Log("Aligning Canon...");
         Vector3 AlignDir = goUp ? Vector3.left : Vector3.right;
         pivotMisileBattery.eulerAngles += AlignDir * _canonRotationSpeed * Time.deltaTime;
 
@@ -154,14 +143,14 @@ public class Enemy_AirTurret : Enemy,IDetector
         if (dir && pivotMisileBattery.localEulerAngles.x.InBetween(360 - _maxBatteryAngle, 180))
         {                                                // unity en editor opera con negativo
             pivotMisileBattery.eulerAngles = new Vector3(-_maxBatteryAngle, pivotMisileBattery.eulerAngles.y, 0);
-            Debug.Log("Canon Aligned!");
+           
             return true;          
           
         }
         //harcodeado mal D:, despues fijarse como obtener el valor negativo
         else if(!dir && pivotMisileBattery.eulerAngles.x.InBetween(10, 0))
         {
-           Debug.Log(pivotMisileBattery.eulerAngles.x+"es mayor a 0");
+          
            pivotMisileBattery.eulerAngles = Vector3.zero;
            return true;          
         }
@@ -181,7 +170,6 @@ public class Enemy_AirTurret : Enemy,IDetector
     {
         Transform shootPos = ActualShootPos();
         Instantiate(misilePrefab, shootPos.position, Quaternion.identity).Initialize(_misileStats, _target, shootPos.forward);
-        Debug.Log("CallTrack");
     }
 
 
@@ -212,14 +200,26 @@ public class Enemy_AirTurret : Enemy,IDetector
         throw new NotImplementedException();
     }
 
-    protected override int OnTakeDamage(int dmgDealt)
-    {
-        return dmgDealt;
-    }
+   
 
     public override bool WasCrit() => false;
 
-  
+ 
+
+    protected override int OnTakeDamage(int dmgDealt)
+    {
+       
+        Debug.Log(dmgDealt);
+        return dmgDealt;
+    }
+
+    public override void OnDeath()
+    {
+        Debug.Log("turret death");
+        Destroy(gameObject);
+    }
+
+
 
 
 

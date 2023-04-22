@@ -51,10 +51,8 @@ public class TurretMisile : MonoBehaviour,IDetector
     Rigidbody _rb;
     Action _movement;
 
-    private void Awake()
-    {
-        _rb = GetComponent<Rigidbody>();
-    }
+    private void Awake() => _rb = GetComponent<Rigidbody>();
+  
     public void Initialize(MisileStats _myNewStats,Transform _newTarget,Vector3 forward)
     {
         this._myStats = _myNewStats;
@@ -115,7 +113,7 @@ public class TurretMisile : MonoBehaviour,IDetector
 
     public int TakeDamage(int dmgDealt)
     {
-        _myStats.life -= dmgDealt;
+        _myStats.life -= dmgDealt/2;
         if (_myStats.life<=0)
         {
             Explosion();
@@ -132,7 +130,10 @@ public class TurretMisile : MonoBehaviour,IDetector
     void Explosion()
     {
         foreach (IDamagable x in transform.position.GetItemsOFTypeAround<IDamagable>(_myStats.explosionRadius))
+        {
             x.TakeDamage(_myStats.damage);
+        }
+           
 
         foreach (Rigidbody rb in transform.position.GetItemsOFTypeAround<Rigidbody>(_myStats.explosionRadius))
         {
@@ -163,6 +164,10 @@ public class TurretMisile : MonoBehaviour,IDetector
 
     private void OnDrawGizmos()
     {
+        if (_target == null) return;
+        
+
+        
         Gizmos.color = Color.yellow;
         Gizmos.DrawLine(transform.position, (transform.forward * _myStats.maxSpeed) + transform.position);
         Gizmos.color = Color.blue;

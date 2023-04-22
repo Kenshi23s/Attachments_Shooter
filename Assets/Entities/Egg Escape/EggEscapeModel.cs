@@ -136,7 +136,7 @@ public class EggEscapeModel : MonoBehaviour,IDamagable,IPausable
 
         if (dmgCount > _eggStats.requiredDmg4stun)
         {
-            _fsm.ChangeState(States.Kidnapped);
+            _fsm.ChangeState(States.Stunned);
             dmgCount= 0;
         }
         return dmgValue;       
@@ -160,13 +160,14 @@ public class EggEscapeModel : MonoBehaviour,IDamagable,IPausable
 
     private void OnDrawGizmos()
     {
-        if (_agent!=null)
+        if (_agent != null && _fsm != null)
         {
             Gizmos.color = Color.red;
             Gizmos.DrawLine(_agent.destination, transform.position);
             Gizmos.DrawWireSphere(_agent.destination, 5f);
+            _fsm.StateGizmos();
         }
-       
+     
     }
     #endregion
 }

@@ -20,15 +20,22 @@ public class EggState_Kidnaped : EggState
     {
         onGrab?.Invoke();
         _actualKidnapTime = _eggStats.kidnapedTime;
+        _agent.speed= 1000;
+       
     }
         
   
     public override void OnUpdate()
     {
-        _actualKidnapTime -= Time.deltaTime;
-       
-        if (Vector3.Distance(myPos, _eggStats.gameMode.playerPos) > _eggStats.kidnapFollowRadius)        
-            _agent.SetDestination(_eggStats.gameMode.playerPos);
+        _actualKidnapTime -= Time.deltaTime;        
+
+        Vector3 newDestin = (Vector3.Distance(myPos, _eggStats.gameMode.playerPos) > _eggStats.kidnapFollowRadius) 
+                          ? _eggStats.gameMode.playerPos : myPos;
+        
+
+
+
+           _agent.SetDestination(_eggStats.gameMode.playerPos);
         
         if (_actualKidnapTime <= 0)
             _fsm.ChangeState(States.Escape);
@@ -37,4 +44,11 @@ public class EggState_Kidnaped : EggState
    
   
     public override void OnExit() { onRelease?.Invoke(); }
+
+    public override void GizmoShow()
+    {
+        base.GizmoShow();
+        Gizmos.color = Color.yellow;
+        Gizmos.DrawWireSphere(_eggStats.gameMode.playerPos, _eggStats.kidnapFollowRadius);
+    }
 }

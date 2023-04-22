@@ -84,7 +84,7 @@ public class AirTurretState_Shoot : IState
         misilesLeft = misilesPerVolley;
 
         _updateEvent = null;
-        OnEnter();
+        _turretFsm.ChangeState("Align");
 
 
     }
