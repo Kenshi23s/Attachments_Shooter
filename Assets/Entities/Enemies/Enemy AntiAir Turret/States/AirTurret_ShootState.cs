@@ -50,11 +50,11 @@ public class AirTurretState_Shoot : IState
         {
             _turret.ShootMisile(misileTarget);
             misilesLeft--;
-            //Debug.Log(misilesLeft);
-            if (misilesLeft <= 0)
+            Debug.Log(misilesLeft);
+            if (0 >= misilesLeft)
             {
-              
-               
+                Debug.Log("Entro en cd");
+                _actualVolleyCD = _volleyCD;
                 _updateEvent = VolleyCD;
             } 
         }
@@ -77,12 +77,13 @@ public class AirTurretState_Shoot : IState
         _actualVolleyCD -= Time.deltaTime;
         if (_turret.target == null) _turretFsm.ChangeState("Rest");      
           
-        if (_actualVolleyCD > 0) return;
+        if (_actualVolleyCD >= 0) return;
 
         _actualVolleyCD = _volleyCD;
         misileTarget = _turret.target;
+        misilesLeft = misilesPerVolley;
 
-        _updateEvent -= VolleyCD;
+        _updateEvent = null;
         OnEnter();
 
 

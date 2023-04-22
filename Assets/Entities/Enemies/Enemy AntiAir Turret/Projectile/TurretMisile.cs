@@ -8,7 +8,7 @@ using UnityEngine;
 
 
 [RequireComponent(typeof(Rigidbody))]
-public class TurretMisile : MonoBehaviour
+public class TurretMisile : MonoBehaviour,IDetector
 {
     [System.Serializable]
     public struct MisileStats
@@ -179,10 +179,19 @@ public class TurretMisile : MonoBehaviour
         Gizmos.DrawWireSphere(_target.position, _myStats.stopTrackingRadius);
 
         Gizmos.color = Color.red;
-        Gizmos.DrawWireSphere(_target.position, _myStats.triggerRadius);
+        Gizmos.DrawWireSphere(_target.position, _myStats.explosionRadius);
 
 
 
     }
 
+    public void OnRangeCallBack(Player_Movement item)
+    {
+        throw new NotImplementedException();
+    }
+
+    public void OutOfRangeCallBack(Player_Movement item)
+    {
+        throw new NotImplementedException();
+    }
 }
