@@ -20,14 +20,12 @@ public class EggState_Escape : EggState
         _agent.SetDestination(actualWaypoint.position);
     }
 
-    public override void OnUpdate() { }
-
-    public override void MakeDecision()
+    public override void OnUpdate() 
     {
         float distance = Vector3.Distance(actualWaypoint.position, _agent.transform.position);
         if (distance < _eggStats.gameMode.interactRadius)
         {
-            if (_fov.inFOV(_eggStats.gameMode.playerPos))
+            if (!_fov.inFOV(_eggStats.gameMode.playerPos))
             {
                 _fsm.ChangeState(States.Patrol);
                 return;
@@ -35,6 +33,8 @@ public class EggState_Escape : EggState
             OnEnter();
         }
     }
+
+  
     public override void GizmoShow()
     {
         Gizmos.color = Color.red;

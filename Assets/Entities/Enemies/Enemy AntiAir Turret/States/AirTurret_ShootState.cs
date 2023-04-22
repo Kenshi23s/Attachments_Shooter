@@ -50,7 +50,7 @@ public class AirTurretState_Shoot : IState
         {
             _turret.ShootMisile(misileTarget);
             misilesLeft--;
-            Debug.Log(misilesLeft);
+          
             if (0 >= misilesLeft)
             {
                 Debug.Log("Entro en cd");

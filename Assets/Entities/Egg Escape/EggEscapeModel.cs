@@ -25,18 +25,28 @@ public class EggEscapeModel : MonoBehaviour,IDamagable,IPausable
         public float stunTime;
 
         public float kidnapedTime;
+        public float kidnapFollowRadius;
         public float patrolSpeed;
         public float escapeSpeed;
 
     }
-    public States actualState => _fsm.actualState;
-    NavMeshAgent _agent;
+
     StateMachine<States> _fsm;
-    FOVAgent _fov;
+    public States actualState => _fsm.actualState;
+
+    NavMeshAgent _agent;
+
+   [SerializeField] FOVAgent _fov;
     EggStats _eggStats;
 
     [Header("EggEscape")]
     [SerializeField] int dmgCount = 0;
+    [SerializeField] LineRenderer _playerLinking;
+
+    Action onUpdate;
+
+    //Action OnGrab;
+    //Action OnRelease;
 
 
     //tendria que tener 4 estados:
@@ -55,8 +65,8 @@ public class EggEscapeModel : MonoBehaviour,IDamagable,IPausable
 
         #region GetComponents
         _agent = GetComponent<NavMeshAgent>();
-        _fov = new FOVAgent(transform);
-        _fsm = new StateMachine<States>();
+        _fov=    GetComponent<FOVAgent>();
+        _fsm =   new StateMachine<States>();
         #endregion
 
         #region DataSet
@@ -65,13 +75,24 @@ public class EggEscapeModel : MonoBehaviour,IDamagable,IPausable
         data._fov = _fov;
         data._fsm = _fsm;
         data._agent = _agent;
+        data._transform = transform;
+        #endregion
+
+        #region Kidnapped CallBacks
+        Action OnGrab = () => 
+        {
+            _playerLinking.gameObject.SetActive(true);
+            onUpdate += UpdateLink;
+        };
+
+        Action OnRelease = () => { _playerLinking.gameObject.SetActive(false); };
         #endregion
 
         #region Setting Finite State Machine
-        _fsm.CreateState(States.Patrol, new EggState_Patrol(data));
-        _fsm.CreateState(States.Escape, new EggState_Escape(data));
-        _fsm.CreateState(States.Stunned, new EggState_Stunned(data));
-        _fsm.CreateState(States.Patrol, new EggState_Kidnaped(data));
+        _fsm.CreateState(States.Patrol,    new EggState_Patrol(data));
+        _fsm.CreateState(States.Escape,    new EggState_Escape(data));
+        _fsm.CreateState(States.Stunned,   new EggState_Stunned(data));
+        _fsm.CreateState(States.Kidnapped, new EggState_Kidnaped(data, OnGrab,OnRelease));
         //_fsm.CreateState(EggStates.Kidnapped, /*new EggState_Escape(_eggStats, fov, agent, _fsm))*/null);
         #endregion
 
@@ -81,16 +102,30 @@ public class EggEscapeModel : MonoBehaviour,IDamagable,IPausable
 
     void Update() => _fsm.Execute();
 
+    void LateUpdate()
+    {
+        onUpdate?.Invoke();
+    }
+
     public void Grab()
     {
         if (_fsm.actualState != States.Kidnapped)
         {         
             _fsm.ChangeState(States.Kidnapped);
-            Debug.Log("Egg Grabbed");
+                 
         }      
     }
 
+    void UpdateLink()
+    {
+        
+        _playerLinking.SetPosition(0, transform.position);
+        _playerLinking.SetPosition(1, _eggStats.gameMode.playerPos);
+       
+    }
+    
 
+    #region Polimorfism
     #region Damagable
     public int TakeDamage(int dmgValue)
     {
@@ -123,6 +158,16 @@ public class EggEscapeModel : MonoBehaviour,IDamagable,IPausable
     }
     #endregion
 
-   
-   
+    private void OnDrawGizmos()
+    {
+        if (_agent!=null)
+        {
+            Gizmos.color = Color.red;
+            Gizmos.DrawLine(_agent.destination, transform.position);
+            Gizmos.DrawWireSphere(_agent.destination, 5f);
+        }
+       
+    }
+    #endregion
 }
+

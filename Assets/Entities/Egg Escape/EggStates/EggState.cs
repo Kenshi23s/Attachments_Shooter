@@ -19,6 +19,7 @@ public abstract class EggState : IState
         public FOVAgent _fov;
         public NavMeshAgent _agent;
         public StateMachine<States> _fsm;
+        public Transform _transform;
     }
 
     public EggState(EggStateData data)
@@ -27,7 +28,10 @@ public abstract class EggState : IState
         _fov = data._fov;
         _agent = data._agent;
         _fsm = data._fsm;
+        _transform = data._transform;
     }
+    Transform _transform;
+    public Vector3 myPos => _transform.position; 
     public EggStats _eggStats;
     public FOVAgent _fov;
     public NavMeshAgent _agent;
@@ -35,7 +39,6 @@ public abstract class EggState : IState
 
   
     
-    public abstract void MakeDecision();
     public abstract void OnEnter();
     public abstract void OnExit();
     public abstract void OnUpdate();

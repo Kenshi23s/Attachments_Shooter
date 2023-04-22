@@ -5,7 +5,7 @@ using static EggEscapeModel;
 
 public class EggGameChaseMode : GameModeBaseClass
 {
-    [Header(" EggGameMode")]
+    [Header("EggGameMode")]
     [SerializeField]EggEscapeModel model;
 
     [SerializeField] int _eggsQuantity;
@@ -32,11 +32,10 @@ public class EggGameChaseMode : GameModeBaseClass
         eggStats.gameMode = this;
      
         // preguntarle a algun profe o compañero si esto esta bien
-        eggsEscaping = new EggEscapeModel[_eggsQuantity];
+        //eggsEscaping = new EggEscapeModel[_eggsQuantity];
 
         for (int i = 0; i < eggsEscaping.Length; i++)
-        {
-            eggsEscaping[i] = Instantiate(model).GetComponent<EggEscapeModel>();
+        {        
             eggsEscaping[i].Initialize(eggStats, GetMeshPath());
           
         }

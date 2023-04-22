@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Events;
 using static EggState;
 
 public class Egg_Incubator : InteractableObject
@@ -15,6 +16,13 @@ public class Egg_Incubator : InteractableObject
     protected override void Awake()
     {
         base.Awake();
+        //"casteo" de funcion a unity action
+        UnityAction action = ()=>
+        {
+            Debug.Log("Quit");
+            Application.Quit(); 
+        };
+        InteractData._OnInteract.AddListener(action);
         CantInsert = () =>
         {
             InteractData._promptText = CanT_InteractText;

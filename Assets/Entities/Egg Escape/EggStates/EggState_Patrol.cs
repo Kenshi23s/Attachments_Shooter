@@ -28,17 +28,18 @@ public class EggState_Patrol:EggState
     public override void OnUpdate()
     {
        
-        float distance = Vector3.Distance(actualWaypoint.position, _agent.transform.position);
+        float distance = Vector3.Distance(actualWaypoint.position, myPos);     
+        if (_eggStats.gameMode.interactRadius > distance)
+        {
+            Debug.Log("WP CHANGE");
+            actualWaypoint = _getRandomWaypoint?.Invoke();
+        }
+          
 
-        if (distance < _eggStats.gameMode.interactRadius)
-            actualWaypoint = _getRandomWaypoint();
-    }
-
-    public override void MakeDecision() 
-    {
-        if (_fov.inFOV(_eggStats.gameMode.playerPos)) 
+        if (_fov.inFOV(_eggStats.gameMode.playerPos))
             _fsm.ChangeState(States.Escape);
     }
+
 
     public override void OnExit() { }
  

@@ -3,8 +3,8 @@ using UnityEngine;
 
 public abstract class Entity : MonoBehaviour, IPausable, IDamagable
 {
-
-    LifeHandler lifeHandler;
+   
+    [SerializeField]LifeHandler lifeHandler;
     public event Action everyTick;
 
     #region Events
