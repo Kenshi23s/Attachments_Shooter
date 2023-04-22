@@ -7,7 +7,7 @@ using UnityEditor;
 using Unity.Mathematics;
 using FacundoColomboMethods;
 
-public class Enemy_AirTurret : Enemy
+public class Enemy_AirTurret : Enemy,IDetector
 {
     //aca me guardo el target actual
     public Transform target => _target;
@@ -83,21 +83,21 @@ public class Enemy_AirTurret : Enemy
         _fsm.ChangeState("Idle");
        
     }
+
+    public void OnRangeCallBack(Player_Movement item)
+    {
+        TargetDetected(item.transform);
+    }
+
+    public void OutOfRangeCallBack(Player_Movement item)
+    {
+        _target = null;
+    }
     private void Update()
     {
         _fsm.Execute();
-
-
     }
 
-    private void LateUpdate()
-    {
-        if (Input.GetKeyDown(KeyCode.T))
-        {
-            TargetDetected(target);
-            button= false;
-        }
-    }
     //tendria q hacer otra clase q haga un callback hacia esta?
     void TargetDetected(Transform target)
     {
@@ -105,7 +105,7 @@ public class Enemy_AirTurret : Enemy
         {
             this._target = target;
             _fsm.ChangeState("Align");
-        }    
+        }          
     }
 
     #region AlignMethods
@@ -181,6 +181,7 @@ public class Enemy_AirTurret : Enemy
     {
         Transform shootPos = ActualShootPos();
         Instantiate(misilePrefab, shootPos.position, Quaternion.identity).Initialize(_misileStats, _target, shootPos.forward);
+        Debug.Log("CallTrack");
     }
 
 
@@ -211,15 +212,17 @@ public class Enemy_AirTurret : Enemy
         throw new NotImplementedException();
     }
 
-    public override int OnTakeDamage(int dmgDealt)
+    protected override int OnTakeDamage(int dmgDealt)
     {
         return dmgDealt;
     }
 
     public override bool WasCrit() => false;
+
   
 
-   
+
+
     //private void OnValidate()
     //{
     //    pivotMisileBattery.localEulerAngles = new Vector3(0, 0, _maxBatteryAngle);

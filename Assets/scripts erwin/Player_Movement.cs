@@ -182,9 +182,9 @@ public class Player_Movement : Entity
         throw new System.NotImplementedException();
     }
 
-    public override int OnTakeDamage(int dmgDealt)
+    protected override int OnTakeDamage(int dmgDealt)
     {
-       return lifeHandler.Damage(dmgDealt / 10);
+        return dmgDealt / 10;
     }
 
     public override bool WasCrit()

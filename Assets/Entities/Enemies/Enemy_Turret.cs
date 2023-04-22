@@ -20,9 +20,9 @@ public class Enemy_Turret : Enemy
 
    
 
-    public override int OnTakeDamage(int dmgDealt)
+    protected override int OnTakeDamage(int dmgDealt)
     {
-       return lifeHandler.Damage(dmgDealt);
+       return dmgDealt;
     }
 
 
