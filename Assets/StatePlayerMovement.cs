@@ -2,17 +2,22 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class StatePlayerMovement : MonoBehaviour
+public class StatePlayerMovement
 {
-    // Start is called before the first frame update
-    void Start()
+
+
+    public virtual void OnEnter()
     {
-        
+
     }
 
-    // Update is called once per frame
-    void Update()
+    public virtual void OnVirtualUpdate()
     {
-        
+
     }
+    public virtual void OnExit()
+    {
+
+    }
+    
 }

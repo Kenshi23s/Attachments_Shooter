@@ -10,6 +10,8 @@ public class StandardElevator : MonoBehaviour
 
     public KeepObjectsInside myKeepObjects;
 
+    InteractableObject myInput;
+
     public Vector3 otherPos;
     public float velocity;
     public bool _activated;
@@ -40,6 +42,7 @@ public class StandardElevator : MonoBehaviour
             if (myOrders.Invoke(this.transform))
             {
                 myOrders = null;
+                myInput.OnActivate();
             }
         }
     }
@@ -82,8 +85,19 @@ public class StandardElevator : MonoBehaviour
         return Mathf.Min(min,max);
     }
 
-    public void OnInteract()
+    public void OnInteract(InteractableObject myExecuter)
     {
+        myInput = myExecuter;
+        if (myInput != null)
+        {
+            myInput.OnDesactivate();
+        }
+        else
+        {
+            Debug.Log("no se asigno el interactuable en la plataforma");
+        }
+        
+
         //intercambia el estado
         _activated = !_activated;
 

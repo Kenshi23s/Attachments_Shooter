@@ -29,11 +29,14 @@ public class InteractableObject : MonoBehaviour
     [SerializeField] protected InteractableObjectData InteractData;
     [SerializeField] float _currentInteractionTime;
     [SerializeField] bool isTriyingToInteract;
+    [SerializeField] bool CycleInteract;
 
     [Header("Canvas")]
     [SerializeField] Canvas _canvas;
     [SerializeField] Slider _sliderInteract;
     [SerializeField] Text _promptText;
+    [SerializeField] Image _sliderImage;
+    [SerializeField] Image _backSliderImage;
 
     public float currentInteractionTime 
     {
@@ -80,15 +83,15 @@ public class InteractableObject : MonoBehaviour
         currentInteractionTime += Time.deltaTime;
         WhileInteracting?.Invoke(currentInteractionTime);
         //si pase el tiempo indicado
-        if (currentInteractionTime >= InteractData._interactTimeNeeded)
+        if (currentInteractionTime >= InteractData._interactTimeNeeded && CycleInteract)
         {
             //ejecuto los eventos
-            InteractData._OnInteract?.Invoke();
-            InteractData.canInteract = false;
-            
+            CycleInteract = false;
+            InteractData._OnInteract?.Invoke();                   
         }
-        
-        
+
+        //prende el slider
+        SetVisibleSlider(true);
     }
     private void LateUpdate()
     {
@@ -100,11 +103,12 @@ public class InteractableObject : MonoBehaviour
         else if (!isTriyingToInteract && currentInteractionTime > 0)
         {
             currentInteractionTime = 0f;
+            SetVisibleSlider(false);
             While_NOT_Interacting?.Invoke(currentInteractionTime);
         }
 
-        if (!InteractData.canInteract && Input.GetKeyUp(KeyCode.E))
-            InteractData.canInteract = true;
+        if (!CycleInteract && Input.GetKeyUp(KeyCode.E))
+            CycleInteract = true;
 
         if (_canvas.gameObject.activeInHierarchy)
         {
@@ -160,5 +164,24 @@ public class InteractableObject : MonoBehaviour
         #region PromptText
         onDataChange += (x) => _promptText.text = x._promptText;
         #endregion
+    }
+
+    public void SetVisibleSlider(bool mybool)
+    {
+        if (_sliderImage != null) { _sliderImage.enabled = mybool; }
+        if (_backSliderImage != null) { _backSliderImage.enabled = mybool; }
+    }
+
+    public void OnDesactivate()
+    {
+        _currentInteractionTime = 0f;
+        
+        this.gameObject.SetActive(false);
+    }
+
+    public void OnActivate()
+    {
+        CycleInteract = true;
+        this.gameObject.SetActive(true);
     }
 }
