@@ -5,6 +5,8 @@ using UnityEngine;
 public class Player_Movement : Entity
 {
 
+    // crouch, slide, run, walk, jump
+
     public static Vector3 _velocity;
 
     Rigidbody rb;
