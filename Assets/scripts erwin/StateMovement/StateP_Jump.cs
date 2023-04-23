@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class StateP_Jump : StatePlayerMovement
 {
-    public override void Initialize()
+    public void Initialize()
     {
 
     }
