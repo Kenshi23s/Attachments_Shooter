@@ -30,6 +30,7 @@ public abstract class EggState : IState
         _fsm = data._fsm;
         _transform = data._transform;
     }
+
     Transform _transform;
     public Vector3 myPos => _transform.position; 
     public EggStats _eggStats;

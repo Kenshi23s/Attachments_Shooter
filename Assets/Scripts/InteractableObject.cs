@@ -65,7 +65,9 @@ public class InteractableObject : MonoBehaviour
     protected virtual void Awake()
     {
         currentInteractionTime = 0;
+
         this.GetComponent<SphereCollider>().isTrigger = true;
+
         SetUICalls();     
         //lo hago para que se hagan los llamados de "OnDataChange"
         Init_InteractableObject(InteractData);
@@ -93,6 +95,7 @@ public class InteractableObject : MonoBehaviour
         //prende el slider
         SetVisibleSlider(true);
     }
+
     private void LateUpdate()
     {
         //si no estoy interactuando bajo el tiempo q se mantuvo pulsado
@@ -130,8 +133,7 @@ public class InteractableObject : MonoBehaviour
             _canvas.gameObject.SetActive(true);
 
         }
-        else        
-            return;
+     
         
     }
     protected virtual void OnTriggerExit(Collider other)
@@ -140,8 +142,7 @@ public class InteractableObject : MonoBehaviour
         {
             _canvas.gameObject.SetActive(false);
         }
-        else
-            return;
+    
         
     }
 
@@ -174,8 +175,7 @@ public class InteractableObject : MonoBehaviour
 
     public void OnDesactivate()
     {
-        _currentInteractionTime = 0f;
-        
+        _currentInteractionTime = 0f;        
         this.gameObject.SetActive(false);
     }
 

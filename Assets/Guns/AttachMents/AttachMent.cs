@@ -29,7 +29,8 @@ public abstract class Attachment : MonoBehaviour
         Sight,
         Grip,
         LaserSight,
-        Stock
+        Stock,
+        Handler
 
     }
 

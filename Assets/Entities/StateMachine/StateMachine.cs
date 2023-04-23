@@ -35,9 +35,9 @@ public class StateMachine<T>
             if (_currentState != null)
                 _currentState.OnExit();
 
-
+            _actualState=name;
             _currentState = _statesList[name];
-            Debug.Log($"changed state : {aux} ===> {_currentState}");
+            Debug.Log($"changed state : {aux} ===> {_currentState}");            
             _currentState.OnEnter();
         }
         else        

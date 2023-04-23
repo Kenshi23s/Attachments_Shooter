@@ -104,6 +104,7 @@ public class Enemy_AirTurret : Enemy, IDetector
 
     public bool AlignBase(Vector3 _target)
     {
+        
         Vector3 dir = _target - pivotBase.position;
         Vector3 desiredForward = new Vector3(dir.x, 0, dir.z).normalized * Time.deltaTime * _baseRotationSpeed;
         pivotBase.forward += desiredForward;

@@ -16,7 +16,7 @@ public class Egg_Incubator : InteractableObject
     Action canInsert;
 
 
-    List<EggEscapeModel> Eggs;
+    List<EggEscapeModel> _eggs = new List<EggEscapeModel>();
     protected override void Awake()
     {
         base.Awake();
@@ -34,6 +34,7 @@ public class Egg_Incubator : InteractableObject
             InteractData._promptText = Can_InteractText;
             InteractData.canInteract = true;
             DataChange();
+            Debug.Log("Can Interact");
         };
        
 
@@ -42,7 +43,8 @@ public class Egg_Incubator : InteractableObject
             InteractData._promptText = CanT_InteractText;
             InteractData.canInteract = false;
             DataChange();
-            
+            Debug.Log("CanT Interact");
+
         };
 
         cantInsert.Invoke();
@@ -53,30 +55,26 @@ public class Egg_Incubator : InteractableObject
     
     void CheckEggs()
     {
-        if (Eggs.Count > 0)
-        {
-            foreach (var item in Eggs)
-            {
-                if (item.actualState == States.Kidnapped)
-                {
-                    canInsert.Invoke();
-                    return;
-                }
-            }
-        }
-      
-         
-        
+        if (_eggs.Count > 0)     
+         foreach (var item in _eggs)
+         {
+             if (item.actualState == States.Kidnapped)
+             {
+                 canInsert.Invoke();
+                 return;
+             }
+         }
+          
     }
     protected override void OnTriggerEnter(Collider other)
     {
         base.OnTriggerEnter(other);
         if (other.gameObject.TryGetComponent(out EggEscapeModel egg))
         {
-            if (!Eggs.Contains(egg))
+            if (!_eggs.Contains(egg))
             {
                 Debug.Log("egg");
-                Eggs.Add(egg);
+                _eggs.Add(egg);
             }
                  
             if (egg.actualState == States.Kidnapped)
@@ -85,7 +83,11 @@ public class Egg_Incubator : InteractableObject
                 canInsert?.Invoke();
             }
             else
-               cantInsert.Invoke();
+            {
+                Debug.Log(egg.actualState);
+                cantInsert?.Invoke();
+            }
+              
             
         }
     }
@@ -105,8 +107,8 @@ public class Egg_Incubator : InteractableObject
 
         if (other.gameObject.TryGetComponent(out EggEscapeModel egg))
         {
-            if (Eggs.Contains(egg))            
-                Eggs.Remove(egg);
+            if (_eggs.Contains(egg))            
+                _eggs.Remove(egg);
           
                
            

@@ -13,8 +13,9 @@ public class TurretMisile : MonoBehaviour,IDetector
     [System.Serializable]
     public struct MisileStats
     {
+        Enemy_AirTurret owner;
         public int damage;
-
+       
 
         public float life;
 
@@ -47,6 +48,8 @@ public class TurretMisile : MonoBehaviour,IDetector
      MisileStats _myStats;
     [SerializeField]
     Transform _target;
+
+  
 
     Rigidbody _rb;
     Action _movement;
@@ -131,14 +134,16 @@ public class TurretMisile : MonoBehaviour,IDetector
     {
         foreach (IDamagable x in transform.position.GetItemsOFTypeAround<IDamagable>(_myStats.explosionRadius))
         {
+            if (x.GetHashCode() == GetHashCode()) continue;
+              
             x.TakeDamage(_myStats.damage);
-        }
+        }      
            
 
         foreach (Rigidbody rb in transform.position.GetItemsOFTypeAround<Rigidbody>(_myStats.explosionRadius))
         {
-           
-            rb.AddExplosionForce(GetForce(rb.position), transform.position, _myStats.explosionRadius);
+            if (rb.GetHashCode() == GetHashCode())
+                rb.AddExplosionForce(GetForce(rb.position), transform.position, _myStats.explosionRadius);
         }
            
 
@@ -198,5 +203,11 @@ public class TurretMisile : MonoBehaviour,IDetector
     public void OutOfRangeCallBack(Player_Movement item)
     {
         throw new NotImplementedException();
+    }
+
+    private void OnTriggerEnter(Collider other)
+    {
+        if (other != null) { }
+        Explosion();
     }
 }

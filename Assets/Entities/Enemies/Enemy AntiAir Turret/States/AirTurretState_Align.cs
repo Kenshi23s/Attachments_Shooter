@@ -1,3 +1,4 @@
+using FacundoColomboMethods;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -18,6 +19,7 @@ public class AirTurretState_Align : IState
         //si el blanco no es null    
         if (_myTurret.target != null)
         {
+            bool seeing = ColomboMethods.InLineOffSight(_myTurret.transform.position, _myTurret.transform.position,3);
             //mi base esta alineada                 // y mi cañon tambien
             if (_myTurret.AlignBase(_myTurret.target.position) && _myTurret.AlignCanon(true))            
                 _turretFsm.ChangeState("Shoot");            

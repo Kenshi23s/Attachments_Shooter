@@ -407,8 +407,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   lifeHandler:
-    _life: 0
-    _maxLife: 0
+    _life: 60
+    _maxLife: 60
   _target: {fileID: 0}
   pivotBase: {fileID: 250484737203456824}
   _baseRotationSpeed: 3.25
@@ -419,7 +419,7 @@ MonoBehaviour:
   - {fileID: 2092784011589646414}
   - {fileID: 2092784009869039981}
   _misileStats:
-    damage: 2
+    damage: 29
     life: 2
     explosionRadius: 7.29
     explosionForce: 23
@@ -427,16 +427,15 @@ MonoBehaviour:
     force: 33.1
     maxSpeed: 80.9
     steeringSpeed: 10
-    timeBeforeTracking: 1.02
-    stopTrackingRadius: 65.1
+    timeBeforeTracking: 2.5
+    stopTrackingRadius: 16.2
   misilePrefab: {fileID: 8636688741096114684, guid: c7ff976714c0bca4aa079e0b2c8ef40d, type: 3}
-  misilesPerVolley: 4
-  cd_BetweenMisiles: 1
-  cd_Volleys: 5.93
+  misilesPerVolley: 30
+  cd_BetweenMisiles: 0.156
+  cd_Volleys: 7.15
   actualMisileCD: 0
   actualVolleyCD: 0
   misilesLeft: 0
-  button: 0
 --- !u!65 &2092784011247790336
 BoxCollider:
   m_ObjectHideFlags: 0

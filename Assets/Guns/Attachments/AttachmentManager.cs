@@ -116,7 +116,7 @@ public class AttachmentHandler
                     continue;
                 }
                 //chequeo por las dudas para que no salten errores
-                OnChange(key);
+               
             }
             OnChange(key);
         }
