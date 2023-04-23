@@ -1,18 +1,21 @@
+using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
 
-public class StatePlayerMovement
+public class StatePlayerMovement : IPlayerState
 {
     Rigidbody _rb;
+    float _speed;
     float _maxVelocity;
     float _friction;
+    float _lurch;
+    float _lurchAngle;
+    float _groundDistance;
+    CapsuleCollider _mycolision;
+    LayerMask _mycollider;
+    bool _onGrounded;
 
-    public void Initialize(Rigidbody rb, float maxvelocity, float friction)
-    {
-        _rb = rb;
-        _maxVelocity = maxvelocity;
-        _friction = friction;
-    }
-
+    #region mis metodos de state
     public virtual void OnEnter()
     {
 
@@ -27,6 +30,7 @@ public class StatePlayerMovement
     {
 
     }
+    #endregion
 
     #region herramientas de movimiento
     public void LimitVelocity()
@@ -54,6 +58,15 @@ public class StatePlayerMovement
     public void SetVelocity(Vector3 dir, float force)
     {
         _rb.velocity = dir.normalized * force;
+    }
+
+    public void DetectOnGrounded(LayerMask myCollider, CapsuleCollider _myCol)
+    {
+        RaycastHit myhit;
+
+        _onGrounded = (Physics.SphereCast(_rb.position + (Vector3.down * ((_myCol.height / 2) - _myCol.radius * 2) * _rb.transform.localScale.y),
+                                    _myCol.radius * _rb.transform.localScale.y, -_rb.transform.up, out myhit, _groundDistance, myCollider)
+                               && !myhit.collider.isTrigger);
     }
 
     //falta desarrollar
