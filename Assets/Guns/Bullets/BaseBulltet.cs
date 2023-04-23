@@ -71,6 +71,7 @@ public abstract class BaseBulltet : MonoBehaviour,IPausable
 
     public void Hit(IDamagable target)
     {
+        
         int dmgDealt = target.TakeDamage(myGun.damageHandler.actualDamage);
 
         HitData hit = new HitData(transform.position,target,dmgDealt, myGun);
@@ -84,8 +85,13 @@ public abstract class BaseBulltet : MonoBehaviour,IPausable
 
     private void OnTriggerEnter(Collider other)
     {
-        if (TryGetComponent(out IDamagable x ))        
+        Debug.Log(other.gameObject.name);
+        if (other.TryGetComponent(out IDamagable x ))
+        {
             Hit(x);
+            Debug.Log("Damage");
+        }      
+            
         
 
         //me desuscribo de el evento y borro la referencia al callback

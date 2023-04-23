@@ -29,8 +29,12 @@ public class EggState_Patrol:EggState
     {
        
         float distance = Vector3.Distance(actualWaypoint.position, myPos);     
-        if (_eggStats.gameMode.interactRadius > distance)              
+        if (_eggStats.gameMode.interactRadius > distance)
+        {
             actualWaypoint = _getRandomWaypoint?.Invoke();
+            _agent.SetDestination(actualWaypoint.position);
+        }       
+            
         
           
 
