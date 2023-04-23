@@ -47,6 +47,8 @@ public class InteractableObject : MonoBehaviour
 
     event Action<float> While_NOT_Interacting;
 
+    protected Action UpdateCheck;
+
     public void Init_InteractableObject(InteractableObjectData newData)
     {
         InteractData = newData;
@@ -101,6 +103,8 @@ public class InteractableObject : MonoBehaviour
             While_NOT_Interacting?.Invoke(currentInteractionTime);
         }
 
+        if (!InteractData.canInteract && Input.GetKeyUp(KeyCode.E))
+            InteractData.canInteract = true;
 
         if (_canvas.gameObject.activeInHierarchy)
         {
@@ -109,10 +113,10 @@ public class InteractableObject : MonoBehaviour
             
         }
 
-        if (!InteractData.canInteract && Input.GetKeyUp(KeyCode.E))
-        {
-            InteractData.canInteract = true;
-        }
+      
+
+
+        UpdateCheck?.Invoke();
     }
 
     protected virtual void OnTriggerEnter(Collider other)
@@ -120,8 +124,11 @@ public class InteractableObject : MonoBehaviour
         if (other.TryGetComponent(out Player_Movement player))
         {
             _canvas.gameObject.SetActive(true);
-            
+
         }
+        else        
+            return;
+        
     }
     protected virtual void OnTriggerExit(Collider other)
     {
@@ -129,6 +136,9 @@ public class InteractableObject : MonoBehaviour
         {
             _canvas.gameObject.SetActive(false);
         }
+        else
+            return;
+        
     }
 
  

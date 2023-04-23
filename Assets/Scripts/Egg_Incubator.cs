@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 using UnityEngine.Events;
 using static EggState;
@@ -10,9 +11,12 @@ public class Egg_Incubator : InteractableObject
     [SerializeField]string Can_InteractText;
     [SerializeField]string CanT_InteractText;
 
-    Action CantInsert;
+    Action cantInsert;
 
-    List<EggEscapeModel> EggsKidnapped;
+    Action canInsert;
+
+
+    List<EggEscapeModel> Eggs;
     protected override void Awake()
     {
         base.Awake();
@@ -22,35 +26,77 @@ public class Egg_Incubator : InteractableObject
             Debug.Log("Quit");
             Application.Quit(); 
         };
+
         InteractData._OnInteract.AddListener(action);
-        CantInsert = () =>
+
+        canInsert = () =>
+        {
+            InteractData._promptText = Can_InteractText;
+            InteractData.canInteract = true;
+            DataChange();
+        };
+       
+
+        cantInsert = () =>
         {
             InteractData._promptText = CanT_InteractText;
             InteractData.canInteract = false;
             DataChange();
             
         };
-        CantInsert.Invoke();
+
+        cantInsert.Invoke();
        
 
     }
-   
+
+    
+    void CheckEggs()
+    {
+        if (Eggs.Count > 0)
+        {
+            foreach (var item in Eggs)
+            {
+                if (item.actualState == States.Kidnapped)
+                {
+                    canInsert.Invoke();
+                    return;
+                }
+            }
+        }
+      
+         
+        
+    }
     protected override void OnTriggerEnter(Collider other)
     {
         base.OnTriggerEnter(other);
         if (other.gameObject.TryGetComponent(out EggEscapeModel egg))
         {
+            if (!Eggs.Contains(egg))
+            {
+                Debug.Log("egg");
+                Eggs.Add(egg);
+            }
+                 
             if (egg.actualState == States.Kidnapped)
             {
-                EggsKidnapped.Add(egg);
-                InteractData._promptText = Can_InteractText;
-                InteractData.canInteract = true;
-                DataChange();
+
+                canInsert?.Invoke();
             }
             else
-               CantInsert.Invoke();
+               cantInsert.Invoke();
             
         }
+    }
+
+    private void OnTriggerStay(Collider other)
+    {
+        if (other.gameObject.TryGetComponent(out Player_Movement player))
+        {
+            CheckEggs();
+        }
+      
     }
 
     protected override void OnTriggerExit(Collider other)
@@ -59,17 +105,10 @@ public class Egg_Incubator : InteractableObject
 
         if (other.gameObject.TryGetComponent(out EggEscapeModel egg))
         {
-            if (EggsKidnapped.Contains(egg))
-            {
-                EggsKidnapped.Remove(egg);
-                if (EggsKidnapped.Count == 0)
-                    CantInsert.Invoke();
-            }           
+            if (Eggs.Contains(egg))            
+                Eggs.Remove(egg);
+          
                
-
-           
-            
-            
            
         }
     }
