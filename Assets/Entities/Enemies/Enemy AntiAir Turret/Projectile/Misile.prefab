@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 6311860125530000952}
   - component: {fileID: 8636688741096114684}
   - component: {fileID: 3923370010140872196}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: Misile
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -64,6 +64,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _myStats:
+    owner: {fileID: 0}
     damage: 5
     life: 0
     explosionRadius: 0
@@ -101,7 +102,7 @@ GameObject:
   - component: {fileID: 5602666424161417920}
   - component: {fileID: 6136396151651619880}
   - component: {fileID: 7570727178179158220}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: 3D Model
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -858,6 +859,10 @@ PrefabInstance:
     - target: {fileID: 8349059323175948913, guid: 2bf5b3b8fa80d3141941703c6994d270, type: 3}
       propertyPath: m_Name
       value: SmokeTrail_PS
+      objectReference: {fileID: 0}
+    - target: {fileID: 8349059323175948913, guid: 2bf5b3b8fa80d3141941703c6994d270, type: 3}
+      propertyPath: m_Layer
+      value: 10
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 2bf5b3b8fa80d3141941703c6994d270, type: 3}

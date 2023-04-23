@@ -23,6 +23,8 @@ public class Enemy_AirTurret : Enemy, IDetector
     [SerializeField] Transform pivotMisileBattery;
     [SerializeField, Range(0, 50f)] float _maxBatteryAngle;
     [SerializeField] float _canonRotationSpeed;
+    [Tooltip("donde estarian los ojos de la torreta para /VER/ al player ")]
+    [SerializeField] public Transform turretEYE;
  
 
     [Space,SerializeField] Transform[] _shootPositions;
@@ -55,14 +57,15 @@ public class Enemy_AirTurret : Enemy, IDetector
     [SerializeField] float actualVolleyCD;
     [SerializeField] float misilesLeft;
     #endregion
-
-
+    //lo tendria q tener el game manager
+    public LayerMask wallMask;
     //[SerializeField]Transform[] _batteries;
     StateMachine<string> _fsm;
 
     protected override void Awake()
     {
         base.Awake();
+        _misileStats.owner= this;
         SetTurretFSM();
       
         //SetTurretFSM();
@@ -71,7 +74,7 @@ public class Enemy_AirTurret : Enemy, IDetector
     void SetTurretFSM()
     {
         _fsm = new StateMachine<string>();
-        _fsm.CreateState("Idle", new AirTurretState_Idle(this,pivotBase));
+        _fsm.CreateState("Idle",  new AirTurretState_Idle(this,pivotBase));
         _fsm.CreateState("Align", new AirTurretState_Align(this, _fsm));
         _fsm.CreateState("Shoot", new AirTurretState_Shoot(this,cd_BetweenMisiles,cd_Volleys,misilesPerVolley, _fsm));
         _fsm.CreateState("Rest",  new AirTurretState_Rest(this, _fsm));
@@ -181,14 +184,20 @@ public class Enemy_AirTurret : Enemy, IDetector
         {
             Gizmos.DrawLine(transform.position, target.position);
         }
-        Gizmos.color = Color.blue;
-        Vector3 MaxAnglePoint = pivotMisileBattery.position + new Vector3(0, _maxBatteryAngle, 0);
+        //Gizmos.color = Color.blue;
+        //Vector3 MaxAnglePoint = pivotMisileBattery.position + new Vector3(0, _maxBatteryAngle, 0);
 
-        Gizmos.DrawLine(pivotMisileBattery.position, pivotMisileBattery.position + MaxAnglePoint.normalized * 12);
+        //Gizmos.DrawLine(pivotMisileBattery.position, pivotMisileBattery.position + MaxAnglePoint.normalized * 12);
 
-        Gizmos.DrawLine(transform.position, transform.position + transform.right * 12);
-        //union de mis 2 puntos
-        Gizmos.DrawLine(pivotMisileBattery.position + MaxAnglePoint.normalized * 12, transform.position + transform.right * 12);
+        //Gizmos.DrawLine(transform.position, transform.position + transform.right * 12);
+        ////union de mis 2 puntos
+        //Gizmos.DrawLine(pivotMisileBattery.position + MaxAnglePoint.normalized * 12, transform.position + transform.right * 12);
+
+        if (_fsm!=null)
+        {
+            _fsm.StateGizmos();
+        }
+       
     }
 
     public override void Pause()

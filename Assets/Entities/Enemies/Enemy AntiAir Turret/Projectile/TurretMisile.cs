@@ -13,7 +13,7 @@ public class TurretMisile : MonoBehaviour,IDetector
     [System.Serializable]
     public struct MisileStats
     {
-        Enemy_AirTurret owner;
+        public Enemy_AirTurret owner;
         public int damage;
        
 
@@ -88,7 +88,7 @@ public class TurretMisile : MonoBehaviour,IDetector
     {
         Vector3 desiredDir = _target.position - transform.position;
         Vector3 steering = desiredDir - _rb.velocity;
-        transform.forward += steering.normalized * Time.deltaTime * _myStats.steeringSpeed* steering.magnitude;
+        transform.forward += steering.normalized * Time.deltaTime * _myStats.steeringSpeed * steering.magnitude;
 
         if (_myStats.stopTrackingRadius > desiredDir.magnitude)
         {
@@ -102,6 +102,7 @@ public class TurretMisile : MonoBehaviour,IDetector
     IEnumerator ChangeCourse()
     {
         yield return new WaitForSeconds(_myStats.timeBeforeTracking);
+        //_myStats.owner = null;
         _rb.velocity = _rb.velocity / 1.5f ;
         _movement = null;
         _movement += TrackTarget;
@@ -207,7 +208,11 @@ public class TurretMisile : MonoBehaviour,IDetector
 
     private void OnTriggerEnter(Collider other)
     {
-        if (other != null) { }
+
+        if (other.GetComponent<Enemy_AirTurret>() == _myStats.owner) return;
+
         Explosion();
+
+
     }
 }
