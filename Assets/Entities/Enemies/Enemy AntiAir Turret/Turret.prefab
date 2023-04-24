@@ -44,7 +44,7 @@ SphereCollider:
   m_IsTrigger: 1
   m_Enabled: 1
   serializedVersion: 2
-  m_Radius: 36.13
+  m_Radius: 86.8
   m_Center: {x: 0, y: 0, z: 0}
 --- !u!114 &945985583
 MonoBehaviour:
@@ -59,6 +59,37 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   target: {fileID: 0}
+--- !u!1 &1511908073
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1511908074}
+  m_Layer: 0
+  m_Name: Eye
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1511908074
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1511908073}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0.566, y: 7.319, z: -0.771}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 2092784011247790338}
+  m_RootOrder: 2
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1281949373972431051
 GameObject:
   m_ObjectHideFlags: 0
@@ -391,6 +422,7 @@ Transform:
   m_Children:
   - {fileID: 1910008400487979633}
   - {fileID: 945985582}
+  - {fileID: 1511908074}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -415,10 +447,12 @@ MonoBehaviour:
   pivotMisileBattery: {fileID: 2092784009877444302}
   _maxBatteryAngle: 36.2
   _canonRotationSpeed: 10
+  turretEYE: {fileID: 1511908074}
   _shootPositions:
   - {fileID: 2092784011589646414}
   - {fileID: 2092784009869039981}
   _misileStats:
+    owner: {fileID: 0}
     damage: 29
     life: 2
     explosionRadius: 7.29
@@ -436,6 +470,9 @@ MonoBehaviour:
   actualMisileCD: 0
   actualVolleyCD: 0
   misilesLeft: 0
+  wallMask:
+    serializedVersion: 2
+    m_Bits: 64
 --- !u!65 &2092784011247790336
 BoxCollider:
   m_ObjectHideFlags: 0

@@ -19,10 +19,22 @@ public class AirTurretState_Align : IState
         //si el blanco no es null    
         if (_myTurret.target != null)
         {
-            bool seeing = ColomboMethods.InLineOffSight(_myTurret.transform.position, _myTurret.transform.position,3);
+      
+            bool seeing = ColomboMethods.InLineOffSight(_myTurret.turretEYE.position, _myTurret.target.position,
+               _myTurret.wallMask);
+            Debug.Log(seeing);
+            if (seeing)
+            {
+                if (_myTurret.AlignBase(_myTurret.target.position) && _myTurret.AlignCanon(true))
+                {
+                    _turretFsm.ChangeState("Shoot");
+                }
+            }                 
+           
+                                   
+            
             //mi base esta alineada                 // y mi cañon tambien
-            if (_myTurret.AlignBase(_myTurret.target.position) && _myTurret.AlignCanon(true))            
-                _turretFsm.ChangeState("Shoot");            
+                        
 
             return;
         }
@@ -31,8 +43,25 @@ public class AirTurretState_Align : IState
 
     public void GizmoShow()
     {
+        if (_myTurret.target == null) return;
         
-    }
+
+        
+       Vector3 dir = _myTurret.target.position - _myTurret.turretEYE.position;
+        RaycastHit hit;
+
+        if (Physics.Raycast(_myTurret.turretEYE.position, dir, out hit, dir.magnitude, LayerMask.NameToLayer("Wall")))
+        {
+            Debug.Log("Gizmo");
+            Gizmos.color = Color.yellow;
+            Gizmos.DrawLine(_myTurret.turretEYE.position, hit.point);
+            Gizmos.DrawWireSphere(hit.point,10f );
+
+        }
+    
+        
+
+    } 
 
 
     public void OnEnter()

@@ -129,6 +129,7 @@ public class EggEscapeModel : MonoBehaviour,IDamagable,IPausable
     #region Damagable
     public int TakeDamage(int dmgValue)
     {
+        Debug.Log(dmgValue);
         if (_fsm.actualState == States.Kidnapped && _fsm.actualState == States.Stunned)
             return 0;
 
