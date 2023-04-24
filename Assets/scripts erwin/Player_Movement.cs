@@ -51,6 +51,8 @@ public class Player_Movement : Entity
         Physics.gravity = new Vector3(0, -20f, 0);
 
         heightStand = mycollider.height;
+
+
     }
 
     void Update()
@@ -66,6 +68,7 @@ public class Player_Movement : Entity
             onRunning = false;
             maxvelocity = maxWalkingVel;
         }
+       
 
         RotateCamera("Mouse X", "Mouse Y");
 
