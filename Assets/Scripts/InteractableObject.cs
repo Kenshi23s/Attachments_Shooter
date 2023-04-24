@@ -100,7 +100,7 @@ public class InteractableObject : MonoBehaviour
     {
         //si no estoy interactuando bajo el tiempo q se mantuvo pulsado
         isTriyingToInteract = Input.GetKey(KeyCode.E);
-        if (InteractData.canInteract && isTriyingToInteract)
+        if (InteractData.canInteract && isTriyingToInteract && _canvas.isActiveAndEnabled)
                   Interact();        
 
         else if (!isTriyingToInteract && currentInteractionTime > 0)
