@@ -130,13 +130,14 @@ public class EggEscapeModel : MonoBehaviour,IDamagable,IPausable
     public int TakeDamage(int dmgValue)
     {
         Debug.Log(dmgValue);
-        if (_fsm.actualState == States.Kidnapped && _fsm.actualState == States.Stunned)
-            return 0;
+        if (_fsm.actualState == States.Kidnapped || _fsm.actualState == States.Stunned) return 0;
+
 
         dmgCount += dmgValue;
 
         if (dmgCount > _eggStats.requiredDmg4stun)
         {
+            Debug.Log(dmgCount);
             _fsm.ChangeState(States.Stunned);
             dmgCount= 0;
         }
