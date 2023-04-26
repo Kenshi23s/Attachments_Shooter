@@ -23,8 +23,6 @@ public class StateMachine<T>
     public void Execute()
     {
         _currentState.OnUpdate();
-      
-
     }
 
     public void ChangeState(T name)
