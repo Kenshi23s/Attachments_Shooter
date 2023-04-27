@@ -756,6 +756,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 4922313177433676534}
+  - component: {fileID: 7195937687935328013}
   m_Layer: 0
   m_Name: Walls
   m_TagString: Untagged
@@ -783,6 +784,19 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!65 &7195937687935328013
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4922313177433676533}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 17.972754, y: 6.971906, z: 1.6883681}
+  m_Center: {x: -4.024718, y: 2.9859555, z: -0.3922491}
 --- !u!1 &5049886679751709226
 GameObject:
   m_ObjectHideFlags: 0
