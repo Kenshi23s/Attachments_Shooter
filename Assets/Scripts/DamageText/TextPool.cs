@@ -1,5 +1,6 @@
+using System;
 using UnityEngine;
-
+[System.Serializable]
 public class TextPool 
 {
     #region PoolRequirements
@@ -14,23 +15,26 @@ public class TextPool
 
     public void Initialize(Transform _transform, FloatingText sample)
     {
-        this.sample= sample;    
         this._transform = _transform;
-        DamageTextPool.Intialize(TurnOnHolder, TurnOffHolder, BuildHolder, prewarm);
+        this.sample= sample;    
+
+        Action<FloatingText> turnOn = (x)  =>  x.gameObject.SetActive(true); 
+
+        Action<FloatingText> turnOff = (x) => x.gameObject.SetActive(false); 
+
+        Func<FloatingText> build = () =>
+        {
+            FloatingText dmgText = GameObject.Instantiate(sample);
+            dmgText.Configure(ReturnHolder);
+            dmgText.transform.SetParent(_transform);
+            return dmgText;
+
+        };
+
+        DamageTextPool.Intialize(turnOn, turnOff, build, prewarm);
     }
 
-    FloatingText BuildHolder()
-    {
-        
-        FloatingText dmgText = GameObject.Instantiate(sample);
-        dmgText.Configure(ReturnHolder);
-        dmgText.transform.SetParent(_transform);
-        return dmgText;
-    }
-
-    public void TurnOnHolder(FloatingText t) => t.gameObject.SetActive(true);
-
-    public void TurnOffHolder(FloatingText t) => t.gameObject.SetActive(false);
+   
 
     public void ReturnHolder(FloatingText t) => DamageTextPool.Return(t);
 

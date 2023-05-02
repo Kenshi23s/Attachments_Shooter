@@ -9,7 +9,7 @@ public class AudioPool
     [SerializeField] AudioHolder AudioHolderSample;
     Transform _transform;
     public int prewarm=5;
-    Action<AudioHolder> ReturnMethod;
+  
 
     public void Initialize()
     {
@@ -34,34 +34,16 @@ public class AudioPool
        
         AudioHolder A = GetHolder();
 
-        if (A != null&& clip != null)
-        {
-         
-            A.PlayClip(clip, WhereToPlay);
-        }
-        else
-        {
-            Debug.LogWarning(" el objeto (" + A.gameObject.name + ") trato de ejecutar un audio no existente O el audio holder es igual a null :( ");
-        }
+        if (A != null&& clip != null) A.PlayClip(clip, WhereToPlay);
+
+        else Debug.LogWarning(" el objeto (" + A.gameObject.name + ") trato de ejecutar un audio no existente O el audio holder es igual a null :( ");
+
+
+
     }
-
-
-   
-
-    //AudioHolder BuildHolder()
-    //{
-    //    AudioHolder audio = GameObject.Instantiate(AudioHolderSample);
-    //    audio.Configure(ReturnHolder);
-    //    audio.transform.SetParent(_transform);
-    //    return audio;
-    //}
-
-    void ReturnHolder(AudioHolder a)
-    {
-        AudioHoldersPool.Return(a);
-    }
+     
+    void ReturnHolder(AudioHolder a) => AudioHoldersPool.Return(a);    
 
     AudioHolder GetHolder() => AudioHoldersPool.Get();
-
   
 }
