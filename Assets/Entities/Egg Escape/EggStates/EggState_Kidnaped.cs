@@ -31,9 +31,6 @@ public class EggState_Kidnaped : EggState
 
         Vector3 newDestin = (Vector3.Distance(myPos, _eggStats.gameMode.playerPos) > _eggStats.kidnapFollowRadius) 
                           ? _eggStats.gameMode.playerPos : myPos;
-        
-
-
 
            _agent.SetDestination(_eggStats.gameMode.playerPos);
         

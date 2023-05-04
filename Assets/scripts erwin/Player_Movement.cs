@@ -177,35 +177,7 @@ public class Player_Movement : Entity
 
     #region UtilidadesEntidad
 
-    public override void Pause()
-    {
-        throw new System.NotImplementedException();
-    }
-
-    public override void Resume()
-    {
-        throw new System.NotImplementedException();
-    }
-
-    protected override int OnTakeDamage(int dmgDealt)
-    {
-        return dmgDealt / 10;
-    }
-
-    public override bool WasCrit()
-    {
-        return false;
-    }
-
-    public override bool WasKilled()
-    {
-        return false;
-    }
-
-    public override void OnDeath()
-    {
-        //Debug.LogError("moriste, pero como se esta testeando no pasa nada");
-    }
+    
     #endregion
 }
 

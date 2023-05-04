@@ -12,17 +12,20 @@ public class LifeComponent : MonoBehaviour,IDamagable,IHealable
     public int life => _life;
     public int maxLife => _maxLife;
 
-    [SerializeField] bool canTakeDamage = true;
-    [SerializeField] bool canBeHealed = true;
+    [SerializeField] public bool canTakeDamage = true;
+    [SerializeField] public bool canBeHealed = true;
 
     public event Action OnHeal;
-    public event Action OnTakeDamage;
+    public event Action<int> OnTakeDamage;
     public event Action OnKilled;
-  
 
- 
 
-    private void Awake()
+    public void SetNewMaxLife(int value)
+    {
+        _maxLife=value;
+    }
+
+    public void Initialize()
     {
         _life = _maxLife;
         enabled = false;
@@ -35,7 +38,8 @@ public class LifeComponent : MonoBehaviour,IDamagable,IHealable
         if (!canTakeDamage) return data;
 
 
-        _life -= Mathf.Abs(dmgDealt);
+        _life -= Mathf.Abs(dmgDealt); OnTakeDamage?.Invoke(dmgDealt);
+
         if (_life <= 0)
         {
             OnKilled?.Invoke();

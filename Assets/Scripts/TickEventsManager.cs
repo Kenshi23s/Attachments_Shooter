@@ -54,7 +54,7 @@ public class TickEventsManager : MonoSingleton<TickEventsManager>
 
             string debugTimeBased = analizeBool(action.isTimeBased);
 
-            Debug.LogWarning("El evento " action.ToString() +  debugSubscription + "esta en mi lista de eventos, " + debugTimeBased+" es basado en el tiempo");
+            Debug.LogWarning("El evento "  + action.ToString() +  debugSubscription + "esta en mi lista de eventos, " + debugTimeBased +" es basado en el tiempo");
           
         }    
     }

@@ -72,9 +72,9 @@ public abstract class BaseBulltet : MonoBehaviour,IPausable
     public void Hit(IDamagable target)
     {
         
-        int dmgDealt = target.TakeDamage(myGun.damageHandler.actualDamage);
+        DamageData dmgData = target.TakeDamage(myGun.damageHandler.actualDamage);
 
-        HitData hit = new HitData(transform.position,target,dmgDealt, myGun);
+        HitData hit = new HitData(transform.position, dmgData, myGun);
 
         _hitCallBack(hit);
      

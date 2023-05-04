@@ -21,15 +21,13 @@ public struct GunAudioClips
 public struct HitData
 {
     public Vector3 _impactPos;
-    public IDamagable Target;
-    public int dmgDealt;
+    public DamageData dmgData;
     public GunFather weapon;
 
-    public HitData(Vector3 pos, IDamagable target, int dmgDealt, GunFather weapon)
+    public HitData(Vector3 pos, DamageData dmgData, GunFather weapon)
     {
         _impactPos = pos;
-        Target = target;
-        this.dmgDealt = dmgDealt;
+        this.dmgData = dmgData;      
         this.weapon = weapon;
     }
 }

@@ -7,7 +7,8 @@ using static EggState;
 
 
 [RequireComponent(typeof(NavMeshAgent))]
-public class EggEscapeModel : MonoBehaviour,IDamagable,IPausable
+[RequireComponent(typeof(LifeComponent))]
+public class EggEscapeModel : MonoBehaviour
 {
     [System.Serializable]
     public struct EggStats
@@ -31,6 +32,8 @@ public class EggEscapeModel : MonoBehaviour,IDamagable,IPausable
 
     }
 
+    LifeComponent myLife;
+
     StateMachine<States> _fsm;
     public States actualState => _fsm.actualState;
 
@@ -40,10 +43,11 @@ public class EggEscapeModel : MonoBehaviour,IDamagable,IPausable
     EggStats _eggStats;
 
     [Header("EggEscape")]
-    [SerializeField] int dmgCount = 0;
     [SerializeField] LineRenderer _playerLinking;
 
     Action onUpdate;
+
+
 
     //Action OnGrab;
     //Action OnRelease;
@@ -61,10 +65,12 @@ public class EggEscapeModel : MonoBehaviour,IDamagable,IPausable
         transform.position = SpawnPos;
 
         _eggStats = stats;
+        SetLife();
+
 
 
         #region GetComponents
-        _agent = GetComponent<NavMeshAgent>();
+         _agent = GetComponent<NavMeshAgent>();
         _fov=    GetComponent<FOVAgent>();
         _fsm =   new StateMachine<States>();
         #endregion
@@ -82,7 +88,7 @@ public class EggEscapeModel : MonoBehaviour,IDamagable,IPausable
         Action OnGrab = () => 
         {
             _playerLinking.gameObject.SetActive(true);
-            onUpdate += UpdateLink;
+            onUpdate += UpdateLinkRope;
         };
 
         Action OnRelease = () => { _playerLinking.gameObject.SetActive(false); };
@@ -98,6 +104,17 @@ public class EggEscapeModel : MonoBehaviour,IDamagable,IPausable
 
         _fsm.ChangeState(States.Patrol);
 
+    }
+    public void SetLife()
+    {
+        myLife = GetComponent<LifeComponent>();
+
+        myLife.SetNewMaxLife(_eggStats.requiredDmg4stun);
+        myLife.OnKilled += Stun;
+
+
+
+        myLife.Initialize();
     }
 
     void Update() => _fsm.Execute();
@@ -116,48 +133,28 @@ public class EggEscapeModel : MonoBehaviour,IDamagable,IPausable
         }      
     }
 
-    void UpdateLink()
-    {
-        
+    void UpdateLinkRope()
+    {     
         _playerLinking.SetPosition(0, transform.position);
-        _playerLinking.SetPosition(1, _eggStats.gameMode.playerPos);
-       
+        _playerLinking.SetPosition(1, _eggStats.gameMode.playerPos);      
     }
     
 
     #region Polimorfism
     #region Damagable
-    public int TakeDamage(int dmgValue)
+    public void Stun()
     {
-        Debug.Log(dmgValue);
-        if (_fsm.actualState == States.Kidnapped || _fsm.actualState == States.Stunned) return 0;
-
-
-        dmgCount += dmgValue;
-
-        if (dmgCount > _eggStats.requiredDmg4stun)
+        if (_fsm.actualState != States.Kidnapped && _fsm.actualState != States.Stunned)
         {
-            Debug.Log(dmgCount);
             _fsm.ChangeState(States.Stunned);
-            dmgCount= 0;
+             myLife.canTakeDamage = false;
         }
-        return dmgValue;       
+           
+          
     }
-    public bool WasCrit() => _fsm.actualState == States.Stunned;
-
-    public bool WasKilled() => false;
     #endregion
 
     #region Pausable
-    public void Pause()
-    {
-        throw new System.NotImplementedException();
-    }
-
-    public void Resume()
-    {
-        throw new System.NotImplementedException();
-    }
     #endregion
 
     private void OnDrawGizmos()

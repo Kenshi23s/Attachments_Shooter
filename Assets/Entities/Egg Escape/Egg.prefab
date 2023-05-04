@@ -240,6 +240,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4518308652061995911}
   - component: {fileID: 4518308652061995905}
+  - component: {fileID: 2041966490293944856}
   - component: {fileID: 3601748017417277284}
   - component: {fileID: 4518308652061995910}
   - component: {fileID: 56997222}
@@ -280,8 +281,23 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _fov: {fileID: 0}
-  dmgCount: 0
   _playerLinking: {fileID: 1457028597}
+--- !u!114 &2041966490293944856
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4518308652061995904}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d9c8b9bb2e7803e418e7eb18ca7d9b0f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _life: 0
+  _maxLife: 0
+  canTakeDamage: 1
+  canBeHealed: 1
 --- !u!114 &3601748017417277284
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -355,7 +371,19 @@ PrefabInstance:
     m_TransformParent: {fileID: 4518308651555230509}
     m_Modifications:
     - target: {fileID: 2383257695232444296, guid: cb685ddd9540130488338639fb602c06, type: 3}
+      propertyPath: m_AnchorMax.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2383257695232444296, guid: cb685ddd9540130488338639fb602c06, type: 3}
       propertyPath: m_AnchorMax.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2383257695232444296, guid: cb685ddd9540130488338639fb602c06, type: 3}
+      propertyPath: m_AnchorMin.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2383257695343167052, guid: cb685ddd9540130488338639fb602c06, type: 3}
+      propertyPath: m_AnchorMax.x
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 2383257695343167052, guid: cb685ddd9540130488338639fb602c06, type: 3}

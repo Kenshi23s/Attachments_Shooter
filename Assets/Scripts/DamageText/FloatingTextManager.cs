@@ -29,9 +29,9 @@ public class FloatingTextManager
 
         if (t != null)
         {
-            pool.TurnOnHolder(t);                     //Z randomnes deberia ser Y randomnes,
+                           //Z randomnes deberia ser Y randomnes,
             _parameters.IncreaseSortingOrder();      //pq esto ya no es un top down, ajustar luego.
-            t.InitializeText(data.dmgDealt, data._impactPos, _parameters);
+            t.InitializeText(data.dmgData.damageDealt, data._impactPos, _parameters);
             
         }
     }
