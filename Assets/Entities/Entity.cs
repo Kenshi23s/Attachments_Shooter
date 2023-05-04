@@ -4,9 +4,10 @@ using UnityEngine;
 public abstract class Entity : MonoBehaviour
 {
 
-    [SerializeField] protected LifeComponent lifeHandler;
-    private void Awake()
+    [SerializeField] public LifeComponent lifeHandler;
+    protected virtual void Awake()
     {
         lifeHandler= GetComponent<LifeComponent>();
+        lifeHandler.Initialize();
     }
 }

@@ -66,6 +66,7 @@ public class Enemy_AirTurret : Enemy, IDetector
     {
         base.Awake();
         _misileStats.owner= this;
+        lifeHandler.OnKilled += () => Destroy(gameObject);
         SetTurretFSM();
       
         //SetTurretFSM();
@@ -184,14 +185,6 @@ public class Enemy_AirTurret : Enemy, IDetector
         {
             Gizmos.DrawLine(transform.position, target.position);
         }
-        //Gizmos.color = Color.blue;
-        //Vector3 MaxAnglePoint = pivotMisileBattery.position + new Vector3(0, _maxBatteryAngle, 0);
-
-        //Gizmos.DrawLine(pivotMisileBattery.position, pivotMisileBattery.position + MaxAnglePoint.normalized * 12);
-
-        //Gizmos.DrawLine(transform.position, transform.position + transform.right * 12);
-        ////union de mis 2 puntos
-        //Gizmos.DrawLine(pivotMisileBattery.position + MaxAnglePoint.normalized * 12, transform.position + transform.right * 12);
 
         if (_fsm!=null)
         {
@@ -199,35 +192,8 @@ public class Enemy_AirTurret : Enemy, IDetector
         }
        
     }
+    
 
-    public override void Pause()
-    {
-        throw new NotImplementedException();
-    }
-
-    public override void Resume()
-    {
-        throw new NotImplementedException();
-    }
-
-   
-
-    public override bool WasCrit() => false;
-
- 
-
-    protected override int OnTakeDamage(int dmgDealt)
-    {
-       
-        Debug.Log(dmgDealt);
-        return dmgDealt;
-    }
-
-    public override void OnDeath()
-    {
-        Debug.Log("turret death");
-        Destroy(gameObject);
-    }
 
 
 

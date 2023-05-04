@@ -8,7 +8,7 @@ using UnityEngine;
 
 
 [RequireComponent(typeof(Rigidbody))]
-public class TurretMisile : MonoBehaviour,IDetector
+public class TurretMisile : MonoBehaviour
 {
     [System.Serializable]
     public struct MisileStats
@@ -196,15 +196,7 @@ public class TurretMisile : MonoBehaviour,IDetector
 
     }
 
-    public void OnRangeCallBack(Player_Movement item)
-    {
-        throw new NotImplementedException();
-    }
-
-    public void OutOfRangeCallBack(Player_Movement item)
-    {
-        throw new NotImplementedException();
-    }
+ 
 
     private void OnTriggerEnter(Collider other)
     {

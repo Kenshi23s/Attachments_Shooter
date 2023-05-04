@@ -36,6 +36,7 @@ public class LifeComponent : MonoBehaviour,IDamagable,IHealable
     {
         DamageData data = new DamageData();
         if (!canTakeDamage) return data;
+        Debug.Log($"{gameObject.name} recibio {dmgDealt} de daño ");
 
 
         _life -= Mathf.Abs(dmgDealt); OnTakeDamage?.Invoke(dmgDealt);

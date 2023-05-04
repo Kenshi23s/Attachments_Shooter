@@ -7,10 +7,10 @@ public class Enemy_Turret : Enemy
 {
     [Header("Turret")]
     [SerializeField] float _detectionRadius;
-    [SerializeField] int   _bulletDamage;
+    [SerializeField] int _bulletDamage;
     [SerializeField] float _bulletSpeed;
     [SerializeField] float _rotationSpeed;
-    [SerializeField,Range(0,180)] float _spreadAngle;
+    [SerializeField, Range(0, 180)] float _spreadAngle;
 
     [SerializeField] Transform _canon;
     [SerializeField] Transform[] _shootPos;
@@ -18,21 +18,18 @@ public class Enemy_Turret : Enemy
 
     [SerializeField] GameObject bulletPrefab;
 
-   
 
-    protected override int OnTakeDamage(int dmgDealt)
-    {
-       return dmgDealt;
-    }
+
+
 
 
     bool AlignCanon(Vector3 playerPos)
     {
         Vector3 desired_dir = playerPos - transform.position;
-        _canon.transform.forward = Vector3.Slerp(_canon.transform.forward, desired_dir.normalized ,_rotationSpeed * Time.deltaTime);
+        _canon.transform.forward = Vector3.Slerp(_canon.transform.forward, desired_dir.normalized, _rotationSpeed * Time.deltaTime);
 
         return Vector3.Distance(desired_dir, _canon.transform.forward) < 1;
-     
+
     }
 
 
@@ -44,27 +41,14 @@ public class Enemy_Turret : Enemy
         Vector3 dir = _shootPos[_actualShootPos].forward.RandomDirFrom(_spreadAngle);
         if (Physics.Raycast(_shootPos[_actualShootPos].position, dir, out hit))
         {
-            if (hit.transform.TryGetComponent(out Player_Movement player ))
+            if (hit.transform.TryGetComponent(out Player_Movement player))
             {
-                player.TakeDamage(_bulletDamage);
+                player.lifeHandler.TakeDamage(_bulletDamage);
             }
         }
     }
 
     void ChangeShootPos() => _actualShootPos = _actualShootPos >= _shootPos.Length ? 0 : _actualShootPos++;
-
-
-    public override void Pause()
-    {
-        return;
-    }
-
-    public override void Resume()
-    {
-        return;
-    }
-
-    public override bool WasCrit() => false;
 
     private void OnTriggerEnter(Collider other)
     {
@@ -75,12 +59,7 @@ public class Enemy_Turret : Enemy
         Gizmos.color = Color.yellow;
 
         Vector3 dir = _shootPos[_actualShootPos].forward.RandomDirFrom(_spreadAngle) * 10;
-        Gizmos.DrawLine(_shootPos[_actualShootPos].position,transform.position +  dir);
+        Gizmos.DrawLine(_shootPos[_actualShootPos].position, transform.position + dir);
         ChangeShootPos();
-    }
-
-    public override void OnDeath()
-    {
-        throw new System.NotImplementedException();
     }
 }
