@@ -1,5 +1,7 @@
 
 using System.Collections.Generic;
+using UnityEngine;
+
 public interface IPausable
 {
     void Pause();
@@ -15,36 +17,39 @@ public static class ScreenManager
     public static bool isPaused;
 
     public static void AddPausable(IPausable item)
-    {
-        if (!pausables.Contains(item))
-        {
-            pausables.Add(item);
-        }
-    }
+    { if (!pausables.Contains(item)) pausables.Add(item);}
 
-    public static void RemovePausable(IPausable item)
-    {
-        if (!pausables.Contains(item)) pausables.Add(item);
-       
-    }
+    public static void RemovePausable(IPausable item) 
+    { if (!pausables.Contains(item)) pausables.Add(item);}
+ 
 
 
     public static void PauseGame()
     {
         time = 0 ;
         isPaused=true ;
-        foreach (IPausable item in pausables) item.Pause();
-        
-           
-        
+        string ItemsPaused = "";
+        foreach (IPausable item in pausables)
+        {
+            item.Pause();
+            ItemsPaused += $"{item} ";
+        }
+        Debug.Log("Se PAUSARON los items" + ItemsPaused);
+
+
     }
 
     public static void ResumeGame()
     {
         time = 1 ;
         isPaused = false;
-        foreach (IPausable item in pausables) item.Resume();
-      
+        string ItemsPaused = "";
+        foreach (IPausable item in pausables) 
+        {
+            item.Resume();
+            ItemsPaused += $" {item}, ";
+        }
+        Debug.Log("Se PAUSARON los items" + ItemsPaused);
     }
 }
 

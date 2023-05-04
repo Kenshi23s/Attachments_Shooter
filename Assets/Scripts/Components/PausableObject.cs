@@ -5,8 +5,8 @@ using UnityEngine;
 //componente q se usa para pausar objetos
 public class PausableObject : MonoBehaviour, IPausable
 {
-    public event Action OnPause;
-    public event Action OnResume;
+    public event Action onPause;
+    public event Action onResume;
 
     private void Awake()
     {
@@ -14,8 +14,8 @@ public class PausableObject : MonoBehaviour, IPausable
         ScreenManager.AddPausable(this);
     }
  
-    public void Pause() => OnPause?.Invoke();
+    public void Pause() => onPause?.Invoke();
 
-    public void Resume() => OnResume?.Invoke();
+    public void Resume() => onResume?.Invoke();
     
 }
