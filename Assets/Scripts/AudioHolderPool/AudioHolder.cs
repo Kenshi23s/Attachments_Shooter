@@ -5,11 +5,12 @@ using UnityEngine;
 public class AudioHolder : MonoBehaviour
 {
     AudioSource _myAudioSource;
-    Action<AudioHolder> ReturnMethod;
+    Action<AudioHolder> ReturnMethod; 
     public void Configure(Action<AudioHolder> ReturnMethod)
     {
         _myAudioSource = this.gameObject.GetComponent<AudioSource>();
         this.ReturnMethod = ReturnMethod;
+        enabled = false;
     }
     public void PlayClip(AudioClip clip, Vector3 WhereToPlay)
     {
@@ -18,12 +19,8 @@ public class AudioHolder : MonoBehaviour
             transform.position = WhereToPlay;
             _myAudioSource.PlayOneShot(clip);
             StartCoroutine(WaitForEndClip(clip.length));
-
         }
         else ReturnMethod(this);
-
-
-
     }
     IEnumerator WaitForEndClip(float time)
     {
