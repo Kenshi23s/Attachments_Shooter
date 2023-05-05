@@ -8,7 +8,8 @@ public class LifeComponent : MonoBehaviour,IDamagable,IHealable
 {
     [SerializeField] int _life;
     [SerializeField] int _maxLife;
-
+    [SerializeField,Range(0.1f,2)] 
+    float _dmgMultiplier;
     public int life => _life;
     public int maxLife => _maxLife;
 
@@ -39,7 +40,7 @@ public class LifeComponent : MonoBehaviour,IDamagable,IHealable
         Debug.Log($"{gameObject.name} recibio {dmgDealt} de daño ");
 
 
-        _life -= Mathf.Abs(dmgDealt); OnTakeDamage?.Invoke(dmgDealt);
+        _life -= (int)(Mathf.Abs(dmgDealt) * _dmgMultiplier); OnTakeDamage?.Invoke(dmgDealt);
 
         if (_life <= 0)
         {
