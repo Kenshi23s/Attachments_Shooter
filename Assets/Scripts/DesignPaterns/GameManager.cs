@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -13,5 +14,8 @@ public class GameManager : MonoSingleton<GameManager>
         floatingTextManager.Initialize(transform);
         _vfxPool = new ParticlePool();
 
+       
     }
+
+    //public static explicit operator
 }

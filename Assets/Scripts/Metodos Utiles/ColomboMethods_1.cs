@@ -315,7 +315,7 @@ namespace FacundoColomboMethods
         /// <param name="wallMask"></param>
         /// <param name="radius"></param>
         /// <returns></returns>
-        public static List<T> GetWhichAreOnSight<T>(List<T> itemsPassed, Vector3 pos,  LayerMask wallMask = default, RaycastType type = RaycastType.Default, float radius=10f) where T : MonoBehaviour
+        public static List<T> GetWhichAreOnSight<T>(this List<T> itemsPassed, Vector3 pos,  LayerMask wallMask = default, RaycastType type = RaycastType.Default, float radius=10f) where T : MonoBehaviour
         {
            
             switch (type)
