@@ -6,12 +6,16 @@ using static TickEventsManager;
 
 public class LifeComponent : MonoBehaviour,IDamagable,IHealable
 {
-    [SerializeField] int _life;
-    [SerializeField] int _maxLife;
-    [SerializeField,Range(0.1f,2)] 
-    float _dmgMultiplier;
+    [SerializeField] int _life = 100;
+    [SerializeField] int _maxLife = 100;
+
     public int life => _life;
     public int maxLife => _maxLife;
+
+    [SerializeField,Range(0.1f,2)] 
+    float _dmgMultiplier;
+
+  
 
     [SerializeField] public bool canTakeDamage = true;
     [SerializeField] public bool canBeHealed = true;
@@ -52,9 +56,7 @@ public class LifeComponent : MonoBehaviour,IDamagable,IHealable
     }
 
     public void AddDamageOverTime(int TotalDamageToDeal, float TimeAmount)
-    {
-      
-      
+    {   
         int damagePerTick = (int)(TotalDamageToDeal / TimeAmount);
 
         Action action = () => 

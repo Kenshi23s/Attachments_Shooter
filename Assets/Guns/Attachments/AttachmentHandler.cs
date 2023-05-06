@@ -1,5 +1,6 @@
 using AYellowpaper.SerializedCollections;
 using System;
+using System.Linq;
 using UnityEngine;
 using static Attachment;
 
@@ -46,51 +47,46 @@ public class AttachmentHandler
     public void Initialize(GunFather gun)
     {
         this.gun = gun;
+
+        #region OBSOLETE, DELETE LATER
         //si se cambia el cargador chequea q tipo de municion usa
-        OnChange += (x) =>
-        {
-            if (x == AttachmentType.Magazine && activeAttachments.ContainsKey(x) && activeAttachments[x].TryGetComponent(out Magazine magazine))
-            {
+        //OnChange += (x) =>
+        //{
+        //    if (x == AttachmentType.Magazine && activeAttachments.ContainsKey(x) && activeAttachments[x].TryGetComponent(out Magazine magazine))
+        //    {
 
-                if (_magazineAmmoType != null)
-                {
-                    _magazineAmmoType = magazine.bulletKey;
-                }
-                else
-                {
-                    _magazineAmmoType = Bullet_Manager.defaultBulletKey;
-                }
-            }
+        //        if (_magazineAmmoType != null)
+        //        {
+        //            _magazineAmmoType = magazine.bulletKey;
+        //        }
+        //        else
+        //        {
+        //            _magazineAmmoType = Bullet_Manager.defaultBulletKey;
+        //        }
+        //    }
 
-        };
+        //};
 
         _magazineAmmoType = Bullet_Manager.defaultBulletKey;
+        #endregion
 
         //si se cambia el cargador chequea q tipo de municion usa
         OnChange += (x) =>
         {
-            if (x == AttachmentType.Muzzle && activeAttachments.ContainsKey(x) && activeAttachments[x].TryGetComponent(out Muzzle muzzle))
+            //activeAttachments.Where(x => x.Key == AttachmentType.Muzzle).Where(x => x.Value != null).Any();
+            //if (x == AttachmentType.Muzzle && activeAttachments.ContainsKey(x) && activeAttachments[x].TryGetComponent(out Muzzle muzzle))
+            if (activeAttachments.Where(x => x.Key == AttachmentType.Muzzle).Any())
             {
-
+                Muzzle m = activeAttachments[x].GetComponent<Muzzle>();
                
-                if (muzzle.shootPos != null)
-                {
-                    _shootPos = muzzle.shootPos;
-                }
+                if (m != null) _shootPos = m.shootPos;                            
                 else
                 {
                     _shootPos = _defaultShootPos;
                     Debug.Log("Shoot Pos Default");
                 }
                 return;
-               
-
             }
-
-          
-         
-
-
         };
         _shootPos = _defaultShootPos;
 
@@ -115,19 +111,17 @@ public class AttachmentHandler
                     AddAttachment(key, _DefaultAttachMent[key]);
                     continue;
                 }
-                //chequeo por las dudas para que no salten errores
-               
+                //chequeo por las dudas para que no salten errores              
             }
             OnChange(key);
-        }
-        
-        
+        }      
     }
-  /// <summary>
-  /// Añade un accesorio al arma, requiere q le pases el tipo(key) y la clase de tipo attachment que deseas agregar
-  /// </summary>
-  /// <param name="key"></param>
-  /// <param name="value"></param>
+
+    /// <summary>
+    /// Añade un accesorio al arma, requiere q le pases el tipo(key) y la clase de tipo attachment que deseas agregar
+    /// </summary>
+    /// <param name="key"></param>
+    /// <param name="value"></param>
     public void AddAttachment(AttachmentType key, Attachment value)
     {
         //si contengo una posicion
@@ -139,6 +133,7 @@ public class AttachmentHandler
                 //lo añado y agrego sus stats
                 _activeAttachments.Add(key, value);               
                 _activeAttachments[key].Attach(gun, gun.transform, _attachmentPos[key].position);
+
                 //hago un callback para chequear que cambio
                 OnChange?.Invoke(key);
                 Debug.Log($"conecte el attachment de tipo{key} a el arma");
@@ -161,7 +156,7 @@ public class AttachmentHandler
     /// <param name="value"></param>
     void ReplaceAttachment(AttachmentType key, Attachment value)
     {
-        _activeAttachments[key].UnAttach();
+        _activeAttachments[key].Dettach();
         _activeAttachments.Remove(key);
         AddAttachment(key, value);
     }
@@ -171,8 +166,7 @@ public class AttachmentHandler
     /// <param name="key"></param>
     public void RemoveAttachment(AttachmentType key)
     {
-        if (!_activeAttachments.ContainsKey(key))
-            return;     
+        if (!_activeAttachments.ContainsKey(key)) return;
 
         _activeAttachments.Remove(key);
 

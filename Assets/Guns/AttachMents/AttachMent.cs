@@ -34,6 +34,8 @@ public abstract class Attachment : MonoBehaviour
 
     }
 
+   
+
     [SerializeField] protected AttachmentType _myType;
     public AttachmentType myType => _myType;
     //protected AttachmentStats _stats;
@@ -54,6 +56,11 @@ public abstract class Attachment : MonoBehaviour
     private void Awake()
     {
         Initialize();
+    }
+
+    private void Start()
+    {
+
     }
 
     protected virtual void Initialize() { }
@@ -85,8 +92,9 @@ public abstract class Attachment : MonoBehaviour
     }
 
     //saca sus stats del arma y queda sin padre
-    public void UnAttach()
+    public void Dettach()
     {
+        if (!_isAttached) return;
         gunAttachedTo.stats.ChangeStats(Attachment_stats, false);
 
         gunAttachedTo=null;

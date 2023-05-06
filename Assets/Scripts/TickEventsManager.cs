@@ -24,7 +24,6 @@ public class TickEventsManager : MonoSingleton<TickEventsManager>
 
     //lo podria haber hecho con eventos, pero no podria hacer estas preguntas de si es basado en tiempo O s
     List<TickEvents> _actionsSubscribed = new List<TickEvents>();
-  
     
     protected override void ArtificialAwake() => enabled = false;
    

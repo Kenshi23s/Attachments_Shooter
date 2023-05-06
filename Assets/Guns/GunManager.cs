@@ -8,9 +8,12 @@ public class GunManager : MonoSingleton<GunManager>
 {
     [SerializeField]List<GunFather> myGuns = new List<GunFather>();
     [SerializeField]GunFather _actualGun;
-     public GunFather actualGun=> _actualGun;
+    public GunFather actualGun=> _actualGun;
 
-
+    public LayerMask AttachmentLayer => _attachmentLayer;
+    [SerializeField] LayerMask _attachmentLayer;
+    [SerializeField] float raycastRadius;
+    [SerializeField] float raycastDistance;
     event Action<HitData> onActualGunHit;
     
     //event Action OnSwapWeapons;
@@ -68,6 +71,16 @@ public class GunManager : MonoSingleton<GunManager>
         return false;
     }
 
+
+    void AttachmentOnSight()
+    {
+        Transform tr = Camera.main.transform;
+        //desde                     //hacia                         //distancia      //layer
+        if (Physics.SphereCast(tr.position, raycastRadius, tr.forward, out RaycastHit hit, raycastDistance, AttachmentLayer))
+        {
+
+        }
+    }
     bool RemoveGun(GunFather newGun)
     {
         if (myGuns.Contains(newGun))
