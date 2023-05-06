@@ -230,11 +230,11 @@ public static class Pathfinding_Algorithm
 
     }
 
-   public static bool InLineOffSight(Vector3 InitialPos, Vector3 finalPos, LayerMask maskWall)
-   {
-        Vector3 dir = finalPos - InitialPos;
-        return !Physics.Raycast(InitialPos, dir, dir.magnitude, maskWall);
-   }
+    public static bool InLineOffSight(Vector3 InitialPos, Vector3 finalPos, LayerMask maskWall)
+    {
+         Vector3 dir = finalPos - InitialPos;
+         return !Physics.Raycast(InitialPos, dir, dir.magnitude, maskWall);
+    }
 }
 
 
