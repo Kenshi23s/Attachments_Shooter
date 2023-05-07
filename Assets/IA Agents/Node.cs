@@ -2,7 +2,9 @@ using System.Collections.Generic;
 using UnityEngine;
 using FacundoColomboMethods;
 using System.Linq;
+using System;
 
+[RequireComponent(typeof(DebugableObject))]
 public class Node : MonoBehaviour
 {
 
@@ -18,44 +20,31 @@ public class Node : MonoBehaviour
     {
    
         LayerMask wallMask = IA_Manager.instance.wall_Mask;
+
         Neighbors = IA_Manager.instance.nodes.GetWhichAreOnSight(transform.position, wallMask, RaycastType.Sphere, 2f)
                     .Where(x=> x!=this).ToList();
-      
-        //foreach (Node item in Neighbors)
-        //{
-        //    if (item == this)
-        //    {
-        //        Neighbors.Remove(item);
-        //        return;
-        //    }
-        //}
+
+        GetComponent<DebugableObject>().AddGizmoAction(NodeGizmo);
+        GetComponent<MeshRenderer>().enabled = false;
     }
 
-    private void OnDrawGizmos()
+    private void NodeGizmo()
     {
        if (Neighbors.Count < 0) return;      
 
-       foreach (Node node in Neighbors)
+       foreach (Node node in Neighbors) foreach (Node neighbor in node.Neighbors)
        {
-          foreach (Node neighbor in node.Neighbors)
+          if (neighbor == this)
           {
-              if (neighbor == this)
-              {
-                  Gizmos.color = Color.blue;
-                  Gizmos.DrawLine(node.transform.position, transform.position);
-              }
-       
-              else
-              {
-                  Gizmos.color = Color.cyan;
-              }
-       
+              Gizmos.color = Color.blue;
+              Gizmos.DrawLine(node.transform.position, transform.position);
           }
+          else Gizmos.color = Color.cyan;
        }
+            
+          
         
-        
-        
-        
+           
         //Gizmos.DrawWireSphere(transform.position, AgentsManager.instance.nodeInteractradius);
     }
   

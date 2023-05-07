@@ -28,8 +28,8 @@ public class InteractableObject : MonoBehaviour
     [Header("InteractableObject")]
     [SerializeField] protected InteractableObjectData InteractData;
     [SerializeField] float _currentInteractionTime;
-    [SerializeField] bool isTriyingToInteract;
-    [SerializeField] bool CycleInteract;
+    [SerializeField] bool _isTriyingToInteract;
+    [SerializeField] bool _cycleInteract;
 
     [Header("Canvas")]
     [SerializeField] Canvas _canvas;
@@ -66,7 +66,7 @@ public class InteractableObject : MonoBehaviour
     {
         currentInteractionTime = 0;
 
-        this.GetComponent<SphereCollider>().isTrigger = true;
+        GetComponent<SphereCollider>().isTrigger = true;
 
         SetUICalls();     
         //lo hago para que se hagan los llamados de "OnDataChange"
@@ -85,10 +85,10 @@ public class InteractableObject : MonoBehaviour
         currentInteractionTime += Time.deltaTime;
         WhileInteracting?.Invoke(currentInteractionTime);
         //si pase el tiempo indicado
-        if (currentInteractionTime >= InteractData._interactTimeNeeded && CycleInteract)
+        if (currentInteractionTime >= InteractData._interactTimeNeeded && _cycleInteract)
         {
             //ejecuto los eventos
-            CycleInteract = false;
+            _cycleInteract = false;
             InteractData._OnInteract?.Invoke();                   
         }
 
@@ -99,19 +99,19 @@ public class InteractableObject : MonoBehaviour
     private void LateUpdate()
     {
         //si no estoy interactuando bajo el tiempo q se mantuvo pulsado
-        isTriyingToInteract = Input.GetKey(KeyCode.E);
-        if (InteractData.canInteract && isTriyingToInteract && _canvas.isActiveAndEnabled)
+        _isTriyingToInteract = Input.GetKey(KeyCode.E);
+        if (InteractData.canInteract && _isTriyingToInteract && _canvas.isActiveAndEnabled)
                   Interact();        
 
-        else if (!isTriyingToInteract && currentInteractionTime > 0)
+        else if (!_isTriyingToInteract && currentInteractionTime > 0)
         {
             currentInteractionTime = 0f;
             SetVisibleSlider(false);
             While_NOT_Interacting?.Invoke(currentInteractionTime);
         }
 
-        if (!CycleInteract && Input.GetKeyUp(KeyCode.E))
-            CycleInteract = true;
+        if (!_cycleInteract && _isTriyingToInteract)
+            _cycleInteract = true;
 
         if (_canvas.gameObject.activeInHierarchy)
         {
@@ -128,20 +128,17 @@ public class InteractableObject : MonoBehaviour
 
     protected virtual void OnTriggerEnter(Collider other)
     {
-        if (other.TryGetComponent(out Player_Movement player))
-        {
+        if (other.TryGetComponent(out Player_Movement player))        
             _canvas.gameObject.SetActive(true);
-
-        }
+        
      
         
     }
     protected virtual void OnTriggerExit(Collider other)
     {
-        if (other.TryGetComponent(out Player_Movement player))
-        {
+        if (other.TryGetComponent(out Player_Movement player))       
             _canvas.gameObject.SetActive(false);
-        }
+        
     
         
     }
@@ -169,8 +166,8 @@ public class InteractableObject : MonoBehaviour
 
     public void SetVisibleSlider(bool mybool)
     {
-        if (_sliderImage != null) { _sliderImage.enabled = mybool; }
-        if (_backSliderImage != null) { _backSliderImage.enabled = mybool; }
+        if (_sliderImage != null) _sliderImage.enabled = mybool;
+        if (_backSliderImage != null)  _backSliderImage.enabled = mybool; 
     }
 
     public void OnDesactivate()
@@ -181,7 +178,7 @@ public class InteractableObject : MonoBehaviour
 
     public void OnActivate()
     {
-        CycleInteract = true;
+        _cycleInteract = true;
         this.gameObject.SetActive(true);
     }
 }

@@ -166,7 +166,7 @@ namespace FacundoColomboMethods
         /// <param name="end"></param>
         /// <param name="maskWall"></param>
         /// <returns></returns>
-        public static bool InLineOffSight(Vector3 start, Vector3 end, LayerMask maskWall)
+        public static bool InLineOffSight(this Vector3 start, Vector3 end, LayerMask maskWall)
         {
             Vector3 dir = end - start;
 
@@ -267,9 +267,9 @@ namespace FacundoColomboMethods
         /// <param name="myPos"></param>
         /// <param name="walls"></param>
         /// <returns></returns>
-        public static T GetNearestOnSigth<T>(this Transform myPos, List<T> objPosition,LayerMask walls) where T : MonoBehaviour
+        public static T GetNearestOnSigth<T>(this Vector3 myPos, List<T> objPosition,LayerMask walls) where T : MonoBehaviour
         {
-            List<T> listOnSigth = GetWhichAreOnSight(objPosition, myPos.position,walls);
+            List<T> listOnSigth = GetWhichAreOnSight(objPosition, myPos,walls);
            
             switch (listOnSigth.Count)
             {
@@ -282,12 +282,12 @@ namespace FacundoColomboMethods
                     return listOnSigth[0];
                 //mas de  1 a la vista
                 default:
-                 float nearestMagnitude = (listOnSigth[0].transform.position - myPos.position).magnitude;
+                 float nearestMagnitude = (listOnSigth[0].transform.position - myPos).magnitude;
                  int nearestIndex = 0;
 
                  for (int i = 1; i < listOnSigth.Count; i++)
                  {
-                     float tempMagnitude = (listOnSigth[i].transform.position - myPos.position).magnitude;
+                     float tempMagnitude = (listOnSigth[i].transform.position - myPos).magnitude;
                    
                      if (nearestMagnitude > tempMagnitude)
                      {
@@ -346,7 +346,7 @@ namespace FacundoColomboMethods
             switch (type)
             {
                 case RaycastType.Sphere:
-                    if (FacundoSphereCast<T>(pos, dir, item, sphereRadius,layer))
+                    if (FacundoSphereCast(pos, dir,sphereRadius,layer))
                     {
                         return item;
                     }
@@ -386,59 +386,30 @@ namespace FacundoColomboMethods
 
         static List<T> FacundoRaycastAll<T>(Vector3 pos, List<T> items) where T : MonoBehaviour
         {
-            List<T> Tlist = new List<T>();
+            List<T> Tlist = items.Where(x =>
+            {
+                Vector3 dir = x.transform.position - pos;
+                return FacundoRaycast(pos, dir, x);
+            }).ToList();
 
-            foreach (T tempItem in items)
-            {
-                Vector3 dir = tempItem.transform.position - pos;
-                if (FacundoRaycast(pos, dir, tempItem))
-                {
-                    Tlist.Add(tempItem);
-                    //Debug.Log(" añadi el item" + tempItem.name);
-                    continue;
-                }
-                //Debug.Log("no añadi el item" + tempItem.name);
-            }
-            if (Tlist.Count>=1)
-            {
-                return Tlist;
-            }
-            return new List<T>();
+            return Tlist.Count >= 1 ? Tlist: new List<T>();
+        
 
 
         }
 
-        static bool FacundoSphereCast<T>(Vector3 pos, Vector3 dir, T item, float radius,LayerMask layer) 
+        static bool FacundoSphereCast(Vector3 pos, Vector3 dir, float radius,LayerMask layer) 
         {
-        
-            if (!Physics.SphereCast(pos, radius, dir,out RaycastHit hit,dir.magnitude,layer))
-            {
-                
-                return true;
-            }
-            
-            return false;
-
-
+            return !Physics.SphereCast(pos, radius, dir, out RaycastHit hit, dir.magnitude, layer);
         }
 
         static List<T> FacundoSphereCastAll<T>(Vector3 pos, List<T> items, float radius,LayerMask wallMask) where T : MonoBehaviour
-        {
-            List<T> Tlist = new List<T>();
-
-            foreach (T tempItem in items)
+        {   
+            return items.Where(x =>
             {
-                Vector3 dir = tempItem.transform.position - pos;
-                if (FacundoSphereCast<T>(pos, dir, tempItem,radius,wallMask))
-                {
-                    Tlist.Add(tempItem);
-                }
-
-            }
-            return Tlist;
-
-
-
+                Vector3 dir = x.transform.position - pos;
+                return FacundoSphereCast(pos, dir, radius, wallMask);
+            }).ToList();
         }
 
     }

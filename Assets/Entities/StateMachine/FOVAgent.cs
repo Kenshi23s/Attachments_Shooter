@@ -1,6 +1,9 @@
 using FacundoColomboMethods;
+using System;
 using UnityEngine;
+using UnityEngine.Events;
 
+[RequireComponent(typeof(DebugableObject))]
 public class FOVAgent : MonoBehaviour
 {
    
@@ -9,7 +12,10 @@ public class FOVAgent : MonoBehaviour
     public float viewRadius => _viewRadius;
     [SerializeField,Range(0,180)]float viewAngle;
 
-
+    private void Awake()
+    {
+        this.GetComponent<DebugableObject>().AddGizmoAction(FovGizmos);
+    }
     public bool inFOV(Vector3 obj)
     {
         Vector3 dir = obj - transform.position;
@@ -22,7 +28,7 @@ public class FOVAgent : MonoBehaviour
         return false;
     }
 
-    public void OnDrawGizmos()
+    public void FovGizmos()
     {        
         Gizmos.color = Color.yellow;
         Gizmos.DrawWireSphere(transform.position, _viewRadius);

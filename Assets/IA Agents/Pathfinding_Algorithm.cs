@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using System.Linq;
+using System;
 //todos los algoritmos de pathfinding visto en la materia de IA 1
 //los nodos deben tener de nombre de clase "Node" y las siguientes variables con los siguientes nombres:
 
@@ -144,38 +145,38 @@ public static class Pathfinding_Algorithm
 
     }
 
-    public static LinkedList<Vector3> CalculateAStar(Node startingNode, Node goalNode)
+    public static LinkedList<Vector3> CalculateAStar(Tuple<Node,Node> nodes)
     {
         //el vecino del nodo
 
         PriorityQueue<Node> frontier = new PriorityQueue<Node>();
-        frontier.Enqueue(startingNode, 0f);
+        frontier.Enqueue(nodes.Item1, 0f);
 
         //de donde vino, mi key es el nodo siguiente y el value es el nodo actual
 
         Dictionary<Node, Node> cameFrom = new Dictionary<Node, Node>();
-        cameFrom.Add(startingNode, null);
+        cameFrom.Add(nodes.Item1, null);
         //el costo de cada nodo y cuanto costo lleva acumulando el camino
         Dictionary<Node, float> costSoFar = new Dictionary<Node, float>();
-        costSoFar.Add(startingNode, 0f);
+        costSoFar.Add(nodes.Item1, 0f);
 
         while (frontier.Count > 0)
         {
             Node current = frontier.Dequeue();
 
-            if (current == goalNode)
+            if (current == nodes.Item2)
             {
                 LinkedList<Vector3> path = new LinkedList<Vector3>();
-                path.Add(startingNode.transform.position);
+                path.Add(nodes.Item1.transform.position);
 
-                while (current != startingNode)
+                while (current != nodes.Item1)
                 {
                     path.Add(current.transform.position);
                     current = cameFrom[current];
                 }
 
                
-                path.Add(goalNode.transform.position);
+                path.Add(nodes.Item2.transform.position);
               
                 return path;
             }
@@ -184,7 +185,7 @@ public static class Pathfinding_Algorithm
             {
 
                 float newCost = costSoFar[current] + next.cost;
-                float priority = newCost + Vector3.Distance(next.transform.position, goalNode.transform.position);
+                float priority = newCost + Vector3.Distance(next.transform.position, nodes.Item2.transform.position);
 
                 if (!costSoFar.ContainsKey(next))
                 {
@@ -206,28 +207,22 @@ public static class Pathfinding_Algorithm
         return new LinkedList<Vector3>();
     }
 
-    public static LinkedList<Vector3> CalculateThetaStar(Node startingNode, Node goalNode,LayerMask WallMask,Vector3 endpos=default)
+    public static LinkedList<Vector3> CalculateThetaStar(this Tuple<Node, Node> nodes, LayerMask WallMask,Vector3 endpos=default)
     {
-        LinkedList<Vector3> PathList = CalculateAStar(startingNode, goalNode);
-        if (endpos!=Vector3.zero)
-        {
-            PathList.Add(endpos);
-        }
+        LinkedList<Vector3> PathList = CalculateAStar(nodes);
+
+        if (endpos!=Vector3.zero) PathList.Add(endpos);
+        
         int current = 0;
 
         while (current + 2 < PathList.Count)
         {      
             if (InLineOffSight(PathList[current], PathList[current + 2], WallMask))
-            {              
-                PathList.RemoveAtIndex(current + 1);
-            }
+                PathList.RemoveAtIndex(current + 1);                              
             else
                 current++;
-        }
-        
+        }       
         return PathList;
-
-
     }
 
     public static bool InLineOffSight(Vector3 InitialPos, Vector3 finalPos, LayerMask maskWall)
