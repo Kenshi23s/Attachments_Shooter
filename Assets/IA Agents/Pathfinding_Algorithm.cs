@@ -207,22 +207,22 @@ public static class Pathfinding_Algorithm
         return new LinkedList<Vector3>();
     }
 
-    public static LinkedList<Vector3> CalculateThetaStar(this Tuple<Node, Node> nodes, LayerMask WallMask,Vector3 endpos=default)
+    public static LinkedList<Vector3> CalculateThetaStar(this Tuple<Node, Node> nodes, LayerMask wallMask,Vector3 endpos=default)
     {
-        LinkedList<Vector3> PathList = CalculateAStar(nodes);
+        LinkedList<Vector3> _pathList = CalculateAStar(nodes);
 
-        if (endpos!=Vector3.zero) PathList.Add(endpos);
+        if (endpos!=Vector3.zero) _pathList.Add(endpos);
         
         int current = 0;
 
-        while (current + 2 < PathList.Count)
+        while (current + 2 < _pathList.Count)
         {      
-            if (InLineOffSight(PathList[current], PathList[current + 2], WallMask))
-                PathList.RemoveAtIndex(current + 1);                              
+            if (InLineOffSight(_pathList[current], _pathList[current + 2], wallMask))
+                _pathList.RemoveAtIndex(current + 1);                              
             else
                 current++;
         }       
-        return PathList;
+        return _pathList;
     }
 
     public static bool InLineOffSight(Vector3 InitialPos, Vector3 finalPos, LayerMask maskWall)

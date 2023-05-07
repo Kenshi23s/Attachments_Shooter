@@ -11,7 +11,7 @@ using UnityEngine;
 public class IA_Movement : MonoBehaviour
 {
 
-    DebugableObject debug;
+    DebugableObject _debug;
     public LayerMask obstacleMask;
 
     private Vector3 _velocity;
@@ -46,17 +46,19 @@ public class IA_Movement : MonoBehaviour
         _fov = GetComponent<FOVAgent>();
         _rb = GetComponent<Rigidbody>();
         _rb.isKinematic = true;
-        debug = GetComponent<DebugableObject>();
+        _debug = GetComponent<DebugableObject>();
     }
 
     private void FixedUpdate() => _update?.Invoke();    
 
     public void SetDestination(Vector3 target)
     {
+
         if (transform.position.InLineOffSight(target,IA_Manager.instance.wall_Mask))
         {
             _update = () => 
             {
+                _debug.Log("veo el destino, voy directo ");
                 Vector3 actualForce = Vector3.zero;
                 actualForce += Seek(target);
                 actualForce += FlockingUpdate();
@@ -66,8 +68,8 @@ public class IA_Movement : MonoBehaviour
         }
         else
         {
-            LinkedList<Vector3> waypoints= SetPath(target);
-
+            _debug.Log("NO veo el destino, Calculo el camino ");
+            LinkedList<Vector3> waypoints = SetPath(target);
             _update = () => PlayPath(waypoints);
             //Action gizmo= () => { }
             //debug.AddGizmoAction()

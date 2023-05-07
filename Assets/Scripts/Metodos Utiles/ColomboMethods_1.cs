@@ -291,8 +291,6 @@ namespace FacundoColomboMethods
                    
                      if (nearestMagnitude > tempMagnitude)
                      {
-                         Debug.Log("cambie el mas cercano");
-
                          nearestMagnitude = tempMagnitude;
                          nearestIndex = i;
                      }

@@ -85,8 +85,8 @@ public class LinkedList<T> : IEnumerable
                 current.next = nextNode.next;           
                 break;
             }
-            nextNode=nextNode.next;
-            current = current.next;
+            nextNode = nextNode.next;
+            current  = current.next;
         }
     }
 

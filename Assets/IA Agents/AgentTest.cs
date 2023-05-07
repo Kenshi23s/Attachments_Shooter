@@ -5,17 +5,18 @@ using UnityEngine;
 public class AgentTest : MonoBehaviour
 {
     IA_Movement agent;
-    GameObject objectToLookFor;
+    [SerializeField]GameObject objectToLookFor;
 
     private void Awake()
     {
         agent = GetComponent<IA_Movement>();
     }
-    private void Update()
+    private void Start()
     {
-        if (Vector3.Distance(objectToLookFor.transform.position,transform.position) < 2)
+        if (Vector3.Distance(objectToLookFor.transform.position, transform.position) > 2)
         {
-            
+            agent.SetDestination(objectToLookFor.transform.position);
         }
     }
+   
 }
