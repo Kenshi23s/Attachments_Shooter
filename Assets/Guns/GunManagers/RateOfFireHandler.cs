@@ -3,17 +3,18 @@ using System;
 using UnityEngine;
 //Manager de cadencia de tiro
 [System.Serializable]
-public class RateOfFireHandler 
+public class RateOfFireHandler: MonoBehaviour
 {
     //deberia tener un rate of fire manager para cada tipo de cadencia, uno para automatico/singleShot y otro para rafaga
     //respondiendo a lo de arriba, quizas no
-    [SerializeField] float _actualRateOfFire;
+    [SerializeField,Range(0.1f,3f)] float _actualRateOfFire;
     public float actualRateOfFire => _actualRateOfFire;
 
-    [SerializeField,Tooltip("Variable para ver el cd restante, no tocar")]float _rateOfFireCD;
+    [SerializeField,Tooltip("Variable para ver el cd restante, no tocar")]
+    float _rateOfFireCD;
 
-    bool _canShoot;
     public bool canShoot=> _canShoot;
+    bool _canShoot;
 
    
     GunFather gun;

@@ -16,7 +16,7 @@ public class BulletPool
 {
    public BulletPool() {  }
 
-    Dictionary<string, PoolObject<BaseBulltet>> _pools = new Dictionary<string, PoolObject<BaseBulltet>>();
+    Dictionary<int, PoolObject<BaseBulltet>> _pools = new Dictionary<int, PoolObject<BaseBulltet>>();
 
     //para tener mas organizado la jerarquia, hago un GO que actua como carpeta
     GameObject poolGO;
@@ -30,12 +30,16 @@ public class BulletPool
     /// <param name="key"></param>
     /// <param name="prefab"></param>
     /// <param name="prewarm"></param>
-    public void CreateBullet(string key,BaseBulltet prefab, int prewarm = 5)
+    public int CreateBullet(BaseBulltet prefab, int prewarm = 5)
     {
+        int key = prefab.GetHashCode();
         if (!_pools.ContainsKey(key))
         {
             GameObject father = GameObject.Instantiate(new GameObject($"bullet {key} storage"));
             father.transform.parent = poolGO.transform;
+
+            Action<BaseBulltet> turnOn = (x) =>  x.gameObject.SetActive(true);
+            Action<BaseBulltet> turnOff = (x) => x.gameObject.SetActive(false);         
             Func<BaseBulltet> myBuild = () =>
             {
 
@@ -46,11 +50,11 @@ public class BulletPool
 
             _pools.Add(key, new PoolObject<BaseBulltet>());
 
-            _pools[key].Intialize(TurnOn, TurnOff, myBuild);
-            return;
+            _pools[key].Intialize(turnOn, turnOff, myBuild);
+            return key;
         }
-
-        Debug.Log("ya existia esta bala, no creo nada");
+        throw new Exception(typeof(BaseBulltet) + "already present at BullerPool");
+    
 
 
     }
@@ -59,7 +63,7 @@ public class BulletPool
     /// </summary>
     /// <param name="key"></param>
     /// <returns></returns>
-    public BaseBulltet AskForProjectile(string key)
+    public BaseBulltet AskForProjectile(int key)
     {
         if (_pools.ContainsKey(key))
         {
@@ -70,12 +74,8 @@ public class BulletPool
         Debug.Log("no existe ese tipo de bala");
         return null;
     }
-
-    void TurnOn(BaseBulltet x) => x.gameObject.SetActive(true);
-
-    void TurnOff(BaseBulltet x) => x.gameObject.SetActive(false);
    
-    void ReturnToPool(BaseBulltet value, string key) => _pools[key]?.Return(value);
+    void ReturnToPool(BaseBulltet value, int key) => _pools[key]?.Return(value);
 
 
 }

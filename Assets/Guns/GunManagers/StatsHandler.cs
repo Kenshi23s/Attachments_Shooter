@@ -5,7 +5,7 @@ using System;
 using static Attachment;
 
 [System.Serializable]
-public class StatsHandler
+public class StatsHandler : MonoBehaviour
 {
 
     
@@ -88,61 +88,5 @@ public class StatsHandler
     //    }
     //}
 }
-
-//[Header("GunStats")]
-//[SerializeField, Range(1, 100)] float _aimingZoom;
-//[SerializeField, Range(1, 100)] float _range;
-
-//[SerializeField, Range(1, 100)] float _handling;
-//[SerializeField, Range(1, 100)] float _stability;
-
-//[SerializeField, Range(1, 100)] float _reloadSpeed;
-
-//[SerializeField, Range(1, 100)] float _bulletMagnetism;
-
-//[SerializeField] int _maxMagazineAmmo;
-//#region Stat Getters    
-
-//public float aimingZoom => _aimingZoom;
-//public float range => _range;
-
-//public float handling => _handling;
-//public float stability => _stability;
-
-//public float reloadSpeed => _reloadSpeed;
-//public int maxMagazineAmmo => _maxMagazineAmmo;
-
-//#endregion
-
-//#region StatMethods
-//private void AddAimZoom(float value) => _aimingZoom += Mathf.Clamp(value, 1, 100);
-//private void AddRange(float value) => _range += Mathf.Clamp(value, 1, value);
-
-//private void AddReloadSpeed(float value) => _reloadSpeed += Mathf.Clamp(value, 1, 100);
-//private void AddHandling(float value) => _handling += Mathf.Clamp(value, 1, 100);
-
-//private void AddStability(float value) => _stability += Mathf.Clamp(value, 1, 100);
-//private void AddMaxMagCapacity(float value) => _stability += Mathf.Clamp(value, 1, 100);
-//AddAimZoom(NewStats.aimingZoom * x);
-//AddRange(NewStats._range * x);
-
-//AddReloadSpeed(NewStats.reloadSpeed * x);
-//AddHandling(NewStats.handling * x);
-
-//AddStability(NewStats.stability * x);
-//AddMaxMagCapacity(NewStats.maxMagazineAmmo * x)
-//#endregion
-
-//private void ChangeShootPos(Transform newShootpos)
-//{
-//    if (newShootpos != null)
-//    {
-//        shootPos = newShootpos;
-//    }
-//    else
-//    {
-//        shootPos = defaultShootPos;
-//    }
-//}
 
 

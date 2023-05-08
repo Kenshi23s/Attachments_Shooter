@@ -1,6 +1,7 @@
 using TMPro;
 using UnityEngine;
 using System;
+using Random = UnityEngine.Random;
 
 public class FloatingText : MonoBehaviour
 {
@@ -12,28 +13,24 @@ public class FloatingText : MonoBehaviour
         [Range(0f, 1f)]
         public float y_Spread;
 
-        [Range(0, 1), Tooltip("la velocidad con la que se mueve el texto")]
+        [Range(0.1f, 1), Tooltip("la velocidad con la que se mueve el texto")]
         public float speed;
 
-        [Range(0, 1), Tooltip("la velocidad con la que se desvanece el texto")]
+        [Range(0.1f, 1f), Tooltip("la velocidad con la que se desvanece el texto")]
         public float fadeSpeed;
 
-        public int sortingOrderRead=> _sortingOrder;
+        public int sortingOrderRead => _sortingOrder;
         int _sortingOrder;
 
-        public void IncreaseSortingOrder()
-        {
-            _sortingOrder++;
-        }
-
-
+        public void IncreaseSortingOrder() => _sortingOrder++;
+       
 
     }
     FloatingTextParam _textParameters;
 
-    public TextMeshPro _DmgText;
+    public TextMeshPro _popUpText;
 
-    Vector3 _TextForce, _initialPos;   
+    Vector3 _textForce, _initialPos;   
    
     Action<FloatingText> pool_ReturnMethod;
 
@@ -41,25 +38,20 @@ public class FloatingText : MonoBehaviour
 
 
     #region Initialize
-    //Al crearse
-    public void Configure(Action<FloatingText> ReturnMethod)
-    {      
-      
-        // MI metodo Return es igual al metodo Return que me pasaron por parametro
-        this.pool_ReturnMethod = ReturnMethod;
-        
-    }
+    //Al crearse                                                     // MI metodo Return es igual al metodo Return que me pasaron por parametro
+    public void Configure(Action<FloatingText> pool_ReturnMethod) => this.pool_ReturnMethod = pool_ReturnMethod;
+  
  
 
     /// <summary>
     /// este metodo es el encargado de preparar a el texto para que haga todos 
     /// los comportamientos necesarios para su correcta funcion
     /// </summary>
-    public void InitializeText(int TextValueDamage, Vector3 pos, FloatingTextParam parametersPass)
+    public void InitializeText(string TextValueDamage, Vector3 pos, FloatingTextParam parametersPass)
     {
         //inital pos lo uso para fijarme(en el gizmos) en que direccion va el texto 
         //transform.position = pos;
-       Vector3 TextForce = Vector3.zero;
+       
        _initialPos = transform.position =  pos;
        _textParameters = parametersPass;
        SetText(TextValueDamage,parametersPass.sortingOrderRead);   
@@ -67,26 +59,26 @@ public class FloatingText : MonoBehaviour
 
     }
  
-    void SetText(int value,int sortOrder)
+    void SetText(string value,int sortOrder)
     {
         // esto es para que el texto actual tenga prioridad de renderizado sobre los anteriores
-        _DmgText.sortingOrder = sortOrder;
+        _popUpText.sortingOrder = sortOrder;
 
         //aplico el int pasado al texto
-        _DmgText.text = value.ToString();
+        _popUpText.text = value.ToString();
         // se pone el alpha al maximo por las dudas de que no lo estuviera
-        _DmgText.alpha = 255f;
-        _DmgText.gameObject.name = ("Text Damage  " + value );
+        _popUpText.alpha = 255f;
+        _popUpText.gameObject.name = ("Text Damage  " + value );
     }
 
     void SetRandomForce(float RandomX,float RandomZ)
     {
         _textParameters.x_Spread = SetRandomValue(RandomX);
         _textParameters.y_Spread = SetRandomValue(RandomZ);
-        _TextForce = new Vector3(_textParameters.x_Spread, _textParameters.y_Spread);
+        _textForce = new Vector3(_textParameters.x_Spread, _textParameters.y_Spread);
     }
 
-    float SetRandomValue(float Randomness) => UnityEngine.Random.Range(-Mathf.Abs(Randomness), Mathf.Abs(Randomness));
+    float SetRandomValue(float Randomness) => Random.Range(-Mathf.Abs(Randomness), Mathf.Abs(Randomness));
     #endregion
 
     #region Update 
@@ -95,10 +87,10 @@ public class FloatingText : MonoBehaviour
         //se le suma al transform una fuerza para que se mueva a lo largo del tiempo hasta que
         //el "Alpha" del texto llegue a 0 (va de 0 a 1, no de 0 a 255)
 
-        this.transform.position += _TextForce.normalized * Time.deltaTime * 5;
+        this.transform.position += _textForce.normalized * Time.deltaTime * 5;
         float A = SubstractAlpha(_textParameters.fadeSpeed);
-        if (A == 0)
-            GoToPool();
+        if (A == 0) GoToPool();
+
 
 
     }
@@ -109,10 +101,10 @@ public class FloatingText : MonoBehaviour
 
     float SubstractAlpha(float Decreasespeed)
     {
-        _DmgText.alpha = Mathf.Clamp(_DmgText.alpha, 0f, 1f);
-        _DmgText.alpha -= Decreasespeed * Time.deltaTime;
-        _DmgText.alpha = Mathf.Clamp(_DmgText.alpha, 0f, 1f);
-        float t = _DmgText.alpha;
+        _popUpText.alpha = Mathf.Clamp(_popUpText.alpha, 0f, 1f);
+        _popUpText.alpha -= Decreasespeed * Time.deltaTime;
+        _popUpText.alpha = Mathf.Clamp(_popUpText.alpha, 0f, 1f);
+        float t = _popUpText.alpha;
         return t;
 
        
@@ -120,14 +112,14 @@ public class FloatingText : MonoBehaviour
     #endregion
    
     void GoToPool()
-    {
-        _TextForce = Vector3.zero;
-        _initialPos = Vector3.zero;
+    {     
+        _initialPos = _textForce = Vector3.zero;
         pool_ReturnMethod(this);
     }
+
     private void OnDrawGizmos()
     {
         Gizmos.color = Color.yellow;
-        Gizmos.DrawLine(_initialPos, _initialPos+_TextForce);
+        Gizmos.DrawLine(_initialPos, _initialPos+_textForce);
     }
 }

@@ -1,9 +1,7 @@
-using System.Collections;
-using System.Collections.Generic;
 using System.ComponentModel;
 using UnityEngine;
-[System.Serializable]
-public class DamageHandler
+
+public class DamageHandler : MonoBehaviour
 {
    
     public void initialize()

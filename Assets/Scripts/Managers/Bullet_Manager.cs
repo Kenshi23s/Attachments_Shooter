@@ -9,8 +9,8 @@ public class Bullet_Manager : MonoSingleton<Bullet_Manager>
     static BaseBulltet _defaultBulletPrefab;
     [SerializeField] BaseBulltet _defaultBulletSample;
 
-    public static string defaultBulletKey => _defaultBulletKey;
-    static string _defaultBulletKey = "Default";
+    public static int defaultBulletKey => _defaultBulletKey;
+    static int _defaultBulletKey = 0000;
 
 
     // Start is called before the first frame update
@@ -19,14 +19,14 @@ public class Bullet_Manager : MonoSingleton<Bullet_Manager>
         mypool = new BulletPool();
         _defaultBulletPrefab = _defaultBulletSample;
         mypool.Initialize();
-        mypool.CreateBullet(_defaultBulletKey, _defaultBulletPrefab);
+        _defaultBulletKey = mypool.CreateBullet(_defaultBulletPrefab);
     }
 
-     public BaseBulltet GetProjectile(string key) 
+     public BaseBulltet GetProjectile(int key) 
         => mypool.AskForProjectile(key);
 
-    public void CreateBullet(string key,BaseBulltet bullet)
-      => mypool.CreateBullet(key, bullet);
+    public int CreateBulletPool(BaseBulltet bullet)
+      => mypool.CreateBullet(bullet);
 
     //public BaseBulltet SetProjectile(string key, BulletProperties properties, Action<HitData> onHit)
     //    => mypool.AskForProjectile(key, properties, onHit);

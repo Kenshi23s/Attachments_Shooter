@@ -3,13 +3,13 @@ using System;
 using System.Collections.Generic;
 using UnityEngine;
 using static StatsHandler;
-
+[RequireComponent(typeof(BoxCollider))]
 public abstract class Attachment : MonoBehaviour
 {
     [System.Serializable]
     // queria que la variable de "value" tuviera un range,
     // pero no era posible si no estaba en un struct
-   public struct StatChangeParams
+    public struct StatChangeParams
    {
 
         [Range(-100,100),SerializeField] int _value;
@@ -48,19 +48,20 @@ public abstract class Attachment : MonoBehaviour
     bool _isAttached;
     public bool isAttached => _isAttached;
 
-    protected event Action OnAtach;
-    protected event Action OnUnAttach;
+    protected event Action onAttach;
+    protected event Action onDettach;
 
     protected GunFather gunAttachedTo;
 
     private void Awake()
-    {
+    {   
         Initialize();
+        
     }
 
     private void Start()
     {
-
+        gameObject.layer = AttachmentManager.instance.AttachmentLayer;
     }
 
     protected virtual void Initialize() { }
@@ -76,17 +77,18 @@ public abstract class Attachment : MonoBehaviour
     //}
 
     // hace que el accesorio se vuelva hijo del arma y le añada sus estadisticas
-    public void Attach(GunFather gun,Transform parent,Vector3 Pos)
+    public void Attach(GunFather gun,Transform Pos)
     {
         if (gun!=null)
         {
-            this.transform.parent = parent;
-            transform.position = Pos;
+            this.transform.parent = Pos;
+            transform.position = Pos.position;
+            transform.forward= Pos.forward;
             gunAttachedTo = gun;
             _isAttached = true;
 
             gunAttachedTo.stats.ChangeStats(Attachment_stats, true);
-            OnAtach?.Invoke();
+            onAttach?.Invoke();
         }
         
     }
@@ -101,7 +103,7 @@ public abstract class Attachment : MonoBehaviour
         this.transform.parent=null;
         _isAttached=false;
 
-        OnUnAttach?.Invoke();
+        onDettach?.Invoke();
        
     }
    

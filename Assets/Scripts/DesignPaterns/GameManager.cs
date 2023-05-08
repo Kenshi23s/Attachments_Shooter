@@ -2,20 +2,16 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-
+[RequireComponent(typeof(FloatingTextManager))]
 public class GameManager : MonoSingleton<GameManager>
 {
-    public FloatingTextManager floatingTextManager;
+    [NonSerialized]public FloatingTextManager floatingTextManager;
     public ParticlePool _vfxPool;
 
     protected override void ArtificialAwake()
     {
-        base.ArtificialAwake();
-        floatingTextManager.Initialize(transform);
-        _vfxPool = new ParticlePool();
-
-       
+        base.ArtificialAwake();     
+        _vfxPool = new ParticlePool();      
     }
 
-    //public static explicit operator
 }

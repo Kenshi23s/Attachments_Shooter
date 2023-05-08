@@ -1,14 +1,11 @@
 using System;
-using System.Collections;
-using System.Collections.Generic;
-using System.Threading;
 using UnityEngine;
 using static StatsHandler;
 
 
 
 [RequireComponent(typeof(Rigidbody))]
-public abstract class BaseBulltet : MonoBehaviour,IPausable
+public abstract class BaseBulltet : MonoBehaviour
 {
 
     Rigidbody _rb;
@@ -18,9 +15,9 @@ public abstract class BaseBulltet : MonoBehaviour,IPausable
     // variables para pool
     #region
     //metodo de regreso
-    Action<BaseBulltet, string> _poolReturn;
+    Action<BaseBulltet, int> _poolReturn;
     //key
-    string poolKey;
+    int poolKey;
     #endregion
 
     public GunFather myGun;
@@ -39,7 +36,7 @@ public abstract class BaseBulltet : MonoBehaviour,IPausable
 
     private void Update() => myMovement?.MoveBullet();
 
-    public virtual void Initialize(Action<BaseBulltet,string> _poolReturn,string poolKey)
+    public virtual void Initialize(Action<BaseBulltet,int> _poolReturn,int poolKey)
     {    
         this._poolReturn = _poolReturn;
         this.poolKey = poolKey;     
@@ -101,13 +98,5 @@ public abstract class BaseBulltet : MonoBehaviour,IPausable
         _rb.velocity = Vector3.zero;
         _poolReturn.Invoke(this, poolKey);
     }
-    public void Pause()
-    {
-        
-    }
-
-    public void Resume()
-    {
-       
-    }
+   
 }

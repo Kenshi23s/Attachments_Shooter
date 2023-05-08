@@ -5,7 +5,7 @@ using UnityEngine;
 
 public class SideArm_Clasicc : SideArm
 {
-    Func<string,BaseBulltet> Get;
+    Func<int,BaseBulltet> Get;
    // Action<GunFather, Action<HitData>> Set;
     protected override void OptionalInitialize()
     {

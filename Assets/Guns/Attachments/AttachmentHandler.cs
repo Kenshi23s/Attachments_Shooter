@@ -5,7 +5,7 @@ using UnityEngine;
 using static Attachment;
 
 [System.Serializable]
-public class AttachmentHandler
+public class AttachmentHandler : MonoBehaviour
 {
 
     GunFather gun;
@@ -29,9 +29,9 @@ public class AttachmentHandler
     SerializedDictionary<AttachmentType, Attachment> _DefaultAttachMent = new SerializedDictionary<AttachmentType, Attachment>();
 
     public Action<AttachmentType> OnChange;
-    public string magazineAmmoType => _magazineAmmoType;
+    public int magazineAmmoType => _magazineAmmoType;
     [SerializeField, Tooltip("no modificar, solo lectura")]
-    string _magazineAmmoType;
+    int _magazineAmmoType;
 
 
 
@@ -49,23 +49,7 @@ public class AttachmentHandler
         this.gun = gun;
 
         #region OBSOLETE, DELETE LATER
-        //si se cambia el cargador chequea q tipo de municion usa
-        //OnChange += (x) =>
-        //{
-        //    if (x == AttachmentType.Magazine && activeAttachments.ContainsKey(x) && activeAttachments[x].TryGetComponent(out Magazine magazine))
-        //    {
-
-        //        if (_magazineAmmoType != null)
-        //        {
-        //            _magazineAmmoType = magazine.bulletKey;
-        //        }
-        //        else
-        //        {
-        //            _magazineAmmoType = Bullet_Manager.defaultBulletKey;
-        //        }
-        //    }
-
-        //};
+       
 
         _magazineAmmoType = Bullet_Manager.defaultBulletKey;
         #endregion
@@ -108,7 +92,7 @@ public class AttachmentHandler
                 if (_DefaultAttachMent[key] != null && _attachmentPos[key] != null)
                 {
                     //añado
-                    AddAttachment(key, _DefaultAttachMent[key]);
+                    AddAttachment(_DefaultAttachMent[key]);
                     continue;
                 }
                 //chequeo por las dudas para que no salten errores              
@@ -122,9 +106,10 @@ public class AttachmentHandler
     /// </summary>
     /// <param name="key"></param>
     /// <param name="value"></param>
-    public void AddAttachment(AttachmentType key, Attachment value)
+    public void AddAttachment(Attachment value)
     {
         //si contengo una posicion
+        AttachmentType key = value.myType;
         if (_attachmentPos.ContainsKey(key))
         {
             //y no tengo un accesorio de ese tipo ya activo
@@ -132,7 +117,7 @@ public class AttachmentHandler
             {
                 //lo añado y agrego sus stats
                 _activeAttachments.Add(key, value);               
-                _activeAttachments[key].Attach(gun, gun.transform, _attachmentPos[key].position);
+                _activeAttachments[key].Attach(gun, _attachmentPos[key]);
 
                 //hago un callback para chequear que cambio
                 OnChange?.Invoke(key);
@@ -158,7 +143,7 @@ public class AttachmentHandler
     {
         _activeAttachments[key].Dettach();
         _activeAttachments.Remove(key);
-        AddAttachment(key, value);
+        AddAttachment(value);
     }
     /// <summary>
     /// saca el accesorio del arma, si tengo un accesorio default para esa ranura, lo añado
@@ -168,11 +153,12 @@ public class AttachmentHandler
     {
         if (!_activeAttachments.ContainsKey(key)) return;
 
+        _activeAttachments[key].Dettach();
         _activeAttachments.Remove(key);
 
         if (_DefaultAttachMent.ContainsKey(key)) 
         {
-            AddAttachment(key, _DefaultAttachMent[key]);
+            AddAttachment(_DefaultAttachMent[key]);
             return;
         }
 

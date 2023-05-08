@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using static StatsHandler;
 using AYellowpaper.SerializedCollections;
+using System.Diagnostics;
 
 [System.Serializable]
 public struct GunAudioClips
@@ -31,7 +32,11 @@ public struct HitData
         this.weapon = weapon;
     }
 }
-
+[RequireComponent(typeof(DamageHandler))]
+[RequireComponent(typeof(RateOfFireHandler))]
+[RequireComponent(typeof(StatsHandler))]
+[RequireComponent(typeof(AttachmentHandler))]
+[RequireComponent(typeof(DebugableObject))]
 public abstract class GunFather : MonoBehaviour
 {
     [Header("Animator")]
@@ -40,27 +45,18 @@ public abstract class GunFather : MonoBehaviour
 
     [SerializeField] public int _actualAmmo;
 
-    //{ 
-    //    get => _actualAmmo; 
 
-    //    set => _actualAmmo = Mathf.Abs(value); 
-    //}
+    [NonSerialized] public DamageHandler damageHandler;
+
+    [NonSerialized] public RateOfFireHandler rateFireHandler;
+
+    [NonSerialized] public StatsHandler stats;
+
+    [NonSerialized] public AttachmentHandler attachmentHandler;
+
+    DebugableObject _debug;
 
 
-    //[Header("Damage"),Tooltip("el daño base y actual del arma(deberia tener un damageManager?)")]
-    //[SerializeField] int _baseDamage;
-    //[SerializeField] public int _actualDamage;
-
-    //[Header("Crit")]
-    //[SerializeField] bool CanCrit;
-    //[SerializeField] public float CritMultiplier;
-
-    public DamageHandler damageHandler;
-
-    public RateOfFireHandler rateFireHandler;
-
-   
-  
 
     [Header("Perks Stats"),Tooltip("perk equipados,(se deberia de hacer un PERK MANAGER creo," +
         " no estoy seguro)"),SerializeField]
@@ -68,16 +64,6 @@ public abstract class GunFather : MonoBehaviour
 
     [SerializeField,Tooltip("Las estadisticas del arma (no se muestra una actualizacion in game " +
         "en caso de que se tenga un accesorio)")]
-    public StatsHandler stats;
-
-
-    //Des-comentar mas adelante, struct para clips de audios
-    //[SerializeField] GunAudioClips Audioclips;
-
-    [Header("Attachments")]
-    public AttachmentHandler attachmentHandler;
-
-
 
     #region Events
     //estos eventos se usarian para callback hacia los perks y para feedback(particulas, sonidos,animaciones) 
@@ -114,12 +100,11 @@ public abstract class GunFather : MonoBehaviour
 
     protected virtual void Awake()
     {
-
-        stats.Initialize();
-        damageHandler.initialize();
-        //perkHandler.
-        rateFireHandler.Initialize(this);
-        attachmentHandler.Initialize(this);
+        attachmentHandler = GetComponent<AttachmentHandler>(); attachmentHandler.Initialize(this);
+        rateFireHandler = GetComponent<RateOfFireHandler>(); rateFireHandler.Initialize(this);
+        damageHandler = GetComponent<DamageHandler>(); damageHandler.initialize();
+        stats = GetComponent<StatsHandler>(); stats.Initialize();
+        _debug = GetComponent<DebugableObject>();
         OptionalInitialize();
     }
 
