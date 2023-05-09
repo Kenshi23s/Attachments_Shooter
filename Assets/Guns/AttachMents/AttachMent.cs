@@ -53,37 +53,39 @@ public abstract class Attachment : MonoBehaviour
 
     protected GunFather gunAttachedTo;
 
+    BoxCollider b_collider;
+
     private void Awake()
-    {   
+    {
+        b_collider = GetComponent<BoxCollider>();
+        Action<bool> colliderEnable = (x) => b_collider.enabled = x;
+        onAttach += () => colliderEnable(false);
+        onDettach += () => colliderEnable(true);
+
+        colliderEnable(!isAttached);
+
         Initialize();
         
     }
 
     private void Start()
     {
-        gameObject.layer = AttachmentManager.instance.AttachmentLayer;
+        gameObject.layer = AttachmentManager.instance.attachmentLayer;
     }
 
     protected virtual void Initialize() { }
 
-    //void SetStatsSign()
-    //{
-    //    foreach (StatNames key in Enum.GetValues(typeof(StatNames)))      
-    //        if (Attachment_stats.ContainsKey(key))
-    //                 Attachment_stats[key].SetSign();
-            
-
-        
-    //}
-
     // hace que el accesorio se vuelva hijo del arma y le añada sus estadisticas
-    public void Attach(GunFather gun,Transform Pos)
+    public void Attach(GunFather gun,Transform Attachpivot)
     {
         if (gun!=null)
         {
-            this.transform.parent = Pos;
-            transform.position = Pos.position;
-            transform.forward= Pos.forward;
+            this.transform.parent = Attachpivot;
+            transform.rotation = Attachpivot.rotation;
+
+            transform.position = Attachpivot.position;
+            //transform.forward  = Pos.forward;
+
             gunAttachedTo = gun;
             _isAttached = true;
 
@@ -93,6 +95,12 @@ public abstract class Attachment : MonoBehaviour
         
     }
 
+    // para cuando las armas tengan colliders
+    Vector3 GetMeshCollision(Transform pivot)
+    {
+        return Physics.Raycast(pivot.position, Vector3.down, out RaycastHit hit) ? hit.point : pivot.position;
+       
+    }
     //saca sus stats del arma y queda sin padre
     public void Dettach()
     {

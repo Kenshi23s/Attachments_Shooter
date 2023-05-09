@@ -4,7 +4,7 @@ using System.Linq;
 using UnityEngine;
 using static Attachment;
 
-[System.Serializable]
+
 public class AttachmentHandler : MonoBehaviour
 {
 
@@ -67,7 +67,7 @@ public class AttachmentHandler : MonoBehaviour
                 else
                 {
                     _shootPos = _defaultShootPos;
-                    Debug.Log("Shoot Pos Default");
+                    gun._debug.Log("Shoot Pos Default");
                 }
                 return;
             }
@@ -121,7 +121,7 @@ public class AttachmentHandler : MonoBehaviour
 
                 //hago un callback para chequear que cambio
                 OnChange?.Invoke(key);
-                Debug.Log($"conecte el attachment de tipo{key} a el arma");
+                gun._debug.Log($"conecte el attachment de tipo{key} a el arma");
                 return;
             }
             else
@@ -130,7 +130,7 @@ public class AttachmentHandler : MonoBehaviour
                 ReplaceAttachment(key, value);
             }
         }
-        Debug.Log($"NO conecte el attachment de tipo{key} a el arma, ya que no tengo una posicion para darle");
+        gun._debug.WarningLog($"NO conecte el attachment de tipo{key} a el arma, ya que no tengo una posicion para darle");
 
     }
 
@@ -142,6 +142,7 @@ public class AttachmentHandler : MonoBehaviour
     void ReplaceAttachment(AttachmentType key, Attachment value)
     {
         _activeAttachments[key].Dettach();
+        AttachmentManager.instance.Inventory_SaveAttachment(gun, _activeAttachments[key]);
         _activeAttachments.Remove(key);
         AddAttachment(value);
     }

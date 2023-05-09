@@ -54,7 +54,7 @@ public abstract class GunFather : MonoBehaviour
 
     [NonSerialized] public AttachmentHandler attachmentHandler;
 
-    DebugableObject _debug;
+    [NonSerialized] public DebugableObject _debug;
 
 
 

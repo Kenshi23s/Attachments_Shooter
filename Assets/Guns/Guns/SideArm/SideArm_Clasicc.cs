@@ -21,7 +21,7 @@ public class SideArm_Clasicc : SideArm
 
     public override void Shoot()
     {
-         Debug.Log("Shoot");
+        _debug.Log($"Shot fired by{gameObject.name}");
          BaseBulltet bullet = Get(attachmentHandler.magazineAmmoType);
         if (bullet!=null)
         {
