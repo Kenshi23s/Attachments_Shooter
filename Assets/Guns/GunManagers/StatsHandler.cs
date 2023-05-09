@@ -4,7 +4,7 @@ using AYellowpaper.SerializedCollections;
 using System;
 using static Attachment;
 
-[System.Serializable]
+[DisallowMultipleComponent]
 public class StatsHandler : MonoBehaviour
 {
 

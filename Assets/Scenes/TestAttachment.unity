@@ -466,7 +466,7 @@ Mesh:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: pb_Mesh-315038
+  m_Name: pb_Mesh26410
   serializedVersion: 10
   m_SubMeshes:
   - serializedVersion: 2
@@ -1867,7 +1867,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: Player 1
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: 161525800, guid: 4e0b8e6078937b342881ef0454eba315, type: 3}
+    - {fileID: 161525801, guid: 4e0b8e6078937b342881ef0454eba315, type: 3}
+    - {fileID: 161525802, guid: 4e0b8e6078937b342881ef0454eba315, type: 3}
+    - {fileID: 161525803, guid: 4e0b8e6078937b342881ef0454eba315, type: 3}
   m_SourcePrefab: {fileID: 100100000, guid: 4e0b8e6078937b342881ef0454eba315, type: 3}
 --- !u!4 &1010523900 stripped
 Transform:
@@ -3296,6 +3300,10 @@ PrefabInstance:
     - target: {fileID: 8067779020548387650, guid: 1b351c6b4ebde93478196f52e8defa53, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8067779020548387651, guid: 1b351c6b4ebde93478196f52e8defa53, type: 3}
+      propertyPath: Attachment_stats._serializedList.Array.size
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 8067779020548387677, guid: 1b351c6b4ebde93478196f52e8defa53, type: 3}
       propertyPath: m_Name

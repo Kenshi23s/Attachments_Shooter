@@ -4,7 +4,7 @@ using System.Linq;
 using UnityEngine;
 using static Attachment;
 
-
+[DisallowMultipleComponent]
 public class AttachmentHandler : MonoBehaviour
 {
 
@@ -18,7 +18,7 @@ public class AttachmentHandler : MonoBehaviour
     #endregion
     SerializedDictionary<AttachmentType, Transform> _attachmentPos = new SerializedDictionary<AttachmentType, Transform>();
 
-   // mis accesorios activos en este momento
+    // mis accesorios activos en este momento
     SerializedDictionary<AttachmentType, Attachment> _activeAttachments = new SerializedDictionary<AttachmentType, Attachment>();
     public SerializedDictionary<AttachmentType, Attachment> activeAttachments => _activeAttachments;
     #region Descripcion _Default
@@ -28,7 +28,11 @@ public class AttachmentHandler : MonoBehaviour
     #endregion
     SerializedDictionary<AttachmentType, Attachment> _DefaultAttachMent = new SerializedDictionary<AttachmentType, Attachment>();
 
+  
+    //diccionario de eventos para cambios
     public Action<AttachmentType> OnChange;
+
+
     public int magazineAmmoType => _magazineAmmoType;
     [SerializeField, Tooltip("no modificar, solo lectura")]
     int _magazineAmmoType;
@@ -54,7 +58,7 @@ public class AttachmentHandler : MonoBehaviour
         _magazineAmmoType = Bullet_Manager.defaultBulletKey;
         #endregion
 
-        //si se cambia el cargador chequea q tipo de municion usa
+      
         OnChange += (x) =>
         {
             //activeAttachments.Where(x => x.Key == AttachmentType.Muzzle).Where(x => x.Value != null).Any();
@@ -72,7 +76,9 @@ public class AttachmentHandler : MonoBehaviour
                 return;
             }
         };
+
         _shootPos = _defaultShootPos;
+
 
         SetDefaultAttachments();       
     }

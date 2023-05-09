@@ -1,8 +1,5 @@
 using System;
-using System.Collections;
 using System.Collections.Generic;
-using System.Diagnostics;
-using System.Linq;
 using UnityEngine;
 using static Attachment;
 [RequireComponent(typeof(DebugableObject))]
@@ -26,15 +23,11 @@ public class AttachmentManager : MonoSingleton<AttachmentManager>
         _debug = GetComponent<DebugableObject>(); _debug.AddGizmoAction(DrawRaycast);
      
     }
-    private void Start()
-    {
-        getGun = () => GunManager.instance.actualGun;
-    }
 
-    private void Update()
-    {
-        AttachmentOnSight();
-    }
+    private void Start() => getGun = () => GunManager.instance.actualGun;
+
+    private void Update() => AttachmentOnSight();
+ 
     void AttachmentOnSight()
     {
         Transform tr = Camera.main.transform;
@@ -52,18 +45,8 @@ public class AttachmentManager : MonoSingleton<AttachmentManager>
            
         }
     }
+    
 
-
-    void DrawRaycast()
-    {
-        Transform tr = Camera.main.transform;
-        Gizmos.color = Color.blue;
-        if (Physics.Raycast(tr.position, tr.forward, out RaycastHit hit, raycastDistance, attachmentLayer))      
-            Gizmos.DrawLine(tr.position, hit.point);    
-        else
-            Gizmos.DrawLine(tr.position, tr.position + tr.forward * raycastDistance);
-
-    }
     #region Inventory
     public int Inventory_SaveAttachment(GunFather gun,Attachment value)
     {
@@ -96,15 +79,30 @@ public class AttachmentManager : MonoSingleton<AttachmentManager>
     {
         x = default;
 
-        if (!_attachmentsInventory.ContainsKey(keys.Item1)) return false;
-        if (!_attachmentsInventory[keys.Item1].ContainsKey(keys.Item2)) return false;
+        //if (!_attachmentsInventory.ContainsKey(keys.Item1)) return false;
+        //if (!_attachmentsInventory[keys.Item1].ContainsKey(keys.Item2)) return false;
+        //x = _attachmentsInventory[keys.Item1][keys.Item2];
+        if (_attachmentsInventory.TryGetValue(keys.Item1,out var a))        
+            if (a.TryGetValue(keys.Item2,out var attachment))
+            {
+                x = attachment;
+                x.gameObject.SetActive(true);
+                _attachmentsInventory[keys.Item1].Remove(keys.Item2); return true;
+            }
 
-        x = _attachmentsInventory[keys.Item1][keys.Item2];
-        x.gameObject.SetActive(true);
-        _attachmentsInventory[keys.Item1].Remove(keys.Item2); return true;
+        return false;    
     }
     #endregion
+    void DrawRaycast()
+    {
+        Transform tr = Camera.main.transform;
+        Gizmos.color = Color.blue;
+        if (Physics.Raycast(tr.position, tr.forward, out RaycastHit hit, raycastDistance, attachmentLayer))
+            Gizmos.DrawLine(tr.position, hit.point);
+        else
+            Gizmos.DrawLine(tr.position, tr.position + tr.forward * raycastDistance);
 
+    }
 
 
 }

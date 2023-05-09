@@ -1,12 +1,7 @@
 using System;
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using System.Linq;
-using UnityEditor;
-using Unity.Mathematics;
 using FacundoColomboMethods;
-
 public class Enemy_AirTurret : Enemy, IDetector
 {
     //aca me guardo el target actual

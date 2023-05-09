@@ -2,6 +2,7 @@ using System;
 using UnityEngine;
 using UnityEngine.Events;
 
+[DisallowMultipleComponent]
 public class DebugableObject : MonoBehaviour
 {
     [SerializeField] public bool canDebug = true;

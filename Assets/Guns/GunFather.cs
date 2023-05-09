@@ -102,7 +102,7 @@ public abstract class GunFather : MonoBehaviour
     {
         attachmentHandler = GetComponent<AttachmentHandler>(); attachmentHandler.Initialize(this);
         rateFireHandler = GetComponent<RateOfFireHandler>(); rateFireHandler.Initialize(this);
-        damageHandler = GetComponent<DamageHandler>(); damageHandler.initialize();
+        damageHandler = GetComponent<DamageHandler>(); damageHandler.Initialize();
         stats = GetComponent<StatsHandler>(); stats.Initialize();
         _debug = GetComponent<DebugableObject>();
         OptionalInitialize();

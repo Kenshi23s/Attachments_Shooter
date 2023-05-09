@@ -1,10 +1,10 @@
 using System.ComponentModel;
 using UnityEngine;
-
+[DisallowMultipleComponent]
 public class DamageHandler : MonoBehaviour
 {
    
-    public void initialize()
+    public void Initialize()
     {
         _actualDamage = _baseDamage;
     }

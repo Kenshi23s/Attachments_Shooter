@@ -2,7 +2,7 @@ using System.Collections;
 using System;
 using UnityEngine;
 //Manager de cadencia de tiro
-[System.Serializable]
+[DisallowMultipleComponent]
 public class RateOfFireHandler: MonoBehaviour
 {
     //deberia tener un rate of fire manager para cada tipo de cadencia, uno para automatico/singleShot y otro para rafaga
