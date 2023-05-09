@@ -1,5 +1,6 @@
 using AYellowpaper.SerializedCollections;
 using System;
+using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 using static Attachment;
@@ -28,9 +29,11 @@ public class AttachmentHandler : MonoBehaviour
     #endregion
     SerializedDictionary<AttachmentType, Attachment> _DefaultAttachMent = new SerializedDictionary<AttachmentType, Attachment>();
 
-  
+    public Dictionary<AttachmentType, Action> onAttachmentCgange => _onAttachmentChange;
+    private Dictionary<AttachmentType, Action> _onAttachmentChange = new Dictionary<AttachmentType, Action>();
+
     //diccionario de eventos para cambios
-    public Action<AttachmentType> OnChange;
+    
 
 
     public int magazineAmmoType => _magazineAmmoType;
@@ -59,22 +62,17 @@ public class AttachmentHandler : MonoBehaviour
         #endregion
 
       
-        OnChange += (x) =>
+        Action onMuzzleChange = () =>
         {
             //activeAttachments.Where(x => x.Key == AttachmentType.Muzzle).Where(x => x.Value != null).Any();
             //if (x == AttachmentType.Muzzle && activeAttachments.ContainsKey(x) && activeAttachments[x].TryGetComponent(out Muzzle muzzle))
-            if (activeAttachments.Where(x => x.Key == AttachmentType.Muzzle).Any())
+            if (activeAttachments[AttachmentType.Muzzle].TryGetComponent<Muzzle>(out var a))
             {
-                Muzzle m = activeAttachments[x].GetComponent<Muzzle>();
-               
-                if (m != null) _shootPos = m.shootPos;                            
-                else
-                {
-                    _shootPos = _defaultShootPos;
-                    gun._debug.Log("Shoot Pos Default");
-                }
+                _shootPos = a.shootPos;
                 return;
             }
+
+            _shootPos = _defaultShootPos;          
         };
 
         _shootPos = _defaultShootPos;
@@ -83,7 +81,26 @@ public class AttachmentHandler : MonoBehaviour
         SetDefaultAttachments();       
     }
 
-   
+    public void AddOnChangeEvent(AttachmentType eventType, Action new_action)
+    {
+        if (_onAttachmentChange.TryGetValue(eventType, out var OnCall))       
+            OnCall += new_action;
+        
+        else
+        {
+            Action OnCallCreate = default;
+            _onAttachmentChange.Add(eventType, OnCallCreate);
+            AddOnChangeEvent(eventType, new_action);//recursion         
+        }             
+    }
+
+    public void RemoveOnChangeEvent(AttachmentType eventType, Action action)
+    {
+        if (_onAttachmentChange.TryGetValue(eventType, out var OnCall))        
+            OnCall -= action;      
+    }
+
+
     /// <summary>
     /// añade los accesorios default, en caso de tener alguno
     /// </summary>
@@ -103,7 +120,7 @@ public class AttachmentHandler : MonoBehaviour
                 }
                 //chequeo por las dudas para que no salten errores              
             }
-            OnChange(key);
+            _onAttachmentChange[key]?.Invoke();
         }      
     }
 
@@ -126,7 +143,7 @@ public class AttachmentHandler : MonoBehaviour
                 _activeAttachments[key].Attach(gun, _attachmentPos[key]);
 
                 //hago un callback para chequear que cambio
-                OnChange?.Invoke(key);
+                _onAttachmentChange[key]?.Invoke();
                 gun._debug.Log($"conecte el attachment de tipo{key} a el arma");
                 return;
             }
@@ -169,7 +186,7 @@ public class AttachmentHandler : MonoBehaviour
             return;
         }
 
-        OnChange?.Invoke(key);
+        _onAttachmentChange[key]?.Invoke();
 
 
 
