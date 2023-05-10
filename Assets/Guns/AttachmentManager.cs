@@ -1,14 +1,12 @@
 using System;
 using System.Collections.Generic;
-using System.Linq;
 using UnityEngine;
 using static Attachment;
 [RequireComponent(typeof(DebugableObject))]
 public class AttachmentManager : MonoSingleton<AttachmentManager>
 {
-    DebugableObject _debug;
     //lo debe crear el gunManager?
-    Dictionary<AttachmentType, Dictionary<int, Attachment>> _attachmentsInventory = new Dictionary<AttachmentType, Dictionary<int, Attachment>>();
+    Dictionary<AttachmentType, Dictionary<int,Attachment>> _attachmentsInventory = new Dictionary<AttachmentType, Dictionary<int, Attachment>>();
 
     public LayerMask attachmentLayer => _attachmentLayer;
 
@@ -16,45 +14,41 @@ public class AttachmentManager : MonoSingleton<AttachmentManager>
     [SerializeField] float raycastDistance;
     [SerializeField] KeyCode Equip = KeyCode.F, Save = KeyCode.G;
 
-    public Material GlowShader => glowShader;
-    [SerializeField] private Material glowShader;
-
     Func<GunFather> getGun;
-
+    DebugableObject _debug;
 
     protected override void ArtificialAwake()
     {
         base.ArtificialAwake();
         _debug = GetComponent<DebugableObject>(); _debug.AddGizmoAction(DrawRaycast);
-
+     
     }
 
     private void Start() => getGun = () => GunManager.instance.actualGun;
 
     private void Update() => AttachmentOnSight();
-
+ 
     void AttachmentOnSight()
     {
         Transform tr = Camera.main.transform;
         //desde                     //hacia                         //distancia      //layer
-        if (Physics.SphereCast(tr.position, 0.25f, tr.forward, out RaycastHit hit, raycastDistance, attachmentLayer))
+        if (Physics.Raycast(tr.position, tr.forward, out RaycastHit hit, raycastDistance, attachmentLayer))
         {
             Attachment x = hit.transform.GetComponent<Attachment>();
             GunFather gun = getGun?.Invoke();
-            x.Glow();
-            _debug.Log("Veo accesorio");
+
             if (Input.GetKey(Equip)) getGun?.Invoke().attachmentHandler.AddAttachment(x);
 
             else if (Input.GetKey(Save)) Inventory_SaveAttachment(getGun?.Invoke(), x);
 
-
-
+           
+           
         }
     }
-
+    
 
     #region Inventory
-    public int Inventory_SaveAttachment(GunFather gun, Attachment value)
+    public int Inventory_SaveAttachment(GunFather gun,Attachment value)
     {
         _debug.Log("Saving Attachment");
         int key = value.GetHashCode();
@@ -63,12 +57,12 @@ public class AttachmentManager : MonoSingleton<AttachmentManager>
 
         if (_attachmentsInventory[value.myType].ContainsKey(key)) return key;
 
-        if (value.isAttached)
-            gun.attachmentHandler.RemoveAttachment(value.myType); value.Dettach();
+        if (value.isAttached)       
+           gun.attachmentHandler.RemoveAttachment(value.myType); value.Dettach();
 
 
-
-        _attachmentsInventory[value.myType].Add(key, value);
+        
+        _attachmentsInventory[value.myType].Add(key,value);
         value.gameObject.SetActive(false);
 
         _debug.Log(" Attachment Saved!");
@@ -76,7 +70,7 @@ public class AttachmentManager : MonoSingleton<AttachmentManager>
 
     }
 
-
+  
 
     //key diccionario 1(enum Attachment) 
     //key diccionario 2(HashCode)
@@ -88,44 +82,23 @@ public class AttachmentManager : MonoSingleton<AttachmentManager>
         //if (!_attachmentsInventory.ContainsKey(keys.Item1)) return false;
         //if (!_attachmentsInventory[keys.Item1].ContainsKey(keys.Item2)) return false;
         //x = _attachmentsInventory[keys.Item1][keys.Item2];
-        if (_attachmentsInventory.TryGetValue(keys.Item1, out var a))
-            if (a.TryGetValue(keys.Item2, out var attachment))
+        if (_attachmentsInventory.TryGetValue(keys.Item1,out var a))        
+            if (a.TryGetValue(keys.Item2,out var attachment))
             {
                 x = attachment;
                 x.gameObject.SetActive(true);
                 _attachmentsInventory[keys.Item1].Remove(keys.Item2); return true;
             }
 
-        return false;
-    }
-
-    public void Inventory_RemoveAttachment(Attachment x)
-    {
-        if (_attachmentsInventory.TryGetValue(x.myType,out var diccionary))       
-            if (diccionary.TryGetValue(x.GetHashCode(),out var value))           
-                    diccionary.Remove(x.GetHashCode());     
-    }
-   
-
-    public Attachment[] GetAllAttachments(AttachmentType type)
-    {
-        if (_attachmentsInventory.ContainsKey(type))        
-            return _attachmentsInventory[type].Values.ToArray();
-        else  
-            return new Attachment[0];
+        return false;    
     }
     #endregion
-
     void DrawRaycast()
     {
         Transform tr = Camera.main.transform;
         Gizmos.color = Color.blue;
-        if (Physics.SphereCast(tr.position, 0.25f, tr.forward, out RaycastHit hit, raycastDistance, attachmentLayer))
-        {
+        if (Physics.Raycast(tr.position, tr.forward, out RaycastHit hit, raycastDistance, attachmentLayer))
             Gizmos.DrawLine(tr.position, hit.point);
-            Gizmos.DrawWireSphere(hit.point, 0.25f);
-        }
-           
         else
             Gizmos.DrawLine(tr.position, tr.position + tr.forward * raycastDistance);
 

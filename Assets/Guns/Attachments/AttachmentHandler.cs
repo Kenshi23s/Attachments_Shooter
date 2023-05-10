@@ -120,11 +120,7 @@ public class AttachmentHandler : MonoBehaviour
                 }
                 //chequeo por las dudas para que no salten errores              
             }
-            if (_onAttachmentChange.TryGetValue(key,out var action))
-            {
-                action?.Invoke();
-            }
-            
+            _onAttachmentChange[key]?.Invoke();
         }      
     }
 

@@ -1,6 +1,5 @@
 using AYellowpaper.SerializedCollections;
 using System;
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using static StatsHandler;
@@ -49,38 +48,20 @@ public abstract class Attachment : MonoBehaviour
     bool _isAttached;
     public bool isAttached => _isAttached;
 
-
     protected event Action onAttach;
     protected event Action onDettach;
 
     protected GunFather gunAttachedTo;
 
-    Material mat;
-
     BoxCollider b_collider;
-
-    private bool glow;
-    //{ 
-    //    set 
-    //    {
-    //        if (value)  mat.SetInteger("_IsGlowing", 1);
-    //        else mat.SetInteger("_IsGlowing", 0);
-          
-    //    }
-    //}
-
-    protected virtual void Initialize() { }
-
 
     private void Awake()
     {
         b_collider = GetComponent<BoxCollider>();
-      
-
         Action<bool> colliderEnable = (x) => b_collider.enabled = x;
         onAttach += () => colliderEnable(false);
         onDettach += () => colliderEnable(true);
-    
+
         colliderEnable(!isAttached);
 
         Initialize();
@@ -89,39 +70,10 @@ public abstract class Attachment : MonoBehaviour
 
     private void Start()
     {
-        var manager = AttachmentManager.instance;
-        gameObject.layer = manager.attachmentLayer;
-
-        // debe haber un modo mas facuk
-        Material aux = GetComponentInChildren<Renderer>().material;
-        Texture mainTexture = mat.mainTexture;
-
-        aux = new Material(manager.GlowShader);
-        mat.SetTexture("_MainTex",mainTexture);
-        GetComponentInChildren<Renderer>().material = mat;
-        mat = GetComponentInChildren<Renderer>().material;
-
-
-
-
+        gameObject.layer = AttachmentManager.instance.attachmentLayer;
     }
-   
-    public void Glow() 
-    {
-       
-        StopCoroutine(Timer());
-        StartCoroutine(Timer());
 
-    }
-    IEnumerator Timer()
-    {
-        mat.SetInteger("_IsGlowing", 1);
-    
-        yield return new WaitForSeconds(0.25f);
-        mat.SetInteger("_IsGlowing", 0);
-    }
-    
-
+    protected virtual void Initialize() { }
 
     // hace que el accesorio se vuelva hijo del arma y le añada sus estadisticas
     public void Attach(GunFather gun,Transform Attachpivot)
