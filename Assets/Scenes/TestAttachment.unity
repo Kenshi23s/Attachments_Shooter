@@ -466,7 +466,11 @@ Mesh:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
+<<<<<<< Updated upstream
   m_Name: pb_Mesh40172
+=======
+  m_Name: pb_Mesh32720
+>>>>>>> Stashed changes
   serializedVersion: 10
   m_SubMeshes:
   - serializedVersion: 2
@@ -1809,16 +1813,28 @@ PrefabInstance:
       objectReference: {fileID: 460694689}
     - target: {fileID: 1769256427618282985, guid: 4e0b8e6078937b342881ef0454eba315, type: 3}
       propertyPath: _attachmentPos._serializedList.Array.size
-      value: 2
+      value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 1769256427618282985, guid: 4e0b8e6078937b342881ef0454eba315, type: 3}
       propertyPath: _attachmentPos._serializedList.Array.data[1].Key
+      value: 4
+      objectReference: {fileID: 0}
+    - target: {fileID: 1769256427618282985, guid: 4e0b8e6078937b342881ef0454eba315, type: 3}
+      propertyPath: _attachmentPos._serializedList.Array.data[2].Key
       value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 1769256427618282985, guid: 4e0b8e6078937b342881ef0454eba315, type: 3}
       propertyPath: _attachmentPos._serializedList.Array.data[1].Value
       value: 
+      objectReference: {fileID: 2032663760}
+    - target: {fileID: 1769256427618282985, guid: 4e0b8e6078937b342881ef0454eba315, type: 3}
+      propertyPath: _attachmentPos._serializedList.Array.data[2].Value
+      value: 
       objectReference: {fileID: 2052491644}
+    - target: {fileID: 2938340201787266778, guid: 4e0b8e6078937b342881ef0454eba315, type: 3}
+      propertyPath: glowShader
+      value: 
+      objectReference: {fileID: 2100000, guid: 3c213f75aaacb144cadc0d11b9bed530, type: 2}
     - target: {fileID: 8568796443268590855, guid: 4e0b8e6078937b342881ef0454eba315, type: 3}
       propertyPath: m_RootOrder
       value: 6
@@ -3000,6 +3016,11 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1997370106}
   m_Mesh: {fileID: 10206, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!4 &2032663760 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 797947022, guid: 4e0b8e6078937b342881ef0454eba315, type: 3}
+  m_PrefabInstance: {fileID: 957572145}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &2052491643
 GameObject:
   m_ObjectHideFlags: 0
@@ -3257,6 +3278,22 @@ PrefabInstance:
       propertyPath: m_IsActive
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 8067779020521078225, guid: 1b351c6b4ebde93478196f52e8defa53, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8067779020521078225, guid: 1b351c6b4ebde93478196f52e8defa53, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8067779020521078225, guid: 1b351c6b4ebde93478196f52e8defa53, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8067779020521078230, guid: 1b351c6b4ebde93478196f52e8defa53, type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: 3c213f75aaacb144cadc0d11b9bed530, type: 2}
     - target: {fileID: 8067779020548387650, guid: 1b351c6b4ebde93478196f52e8defa53, type: 3}
       propertyPath: m_RootOrder
       value: 2
@@ -3303,7 +3340,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8067779020548387651, guid: 1b351c6b4ebde93478196f52e8defa53, type: 3}
       propertyPath: Attachment_stats._serializedList.Array.size
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8067779020548387677, guid: 1b351c6b4ebde93478196f52e8defa53, type: 3}
       propertyPath: m_Name

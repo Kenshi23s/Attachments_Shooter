@@ -6,8 +6,10 @@ public class Sight : Attachment
 {
     SpriteRenderer _sightDot;
     public SpriteRenderer sightDot => _sightDot;
-    private void Awake()
+ 
+    protected override void Initialize()
     {
+        base.Initialize();
         _myType = AttachmentType.Sight;
     }
 }
