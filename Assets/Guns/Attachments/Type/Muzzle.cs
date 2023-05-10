@@ -11,6 +11,11 @@ public class Muzzle : Attachment
     [SerializeField]Transform _shootPos;
     public Transform shootPos => _shootPos;
 
+    protected override void Initialize()
+    {
+        
+    }
+
     //private void Awake()
     //{
     //    OnAtach += () => { gunAttachedTo?.Stats.AddRange(rangeStat);};

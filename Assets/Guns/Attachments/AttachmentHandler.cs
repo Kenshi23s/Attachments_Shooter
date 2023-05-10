@@ -4,6 +4,8 @@ using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 using static Attachment;
+using static UnityEditor.Searcher.Searcher.AnalyticsEvent;
+using static UnityEngine.Rendering.DebugUI;
 
 [DisallowMultipleComponent]
 public class AttachmentHandler : MonoBehaviour
@@ -51,9 +53,9 @@ public class AttachmentHandler : MonoBehaviour
     /// este metodo inicializa la clase, requiere q pases un "GunFather"
     /// </summary>
     /// <param name="gun"></param>
-    public void Initialize(GunFather gun)
+    public void Awake()
     {
-        this.gun = gun;
+        this.gun = GetComponent<GunFather>();
 
         #region OBSOLETE, DELETE LATER
        
@@ -64,42 +66,15 @@ public class AttachmentHandler : MonoBehaviour
       
         Action onMuzzleChange = () =>
         {
-            //activeAttachments.Where(x => x.Key == AttachmentType.Muzzle).Where(x => x.Value != null).Any();
-            //if (x == AttachmentType.Muzzle && activeAttachments.ContainsKey(x) && activeAttachments[x].TryGetComponent(out Muzzle muzzle))
             if (activeAttachments[AttachmentType.Muzzle].TryGetComponent<Muzzle>(out var a))
-            {
-                _shootPos = a.shootPos;
-                return;
-            }
-
-            _shootPos = _defaultShootPos;          
+            { _shootPos = a.shootPos; return; }  _shootPos = _defaultShootPos;                       
         };
-
         _shootPos = _defaultShootPos;
 
+        AddOnChangeEvent(AttachmentType.Muzzle, onMuzzleChange);
 
         SetDefaultAttachments();       
     }
-
-    public void AddOnChangeEvent(AttachmentType eventType, Action new_action)
-    {
-        if (_onAttachmentChange.TryGetValue(eventType, out var OnCall))       
-            OnCall += new_action;
-        
-        else
-        {
-            Action OnCallCreate = default;
-            _onAttachmentChange.Add(eventType, OnCallCreate);
-            AddOnChangeEvent(eventType, new_action);//recursion         
-        }             
-    }
-
-    public void RemoveOnChangeEvent(AttachmentType eventType, Action action)
-    {
-        if (_onAttachmentChange.TryGetValue(eventType, out var OnCall))        
-            OnCall -= action;      
-    }
-
 
     /// <summary>
     /// añade los accesorios default, en caso de tener alguno
@@ -120,8 +95,33 @@ public class AttachmentHandler : MonoBehaviour
                 }
                 //chequeo por las dudas para que no salten errores              
             }
-            _onAttachmentChange[key]?.Invoke();
-        }      
+            if (_onAttachmentChange.TryGetValue(key,out var action)) action?.Invoke();
+                 
+        }
+    }
+
+    public void AddOnChangeEvent(AttachmentType eventType, Action new_action)
+    {
+        if (_onAttachmentChange.TryGetValue(eventType, out var OnCall))       
+            OnCall += new_action;
+        
+        else
+        {
+            Action OnCallCreate = default;
+            _onAttachmentChange.Add(eventType, OnCallCreate);
+            AddOnChangeEvent(eventType, new_action);//recursion         
+        }             
+    }
+
+    public void RemoveOnChangeEvent(AttachmentType eventType, Action action)
+    {
+        if (_onAttachmentChange.TryGetValue(eventType, out var OnCall))        
+            OnCall -= action;
+    }   
+
+    void CallEvent(AttachmentType type)
+    {
+        if (_onAttachmentChange.TryGetValue(type, out var Call)) Call?.Invoke();
     }
 
     /// <summary>
@@ -133,8 +133,14 @@ public class AttachmentHandler : MonoBehaviour
     {
         //si contengo una posicion
         AttachmentType key = value.myType;
-        if (_attachmentPos.ContainsKey(key))
-        {
+
+            if (!_attachmentPos.ContainsKey(key)) 
+            {
+                gun._debug.WarningLog($"NO conecte el attachment de tipo{key} a el arma," +
+                    $" ya que no tengo una posicion para darle");
+                return;
+            }
+        
             //y no tengo un accesorio de ese tipo ya activo
             if (!_activeAttachments.ContainsKey(key))
             {
@@ -143,17 +149,18 @@ public class AttachmentHandler : MonoBehaviour
                 _activeAttachments[key].Attach(gun, _attachmentPos[key]);
 
                 //hago un callback para chequear que cambio
-                _onAttachmentChange[key]?.Invoke();
-                gun._debug.Log($"conecte el attachment de tipo{key} a el arma");
-                return;
+                CallEvent(key);
+                gun._debug.Log($"conecte el attachment de tipo {key} a el arma");
+         
             }
             else
             {
                 //si ya tenia un accesorio de ese tipo lo remplazo
                 ReplaceAttachment(key, value);
             }
-        }
-        gun._debug.WarningLog($"NO conecte el attachment de tipo{key} a el arma, ya que no tengo una posicion para darle");
+            return;
+        
+       
 
     }
 
@@ -164,8 +171,7 @@ public class AttachmentHandler : MonoBehaviour
     /// <param name="value"></param>
     void ReplaceAttachment(AttachmentType key, Attachment value)
     {
-        _activeAttachments[key].Dettach();
-        AttachmentManager.instance.Inventory_SaveAttachment(gun, _activeAttachments[key]);
+        SaveAttachment(value);
         _activeAttachments.Remove(key);
         AddAttachment(value);
     }
@@ -175,21 +181,23 @@ public class AttachmentHandler : MonoBehaviour
     /// <param name="key"></param>
     public void RemoveAttachment(AttachmentType key)
     {
-        if (!_activeAttachments.ContainsKey(key)) return;
-
-        _activeAttachments[key].Dettach();
-        _activeAttachments.Remove(key);
-
-        if (_DefaultAttachMent.ContainsKey(key)) 
+        if (_activeAttachments.TryGetValue(key,out var toRemove))
         {
-            AddAttachment(_DefaultAttachMent[key]);
-            return;
-        }
-
+            SaveAttachment(toRemove);
+            _activeAttachments.Remove(key);
+        }     
+        if (_DefaultAttachMent.TryGetValue(key,out var _default)) AddAttachment(_default);
+   
         _onAttachmentChange[key]?.Invoke();
 
 
 
+    }
+
+    void SaveAttachment(Attachment x)
+    {
+        x.Dettach();
+        AttachmentManager.instance.Inventory_SaveAttachment(gun, x);
     }
 
 }

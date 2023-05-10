@@ -100,10 +100,10 @@ public abstract class GunFather : MonoBehaviour
 
     protected virtual void Awake()
     {
-        attachmentHandler = GetComponent<AttachmentHandler>(); attachmentHandler.Initialize(this);
-        rateFireHandler = GetComponent<RateOfFireHandler>(); rateFireHandler.Initialize(this);
-        damageHandler = GetComponent<DamageHandler>(); damageHandler.Initialize();
-        stats = GetComponent<StatsHandler>(); stats.Initialize();
+        attachmentHandler = GetComponent<AttachmentHandler>(); 
+        rateFireHandler = GetComponent<RateOfFireHandler>(); 
+        damageHandler = GetComponent<DamageHandler>(); 
+        stats = GetComponent<StatsHandler>(); 
         _debug = GetComponent<DebugableObject>();
         OptionalInitialize();
     }

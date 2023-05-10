@@ -50,7 +50,7 @@ public class AttachmentManager : MonoSingleton<AttachmentManager>
     #region Inventory
     public int Inventory_SaveAttachment(GunFather gun,Attachment value)
     {
-        _debug.Log("Saving Attachment");
+        _debug.Log("Saving Attachment"+ value.name);
         int key = value.GetHashCode();
         if (!_attachmentsInventory.ContainsKey(value.myType))
             _attachmentsInventory.Add(value.myType, new Dictionary<int, Attachment>());
@@ -65,7 +65,7 @@ public class AttachmentManager : MonoSingleton<AttachmentManager>
         _attachmentsInventory[value.myType].Add(key,value);
         value.gameObject.SetActive(false);
 
-        _debug.Log(" Attachment Saved!");
+        _debug.Log(" Attachment"+ value.name + " Saved!");
         return key;
 
     }

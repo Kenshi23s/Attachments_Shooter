@@ -1819,6 +1819,10 @@ PrefabInstance:
       propertyPath: _attachmentPos._serializedList.Array.data[1].Value
       value: 
       objectReference: {fileID: 2052491644}
+    - target: {fileID: 2908022825514447938, guid: 4e0b8e6078937b342881ef0454eba315, type: 3}
+      propertyPath: _actualRateOfFire
+      value: 1.7
+      objectReference: {fileID: 0}
     - target: {fileID: 8568796443268590855, guid: 4e0b8e6078937b342881ef0454eba315, type: 3}
       propertyPath: m_RootOrder
       value: 6
@@ -3322,6 +3326,14 @@ PrefabInstance:
       propertyPath: m_Name
       value: Laser 2
       objectReference: {fileID: 0}
+    - target: {fileID: 5209592728341355487, guid: 3323c54bade2a744e85360c3909c16fe, type: 3}
+      propertyPath: m_Materials.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5209592728341355487, guid: 3323c54bade2a744e85360c3909c16fe, type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: 4412e0a68c576194abd99604ba4e7f44, type: 2}
     - target: {fileID: 6002397305776454154, guid: 3323c54bade2a744e85360c3909c16fe, type: 3}
       propertyPath: m_Name
       value: Laser02_low

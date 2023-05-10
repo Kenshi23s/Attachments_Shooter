@@ -4,8 +4,10 @@ using UnityEngine;
 
 public class Stock : Attachment
 {
-    private void Awake()
+    protected override void Initialize()
     {
         _myType = AttachmentType.Stock;
     }
+
+   
 }

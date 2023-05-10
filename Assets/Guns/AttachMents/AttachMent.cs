@@ -73,7 +73,7 @@ public abstract class Attachment : MonoBehaviour
         gameObject.layer = AttachmentManager.instance.attachmentLayer;
     }
 
-    protected virtual void Initialize() { }
+    protected abstract void Initialize();
 
     // hace que el accesorio se vuelva hijo del arma y le añada sus estadisticas
     public void Attach(GunFather gun,Transform Attachpivot)

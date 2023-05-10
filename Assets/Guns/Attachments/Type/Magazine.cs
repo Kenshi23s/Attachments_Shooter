@@ -11,10 +11,14 @@ public class Magazine : Attachment
 
     private void Awake()
     {
-        _myType = AttachmentType.Magazine;
+        
     }
     private void Start() => _bulletKey = Bullet_Manager.instance.CreateBulletPool(_bulletPrefab);
 
+    protected override void Initialize()
+    {
+        _myType = AttachmentType.Magazine;
+    }
 }
 
 

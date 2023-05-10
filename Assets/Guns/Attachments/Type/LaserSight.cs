@@ -11,7 +11,7 @@ public class LaserSight : Attachment
 
     protected override void Initialize()
     {
-        base.Initialize();
+     
 
         _myType = AttachmentType.LaserSight;
         _laserLineRender = GetComponentInChildren<LineRenderer>();
@@ -32,11 +32,12 @@ public class LaserSight : Attachment
 
     void UpdateLaser()
     {
+        Vector3 forward = Camera.main.transform.forward;
         _laserLineRender.SetPosition(0, _laserOutPoint.position);
-        if (Physics.Raycast(_laserOutPoint.position,_laserOutPoint.forward,out RaycastHit hit))        
+        if (Physics.Raycast(_laserOutPoint.position, forward, out RaycastHit hit))        
             _laserLineRender.SetPosition(1, hit.point);        
         else
-            _laserLineRender.SetPosition(1, _laserOutPoint.position + _laserOutPoint.forward * 500f);
+            _laserLineRender.SetPosition(1, _laserOutPoint.position + forward * 200f);
     }
 
 }

@@ -30,20 +30,19 @@ public class StatsHandler : MonoBehaviour
     [SerializeField,SerializedDictionary("Stat", "Value")]
     SerializedDictionary<StatNames, int> _myGunStats;
 
-    public void Initialize()
+    private void Awake()
     {
-        string statsname = ""; 
+        string statsname = "";
         foreach (StatNames item in Enum.GetValues(typeof(StatNames)))
-        {     
+        {
             if (!_myGunStats.ContainsKey(item))
             {
                 _myGunStats.Add(item, 1);
 
-                statsname += item.ToString()+ ", ";
-            }          
+                statsname += item.ToString() + ", ";
+            }
         }
         Debug.LogWarning($"El arma no contenia la/s estadistica {statsname} asi que la/s cree y le asigne valor = 1");
-
     }
     
 
