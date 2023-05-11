@@ -211,7 +211,7 @@ public static class Pathfinding_Algorithm
     {
         LinkedList<Vector3> _pathList = CalculateAStar(nodes);
 
-        if (endpos!=Vector3.zero) _pathList.Add(endpos);
+        if (endpos != Vector3.zero) _pathList.Add(endpos);
         
         int current = 0;
 

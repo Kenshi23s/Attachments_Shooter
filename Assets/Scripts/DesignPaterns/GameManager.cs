@@ -1,8 +1,7 @@
 using System;
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 [RequireComponent(typeof(FloatingTextManager))]
+[RequireComponent(typeof(TickEventsManager))]
 public class GameManager : MonoSingleton<GameManager>
 {
     [NonSerialized]public FloatingTextManager floatingTextManager;
@@ -11,7 +10,8 @@ public class GameManager : MonoSingleton<GameManager>
     protected override void ArtificialAwake()
     {
         base.ArtificialAwake();     
-        _vfxPool = new ParticlePool();      
+        _vfxPool = new ParticlePool();   
+        
     }
 
 }

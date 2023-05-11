@@ -103,7 +103,7 @@ public class LifeComponent : MonoBehaviour,IDamagable,IHealable
     void AddLifeEvent(Action action,float timeAmount)
     {
 
-        TickEvents newDamageEvent = new TickEvents();
+        TickEvent newDamageEvent = new TickEvent();
         newDamageEvent.isTimeBased = true;
         newDamageEvent.timeStart = timeAmount;
         TickEventsManager.instance.AddAction(newDamageEvent);

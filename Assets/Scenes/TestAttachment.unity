@@ -3327,11 +3327,19 @@ PrefabInstance:
       value: Laser 2
       objectReference: {fileID: 0}
     - target: {fileID: 5209592728341355487, guid: 3323c54bade2a744e85360c3909c16fe, type: 3}
-      propertyPath: m_Materials.Array.size
+      propertyPath: m_DynamicOccludee
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 5209592728341355487, guid: 3323c54bade2a744e85360c3909c16fe, type: 3}
+      propertyPath: m_Materials.Array.size
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 5209592728341355487, guid: 3323c54bade2a744e85360c3909c16fe, type: 3}
       propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: 6aa20968151343743a4b9469c68e30fd, type: 2}
+    - target: {fileID: 5209592728341355487, guid: 3323c54bade2a744e85360c3909c16fe, type: 3}
+      propertyPath: m_Materials.Array.data[1]
       value: 
       objectReference: {fileID: 2100000, guid: 4412e0a68c576194abd99604ba4e7f44, type: 2}
     - target: {fileID: 6002397305776454154, guid: 3323c54bade2a744e85360c3909c16fe, type: 3}
