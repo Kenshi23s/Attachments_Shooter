@@ -145,7 +145,7 @@ public static class Pathfinding_Algorithm
 
     }
 
-    public static LinkedList<Vector3> CalculateAStar(Tuple<Node,Node> nodes)
+    public static List<Vector3> CalculateAStar(Tuple<Node,Node> nodes)
     {
         //el vecino del nodo
 
@@ -166,7 +166,7 @@ public static class Pathfinding_Algorithm
 
             if (current == nodes.Item2)
             {
-                LinkedList<Vector3> path = new LinkedList<Vector3>();
+                List<Vector3> path = new List<Vector3>();
                 path.Add(nodes.Item1.transform.position);
 
                 while (current != nodes.Item1)
@@ -204,12 +204,12 @@ public static class Pathfinding_Algorithm
             }
         }
 
-        return new LinkedList<Vector3>();
+        return new List<Vector3>();
     }
 
-    public static LinkedList<Vector3> CalculateThetaStar(this Tuple<Node, Node> nodes, LayerMask wallMask,Vector3 endpos=default)
+    public static List<Vector3> CalculateThetaStar(this Tuple<Node, Node> nodes, LayerMask wallMask,Vector3 endpos=default)
     {
-        LinkedList<Vector3> _pathList = CalculateAStar(nodes);
+        List<Vector3> _pathList = CalculateAStar(nodes);
 
         if (endpos != Vector3.zero) _pathList.Add(endpos);
         
@@ -218,7 +218,7 @@ public static class Pathfinding_Algorithm
         while (current + 2 < _pathList.Count)
         {      
             if (InLineOffSight(_pathList[current], _pathList[current + 2], wallMask))
-                _pathList.RemoveAtIndex(current + 1);                              
+                _pathList.RemoveAt(current + 1);                              
             else
                 current++;
         }       

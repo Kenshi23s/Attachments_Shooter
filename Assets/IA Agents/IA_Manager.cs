@@ -12,7 +12,7 @@ public class IA_Manager : MonoSingleton<IA_Manager>
     public LayerMask wall_Mask => _walls;
 
     public List<IA_Movement> flockingTargets => _flockingTargets; 
-    private List<IA_Movement> _flockingTargets;
+    private List<IA_Movement> _flockingTargets = new List<IA_Movement>();
 
     [SerializeField] bool debugNodeConnections;
 

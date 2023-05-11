@@ -1,5 +1,6 @@
 using FacundoColomboMethods;
 using System;
+using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 #region ComponentsRequired
@@ -19,7 +20,7 @@ public class IA_Movement : MonoBehaviour
 
     Rigidbody _rb;
     [SerializeField, Range(0f, 50f)]  float _maxSpeed;
-    [SerializeField, Range(0f, 50f)] float _maxForce;
+    [SerializeField, Range(0f, 50f)]  float _maxForce;
     FOVAgent _fov;
 
 
@@ -32,25 +33,18 @@ public class IA_Movement : MonoBehaviour
     Action _update;
 
  
-
-    //public IA_Movement(Vector3 velocity, float maxSpeed, Transform transform, float maxForce)
-    //{
-    //    _velocity = velocity;
-    //    _maxSpeed = maxSpeed;
-    //    _transform = transform;
-    //    _maxForce = maxForce;
-
-    //}
     private void Awake()
     {
         _fov = GetComponent<FOVAgent>();
         _rb = GetComponent<Rigidbody>();
-        _rb.isKinematic = true;
+        _rb.isKinematic = false;
         _debug = GetComponent<DebugableObject>();
+        _debug.AddGizmoAction(MovementGizmos);
     }
 
-    private void FixedUpdate() => _update?.Invoke();    
+    private void FixedUpdate() => _update?.Invoke();
 
+    #region Pathfinding Methods
     public void SetDestination(Vector3 target)
     {
 
@@ -69,7 +63,7 @@ public class IA_Movement : MonoBehaviour
         else
         {
             _debug.Log("NO veo el destino, Calculo el camino ");
-            LinkedList<Vector3> waypoints = SetPath(target);
+            List<Vector3> waypoints = SetPath(target);
             _update = () => PlayPath(waypoints);
             //Action gizmo= () => { }
             //debug.AddGizmoAction()
@@ -78,7 +72,7 @@ public class IA_Movement : MonoBehaviour
        
     }
     
-    LinkedList<Vector3> SetPath(Vector3 target)
+    List<Vector3> SetPath(Vector3 target)
     {
         IA_Manager I = IA_Manager.instance;
     
@@ -89,29 +83,37 @@ public class IA_Movement : MonoBehaviour
     
     }
 
-    void PlayPath(LinkedList<Vector3> waypoints)
+    void PlayPath(List<Vector3> waypoints)
     {
-        if (waypoints[0] == null)
+        if (!waypoints.Any()) 
         {
             _update = null;
+            StopMoving();
             return;
         }
 
+        _debug.Log(gameObject.name + " Se mueve hacia el siguiente nodo, me faltan " + waypoints.Count);
 
         Vector3 actualForce = Vector3.zero;
         actualForce += Seek(waypoints[0]);
         actualForce += FlockingUpdate();
         AddForce(actualForce);
-        if (Vector3.Distance(waypoints[0], transform.position) < 2f) waypoints.RemoveAtIndex(0);
+        if (Vector3.Distance(waypoints[0], transform.position) < 2f) waypoints.RemoveAt(0);
     }
 
-    
+    void StopMoving()
+    {
+        _rb.velocity = Vector3.zero;
+    }
+
+    #endregion
+
     #region Movement Updates
     public Vector3 FlockingUpdate()
     {    
         
        Vector3 actualforce = Vector3.zero;
-       Debug.Log("Flocking");
+        _debug.Log("Flocking On" + gameObject.name);
        
        actualforce += Alignment() * _alignmentForce;
        actualforce += Cohesion() * _cohesionForce;
@@ -129,9 +131,9 @@ public class IA_Movement : MonoBehaviour
     {
         force += ObstacleAvoidance(_rb.transform);
 
-        _velocity = Vector3.ClampMagnitude(_velocity + force, _maxSpeed);
+        _velocity = Vector3.ClampMagnitude(_velocity + force, _maxForce);
 
-        _rb.MovePosition(Velocity * Time.fixedDeltaTime);
+        _rb.velocity = Vector3.ClampMagnitude(_velocity,_maxSpeed);
 
         _rb.transform.forward = Velocity.normalized;
        
@@ -298,9 +300,5 @@ public class IA_Movement : MonoBehaviour
 
     }
 
-    public void MovementDebug()
-    {
-       
-
-    }
+  
 }

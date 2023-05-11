@@ -1,7 +1,6 @@
 using FacundoColomboMethods;
 using System;
 using UnityEngine;
-using UnityEngine.Events;
 
 [RequireComponent(typeof(DebugableObject))]
 public class FOVAgent : MonoBehaviour
@@ -14,7 +13,7 @@ public class FOVAgent : MonoBehaviour
 
     private void Awake()
     {
-        this.GetComponent<DebugableObject>().AddGizmoAction(FovGizmos);
+        GetComponent<DebugableObject>().AddGizmoAction(FovGizmos);
     }
     public bool inFOV(Vector3 obj)
     {
