@@ -14,7 +14,7 @@ public class AttachmentManager : MonoSingleton<AttachmentManager>
     [SerializeField] float raycastDistance;
     [SerializeField] KeyCode Equip = KeyCode.F, Save = KeyCode.G;
 
-    Func<GunFather> getGun;
+    Func<Gun> getGun;
     DebugableObject _debug;
 
     protected override void ArtificialAwake()
@@ -35,7 +35,7 @@ public class AttachmentManager : MonoSingleton<AttachmentManager>
         if (Physics.Raycast(tr.position, tr.forward, out RaycastHit hit, raycastDistance, attachmentLayer))
         {
             Attachment x = hit.transform.GetComponent<Attachment>();
-            GunFather gun = getGun?.Invoke();
+            Gun gun = getGun?.Invoke();
 
             if (Input.GetKey(Equip)) getGun?.Invoke().attachmentHandler.AddAttachment(x);
 
@@ -48,7 +48,7 @@ public class AttachmentManager : MonoSingleton<AttachmentManager>
     
 
     #region Inventory
-    public int Inventory_SaveAttachment(GunFather gun,Attachment value)
+    public int Inventory_SaveAttachment(Gun gun,Attachment value)
     {
         _debug.Log("Saving Attachment"+ value.name);
         int key = value.GetHashCode();

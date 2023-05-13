@@ -20,10 +20,12 @@ public abstract class BaseBulltet : MonoBehaviour
     int poolKey;
     #endregion
 
-    public GunFather myGun;
+    public Gun myGun;
 
     BulletMovement myMovement;
     [SerializeField] BulletMovement.BulletMoveType myType;
+
+    protected abstract void OnHitEffect(HitData hit);
 
     private void Awake()
     {
@@ -42,12 +44,8 @@ public abstract class BaseBulltet : MonoBehaviour
         this.poolKey = poolKey;     
     }
 
-    /// <summary>
-    /// 
-    /// </summary>
-    /// <param name="myGun"></param>
-    /// <param name="_hitCallBack"></param>
-   public void SetGunAndDispatch(GunFather myGun,Action<HitData> _hitCallBack)
+  
+   public void SetGunAndDispatch(Gun myGun,Action<HitData> _hitCallBack)
    {
         this.myGun = myGun;
         myGun.onHit += OnHitEffect;
@@ -58,8 +56,8 @@ public abstract class BaseBulltet : MonoBehaviour
 
         Transform shootPos = myGun.attachmentHandler.shootPos;
 
-        transform.position = shootPos.position;
-        transform.forward = shootPos.forward;
+        transform.position = shootPos.position; transform.forward = shootPos.forward;
+
         myMovement.Initialize();
 
 
@@ -73,11 +71,11 @@ public abstract class BaseBulltet : MonoBehaviour
 
         HitData hit = new HitData(transform.position, dmgData, myGun);
 
-        _hitCallBack(hit);
+        _hitCallBack?.Invoke(hit);
      
     }
 
-    protected abstract void OnHitEffect(HitData hit);
+   
 
 
     private void OnTriggerEnter(Collider other)

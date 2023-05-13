@@ -3,7 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class SideArm_Clasicc : SideArm
+public class SideArm_Clasicc : AutomaticGun
 {
     Func<int,BaseBulltet> Get;
    // Action<GunFather, Action<HitData>> Set;
@@ -30,17 +30,12 @@ public class SideArm_Clasicc : SideArm
         else
         {
             Debug.LogError("Error, bala == null, la pool no esta integrada o la bala default cambio");
-        }
-        
-
-        
-        
-       
+        }          
     }
 
     public override bool ShootCondition()
     {
         // aca chequearia las condiciones para disparar
-        return rateFireHandler.canShoot;
+        return _rateFireHandler.canShoot;
     }
 }

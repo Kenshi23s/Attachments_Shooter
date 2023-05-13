@@ -7,7 +7,7 @@ public class PrecisionBonk : Perk
     int damageAux;
     bool damageApplied;
 
-    internal override void InitializePerk(GunFather gun)
+    internal override void InitializePerk(Gun gun)
     {
         myGun = gun;
 

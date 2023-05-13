@@ -7,6 +7,7 @@ public class RateOfFireHandler: MonoBehaviour
 {
     //deberia tener un rate of fire manager para cada tipo de cadencia, uno para automatico/singleShot y otro para rafaga
     //respondiendo a lo de arriba, quizas no
+    Gun _gun;
     [SerializeField,Range(0.1f,3f)] float _actualRateOfFire;
     public float actualRateOfFire => _actualRateOfFire;
 
@@ -17,17 +18,24 @@ public class RateOfFireHandler: MonoBehaviour
     bool _canShoot;
 
    
-    GunFather gun;
-    public void Initialize(GunFather gun)
+ 
+    //public void Initialize(Gun gun)
+    //{
+    //    _rateOfFireCD = 0;
+    //    _canShoot = true;
+    //    this._gun = gun;
+    //    gun.onShoot += StartCooldown;
+
+    //}
+
+    private void Awake()
     {
+        _gun = GetComponent<Gun>();
         _rateOfFireCD = 0;
         _canShoot = true;
-        this.gun = gun;
-        gun.onShoot += StartCooldown;
-
+        _gun.onShoot += StartCooldown;
     }
 
-    //podria encapsular el primero en un lambda, lo dejo asi para mejor lectura
 
     void StartCooldown() 
     {
@@ -35,10 +43,10 @@ public class RateOfFireHandler: MonoBehaviour
         {
             _canShoot = false;
             _rateOfFireCD = _actualRateOfFire;
-            gun.everyTick += CoolDownRF;
+            _gun.everyTick += CoolDownRF;
         }
     }
-    //el segundo no lo podria encapsular pq se perderia la referencia del metodo al substraerlo del evento
+   
     void CoolDownRF()
     {
         _rateOfFireCD -= Time.deltaTime;
@@ -47,7 +55,7 @@ public class RateOfFireHandler: MonoBehaviour
 
             _rateOfFireCD = _actualRateOfFire;
             _canShoot = true;
-            gun.everyTick -= CoolDownRF;
+            _gun.everyTick -= CoolDownRF;
         }
     }
 }

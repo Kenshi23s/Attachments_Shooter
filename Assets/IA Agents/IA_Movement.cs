@@ -38,6 +38,7 @@ public class IA_Movement : MonoBehaviour
         _fov = GetComponent<FOVAgent>();
         _rb = GetComponent<Rigidbody>();
         _rb.isKinematic = false;
+        _rb.useGravity  = false;
         _debug = GetComponent<DebugableObject>();
         _debug.AddGizmoAction(MovementGizmos);
     }
@@ -62,11 +63,10 @@ public class IA_Movement : MonoBehaviour
         }
         else
         {
-            _debug.Log("NO veo el destino, Calculo el camino ");
+            _debug.Log( "NO veo el destino, Calculo el camino ");
             List<Vector3> waypoints = SetPath(target);
             _update = () => PlayPath(waypoints);
-            //Action gizmo= () => { }
-            //debug.AddGizmoAction()
+          
 
         }
        
@@ -92,7 +92,7 @@ public class IA_Movement : MonoBehaviour
             return;
         }
 
-        _debug.Log(gameObject.name + " Se mueve hacia el siguiente nodo, me faltan " + waypoints.Count);
+        _debug.Log("Se mueve hacia el siguiente nodo, me faltan " + waypoints.Count);
 
         Vector3 actualForce = Vector3.zero;
         actualForce += Seek(waypoints[0]);
@@ -115,9 +115,10 @@ public class IA_Movement : MonoBehaviour
        Vector3 actualforce = Vector3.zero;
         _debug.Log("Flocking On" + gameObject.name);
        
-       actualforce += Alignment() * _alignmentForce;
-       actualforce += Cohesion() * _cohesionForce;
-       actualforce += Separation() * _separationForce;
+        actualforce += Alignment() * _alignmentForce;
+        actualforce += Cohesion() * _cohesionForce;
+        actualforce += Separation() * _separationForce;
+
         return actualforce;
        //AddForce(actualforce);
         
@@ -257,19 +258,7 @@ public class IA_Movement : MonoBehaviour
         
         return steering;
     }
-    /// <summary>
-    /// Este metodo se usa para Evadir x objetivo en base a una posicion que tendra(el objetivo) en el futuro.
-    /// </summary>
-    /// <param name="target"></param>
-    /// <returns></returns>
-    //girar hacia
-    //Vector3 SteerTo(Vector3 desiredPos)
-    //{
-    //    desiredPos.Normalize();
-    //    desiredPos *= _maxSpeed;
-    //    Vector3 steering = desiredPos - _velocity;
-    //    return steering;
-    //}
+
 
     public Vector3 Arrive(Vector3 actualTarget,float arriveRadius)
     {

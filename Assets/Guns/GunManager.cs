@@ -6,9 +6,9 @@ using System.Linq;
 [RequireComponent(typeof(AttachmentManager))]
 public class GunManager : MonoSingleton<GunManager>
 {
-    [SerializeField]List<GunFather> myGuns = new List<GunFather>();
-    [SerializeField]GunFather _actualGun;
-    public GunFather actualGun=> _actualGun;
+    [SerializeField]List<Gun> myGuns = new List<Gun>();
+    [SerializeField]Gun _actualGun;
+    public Gun actualGun=> _actualGun;
 
    
     event Action<HitData> onActualGunHit;
@@ -23,7 +23,7 @@ public class GunManager : MonoSingleton<GunManager>
     protected override void ArtificialAwake()
     {
         base.ArtificialAwake();
-        myGuns = ColomboMethods.GetChildrenComponents<GunFather>(this.transform).ToList();
+        myGuns = ColomboMethods.GetChildrenComponents<Gun>(this.transform).ToList();
     }
 
     //start para comunicacion
@@ -49,16 +49,16 @@ public class GunManager : MonoSingleton<GunManager>
     
     public void TriggerActualGun() => actualGun.Trigger();
 
-    void SwapWeapons(GunFather actualWeapon)
+    void SwapWeapons(Gun actualWeapon)
     {
         if (!myGuns.Contains(actualWeapon)) AddGun(actualWeapon);
 
-        foreach (GunFather gun in myGuns) if (actualGun != gun) gun.Stow();
+        foreach (Gun gun in myGuns) if (actualGun != gun) gun.Stow();
 
         actualGun.Draw();
     }
 
-    bool AddGun(GunFather newGun)
+    bool AddGun(Gun newGun)
     {
         if (!myGuns.Contains(newGun))
         {
@@ -70,7 +70,7 @@ public class GunManager : MonoSingleton<GunManager>
 
 
    
-    bool RemoveGun(GunFather newGun)
+    bool RemoveGun(Gun newGun)
     {
         if (myGuns.Contains(newGun))
         {

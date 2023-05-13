@@ -23,9 +23,9 @@ public struct HitData
 {
     public Vector3 _impactPos;
     public DamageData dmgData;
-    public GunFather weapon;
+    public Gun weapon;
 
-    public HitData(Vector3 pos, DamageData dmgData, GunFather weapon)
+    public HitData(Vector3 pos, DamageData dmgData, Gun weapon)
     {
         _impactPos = pos;
         this.dmgData = dmgData;      
@@ -33,11 +33,10 @@ public struct HitData
     }
 }
 [RequireComponent(typeof(DamageHandler))]
-[RequireComponent(typeof(RateOfFireHandler))]
 [RequireComponent(typeof(StatsHandler))]
 [RequireComponent(typeof(AttachmentHandler))]
 [RequireComponent(typeof(DebugableObject))]
-public abstract class GunFather : MonoBehaviour
+public abstract class Gun : MonoBehaviour
 {
     [Header("Animator")]
     [SerializeField] Animator _gunAnim;
@@ -45,10 +44,7 @@ public abstract class GunFather : MonoBehaviour
 
     [SerializeField] public int _actualAmmo;
 
-
     [NonSerialized] public DamageHandler damageHandler;
-
-    [NonSerialized] public RateOfFireHandler rateFireHandler;
 
     [NonSerialized] public StatsHandler stats;
 
@@ -93,6 +89,9 @@ public abstract class GunFather : MonoBehaviour
 
     #endregion
 
+    [SerializeField]
+    protected bool canShoot;
+
     public abstract void Shoot();
     public abstract bool ShootCondition();
 
@@ -100,8 +99,7 @@ public abstract class GunFather : MonoBehaviour
 
     protected virtual void Awake()
     {
-        attachmentHandler = GetComponent<AttachmentHandler>(); 
-        rateFireHandler = GetComponent<RateOfFireHandler>(); 
+        attachmentHandler = GetComponent<AttachmentHandler>();       
         damageHandler = GetComponent<DamageHandler>(); 
         stats = GetComponent<StatsHandler>(); 
         _debug = GetComponent<DebugableObject>();
@@ -137,7 +135,9 @@ public abstract class GunFather : MonoBehaviour
         }
 
     }
-    
+
+    protected void CallOnShootEvent() => onShoot?.Invoke();
+
     void Equip()
     {
 

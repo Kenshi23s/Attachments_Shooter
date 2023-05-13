@@ -11,7 +11,7 @@ using static UnityEngine.Rendering.DebugUI;
 public class AttachmentHandler : MonoBehaviour
 {
 
-    GunFather gun;
+    Gun gun;
 
     #region Descripcion Pos
     //si no existe una posicion para el accesorio, es imposible colocarlo
@@ -55,7 +55,7 @@ public class AttachmentHandler : MonoBehaviour
     /// <param name="gun"></param>
     public void Awake()
     {
-        this.gun = GetComponent<GunFather>();
+        this.gun = GetComponent<Gun>();
 
         #region OBSOLETE, DELETE LATER
        

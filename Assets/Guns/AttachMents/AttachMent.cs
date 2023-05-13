@@ -51,7 +51,7 @@ public abstract class Attachment : MonoBehaviour
     protected event Action onAttach;
     protected event Action onDettach;
 
-    protected GunFather gunAttachedTo;
+    protected Gun gunAttachedTo;
 
     BoxCollider b_collider;
 
@@ -76,7 +76,7 @@ public abstract class Attachment : MonoBehaviour
     protected abstract void Initialize();
 
     // hace que el accesorio se vuelva hijo del arma y le añada sus estadisticas
-    public void Attach(GunFather gun,Transform Attachpivot)
+    public void Attach(Gun gun,Transform Attachpivot)
     {
         if (gun!=null)
         {

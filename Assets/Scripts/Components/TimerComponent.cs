@@ -1,32 +1,44 @@
 using System;
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class TimerComponent : MonoBehaviour
 {
-    float initialTime;
-    float currentTime;
+    float _initialTime;
+    float _currentTime;
 
-    public float timeLeft => currentTime;
+    public float timeLeft => _currentTime;
 
     public event Action OnFinish,OnStart;
     public event Action<float> whileTimerRunning;
 
 
 
-    private void Awake()
+    private void Awake() => enabled = false;
+
+    public void SetTimer(float initialTime)
     {
-        enabled= false;
+        this._initialTime = initialTime;
+        enabled= true;     
+        OnStart?.Invoke();
     }
 
-    void SetTimer(float InitialTime)
-    {
+    public void RestartTimer() => SetTimer(_initialTime);
 
-    }
+    public void AddTime(float timeToAdd) => _currentTime+= 1 * timeToAdd;
+
+    public void SubstractTime(float timeToAdd) => _currentTime -= 1 * timeToAdd;
+
     private void Update()
     {
-        
+        _currentTime-=Time.deltaTime;
+        whileTimerRunning?.Invoke(_currentTime);
+        if (_currentTime < 0) 
+        {
+            OnFinish?.Invoke(); 
+            _currentTime = 0; 
+            enabled = false;
+        }
+       
     }
 
 }

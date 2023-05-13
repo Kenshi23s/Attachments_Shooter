@@ -9,11 +9,11 @@ public class HitScan
     Camera cam;
     Transform myShootPos;
     float range;
-    GunFather myGun;
+    Gun myGun;
     Transform _shootPos;
 
 
-    public HitScan(GunFather myGun)
+    public HitScan(Gun myGun)
     {
         this.myGun = myGun;
     }

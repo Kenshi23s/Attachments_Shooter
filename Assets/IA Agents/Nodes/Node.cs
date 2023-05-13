@@ -16,6 +16,7 @@ public class Node : MonoBehaviour
     public void AddCost(int value) =>  cost += value * 1; 
     public void SubstractCost(int value) => cost = Mathf.Clamp(cost-(value * 1),0,int.MaxValue); 
 
+   
     public void IntializeNode()
     {
    

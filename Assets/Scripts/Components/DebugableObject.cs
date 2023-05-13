@@ -25,20 +25,20 @@ public class DebugableObject : MonoBehaviour
     {
         if (!canDebug) return;
 
-        Debug.Log(message);
+        Debug.Log(gameObject.name+": " +message);
     }
 
     public void WarningLog(string message)
     {
         if (!canDebug) return;
 
-        Debug.LogWarning(message);
+        Debug.LogWarning(gameObject.name + ": " + message);
     }
 
     public void ErrorLog(string message)
     {
         if (!canDebug) return;
 
-        Debug.LogError(message);
+        Debug.LogError(gameObject.name + ": " + message);
     }
 }

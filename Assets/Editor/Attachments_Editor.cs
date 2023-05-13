@@ -9,7 +9,7 @@ public class Attachments_Editor : EditorWindow
 
     
 
-    public GunFather SelectedGun;
+    public Gun SelectedGun;
     public Attachment attachmentSelected;
 
     [MenuItem("Window/Editor/AttachmentsDebug")]
@@ -25,7 +25,7 @@ public class Attachments_Editor : EditorWindow
         GUILayout.Label("Attachments", EditorStyles.boldLabel);
         if (GUILayout.Button("Selec Gun"))
         {
-            GunFather AuxGunSeleceted = Select<GunFather>();
+            Gun AuxGunSeleceted = Select<Gun>();
             if (AuxGunSeleceted != null)
             {
                 SelectedGun = AuxGunSeleceted;
