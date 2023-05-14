@@ -14,7 +14,7 @@ public class BulletMovement_Default : BulletMovement
 
         Vector3 force = transform.forward * _movement.maxForce;
 
-        _movement.AddForce(playerVelocity + force);
+        _movement.AddForce(playerVelocity + force*10);
     }
   
 
