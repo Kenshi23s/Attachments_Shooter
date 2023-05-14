@@ -22,8 +22,8 @@ public class Bullet_Manager : MonoSingleton<Bullet_Manager>
         _defaultBulletKey = mypool.CreateBullet(_defaultBulletPrefab);
     }
 
-     public BaseBulltet GetProjectile(int key) 
-        => mypool.AskForProjectile(key);
+     public BaseBulltet GetBullet(int key) 
+        => mypool.GetBullet(key);
 
     public int CreateBulletPool(BaseBulltet bullet)
       => mypool.CreateBullet(bullet);

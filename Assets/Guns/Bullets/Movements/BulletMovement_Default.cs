@@ -2,18 +2,21 @@ using UnityEngine;
 
 public class BulletMovement_Default : BulletMovement
 {
-    public BulletMovement_Default(Transform _myTransform, Rigidbody _rb) : base(_myTransform, _rb)
-    {
-    }
+
+    public override void Initialize() { }
 
 
-    public override void MoveBullet()
+    private void FixedUpdate()
     {
-        return;
-        //float t = Time.deltaTime * speed * ScreenManager.time;
-        //_rb.velocity = Vector3.ClampMagnitude(_rb.velocity + _myTransform.forward * t ,speed);
-      
+        Vector3 playerVelocity = Player_Movement._velocity != Vector3.zero 
+            ? Player_Movement._velocity 
+            : Vector3.one;
+
+        Vector3 force = transform.forward * _movement.maxForce;
+
+        _movement.AddForce(playerVelocity + force);
     }
+  
 
  
 }

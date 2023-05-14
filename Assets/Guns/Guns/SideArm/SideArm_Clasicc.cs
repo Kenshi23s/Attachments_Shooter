@@ -2,35 +2,27 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-
+[RequireComponent(typeof(BulletHandler))]
 public class SideArm_Clasicc : AutomaticGun
 {
-    Func<int,BaseBulltet> Get;
-   // Action<GunFather, Action<HitData>> Set;
+    BulletHandler b_Handler;
     protected override void OptionalInitialize()
     {
         base.OptionalInitialize();
-      
-    }
-    private void Start()
-    {
-        Get = (key) => Bullet_Manager.instance.GetProjectile(Bullet_Manager.defaultBulletKey);
-        
+        b_Handler = GetComponent<BulletHandler>();
     }
 
 
     public override void Shoot()
     {
         _debug.Log($"Shot fired by{gameObject.name}");
-         BaseBulltet bullet = Get(attachmentHandler.magazineAmmoType);
-        if (bullet!=null)
-        {
+         BaseBulltet bullet = b_Handler.GetBullet();
+        if (bullet!=null)        
             bullet.SetGunAndDispatch(this, OnHitCallBack);
-        }
-        else
-        {
+        
+        else        
             Debug.LogError("Error, bala == null, la pool no esta integrada o la bala default cambio");
-        }          
+                
     }
 
     public override bool ShootCondition()

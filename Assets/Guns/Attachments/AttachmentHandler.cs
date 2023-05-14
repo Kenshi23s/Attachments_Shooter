@@ -11,7 +11,7 @@ using static UnityEngine.Rendering.DebugUI;
 public class AttachmentHandler : MonoBehaviour
 {
 
-    Gun gun;
+    Gun _gun;
 
     #region Descripcion Pos
     //si no existe una posicion para el accesorio, es imposible colocarlo
@@ -21,9 +21,12 @@ public class AttachmentHandler : MonoBehaviour
     #endregion
     SerializedDictionary<AttachmentType, Transform> _attachmentPos = new SerializedDictionary<AttachmentType, Transform>();
 
+    #region ActiveAttachments
     // mis accesorios activos en este momento
     SerializedDictionary<AttachmentType, Attachment> _activeAttachments = new SerializedDictionary<AttachmentType, Attachment>();
     public SerializedDictionary<AttachmentType, Attachment> activeAttachments => _activeAttachments;
+    #endregion
+
     #region Descripcion _Default
     //AAAA
     [SerializeField,SerializedDictionary("Attachment Type","Attachment Prefab"),
@@ -31,16 +34,11 @@ public class AttachmentHandler : MonoBehaviour
     #endregion
     SerializedDictionary<AttachmentType, Attachment> _DefaultAttachMent = new SerializedDictionary<AttachmentType, Attachment>();
 
+    #region Diccionario Eventos
     public Dictionary<AttachmentType, Action> onAttachmentCgange => _onAttachmentChange;
     private Dictionary<AttachmentType, Action> _onAttachmentChange = new Dictionary<AttachmentType, Action>();
+    #endregion
 
-    //diccionario de eventos para cambios
-    
-
-
-    public int magazineAmmoType => _magazineAmmoType;
-    [SerializeField, Tooltip("no modificar, solo lectura")]
-    int _magazineAmmoType;
 
 
 
@@ -55,13 +53,7 @@ public class AttachmentHandler : MonoBehaviour
     /// <param name="gun"></param>
     public void Awake()
     {
-        this.gun = GetComponent<Gun>();
-
-        #region OBSOLETE, DELETE LATER
-       
-
-        _magazineAmmoType = Bullet_Manager.defaultBulletKey;
-        #endregion
+        _gun = GetComponent<Gun>();
 
       
         Action onMuzzleChange = () =>
@@ -136,7 +128,7 @@ public class AttachmentHandler : MonoBehaviour
 
             if (!_attachmentPos.ContainsKey(key)) 
             {
-                gun._debug.WarningLog($"NO conecte el attachment de tipo{key} a el arma," +
+                _gun._debug.WarningLog($"NO conecte el attachment de tipo{key} a el arma," +
                     $" ya que no tengo una posicion para darle");
                 return;
             }
@@ -146,11 +138,11 @@ public class AttachmentHandler : MonoBehaviour
             {
                 //lo añado y agrego sus stats
                 _activeAttachments.Add(key, value);               
-                _activeAttachments[key].Attach(gun, _attachmentPos[key]);
+                _activeAttachments[key].Attach(_gun, _attachmentPos[key]);
 
                 //hago un callback para chequear que cambio
                 CallEvent(key);
-                gun._debug.Log($"conecte el attachment de tipo {key} a el arma");
+                _gun._debug.Log($"conecte el attachment de tipo {key} a el arma");
          
             }
             else
@@ -197,7 +189,7 @@ public class AttachmentHandler : MonoBehaviour
     void SaveAttachment(Attachment x)
     {
         x.Dettach();
-        AttachmentManager.instance.Inventory_SaveAttachment(gun, x);
+        AttachmentManager.instance.Inventory_SaveAttachment(_gun, x);
     }
 
 }

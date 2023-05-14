@@ -1,18 +1,32 @@
-using System.Collections;
-using System.Collections.Generic;
+using System;
 using UnityEngine;
 
-public class PoolableObject : MonoBehaviour
+public interface IPoolableObject
 {
-    // Start is called before the first frame update
-    void Start()
+    void EnterPool(); void ExitPool();
+}
+public class PoolableObject<T> : IPoolableObject
+{
+    public event Action onPoolEnter;
+    public event Action onPoolLeave;
+
+    Action<T, int> _poolReturn;
+
+    protected int poolKey;
+    T objectToPool;
+
+    public void Awake(T objectToPool)
     {
-        
+        this.objectToPool = objectToPool;
+    }
+  
+    public virtual void Initialize(Action<T, int> _poolReturn,int key) => this._poolReturn = _poolReturn;
+
+    public void EnterPool()
+    {
+        _poolReturn?.Invoke(objectToPool, poolKey);
+        onPoolEnter?.Invoke();
     }
 
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
+    public void ExitPool() => onPoolLeave?.Invoke();
 }

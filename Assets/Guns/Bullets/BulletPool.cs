@@ -44,34 +44,32 @@ public class BulletPool
             {
 
                 BaseBulltet projectile = GameObject.Instantiate(prefab);
-                projectile.transform.parent=father.transform;
+                projectile.transform.parent = father.transform;
                 return projectile;
             };
 
             _pools.Add(key, new PoolObject<BaseBulltet>());
 
-            _pools[key].Intialize(turnOn, turnOff, myBuild);
-            return key;
+            _pools[key].Intialize(turnOn, turnOff, myBuild,prewarm);
+          
         }
-        throw new Exception(typeof(BaseBulltet) + "already present at BullerPool");
-    
-
-
+        return key;
+        throw new Exception(typeof(BaseBulltet) + "already present at BulletPool");
     }
     /// <summary>
     /// devuelve una bala que tenga ese tipo de key, si no esta en la pool devuelve null
     /// </summary>
     /// <param name="key"></param>
     /// <returns></returns>
-    public BaseBulltet AskForProjectile(int key)
+    public BaseBulltet GetBullet(int key)
     {
         if (_pools.ContainsKey(key))
         {
             BaseBulltet projectile = _pools[key].Get();
-            projectile.Initialize(ReturnToPool, key);
+            projectile.Initialize(ReturnToPool,key);
             return projectile;
         }
-        Debug.Log("no existe ese tipo de bala");
+        Debug.LogError("LA BALA QUE SE QUISO BUSCAR NO EXISTE");
         return null;
     }
    

@@ -3,6 +3,8 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 //componente q se usa para pausar objetos
+
+[DisallowMultipleComponent]
 public class PausableObject : MonoBehaviour, IPausable
 {
     public event Action onPause;
@@ -10,8 +12,8 @@ public class PausableObject : MonoBehaviour, IPausable
 
     private void Awake()
     {
-        enabled = false;
         ScreenManager.AddPausable(this);
+        enabled = false;
     }
  
     public void Pause() => onPause?.Invoke();

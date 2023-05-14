@@ -80,11 +80,10 @@ public abstract class Attachment : MonoBehaviour
     {
         if (gun!=null)
         {
-            this.transform.parent = Attachpivot;
+            transform.parent = Attachpivot;
             transform.rotation = Attachpivot.rotation;
-
             transform.position = Attachpivot.position;
-            //transform.forward  = Pos.forward;
+            
 
             gunAttachedTo = gun;
             _isAttached = true;

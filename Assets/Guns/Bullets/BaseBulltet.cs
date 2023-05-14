@@ -1,100 +1,69 @@
 using System;
 using UnityEngine;
-using static StatsHandler;
 
-
-
+[RequireComponent(typeof(DebugableObject))]
 [RequireComponent(typeof(Rigidbody))]
+[RequireComponent(typeof(PoolableObject<BaseBulltet>))]
 public abstract class BaseBulltet : MonoBehaviour
 {
 
-    Rigidbody _rb;
+    protected DebugableObject _debug;
     // se llama cuando se impacta con un "Target"
     Action <HitData> _hitCallBack;
 
-    // variables para pool
-    #region
-    //metodo de regreso
-    Action<BaseBulltet, int> _poolReturn;
-    //key
-    int poolKey;
-    #endregion
-
-    public Gun myGun;
-
-    BulletMovement myMovement;
-    [SerializeField] BulletMovement.BulletMoveType myType;
+    PoolableObject<BaseBulltet> _poolableObject;
+    [NonSerialized] Gun myGun;
 
     protected abstract void OnHitEffect(HitData hit);
 
+    public void Initialize(Action<BaseBulltet, int> ReturnMethod,int key) => _poolableObject.Initialize(ReturnMethod,key);
+
     private void Awake()
     {
-        _rb = GetComponent<Rigidbody>();
-        // creo el tipo de movimiento q voy a usar
-        myMovement = BulletMovement.MovementSelected(transform,_rb, myType);
-        //test
-       
+        _debug = GetComponent<DebugableObject>();
+        _poolableObject = new PoolableObject<BaseBulltet>();
+        if (_poolableObject==null)
+        {
+            _debug.ErrorLog("_Poolable Object == null");
+        }
     }
-
-    private void Update() => myMovement?.MoveBullet();
-
-    public virtual void Initialize(Action<BaseBulltet,int> _poolReturn,int poolKey)
-    {    
-        this._poolReturn = _poolReturn;
-        this.poolKey = poolKey;     
-    }
-
-  
-   public void SetGunAndDispatch(Gun myGun,Action<HitData> _hitCallBack)
-   {
-        this.myGun = myGun;
-        myGun.onHit += OnHitEffect;
-        myMovement.SetSpeed(myGun.stats.myGunStats[StatNames.BulletSpeed]);
-       
-       
-        this._hitCallBack = _hitCallBack;
-
-        Transform shootPos = myGun.attachmentHandler.shootPos;
-
-        transform.position = shootPos.position; transform.forward = shootPos.forward;
-
-        myMovement.Initialize();
-
-
-
-    }
-
-    public void Hit(IDamagable target)
+    private void Start()
     {
+        _poolableObject.onPoolEnter += OnReturnToPool;
+    }
+    protected void ReturnToPool()  => _poolableObject.EnterPool();
+
+    public void ExitPool() => _poolableObject.ExitPool();
+
+    void OnReturnToPool()
+    {
+        myGun.onHit -= OnHitEffect;
+        _hitCallBack = null;
+    }
+
+
+    public void SetGunAndDispatch(Gun myGun,Action<HitData> _hitCallBack)
+    {
+         this.myGun = myGun;
+         myGun.onHit += OnHitEffect; 
         
+         this._hitCallBack = _hitCallBack;
+    
+         Transform shootPos = myGun.attachmentHandler.shootPos;
+    
+         transform.position = shootPos.position; transform.forward = shootPos.forward;
+    }
+
+    protected void Hit(IDamagable target)
+    {        
         DamageData dmgData = target.TakeDamage(myGun.damageHandler.actualDamage);
 
         HitData hit = new HitData(transform.position, dmgData, myGun);
 
-        _hitCallBack?.Invoke(hit);
-     
+        _hitCallBack?.Invoke(hit);   
     }
 
-   
+    
 
-
-    private void OnTriggerEnter(Collider other)
-    {
-        Debug.Log(other.gameObject.name);
-        if (other.TryGetComponent(out IDamagable x ))
-        {
-            Hit(x);
-            Debug.Log("Damage");
-        }      
-            
-        
-
-        //me desuscribo de el evento y borro la referencia al callback
-         myGun.onHit -= OnHitEffect;
-        _hitCallBack = null;
-
-        _rb.velocity = Vector3.zero;
-        _poolReturn.Invoke(this, poolKey);
-    }
    
 }

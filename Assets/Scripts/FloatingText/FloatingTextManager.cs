@@ -4,7 +4,7 @@ using static FloatingText;
 public class FloatingTextManager : MonoBehaviour
 {
   
-    TextPool pool;
+    TextPool pool = new TextPool();
 
     [SerializeField]
     FloatingTextParam _parameters;
