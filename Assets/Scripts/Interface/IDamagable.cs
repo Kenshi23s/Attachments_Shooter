@@ -2,9 +2,7 @@
 public interface IDamagable 
 {
     DamageData TakeDamage(int dmgToDeal);
-    void AddHealOverTime(int TotalDamageToDeal,float TimeAmount);
-    //bool WasKilled();
-    //bool WasCrit();
+    void AddDamageOverTime(int TotalDamageToDeal, float TimeAmount);
 }
 
 public struct DamageData
