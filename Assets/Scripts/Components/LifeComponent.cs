@@ -15,7 +15,7 @@ public class LifeComponent : MonoBehaviour,IDamagable,IHealable
     public int maxLife => _maxLife;
 
     [SerializeField,Range(0.1f,2)] 
-    float _dmgMultiplier;
+    float _dmgMultiplier=1f;
 
 
     [SerializeField] public bool canTakeDamage = true;

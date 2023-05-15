@@ -1,5 +1,4 @@
 using System;
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -22,9 +21,9 @@ public class ParticlePool
         {         
             ParticleHolder particleClone = GameObject.Instantiate(particle);
 
-            Action<ParticleHolder> ReturnToPool = (x) =>  _vfxPools[key].Return(x);
+            Action<ParticleHolder,int> ReturnToPool = (x,y) =>  _vfxPools[y].Return(x);
 
-            particleClone.InitializeParticle(ReturnToPool);
+            particleClone.InitializeParticle(ReturnToPool,key);
 
             return particleClone;
         };

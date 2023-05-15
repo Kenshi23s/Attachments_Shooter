@@ -466,7 +466,7 @@ Mesh:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: pb_Mesh26034
+  m_Name: pb_Mesh42312
   serializedVersion: 10
   m_SubMeshes:
   - serializedVersion: 2
@@ -1720,6 +1720,26 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: -90
       objectReference: {fileID: 0}
+    - target: {fileID: 1474935999, guid: 4e0b8e6078937b342881ef0454eba315, type: 3}
+      propertyPath: _attachmentPos._serializedList.Array.size
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 1474935999, guid: 4e0b8e6078937b342881ef0454eba315, type: 3}
+      propertyPath: _attachmentPos._serializedList.Array.data[0].Key
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 1474935999, guid: 4e0b8e6078937b342881ef0454eba315, type: 3}
+      propertyPath: _attachmentPos._serializedList.Array.data[1].Key
+      value: 4
+      objectReference: {fileID: 0}
+    - target: {fileID: 1474935999, guid: 4e0b8e6078937b342881ef0454eba315, type: 3}
+      propertyPath: _attachmentPos._serializedList.Array.data[0].Value
+      value: 
+      objectReference: {fileID: 2052491644}
+    - target: {fileID: 1474935999, guid: 4e0b8e6078937b342881ef0454eba315, type: 3}
+      propertyPath: _attachmentPos._serializedList.Array.data[1].Value
+      value: 
+      objectReference: {fileID: 1796985279}
     - target: {fileID: 1769256427618282985, guid: 4e0b8e6078937b342881ef0454eba315, type: 3}
       propertyPath: _defaultShootPos
       value: 
@@ -2513,6 +2533,11 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1791726770}
   m_Mesh: {fileID: 1999923965846825323, guid: 6ae41404cdde2de4ea00235ca33ee8ee, type: 3}
+--- !u!4 &1796985279 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 797947022, guid: 4e0b8e6078937b342881ef0454eba315, type: 3}
+  m_PrefabInstance: {fileID: 957572145}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1821339272
 GameObject:
   m_ObjectHideFlags: 0
