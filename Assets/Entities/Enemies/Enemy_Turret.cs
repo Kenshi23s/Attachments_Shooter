@@ -43,7 +43,7 @@ public class Enemy_Turret : Enemy
         {
             if (hit.transform.TryGetComponent(out Player_Movement player))
             {
-                player.lifeHandler.TakeDamage(_bulletDamage);
+                player.lifehandler.TakeDamage(_bulletDamage);
             }
         }
     }

@@ -1,8 +1,8 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-
-public class Player_Movement : Entity
+[RequireComponent(typeof(LifeComponent))]
+public class Player_Movement : MonoBehaviour
 {
 
     // crouch, slide, run, walk, jump
@@ -38,6 +38,11 @@ public class Player_Movement : Entity
     public float maxRunningVel;
     public float maxWalkingVel;
 
+    public LifeComponent lifehandler;
+    private void Awake()
+    {
+        lifehandler=GetComponent<LifeComponent>();
+    }
     // Start is called before the first frame update
     void Start()
     {
