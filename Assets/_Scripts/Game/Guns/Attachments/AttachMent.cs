@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using static StatsHandler;
 [RequireComponent(typeof(BoxCollider))]
+
 public abstract class Attachment : MonoBehaviour
 {
     [System.Serializable]
@@ -15,12 +16,6 @@ public abstract class Attachment : MonoBehaviour
 
         [Range(-100,100),SerializeField] int _value;
         public int value => _value;
-
-        #region Obsolete
-        //[SerializeField] bool isMinus;
-        //private int mySignValue;
-        //public void SetSign()  => mySignValue = isMinus == true ? -1 : 1;
-        #endregion
     }
 
     public enum AttachmentType
@@ -35,7 +30,7 @@ public abstract class Attachment : MonoBehaviour
 
     }
 
-
+    [SerializeField] Transform pivotPos;
     [SerializeField] protected AttachmentType _myType;
     public AttachmentType myType => _myType;
     //protected AttachmentStats _stats;
@@ -53,6 +48,8 @@ public abstract class Attachment : MonoBehaviour
 
     protected Gun gunAttachedTo;
 
+  
+    Tuple<Vector3, Quaternion> OriginPivot; 
     BoxCollider b_collider;
 
     private void Awake()
@@ -61,6 +58,17 @@ public abstract class Attachment : MonoBehaviour
         Action<bool> colliderEnable = (x) => b_collider.enabled = x;
         onAttach += () => colliderEnable(false);
         onDettach += () => colliderEnable(true);
+
+        #region Pivot
+
+        pivotPos = pivotPos != null ? pivotPos : transform;
+
+        if (pivotPos != transform)       
+            OriginPivot = Tuple.Create(transform.position-pivotPos.position, pivotPos.rotation);        
+        else        
+            OriginPivot = Tuple.Create(Vector3.zero, new Quaternion(0,0,0,0));
+
+        #endregion
 
         colliderEnable(!isAttached);
 
@@ -76,21 +84,28 @@ public abstract class Attachment : MonoBehaviour
     protected abstract void Initialize();
 
     // hace que el accesorio se vuelva hijo del arma y le añada sus estadisticas
-    public void Attach(Gun gun,Transform Attachpivot)
+    public void Attach(Gun gun,Transform AttachTo)
     {
-        if (gun!=null)
+        if (gun == null) return;
+        
+         transform.parent = AttachTo;
+
+         pivotPos.position = AttachTo.position;
+         pivotPos.rotation = AttachTo.rotation;
+
+
+        if (pivotPos!=this.transform)
         {
-            transform.parent = Attachpivot;
-            transform.rotation = Attachpivot.rotation;
-            transform.position = Attachpivot.position;
-            
+            transform.position = pivotPos.position + OriginPivot.Item1;
+            transform.rotation = pivotPos.rotation * OriginPivot.Item2;
+        }        
 
-            gunAttachedTo = gun;
-            _isAttached = true;
+         gunAttachedTo = gun;
+         _isAttached = true;
 
-            gunAttachedTo.stats.ChangeStats(Attachment_stats, true);
-            onAttach?.Invoke();
-        }
+         gunAttachedTo.stats.ChangeStats(Attachment_stats, true);
+         onAttach?.Invoke();
+        
         
     }
 

@@ -163,7 +163,7 @@ public class AttachmentHandler : MonoBehaviour
     /// <param name="value"></param>
     void ReplaceAttachment(AttachmentType key, Attachment value)
     {
-        SaveAttachment(value);
+        SaveAttachment(_activeAttachments[key]);
         _activeAttachments.Remove(key);
         AddAttachment(value);
     }
