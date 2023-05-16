@@ -16,7 +16,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &8067779019883516217
 Transform:
   m_ObjectHideFlags: 0
@@ -52,7 +52,7 @@ LineRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 0}
+  - {fileID: 2100000, guid: 4cc0ed9babee08e4f914d26239d61c07, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -84,7 +84,7 @@ LineRenderer:
       m_Curve:
       - serializedVersion: 3
         time: 0
-        value: 1
+        value: 0.13207543
         inSlope: 0
         outSlope: 0
         tangentMode: 0
@@ -124,7 +124,7 @@ LineRenderer:
       m_NumColorKeys: 2
       m_NumAlphaKeys: 2
     numCornerVertices: 0
-    numCapVertices: 0
+    numCapVertices: 3
     alignment: 0
     textureMode: 0
     shadowBias: 0.5
@@ -191,9 +191,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a5e0d32a4ce7f024f95b1e6422923a5c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  pivotPos: {fileID: 0}
   _myType: 4
   Attachment_stats:
-    _serializedList: []
+    _serializedList:
+    - Key: 0
+      Value:
+        _value: 0
   _laserLineRender: {fileID: 8067779019883516222}
   _laserOutPoint: {fileID: 8067779020920898765}
 --- !u!1 &8067779020920898764

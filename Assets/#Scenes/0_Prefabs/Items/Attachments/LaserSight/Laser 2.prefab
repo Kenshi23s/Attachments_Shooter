@@ -91,6 +91,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a5e0d32a4ce7f024f95b1e6422923a5c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  pivotPos: {fileID: 0}
   _myType: 4
   Attachment_stats:
     _serializedList: []
@@ -112,7 +113,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &6808252221306122304
 Transform:
   m_ObjectHideFlags: 0
@@ -148,7 +149,7 @@ LineRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 0}
+  - {fileID: 2100000, guid: 4cc0ed9babee08e4f914d26239d61c07, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -180,7 +181,7 @@ LineRenderer:
       m_Curve:
       - serializedVersion: 3
         time: 0
-        value: 1
+        value: 0.13207626
         inSlope: 0
         outSlope: 0
         tangentMode: 0
@@ -220,7 +221,7 @@ LineRenderer:
       m_NumColorKeys: 2
       m_NumAlphaKeys: 2
     numCornerVertices: 0
-    numCapVertices: 0
+    numCapVertices: 3
     alignment: 0
     textureMode: 0
     shadowBias: 0.5
@@ -280,7 +281,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8844591877343581935, guid: c95223dc90698834f9931313c2dd422e, type: 3}
       propertyPath: m_Name
-      value: Laser02_low 2 (1)
+      value: Laser02_low
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: c95223dc90698834f9931313c2dd422e, type: 3}
