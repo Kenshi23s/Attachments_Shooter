@@ -128,5 +128,19 @@ public abstract class Attachment : MonoBehaviour
         onDettach?.Invoke();
        
     }
-   
+
+    private void OnDrawGizmos()
+    {
+        if (pivotPos != null) 
+        {
+            Gizmos.DrawWireCube(pivotPos.position, new Vector3(0.01f, 0.01f, 0.01f));
+        }
+        else
+        {
+            Gizmos.DrawWireCube(transform.position, new Vector3(0.01f, 0.01f, 0.01f));
+        }
+
+        
+    }
+
 }

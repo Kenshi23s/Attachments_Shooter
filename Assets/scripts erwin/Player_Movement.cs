@@ -41,7 +41,7 @@ public class Player_Movement : MonoBehaviour
     public LifeComponent lifehandler;
     private void Awake()
     {
-        lifehandler=GetComponent<LifeComponent>();
+        lifehandler = GetComponent<LifeComponent>();
     }
     // Start is called before the first frame update
     void Start()
@@ -112,8 +112,6 @@ public class Player_Movement : MonoBehaviour
 
     public void MovementKey(KeyCode mykey, Vector3 newMovement, float force)
     {
-        RaycastHit myhit;
-
         if (Input.GetKey(mykey))
         {
             rb.velocity += newMovement.normalized * force * Time.deltaTime;
