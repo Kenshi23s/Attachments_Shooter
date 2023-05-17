@@ -7,12 +7,12 @@ public class GameManager : MonoSingleton<GameManager>
 {
     [NonSerialized]public FloatingTextManager floatingTextManager;
     [NonSerialized]
-    public ParticlePool _vfxPool;
+    public ParticlePool vfxPool;
 
     protected override void SingletonAwake()
     {
         base.SingletonAwake();     
-        _vfxPool = new ParticlePool();   
+        vfxPool = new ParticlePool();   
         
     }
 

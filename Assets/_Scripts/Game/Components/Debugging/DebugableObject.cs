@@ -9,6 +9,11 @@ public class DebugableObject : MonoBehaviour
     
     public UnityEvent gizmoDraw;
 
+    private void Awake()
+    {
+        enabled=false;
+    }
+
     public void AddGizmoAction(Action a)
     {
         gizmoDraw.AddListener(new UnityAction(a));

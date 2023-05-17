@@ -23,13 +23,13 @@ public struct HitData
 {
     public Vector3 _impactPos;
     public DamageData dmgData;
-    public Gun weapon;
+    public Gun gunUsed;
 
     public HitData(Vector3 pos, DamageData dmgData, Gun weapon)
     {
         _impactPos = pos;
         this.dmgData = dmgData;      
-        this.weapon = weapon;
+        this.gunUsed = weapon;
     }
 }
 [RequireComponent(typeof(DamageHandler))]
@@ -99,6 +99,7 @@ public abstract class Gun : MonoBehaviour
 
     protected virtual void Awake()
     {
+        canShoot = true;
         attachmentHandler = GetComponent<AttachmentHandler>();       
         damageHandler = GetComponent<DamageHandler>(); 
         stats = GetComponent<StatsHandler>(); 

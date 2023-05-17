@@ -15,6 +15,7 @@ public abstract class Burst_Gun : Gun
     protected float burstCooldown;
     #endregion
 
+    
     public abstract void ShootOnBurst();
 
     public override void Shoot() => StartCoroutine(ShootBurst());
@@ -28,6 +29,7 @@ public abstract class Burst_Gun : Gun
         while (count < bulletsPerBurst)
         {
             ShootOnBurst(); CallOnShootEvent();
+            _debug.Log("Bullet "+0+" de "+ bulletsPerBurst);
             yield return new WaitForSeconds(bulletCooldown);
           
         }

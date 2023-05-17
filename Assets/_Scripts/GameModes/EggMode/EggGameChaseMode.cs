@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Diagnostics;
 using UnityEngine;
 using static EggEscapeModel;
 
@@ -7,6 +8,7 @@ public class EggGameChaseMode : GameModeBaseClass
 {
     [Header("EggGameMode")]
     [SerializeField]EggEscapeModel model;
+ 
 
     [SerializeField] int _eggsQuantity;
 
@@ -29,6 +31,7 @@ public class EggGameChaseMode : GameModeBaseClass
 
     public override void InitializeMode()
     {
+      
         eggStats.gameMode = this;
      
         // preguntarle a algun profe o compañero si esto esta bien

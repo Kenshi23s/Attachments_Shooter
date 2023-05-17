@@ -1,10 +1,8 @@
 using System;
 using System.Collections.Generic;
-using System.Linq;
 using UnityEngine;
 using UnityEngine.Events;
 using static EggState;
-
 public class Egg_Incubator : InteractableObject
 {
     [Header("EggIncubator")]
@@ -21,7 +19,7 @@ public class Egg_Incubator : InteractableObject
     {
         base.Awake();
         //"casteo" de funcion a unity action
-        UnityAction action = ()=>
+        UnityAction action = () =>
         {
             Debug.Log("Quit");
             Application.Quit(); 
@@ -34,7 +32,7 @@ public class Egg_Incubator : InteractableObject
             InteractData._promptText = Can_InteractText;
             InteractData.canInteract = true;
             DataChange();
-            Debug.Log("Can Interact");
+            _debug.Log("Can Interact");
         };
        
 
@@ -43,7 +41,7 @@ public class Egg_Incubator : InteractableObject
             InteractData._promptText = CanT_InteractText;
             InteractData.canInteract = false;
             DataChange();
-            Debug.Log("CanT Interact");
+            _debug.Log("CanT Interact");
 
         };
 
@@ -73,7 +71,7 @@ public class Egg_Incubator : InteractableObject
         {
             if (!_eggs.Contains(egg))
             {
-                Debug.Log("egg");
+                _debug.Log("egg");
                 _eggs.Add(egg);
             }
                  
@@ -84,7 +82,7 @@ public class Egg_Incubator : InteractableObject
             }
             else
             {
-                Debug.Log(egg.actualState);
+                _debug.Log(egg.actualState.ToString());
                 cantInsert?.Invoke();
             }
               

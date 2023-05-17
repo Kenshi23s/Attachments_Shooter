@@ -23,6 +23,7 @@ public struct InteractableObjectData
     }
 }
 [RequireComponent(typeof(SphereCollider))]
+[RequireComponent(typeof(DebugableObject))]
 public class InteractableObject : MonoBehaviour
 {
     [Header("InteractableObject")]
@@ -37,6 +38,9 @@ public class InteractableObject : MonoBehaviour
     [SerializeField] Text _promptText;
     [SerializeField] Image _sliderImage;
     [SerializeField] Image _backSliderImage;
+
+    [SerializeField]
+    protected DebugableObject _debug;
 
     public float currentInteractionTime 
     {
@@ -65,7 +69,7 @@ public class InteractableObject : MonoBehaviour
     protected virtual void Awake()
     {
         currentInteractionTime = 0;
-
+        _debug=GetComponent<DebugableObject>();
         GetComponent<SphereCollider>().isTrigger = true;
 
         SetUICalls();     

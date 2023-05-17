@@ -33,6 +33,7 @@ public class EggEscapeModel : MonoBehaviour
     }
 
     LifeComponent myLife;
+   
 
     StateMachine<States> _fsm;
     public States actualState => _fsm.actualState;
@@ -59,7 +60,6 @@ public class EggEscapeModel : MonoBehaviour
     // Stuneado: el player me disparo y quede stuneado, no me puedo mover
     // Secuestrado: el player me agarro, desp de x segundos me libero y paso directo a el estado escapar
 
-
     public void Initialize(EggStats stats, Vector3 SpawnPos)
     {
         transform.position = SpawnPos;
@@ -70,9 +70,9 @@ public class EggEscapeModel : MonoBehaviour
 
 
         #region GetComponents
-         _agent = GetComponent<NavMeshAgent>();
-        _fov=    GetComponent<FOVAgent>();
-        _fsm =   new StateMachine<States>();
+        _agent = GetComponent<NavMeshAgent>();
+        _fov   = GetComponent<FOVAgent>();
+        _fsm   = new StateMachine<States>();
         #endregion
 
         #region DataSet
@@ -108,29 +108,21 @@ public class EggEscapeModel : MonoBehaviour
     public void SetLife()
     {
         myLife = GetComponent<LifeComponent>();
-
         myLife.SetNewMaxLife(_eggStats.requiredDmg4stun);
         myLife.OnKilled += Stun;
-
-
 
         myLife.Initialize();
     }
 
     void Update() => _fsm.Execute();
 
-    void LateUpdate()
-    {
-        onUpdate?.Invoke();
-    }
+    void LateUpdate() =>  onUpdate?.Invoke();
+
 
     public void Grab()
     {
-        if (_fsm.actualState != States.Kidnapped)
-        {         
-            _fsm.ChangeState(States.Kidnapped);
-                 
-        }      
+        if (_fsm.actualState != States.Kidnapped)                
+            _fsm.ChangeState(States.Kidnapped);                           
     }
 
     void UpdateLinkRope()
@@ -139,9 +131,6 @@ public class EggEscapeModel : MonoBehaviour
         _playerLinking.SetPosition(1, _eggStats.gameMode.playerPos);      
     }
     
-
-    #region Polimorfism
-    #region Damagable
     public void Stun()
     {
         if (_fsm.actualState != States.Kidnapped && _fsm.actualState != States.Stunned)
@@ -152,12 +141,8 @@ public class EggEscapeModel : MonoBehaviour
            
           
     }
-    #endregion
 
-    #region Pausable
-    #endregion
-
-    private void OnDrawGizmos()
+    private void DrawEggGizmos()
     {
         if (_agent != null && _fsm != null)
         {
@@ -168,6 +153,6 @@ public class EggEscapeModel : MonoBehaviour
         }
      
     }
-    #endregion
+
 }
 

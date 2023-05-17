@@ -8,6 +8,8 @@ public class ParticleHolder : MonoBehaviour
 
     [SerializeField, Range(0, 10)] float _totalDuration;
     Action<ParticleHolder,int> _returnToPool;
+    public event Action OnFinish;
+
     int key;
     public void InitializeParticle(Action<ParticleHolder,int> _returnToPool,int key)
     {
@@ -20,6 +22,7 @@ public class ParticleHolder : MonoBehaviour
     IEnumerator CooldownDecrease()
     {
         yield return new WaitForSeconds(_totalDuration);
+        OnFinish?.Invoke();
         _returnToPool(this,key);
     }
 
