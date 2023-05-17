@@ -58,7 +58,7 @@ SubShader {
 	{
 		"Queue"="Transparent"
 		"IgnoreProjector"="True"
-		"RenderType"="Transparent"
+		"RenderType"="Transparent+1000"
 	}
 
 

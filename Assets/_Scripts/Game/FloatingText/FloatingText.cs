@@ -95,19 +95,17 @@ public class FloatingText : MonoBehaviour
 
     }
 
-    private void LateUpdate() => LookCamera(Camera.main.transform.position, transform.position);
+    private void LateUpdate()
+    {
+        transform.forward = Camera.main.transform.position - transform.position;
+    } 
 
     void LookCamera(Vector3 cam, Vector3 posToChange) => transform.LookAt(new Vector3(posToChange.x, cam.y, cam.z));
 
-    float SubstractAlpha(float Decreasespeed)
+    float SubstractAlpha(float _decreaseSpeed)
     {
-        _popUpText.alpha = Mathf.Clamp(_popUpText.alpha, 0f, 1f);
-        _popUpText.alpha -= Decreasespeed * Time.deltaTime;
-        _popUpText.alpha = Mathf.Clamp(_popUpText.alpha, 0f, 1f);
-        float t = _popUpText.alpha;
-        return t;
-
-       
+        _popUpText.alpha -= _decreaseSpeed * Time.deltaTime;
+        return Mathf.Clamp(_popUpText.alpha, 0f, 1f);       
     }
     #endregion
    
@@ -120,6 +118,6 @@ public class FloatingText : MonoBehaviour
     private void OnDrawGizmos()
     {
         Gizmos.color = Color.yellow;
-        Gizmos.DrawLine(_initialPos, _initialPos+_textForce);
+        Gizmos.DrawLine(_initialPos, _initialPos+_textForce *10);
     }
 }
