@@ -1,7 +1,7 @@
 using UnityEngine;
 using static FloatingText;
 
-public class FloatingTextManager : MonoBehaviour
+public class FloatingTextManager : MonoSingleton<FloatingTextManager>
 {
   
     TextPool pool = new TextPool();
@@ -11,8 +11,10 @@ public class FloatingTextManager : MonoBehaviour
     [SerializeField]
     FloatingText sampleFloatingText;
 
-    private void Awake()
+ 
+    protected override void SingletonAwake()
     {
+        base.SingletonAwake();
         pool.Initialize(transform, sampleFloatingText);
     }
     //podriamos tener en este metodo variaciones por ej

@@ -1,13 +1,12 @@
 using FacundoColomboMethods;
 using System;
 using System.Collections;
-using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 
-
-
 [RequireComponent(typeof(Rigidbody))]
+[RequireComponent(typeof(DebugableObject))]
+[RequireComponent(typeof(LifeComponent))]
 public class TurretMisile : MonoBehaviour
 {
     [System.Serializable]
@@ -49,17 +48,28 @@ public class TurretMisile : MonoBehaviour
     [SerializeField]
     Transform _target;
 
-  
 
+    DebugableObject _debug;
     Rigidbody _rb;
     Action _movement;
+    LifeComponent _lifeComponent;
+    private void Awake()
+    {
+        _lifeComponent = GetComponent<LifeComponent>();
+        _lifeComponent.OnKilled += Explosion;
 
-    private void Awake() => _rb = GetComponent<Rigidbody>();
+        _rb = GetComponent<Rigidbody>();
+
+        _debug = GetComponent<DebugableObject>();
+        _debug.AddGizmoAction(MisileGizmos);
+
+    } 
   
     public void Initialize(MisileStats _myNewStats,Transform _newTarget,Vector3 forward)
     {
-        this._myStats = _myNewStats;
-        this._target = _newTarget;
+        _lifeComponent.SetNewMaxLife((int)_myStats.life); 
+        _myStats = _myNewStats;
+        _target = _newTarget;
         transform.forward = forward;
         _movement = MoveForward;
 
@@ -113,41 +123,15 @@ public class TurretMisile : MonoBehaviour
 
     #endregion
 
-    #region Damagable
-
-    public int TakeDamage(int dmgDealt)
-    {
-        _myStats.life -= dmgDealt/2;
-        if (_myStats.life<=0)
-        {
-            Explosion();
-        }
-        return dmgDealt;
-    }
-
-    public bool WasCrit() => false;
-
-    public bool WasKilled() => _myStats.life <= 0;
-    #endregion
-
     #region Explosion Logic
     void Explosion()
     {
-        foreach (IDamagable x in transform.position.GetItemsOFTypeAround<IDamagable>(_myStats.explosionRadius))
-        {
-            if (x.GetHashCode() == GetHashCode()) continue;
-              
-            x.TakeDamage(_myStats.damage);
-        }      
-           
+        foreach (IDamagable x in transform.position.GetItemsOFTypeAround<IDamagable>(_myStats.explosionRadius).Where(x=> x != this))                    
+            x.TakeDamage(_myStats.damage);       
 
-        foreach (Rigidbody rb in transform.position.GetItemsOFTypeAround<Rigidbody>(_myStats.explosionRadius))
-        {
-            if (rb.GetHashCode() == GetHashCode())
-                rb.AddExplosionForce(GetForce(rb.position), transform.position, _myStats.explosionRadius);
-        }
-           
-
+        foreach (Rigidbody rb in transform.position.GetItemsOFTypeAround<Rigidbody>(_myStats.explosionRadius).Where(x => x != this))
+            rb.AddExplosionForce(GetForce(rb.position), transform.position, _myStats.explosionRadius);
+       
         _movement = null;
 
         //esto sacarlo y meterlo en una pool mas adelante
@@ -168,7 +152,8 @@ public class TurretMisile : MonoBehaviour
     }
     #endregion
 
-    private void OnDrawGizmos()
+
+    private void MisileGizmos()
     {
         if (_target == null) return;
         
@@ -200,11 +185,8 @@ public class TurretMisile : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
-
         if (other.GetComponent<Enemy_AirTurret>() == _myStats.owner) return;
 
         Explosion();
-
-
     }
 }

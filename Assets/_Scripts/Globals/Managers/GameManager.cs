@@ -5,7 +5,6 @@ using UnityEngine;
 [RequireComponent(typeof(AudioPool))]
 public class GameManager : MonoSingleton<GameManager>
 {
-    [NonSerialized]public FloatingTextManager floatingTextManager;
     [NonSerialized]
     public ParticlePool vfxPool;
 

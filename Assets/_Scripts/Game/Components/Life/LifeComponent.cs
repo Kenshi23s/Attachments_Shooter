@@ -12,6 +12,28 @@ public class LifeComponent : MonoBehaviour,IDamagable,IHealable
     public int life => _life;
     public int maxLife => _maxLife;
 
+    public bool ShowdamageNumber 
+    {
+        get 
+        {
+           return _showdamageNumber;
+        }
+
+        set 
+        {
+            if (_showdamageNumber == value) return;
+            
+                if (value)               
+                    OnTakeDamage += ShowDamageNumber;                
+                else               
+                    OnTakeDamage -= ShowDamageNumber;               
+            
+            _showdamageNumber = value;
+            
+        } 
+    }
+    bool _showdamageNumber = true;
+
     [SerializeField,Range(0.1f,2)] 
     float _dmgMultiplier=1f;
 
@@ -23,12 +45,22 @@ public class LifeComponent : MonoBehaviour,IDamagable,IHealable
     public event Action<int> OnTakeDamage;
     public event Action OnKilled;
 
+
+
     private void Awake()
     {
         _debug = GetComponent<DebugableObject>();
         // por si tenes hijos que pueden hacer de 
         foreach (var item in GetComponentsInChildren<HitableObject>()) 
             item.SetOwner(this);
+
+        OnTakeDamage += ShowDamageNumber;
+
+    }
+
+    void ShowDamageNumber(int x)
+    {
+        FloatingTextManager.instance.PopUpText(x.ToString(), transform.position);
     }
 
     public void SetNewMaxLife(int value) => _maxLife = Mathf.Clamp(value,1,int.MaxValue);

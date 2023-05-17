@@ -1,12 +1,14 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Diagnostics;
 using UnityEngine;
 [RequireComponent(typeof(SphereCollider))]
+[RequireComponent(typeof(DebugableObject))]
 public class PlayerDetector : MonoBehaviour
 {
     //esta clase podria ser mas generica y detectar cualquier cosa, por ahora solo la nesecito para esto
     //desp hacer mas generica
-
+    DebugableObject _debug;
     IDetector callBackTarget;
     //[SerializeField]float range = 10f;
     [SerializeField]Player_Movement target;
@@ -14,10 +16,11 @@ public class PlayerDetector : MonoBehaviour
 
     private void Awake()
     {
+        _debug=GetComponent<DebugableObject>();
         callBackTarget = GetComponentInParent<IDetector>();
         if (callBackTarget!=null)
         {
-            Debug.Log("Tengo papa");
+            _debug.Log("Tengo papa");
         }
         SphereCollider col = this.GetComponent<SphereCollider>();
         //col.radius= range;

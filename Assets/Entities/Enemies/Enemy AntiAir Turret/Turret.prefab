@@ -11,6 +11,7 @@ GameObject:
   - component: {fileID: 945985582}
   - component: {fileID: 945985584}
   - component: {fileID: 945985583}
+  - component: {fileID: 4183859817050692533}
   m_Layer: 9
   m_Name: PlayerDetector
   m_TagString: Untagged
@@ -44,7 +45,7 @@ SphereCollider:
   m_IsTrigger: 1
   m_Enabled: 1
   serializedVersion: 2
-  m_Radius: 86.8
+  m_Radius: 380.6
   m_Center: {x: 0, y: 0, z: 0}
 --- !u!114 &945985583
 MonoBehaviour:
@@ -59,6 +60,22 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   target: {fileID: 0}
+--- !u!114 &4183859817050692533
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 945985581}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 360ca867e48780448a1401b7fc47e037, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  canDebug: 1
+  gizmoDraw:
+    m_PersistentCalls:
+      m_Calls: []
 --- !u!1 &1511908073
 GameObject:
   m_ObjectHideFlags: 0
@@ -402,6 +419,7 @@ GameObject:
   - component: {fileID: 2092784011247790337}
   - component: {fileID: 1050749132124330848}
   - component: {fileID: 2092784011247790336}
+  - component: {fileID: 527999574353877509}
   m_Layer: 0
   m_Name: Turret
   m_TagString: Untagged
@@ -439,7 +457,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: aa0c48765a8d4fc4cbc7effda91bbfa4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  lifeHandler: {fileID: 0}
   _target: {fileID: 0}
   pivotBase: {fileID: 250484737203456824}
   _baseRotationSpeed: 3.25
@@ -471,7 +488,7 @@ MonoBehaviour:
   misilesLeft: 0
   wallMask:
     serializedVersion: 2
-    m_Bits: 64
+    m_Bits: 4160
 --- !u!114 &1050749132124330848
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -484,8 +501,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d9c8b9bb2e7803e418e7eb18ca7d9b0f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _life: 0
-  _maxLife: 0
+  _life: 100
+  _maxLife: 100
+  _dmgMultiplier: 1
   canTakeDamage: 1
   canBeHealed: 1
 --- !u!65 &2092784011247790336
@@ -501,6 +519,22 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 2.6902409, y: 2.251429, z: 2.594966}
   m_Center: {x: 0.11050129, y: 3.1458285, z: 0.044961452}
+--- !u!114 &527999574353877509
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2092784011247790343}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 360ca867e48780448a1401b7fc47e037, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  canDebug: 1
+  gizmoDraw:
+    m_PersistentCalls:
+      m_Calls: []
 --- !u!1 &2092784011589646413
 GameObject:
   m_ObjectHideFlags: 0

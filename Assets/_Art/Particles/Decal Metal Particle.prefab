@@ -12,8 +12,9 @@ GameObject:
   - component: {fileID: 7769905022192354823}
   - component: {fileID: 5553600683326451415}
   - component: {fileID: -3972655145039689112}
+  - component: {fileID: 8951173469184518983}
   m_Layer: 0
-  m_Name: vfxgraph_ImpactParticles_OnMetal
+  m_Name: Decal Metal Particle
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -123,4 +124,20 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6ba3ee55cb2f4554da43aa79a82e98b4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _totalDuration: 10
+  _totalDuration: 1.5
+--- !u!114 &8951173469184518983
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6092188166195576235}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 360ca867e48780448a1401b7fc47e037, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  canDebug: 1
+  gizmoDraw:
+    m_PersistentCalls:
+      m_Calls: []

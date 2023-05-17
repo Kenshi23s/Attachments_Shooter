@@ -11285,25 +11285,6 @@ Mesh:
     offset: 0
     size: 0
     path: 
---- !u!1 &845468884 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 6551094190892342438, guid: c04b3c1821e5b2e4fbfd4e143abffa54, type: 3}
-  m_PrefabInstance: {fileID: 6551094190519966720}
-  m_PrefabAsset: {fileID: 0}
---- !u!114 &845468886
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 845468884}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 597a8039d5587bd44bc6f80ff128d75f, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  AudioHolderSample: {fileID: 4176776817088148706, guid: b7223b0899fe37b45b9cdc5b5e27f3e7, type: 3}
-  prewarm: 5
 --- !u!1 &847226905
 GameObject:
   m_ObjectHideFlags: 0
@@ -25649,6 +25630,14 @@ PrefabInstance:
       propertyPath: m_Radius
       value: 380.6
       objectReference: {fileID: 0}
+    - target: {fileID: 1050749132124330848, guid: 1acadf6786b8dbc4e94f9fc539941b3b, type: 3}
+      propertyPath: _life
+      value: 100
+      objectReference: {fileID: 0}
+    - target: {fileID: 1050749132124330848, guid: 1acadf6786b8dbc4e94f9fc539941b3b, type: 3}
+      propertyPath: _maxLife
+      value: 100
+      objectReference: {fileID: 0}
     - target: {fileID: 2092784011247790338, guid: 1acadf6786b8dbc4e94f9fc539941b3b, type: 3}
       propertyPath: m_RootOrder
       value: 1
@@ -33986,7 +33975,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &2108350161
 Transform:
   m_ObjectHideFlags: 0
@@ -36503,14 +36492,6 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 2108350161}
     m_Modifications:
-    - target: {fileID: 945985584, guid: 1acadf6786b8dbc4e94f9fc539941b3b, type: 3}
-      propertyPath: m_Radius
-      value: 380.6
-      objectReference: {fileID: 0}
-    - target: {fileID: 2092784011247790337, guid: 1acadf6786b8dbc4e94f9fc539941b3b, type: 3}
-      propertyPath: wallMask.m_Bits
-      value: 4160
-      objectReference: {fileID: 0}
     - target: {fileID: 2092784011247790338, guid: 1acadf6786b8dbc4e94f9fc539941b3b, type: 3}
       propertyPath: m_RootOrder
       value: 0
@@ -36626,63 +36607,6 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
---- !u!1001 &1344092628935048423
-PrefabInstance:
-  m_ObjectHideFlags: 0
-  serializedVersion: 2
-  m_Modification:
-    m_TransformParent: {fileID: 0}
-    m_Modifications:
-    - target: {fileID: 6092188166195576235, guid: 347023f0940c79b4c91c3f190a8eca81, type: 3}
-      propertyPath: m_Name
-      value: vfxgraph_ImpactParticles_OnMetal
-      objectReference: {fileID: 0}
-    - target: {fileID: 6124178166605138570, guid: 347023f0940c79b4c91c3f190a8eca81, type: 3}
-      propertyPath: m_RootOrder
-      value: 9
-      objectReference: {fileID: 0}
-    - target: {fileID: 6124178166605138570, guid: 347023f0940c79b4c91c3f190a8eca81, type: 3}
-      propertyPath: m_LocalPosition.x
-      value: -80.751
-      objectReference: {fileID: 0}
-    - target: {fileID: 6124178166605138570, guid: 347023f0940c79b4c91c3f190a8eca81, type: 3}
-      propertyPath: m_LocalPosition.y
-      value: 9.75
-      objectReference: {fileID: 0}
-    - target: {fileID: 6124178166605138570, guid: 347023f0940c79b4c91c3f190a8eca81, type: 3}
-      propertyPath: m_LocalPosition.z
-      value: 93.245
-      objectReference: {fileID: 0}
-    - target: {fileID: 6124178166605138570, guid: 347023f0940c79b4c91c3f190a8eca81, type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 6124178166605138570, guid: 347023f0940c79b4c91c3f190a8eca81, type: 3}
-      propertyPath: m_LocalRotation.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 6124178166605138570, guid: 347023f0940c79b4c91c3f190a8eca81, type: 3}
-      propertyPath: m_LocalRotation.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 6124178166605138570, guid: 347023f0940c79b4c91c3f190a8eca81, type: 3}
-      propertyPath: m_LocalRotation.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 6124178166605138570, guid: 347023f0940c79b4c91c3f190a8eca81, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 6124178166605138570, guid: 347023f0940c79b4c91c3f190a8eca81, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 6124178166605138570, guid: 347023f0940c79b4c91c3f190a8eca81, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.z
-      value: 0
-      objectReference: {fileID: 0}
-    m_RemovedComponents: []
-  m_SourcePrefab: {fileID: 100100000, guid: 347023f0940c79b4c91c3f190a8eca81, type: 3}
 --- !u!33 &1407782535781434378
 MeshFilter:
   m_ObjectHideFlags: 0
@@ -37070,7 +36994,6 @@ GameObject:
   - component: {fileID: 5310175879794366921}
   - component: {fileID: 5310175879794366924}
   - component: {fileID: 5310175879794366923}
-  - component: {fileID: 5310175879794366925}
   m_Layer: 8
   m_Name: BurstPistol
   m_TagString: Untagged
@@ -37179,7 +37102,7 @@ MonoBehaviour:
   _actualAmmo: 0
   canShoot: 0
   bulletsPerBurst: 3
-  bulletCooldown: 0.206
+  bulletCooldown: 0.1
   burstCooldown: 0.865
 --- !u!114 &5310175879794366923
 MonoBehaviour:
@@ -37213,20 +37136,6 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 5137
   cam: {fileID: 0}
---- !u!114 &5310175879794366925
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4565508880563794605}
-  m_Enabled: 0
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 2e0a2bf8e927e9d49b31dc531f210074, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _muzzleFlash: {fileID: 0}
-  Shot_clip: {fileID: 0}
 --- !u!1 &5310175881801208197
 GameObject:
   m_ObjectHideFlags: 0

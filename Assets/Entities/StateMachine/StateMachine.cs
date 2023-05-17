@@ -16,7 +16,7 @@ public class StateMachine<T>
     public void Initialize(DebugableObject _debug)
     {
         this._debug = _debug;
-        _debug.AddGizmoAction(StateGizmos);
+        this._debug.AddGizmoAction(StateGizmos);
     }
     public void CreateState(T name, IState state)
     {

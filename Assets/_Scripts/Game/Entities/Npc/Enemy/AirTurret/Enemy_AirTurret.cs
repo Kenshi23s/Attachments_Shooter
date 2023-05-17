@@ -2,12 +2,13 @@ using System;
 using UnityEngine;
 using System.Linq;
 using FacundoColomboMethods;
-[RequireComponent(typeof(LifeComponent))]
+
 public class Enemy_AirTurret : Enemy, IDetector
 {
     //aca me guardo el target actual
     public Transform target => _target;
    [SerializeField] Transform _target;
+
   
     #region Pivots
     //x                   //y //pensar mejores nombres
@@ -62,12 +63,16 @@ public class Enemy_AirTurret : Enemy, IDetector
     {    
         _misileStats.owner = this;
         GetComponent<LifeComponent>().OnKilled += () => Destroy(gameObject);
+        debug=GetComponent<DebugableObject>();
+        debug.AddGizmoAction(DrawGizmo);
         SetTurretFSM();
     }
 
     void SetTurretFSM()
     {
+
         _fsm = new StateMachine<string>();
+        _fsm.Initialize(debug);
         _fsm.CreateState("Idle",  new AirTurretState_Idle(this,pivotBase));
         _fsm.CreateState("Align", new AirTurretState_Align(this, _fsm));
         _fsm.CreateState("Shoot", new AirTurretState_Shoot(this,cd_BetweenMisiles, cd_Volleys, misilesPerVolley, _fsm));
@@ -171,19 +176,12 @@ public class Enemy_AirTurret : Enemy, IDetector
     }
 
 
-    private void OnDrawGizmos()
+    private void DrawGizmo()
     {
-
         if (target!=null)
         {
             Gizmos.DrawLine(transform.position, target.position);
-        }
-
-        if (_fsm!=null)
-        {
-            _fsm.StateGizmos();
-        }
-       
+        }            
     }
     
 

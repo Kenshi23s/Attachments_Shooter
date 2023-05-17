@@ -53,7 +53,7 @@ public class AirTurretState_Shoot : IState
           
             if (0 >= misilesLeft)
             {
-                Debug.Log("Entro en cd");
+                _turret.debug.Log("Entro en cd");
                 _actualVolleyCD = _volleyCD;
                 _updateEvent = VolleyCD;
             } 

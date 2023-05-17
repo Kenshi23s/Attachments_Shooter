@@ -25,10 +25,11 @@ public class HitVFX : MonoBehaviour, IHitFeedback
    
     public void FeedbackHit(Vector3 hitPoint,Vector3 hitDir)
     {
-        _debug.Log("hit,muestro feedback");
+        _debug.Log("HIT!, muestro feedback");
         var aux = GetPool().GetVFX(key);
         aux.transform.position = hitPoint;  
         aux.transform.forward= hitDir;
+        StartCoroutine(aux.CooldownDecrease());
     }
 }
 
