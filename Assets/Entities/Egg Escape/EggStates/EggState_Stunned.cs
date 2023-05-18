@@ -8,7 +8,7 @@ public class EggState_Stunned : EggState
 
     public override void OnEnter()
     {
-         _agent.speed = 0;
+         _agent.SetMaxSpeed(0);
          _actualTimeStunned = _eggStats.stunTime;
     }
 

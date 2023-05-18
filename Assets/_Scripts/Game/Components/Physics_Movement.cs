@@ -18,25 +18,29 @@ public class Physics_Movement : MonoBehaviour
     [SerializeField,Range(1,100)]
     float _maxForce;
     public float maxForce => _maxForce;
+
     [SerializeField,Range(1,100)]
     float _maxSpeed;
     public float maxSpeed => _maxSpeed;
 
-   
+    [SerializeField, Range(0.1f, 10)]
+    float _steeringForce;
+    public float steeringForce => _steeringForce;
+
+
 
     private void Awake()
     {
         GetComponent<PausableObject>().onPause += () => StartCoroutine(OnPause());
 
-        _debug = GetComponent<DebugableObject>();
-        _debug.AddGizmoAction(MovementGizmos);
+        _debug = GetComponent<DebugableObject>(); _debug.AddGizmoAction(MovementGizmos);
         _rb = GetComponent<Rigidbody>();
     }
 
     public void RemoveForces()
     {
         _rb.velocity = Vector3.zero;
-        _debug.Log("se removieron todas las fuerzas");
+        _debug.Log("Se removieron todas las fuerzas");
     }
 
     public void AddForce(Vector3 force)
@@ -74,4 +78,6 @@ public class Physics_Movement : MonoBehaviour
         Gizmos.color = Color.green;
         Gizmos.DrawLine(_rb.position, _rb.position + _velocity);
     }
+
+   public Vector3 CalculateSteering(Vector3 desired) => Vector3.ClampMagnitude(desired - velocity * steeringForce, maxSpeed);
 }
