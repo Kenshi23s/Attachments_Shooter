@@ -29,8 +29,8 @@ public abstract class Burst_Gun : Gun
         while (count < bulletsPerBurst)
         {
             ShootOnBurst(); CallOnShootEvent();
-            _debug.Log("Bullet "+ count + " de "+ bulletsPerBurst);
             count++;
+            _debug.Log("Bullet "+ count + " de "+ bulletsPerBurst);
             yield return new WaitForSeconds(bulletCooldown);
             
 

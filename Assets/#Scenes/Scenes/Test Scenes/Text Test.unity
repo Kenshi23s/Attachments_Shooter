@@ -130,6 +130,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 257315866}
     m_Modifications:
+    - target: {fileID: 404769702446859729, guid: 4e0b8e6078937b342881ef0454eba315, type: 3}
+      propertyPath: _dmgMultiplier
+      value: 0.38
+      objectReference: {fileID: 0}
     - target: {fileID: 8568796443268590855, guid: 4e0b8e6078937b342881ef0454eba315, type: 3}
       propertyPath: m_RootOrder
       value: 0
@@ -631,7 +635,6 @@ GameObject:
   - component: {fileID: 2068609748}
   - component: {fileID: 2068609747}
   - component: {fileID: 2068609746}
-  - component: {fileID: 2068609745}
   m_Layer: 0
   m_Name: Cube (1)
   m_TagString: Untagged
@@ -639,23 +642,6 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!114 &2068609745
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2068609744}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d9c8b9bb2e7803e418e7eb18ca7d9b0f, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _life: 100
-  _maxLife: 100
-  _dmgMultiplier: 1
-  canTakeDamage: 1
-  canBeHealed: 1
 --- !u!114 &2068609746
 MonoBehaviour:
   m_ObjectHideFlags: 0

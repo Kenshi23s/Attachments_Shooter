@@ -7,7 +7,10 @@ public class Enemy_AirTurret : Enemy, IDetector
 {
     //aca me guardo el target actual
     public Transform target => _target;
-   [SerializeField] Transform _target;
+
+   
+
+    [SerializeField] Transform _target;
 
   
     #region Pivots
@@ -49,10 +52,15 @@ public class Enemy_AirTurret : Enemy, IDetector
    
     #region Solo Lectura en editor
     //desp hacerle una pool
-    [Header("VARIABLES DE SOLO LECTURA"), Space]
-    [SerializeField] float actualMisileCD;
-    [SerializeField] float actualVolleyCD;
-    [SerializeField] float misilesLeft;
+  
+
+    public float ActualMisileCD { get => actualMisileCD; set => actualMisileCD = value; }
+    public float ActualVolleyCD { get => actualVolleyCD; set => actualVolleyCD = value; }
+    public float MisilesLeft { get => misilesLeft; set => misilesLeft = value; }
+
+    float actualMisileCD;
+     float actualVolleyCD;
+     float misilesLeft;
     #endregion
     //lo tendria q tener el game manager
     public LayerMask wallMask;

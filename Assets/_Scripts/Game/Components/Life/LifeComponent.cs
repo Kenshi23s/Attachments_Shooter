@@ -109,7 +109,6 @@ public class LifeComponent : MonoBehaviour,IDamagable,IHealable
     #region HealingSide
     public virtual int Heal(int HealAmount)
     {
-
         if (!canBeHealed) return 0;
 
         _life += Mathf.Abs(HealAmount);
@@ -128,9 +127,8 @@ public class LifeComponent : MonoBehaviour,IDamagable,IHealable
         int HealPerTick = (int)(totalHeal / timeAmount);
 
         Action action = () => 
-        {
-            int dmgToDeal = life - HealPerTick > 0 ? HealPerTick : 0;
-            TakeDamage(dmgToDeal);
+        {           
+            Heal(HealPerTick);
         };
 
         AddLifeEvent(action, timeAmount);
