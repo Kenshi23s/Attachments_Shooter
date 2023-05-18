@@ -8,7 +8,7 @@ public abstract class GameModeBaseClass : MonoBehaviour
     [SerializeField]
     protected float pointsToWin=5;
 
-    public DebugableObject _debug;
+    protected DebugableObject _debug;
     
     
 
@@ -16,7 +16,7 @@ public abstract class GameModeBaseClass : MonoBehaviour
 
     public abstract void InitializeMode();
 
-    private void Awake()
+    private void Start()
     {
         _debug = GetComponent<DebugableObject>();
         InitializeMode();

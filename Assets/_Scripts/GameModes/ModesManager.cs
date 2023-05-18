@@ -5,7 +5,6 @@ using UnityEngine.SceneManagement;
 
 public class ModesManager : MonoSingleton<ModesManager>
 {
-    public static ModesManager instance;
     [SerializeField] GameModeBaseClass[] AvailableGameModes;
     [Tooltip("solo lectura, no modificar")]
     public GameModeBaseClass gameMode;
@@ -16,25 +15,31 @@ public class ModesManager : MonoSingleton<ModesManager>
       
     }
     [SerializeField]
-    GameMode actualGameMode; 
+    GameMode actualGameMode;
 
     //GameMode RandomGameMode()
     //{
 
 
     //   return GameMode randomGameMode= UnityEngine.Random.Range(0, Enum.GetValues.Length+1);
-    
+
     //}
+    protected override void SingletonAwake()
+    {
+        base.SingletonAwake();
+
+        //if (actualGameMode == GameMode.Random)
+        //{
+        //    actualGameMode = RandomGameMode();
+        //}
+
+        //gameMode = SelectGameMode();
+
+        gameMode.InitializeMode();
+    }
     private void Awake()
     {
-       //if (actualGameMode == GameMode.Random)
-       //{
-       //    actualGameMode = RandomGameMode();
-       //}
 
-       //gameMode = SelectGameMode();
-
-       gameMode.InitializeMode();
     }
 
 

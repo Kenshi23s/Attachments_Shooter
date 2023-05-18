@@ -17,7 +17,7 @@ public abstract class EggState : IState
     {
         public EggStats _eggStats;
         public FOVAgent _fov;
-        public NavMeshAgent _agent;
+        public IA_Movement _agent;
         public StateMachine<States> _fsm;
         public Transform _transform;
     }
@@ -35,7 +35,7 @@ public abstract class EggState : IState
     public Vector3 myPos => _transform.position; 
     public EggStats _eggStats;
     public FOVAgent _fov;
-    public NavMeshAgent _agent;
+    public IA_Movement _agent;
     public StateMachine<States> _fsm;
 
   

@@ -1,13 +1,11 @@
 using System;
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.AI;
 using static EggState;
 
 
-[RequireComponent(typeof(NavMeshAgent))]
+[RequireComponent(typeof(FOVAgent))]
 [RequireComponent(typeof(LifeComponent))]
+[RequireComponent(typeof(DebugableObject))]
 public class EggEscapeModel : MonoBehaviour
 {
     [System.Serializable]
@@ -17,6 +15,7 @@ public class EggEscapeModel : MonoBehaviour
         //y dejar todo con getter y setter
         [Header("Components")]
         [NonSerialized]public EggGameChaseMode gameMode;
+        public DebugableObject debug;
 
         // preguntarle a algun profe como podria dejar una variable por codigo
         // como get pero modificarla por inspector
@@ -27,20 +26,20 @@ public class EggEscapeModel : MonoBehaviour
 
         public float kidnapedTime;
         public float kidnapFollowRadius;
+        public float kidnapSpeed;
+
         public float patrolSpeed;
         public float escapeSpeed;
 
     }
 
     LifeComponent myLife;
-   
+    FOVAgent _fov;
+    IA_Movement _agent;
 
     StateMachine<States> _fsm;
     public States actualState => _fsm.actualState;
 
-    NavMeshAgent _agent;
-
-   [SerializeField] FOVAgent _fov;
     EggStats _eggStats;
 
     [Header("EggEscape")]
@@ -67,12 +66,13 @@ public class EggEscapeModel : MonoBehaviour
         _eggStats = stats;
         SetLife();
 
-
-
         #region GetComponents
-        _agent = GetComponent<NavMeshAgent>();
+        DebugableObject _debug= GetComponent<DebugableObject>();
+        _agent = GetComponent<IA_Movement>();
         _fov   = GetComponent<FOVAgent>();
         _fsm   = new StateMachine<States>();
+    
+        
         #endregion
 
         #region DataSet
@@ -82,6 +82,7 @@ public class EggEscapeModel : MonoBehaviour
         data._fsm = _fsm;
         data._agent = _agent;
         data._transform = transform;
+        data._eggStats.debug= _debug;
         #endregion
 
         #region Kidnapped CallBacks
@@ -95,6 +96,7 @@ public class EggEscapeModel : MonoBehaviour
         #endregion
 
         #region Setting Finite State Machine
+        _fsm.Initialize(_debug);
         _fsm.CreateState(States.Patrol,    new EggState_Patrol(data));
         _fsm.CreateState(States.Escape,    new EggState_Escape(data));
         _fsm.CreateState(States.Stunned,   new EggState_Stunned(data));

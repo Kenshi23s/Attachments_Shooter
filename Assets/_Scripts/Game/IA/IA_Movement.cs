@@ -12,31 +12,55 @@ using UnityEngine;
 
 public class IA_Movement : MonoBehaviour
 {
-
+    FlockingParameters flockingParameters= new FlockingParameters();
     DebugableObject _debug;
-    public LayerMask obstacleMask; 
-
     FOVAgent _fov;
     Physics_Movement movement;
 
-    Vector3 velocity => movement.velocity;
+    public Vector3 destination=> _destination;
+    Vector3 _destination;
+
+    public Vector3 velocity => movement.velocity;
+
+    
+
     [Header("Flocking Forces")]
 
     [SerializeField,Range(0f,3f)]  float _alignmentForce;
     [SerializeField,Range(0f, 3f)] float _cohesionForce;
     [SerializeField,Range(0f, 3f)] float _separationForce;
-
+    public LayerMask obstacleMask;
     Action _fixedUpdate;
 
- 
+    public bool isFlockingActive 
+    { 
+        get => _isFlockingActive;
+        set 
+        {
+            _isFlockingActive = value;
+            if (value)
+            {
+                
+            }
+
+        } 
+    }
+    [SerializeField]bool _isFlockingActive;
     private void Awake()
     {
         _fov = GetComponent<FOVAgent>();
         movement = GetComponent<Physics_Movement>();
+        _debug=GetComponent<DebugableObject>();
+
+     
     }
 
     private void FixedUpdate() => _fixedUpdate?.Invoke();
 
+
+    public void SetMaxSpeed(float newSpeed) =>   movement.SetMaxSpeed(newSpeed);
+    
+   
     #region Pathfinding Methods
     public void SetDestination(Vector3 target)
     {
@@ -77,7 +101,8 @@ public class IA_Movement : MonoBehaviour
     {
         if (!waypoints.Any()) 
         {
-            _fixedUpdate = null;           
+            _fixedUpdate = null;
+            movement.RemoveForces();
             return;
         }
 
@@ -89,7 +114,8 @@ public class IA_Movement : MonoBehaviour
         actualForce += FlockingUpdate();
         actualForce += ObstacleAvoidance(transform);
 
-        movement.AddForce(actualForce);
+        
+        movement.AddForce(velocity.CalculateSteering(actualForce, movement.steeringForce));
         if (Vector3.Distance(waypoints[0], transform.position) < 2f) waypoints.RemoveAt(0);
     }    
 
@@ -101,6 +127,7 @@ public class IA_Movement : MonoBehaviour
        Vector3 actualforce = Vector3.zero;
         _debug.Log("Flocking");
        
+       
         actualforce += Alignment() * _alignmentForce;
         actualforce += Cohesion() * _cohesionForce;
         actualforce += Separation() * _separationForce;
@@ -108,9 +135,8 @@ public class IA_Movement : MonoBehaviour
         return actualforce;     
     }
 
-   
+    
 
-        //force += ObstacleAvoidance(_rb.transform);
    
 
     Vector3 ObstacleAvoidance(Transform transform)
@@ -118,7 +144,7 @@ public class IA_Movement : MonoBehaviour
 
         float dist = velocity.magnitude;
 
-        if (Physics.SphereCast(transform.position, 1, transform.forward, out RaycastHit hit, dist, obstacleMask))
+        if (Physics.SphereCast(transform.position, 1.5f, transform.forward, out RaycastHit hit, dist, obstacleMask))
         {
             Vector3 obstacle = hit.transform.position;
             Vector3 dirToObject = obstacle - transform.position;
@@ -126,7 +152,7 @@ public class IA_Movement : MonoBehaviour
 
             Vector3 desired = angleInBetween >= 0 ? -transform.right : transform.right;
 
-            return CalculateSteering(desired);
+            return velocity.CalculateSteering(desired,movement.maxSpeed);
         }
 
         return Vector3.zero;
@@ -157,7 +183,7 @@ public class IA_Movement : MonoBehaviour
         desired.Normalize();
         desired *= movement.maxForce;
 
-        return CalculateSteering(desired);
+        return desired;
     }
 
     Vector3 Cohesion()
@@ -185,7 +211,7 @@ public class IA_Movement : MonoBehaviour
         desired.Normalize();
         desired *= movement.maxForce;
 
-        return CalculateSteering(desired);
+        return desired;
     }
 
     Vector3 Separation()
@@ -208,7 +234,7 @@ public class IA_Movement : MonoBehaviour
         desired.Normalize();
         desired *= movement.maxForce;
 
-        return CalculateSteering(desired);
+        return desired;
     }
     #endregion
 
@@ -220,7 +246,7 @@ public class IA_Movement : MonoBehaviour
         desired.Normalize();
         desired *= movement.maxForce;
 
-        return CalculateSteering(desired); ;
+        return desired;
     }
 
 
@@ -235,12 +261,12 @@ public class IA_Movement : MonoBehaviour
             desired *= movement.maxSpeed * (dist / arriveRadius);
         else
             desired *= movement.maxSpeed;   
-        return CalculateSteering(desired);
+        return desired;
     }
 
     #endregion
 
-    Vector3 CalculateSteering(Vector3 desired) => Vector3.ClampMagnitude(desired - velocity, movement.maxSpeed);
+  
 
   
 }

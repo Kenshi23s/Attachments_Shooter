@@ -55,12 +55,16 @@ public class Enemy_AirTurret : Enemy, IDetector
   
 
     public float ActualMisileCD { get => actualMisileCD; set => actualMisileCD = value; }
-    public float ActualVolleyCD { get => actualVolleyCD; set => actualVolleyCD = value; }
-    public float MisilesLeft { get => misilesLeft; set => misilesLeft = value; }
-
     float actualMisileCD;
-     float actualVolleyCD;
-     float misilesLeft;
+
+    public float ActualVolleyCD { get => actualVolleyCD; set => actualVolleyCD = value; }
+    float actualVolleyCD;
+
+    public float MisilesLeft { get => misilesLeft; set => misilesLeft = value; }
+    float misilesLeft;
+
+
+
     #endregion
     //lo tendria q tener el game manager
     public LayerMask wallMask;

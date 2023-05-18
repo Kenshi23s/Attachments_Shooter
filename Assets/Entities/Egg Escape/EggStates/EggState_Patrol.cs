@@ -10,8 +10,8 @@ public class EggState_Patrol:EggState
    
     public EggState_Patrol(EggStateData data) : base(data) 
     {
-     _getRandomWaypoint = () =>
-    _eggStats.gameMode.waypoints[UnityEngine.Random.Range(0, _eggStats.gameMode.waypoints.Length)]; 
+      _getRandomWaypoint = () =>
+      _eggStats.gameMode.waypoints[UnityEngine.Random.Range(0, _eggStats.gameMode.waypoints.Length)]; 
     }
     //como podria acortar este func?, consultar a alguien
     Transform actualWaypoint;
@@ -21,13 +21,14 @@ public class EggState_Patrol:EggState
     public override void OnEnter()
     {      
         actualWaypoint = _getRandomWaypoint?.Invoke();
-        _agent.speed = _eggStats.patrolSpeed;
+
+        _agent.SetMaxSpeed(_eggStats.patrolSpeed);
         _agent.SetDestination(actualWaypoint.position);
     } 
 
     public override void OnUpdate()
     {
-       
+        _eggStats.debug.Log(actualWaypoint.position.ToString()) ;
         float distance = Vector3.Distance(actualWaypoint.position, myPos);     
         if (_eggStats.gameMode.interactRadius > distance)
         {

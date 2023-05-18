@@ -14,8 +14,8 @@ public class EggState_Escape : EggState
     Transform GetFurthestWaypoint() => _eggStats.gameMode.waypoints.GetFurthest(_agent.transform.position);
 
     public override void OnEnter()
-    {  
-        _agent.speed = _eggStats.escapeSpeed;
+    {
+        _agent.SetMaxSpeed(_eggStats.escapeSpeed); 
         actualWaypoint = GetFurthestWaypoint();
         _agent.SetDestination(actualWaypoint.position);
     }

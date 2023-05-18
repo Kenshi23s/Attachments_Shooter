@@ -10,7 +10,8 @@ public class EggGameChaseMode : GameModeBaseClass
     [SerializeField]EggEscapeModel model;
  
 
-    [SerializeField] int _eggsQuantity;
+    [SerializeField,Range(0,10)] 
+    int _eggsQuantity;
 
     public float interactRadius=> _egg_interactRadius;
     [SerializeField]float _egg_interactRadius;
@@ -26,8 +27,6 @@ public class EggGameChaseMode : GameModeBaseClass
 
     [SerializeField]EggStats eggStats;
 
-    public bool _hasEgg;
-
 
     public override void InitializeMode()
     {
@@ -35,11 +34,12 @@ public class EggGameChaseMode : GameModeBaseClass
         eggStats.gameMode = this;
      
         // preguntarle a algun profe o compañero si esto esta bien
-        //eggsEscaping = new EggEscapeModel[_eggsQuantity];
+        eggsEscaping = new EggEscapeModel[_eggsQuantity];
 
         for (int i = 0; i < eggsEscaping.Length; i++)
-        {        
-            eggsEscaping[i].Initialize(eggStats, GetMeshPath());
+        {
+            eggsEscaping[i]= Instantiate(model);
+            eggsEscaping[i].Initialize(eggStats, _waypoints[Random.Range(0, waypoints.Length-1)].position);
           
         }
     }

@@ -13,6 +13,7 @@ public class AgentTest : MonoBehaviour
     }
     private void Start()
     {
+        Debug.Log(objectToLookFor);
         if (Vector3.Distance(objectToLookFor.transform.position, transform.position) > 2)
         {
             agent.SetDestination(objectToLookFor.transform.position);
