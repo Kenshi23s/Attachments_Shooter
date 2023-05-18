@@ -10,6 +10,10 @@ public class ParticlePool
     public int CreateVFXPool(ParticleHolder particle)
     {
         int key = particle.GetHashCode();
+        if (_vfxPools.ContainsKey(key))
+        {
+            return key;
+        }
 
         PoolObject<ParticleHolder> pool = new PoolObject<ParticleHolder>();
 

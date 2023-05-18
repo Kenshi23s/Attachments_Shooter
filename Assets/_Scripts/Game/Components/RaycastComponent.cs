@@ -10,7 +10,7 @@ public class RaycastComponent : MonoBehaviour
     LayerMask _shootableLayers;
     [SerializeField]
     Camera cam;
-    private void Awake()
+    private void Start()
     {
         gun = GetComponent<Gun>();
         if (cam == null)
