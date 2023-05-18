@@ -6,8 +6,8 @@ using static EggState;
 public class Egg_Incubator : InteractableObject
 {
     [Header("EggIncubator")]
-    [SerializeField]string Can_InteractText;
-    [SerializeField]string CanT_InteractText;
+    [SerializeField]string can_InteractText;
+    [SerializeField]string canT_InteractText;
 
     Action cantInsert;
 
@@ -29,7 +29,7 @@ public class Egg_Incubator : InteractableObject
 
         canInsert = () =>
         {
-            InteractData._promptText = Can_InteractText;
+            InteractData._promptText = can_InteractText;
             InteractData.canInteract = true;
             DataChange();
             _debug.Log("Can Interact");
@@ -38,7 +38,7 @@ public class Egg_Incubator : InteractableObject
 
         cantInsert = () =>
         {
-            InteractData._promptText = CanT_InteractText;
+            InteractData._promptText = canT_InteractText;
             InteractData.canInteract = false;
             DataChange();
             _debug.Log("CanT Interact");

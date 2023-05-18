@@ -26,10 +26,10 @@ public class EggEscapeModel : MonoBehaviour
 
         public float kidnapedTime;
         public float kidnapFollowRadius;
-        public float kidnapSpeed;
 
-        public float patrolSpeed;
-        public float escapeSpeed;
+        [Header("Speeds")]
+        [Range(0.1f,25)] public float kidnapSpeed, patrolSpeed, escapeSpeed;
+      
 
     }
 
