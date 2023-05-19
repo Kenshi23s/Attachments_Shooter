@@ -16,8 +16,7 @@ public class GunVFX_Handler : MonoBehaviour
         gun.onShoot += ShootFedback;
     }
     void Start()
-    {
-       
+    {     
         muzzleFlashKey = GameManager.instance.vfxPool.CreateVFXPool(_muzzleFlash);
         enabled= false;
     }

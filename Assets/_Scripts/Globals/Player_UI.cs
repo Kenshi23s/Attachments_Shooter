@@ -41,6 +41,8 @@ public class Player_UI : MonoBehaviour
     void UpdateDamageShader(int life,int maxLife)
     {
         int actualLife = life / maxLife;
+        if (actualLife == lastLifecheck) return;
+     
         if (actualLife>lastLifecheck)        
             StartCoroutine(HealTowards(actualLife));        
         else        
