@@ -4,8 +4,6 @@ using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 using static Attachment;
-using static UnityEditor.Searcher.Searcher.AnalyticsEvent;
-using static UnityEngine.Rendering.DebugUI;
 
 [DisallowMultipleComponent]
 public class AttachmentHandler : MonoBehaviour
@@ -54,7 +52,6 @@ public class AttachmentHandler : MonoBehaviour
     public void Awake()
     {
         _gun = GetComponent<Gun>();
-
       
         Action onMuzzleChange = () =>
         {
@@ -129,8 +126,7 @@ public class AttachmentHandler : MonoBehaviour
             if (!_attachmentPos.ContainsKey(key)) 
             {
                 _gun._debug.WarningLog($"NO conecte el attachment de tipo{key} a el arma," +
-                    $" ya que no tengo una posicion para darle");
-                return;
+                    $" ya que no tengo una posicion para darle"); return;
             }
         
             //y no tengo un accesorio de ese tipo ya activo
@@ -181,9 +177,6 @@ public class AttachmentHandler : MonoBehaviour
         if (_DefaultAttachMent.TryGetValue(key,out var _default)) AddAttachment(_default);
    
         _onAttachmentChange[key]?.Invoke();
-
-
-
     }
 
     void SaveAttachment(Attachment x)
