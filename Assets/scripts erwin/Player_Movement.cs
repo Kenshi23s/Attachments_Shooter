@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -37,7 +38,7 @@ public class Player_Movement : MonoBehaviour
 
     public float maxRunningVel;
     public float maxWalkingVel;
-
+    [NonSerialized]
     public LifeComponent lifehandler;
     private void Awake()
     {

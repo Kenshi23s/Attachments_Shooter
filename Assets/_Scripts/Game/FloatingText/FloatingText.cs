@@ -26,6 +26,7 @@ public class FloatingText : MonoBehaviour
        
 
     }
+    [SerializeField]
     FloatingTextParam _textParameters;
 
     public TextMeshPro _popUpText;
@@ -104,8 +105,11 @@ public class FloatingText : MonoBehaviour
 
     float SubstractAlpha(float _decreaseSpeed)
     {
-        _popUpText.alpha -= _decreaseSpeed * Time.deltaTime;
-        return Mathf.Clamp(_popUpText.alpha, 0f, 1f);       
+        float newAlpha = _decreaseSpeed * Time.deltaTime;
+        Color newColor = _popUpText.color;
+        newColor.a -= newAlpha;
+       _popUpText.color = newColor;
+        return Mathf.Clamp(_popUpText.color.a, 0f, 1f);       
     }
     #endregion
    

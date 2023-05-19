@@ -41,6 +41,7 @@ public class LifeComponent : MonoBehaviour,IDamagable,IHealable
     [SerializeField] public bool canTakeDamage = true;
     [SerializeField] public bool canBeHealed = true;
 
+    public event Action<int,int> OnHealthChange;
     public event Action OnHeal;
     public event Action<int> OnTakeDamage;
     public event Action OnKilled;
@@ -53,7 +54,8 @@ public class LifeComponent : MonoBehaviour,IDamagable,IHealable
         // por si tenes hijos que pueden hacer de 
         foreach (var item in GetComponentsInChildren<HitableObject>()) 
             item.SetOwner(this);
-
+        OnHeal += () =>       OnHealthChange(life,maxLife);
+        OnTakeDamage+= (x) => OnHealthChange(life, maxLife);
         OnTakeDamage += ShowDamageNumber;
 
     }
@@ -93,8 +95,8 @@ public class LifeComponent : MonoBehaviour,IDamagable,IHealable
     }
 
     public virtual void AddDamageOverTime(int TotalDamageToDeal, float TimeAmount)
-    {   
-        int damagePerTick = (int)(TotalDamageToDeal / TimeAmount);
+    {
+        int damagePerTick = Mathf.Max(1, (int)(TotalDamageToDeal / TimeAmount));
 
         Action action = () => 
         {
@@ -102,7 +104,7 @@ public class LifeComponent : MonoBehaviour,IDamagable,IHealable
             TakeDamage(dmgToDeal);
         };
 
-        AddLifeEvent(action, TimeAmount);
+        AddHealthEvent(action, TimeAmount);
     }
     #endregion
 
@@ -131,11 +133,11 @@ public class LifeComponent : MonoBehaviour,IDamagable,IHealable
             Heal(HealPerTick);
         };
 
-        AddLifeEvent(action, timeAmount);
+        AddHealthEvent(action, timeAmount);
     }
     #endregion
 
-    void AddLifeEvent(Action action,float timeAmount)
+    void AddHealthEvent(Action action,float timeAmount)
     {
 
         TickEvent newDamageEvent = new TickEvent(); 

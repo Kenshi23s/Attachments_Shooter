@@ -9,7 +9,7 @@ public class TickEventsManager : MonoSingleton<TickEventsManager>
     public struct TickEvent
     {
         public Action OnTickAction;
-        public bool isTimeBased;
+        public bool isTimeBased; 
         public float timeStart;
         public float currentTime;
 
