@@ -17,6 +17,7 @@ public class Pause : MonoBehaviour
     public void PauseMethod()
     {
         Cursor.lockState = CursorLockMode.None;
+        Cursor.visible = true;
         Time.timeScale = 0;
         HUD_Restart.SetActive(true);
     }
