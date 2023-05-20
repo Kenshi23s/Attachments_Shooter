@@ -17,6 +17,7 @@ public abstract class Attachment : MonoBehaviour
         [Range(-100,100),SerializeField] int _value;
         public int value => _value;
     }
+   
 
     public enum AttachmentType
     {
@@ -48,7 +49,8 @@ public abstract class Attachment : MonoBehaviour
 
     protected Gun gunAttachedTo;
 
-  
+    
+
     Tuple<Vector3, Quaternion> OriginPivot; 
     BoxCollider b_collider;
 
@@ -61,7 +63,7 @@ public abstract class Attachment : MonoBehaviour
 
         #region Pivot
 
-        pivotPos = pivotPos != null ? pivotPos : transform;
+        pivotPos = pivotPos == null ? transform : pivotPos;
 
         if (pivotPos != transform)       
             OriginPivot = Tuple.Create(transform.position-pivotPos.position, pivotPos.rotation);        
