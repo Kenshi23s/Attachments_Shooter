@@ -59,9 +59,20 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: faef45f4047963c45a9dfeea2720a76a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  pivotPos: {fileID: 0}
   _myType: 2
   Attachment_stats:
-    _serializedList: []
+    _serializedList:
+    - Key: 1
+      Value:
+        _value: 100
+    - Key: 4
+      Value:
+        _value: 45
+    - Key: 0
+      Value:
+        _value: 39
+  _sightDot: {fileID: 0}
 --- !u!1001 &9166610627881523585
 PrefabInstance:
   m_ObjectHideFlags: 0

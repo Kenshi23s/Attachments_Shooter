@@ -51,6 +51,7 @@ public class LifeComponent : MonoBehaviour, IDamagable, IHealable
 
     private void Awake()
     {
+        
         _debug = GetComponent<DebugableObject>();
         // por si tenes hijos que pueden hacer de 
         foreach (var item in GetComponentsInChildren<HitableObject>())

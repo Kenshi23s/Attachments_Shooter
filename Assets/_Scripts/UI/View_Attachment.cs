@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 using UnityEngine.UI;
 using static Attachment;
@@ -7,12 +8,13 @@ using static StatsHandler;
 
 public class View_Attachment : MonoBehaviour
 {
-    GameObject Panel;
+    [SerializeField] GameObject Panel;
     public Text myTypeText;
     public Text nameText;
     public View_SliderAttachment sliderTemplate;
 
     public List<View_SliderAttachment> View_SliderAttachment;
+    Attachment actual;
 
     public struct AttachmentData
     {
@@ -23,26 +25,26 @@ public class View_Attachment : MonoBehaviour
    
     public void NewAttachment(Attachment x)
     {
-        transform.position= x.transform.position;
-
-        View_SliderAttachment.Clear();
+        transform.position = x.transform.position;
+        if (actual == x) return;
+        actual = x; RemoveStats();
 
         AttachmentData data = GetData(x);
         myTypeText.text = data.type.ToString();
         nameText.text = data.name;
-
-        foreach (StatNames key in data.stats.Keys)
+      
+        foreach (StatNames key in data.stats.Keys.Where(x => data.stats[x] != 0))
         {
-            View_SliderAttachment newSlider = Instantiate(sliderTemplate).GetComponent<View_SliderAttachment>();
-            newSlider.transform.parent= Panel.transform;
-            View_SliderAttachment.Add(newSlider);        
-            newSlider.SetSliderValue(key, data.stats[key]);
+            View_SliderAttachment newSlider = Instantiate(sliderTemplate, Panel.transform).GetComponent<View_SliderAttachment>();
+            View_SliderAttachment.Add(newSlider);         
+            newSlider.SetSliderValue(key.ToString(), data.stats[key]);
         }
     }
 
-    void AddSlider()
+    void RemoveStats()
     {
-
+        foreach (View_SliderAttachment item in View_SliderAttachment) Destroy(item.gameObject);      
+        View_SliderAttachment.Clear();
     }
 
     AttachmentData GetData(Attachment attachment)
@@ -50,6 +52,8 @@ public class View_Attachment : MonoBehaviour
         AttachmentData data = new AttachmentData();
 
         data.type = attachment.myType; data.name = attachment.name;
+
+        data.stats = new Dictionary<StatNames, int>();
 
         foreach (StatNames key in Enum.GetValues(typeof(StatNames)))
             if (attachment.Attachment_stats.TryGetValue(key, out var x))
