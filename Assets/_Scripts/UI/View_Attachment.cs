@@ -1,5 +1,4 @@
 using System;
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
@@ -8,7 +7,7 @@ using static StatsHandler;
 
 public class View_Attachment : MonoBehaviour
 {
-
+    GameObject Panel;
     public Text myTypeText;
     public Text nameText;
     public View_SliderAttachment sliderTemplate;
@@ -21,7 +20,7 @@ public class View_Attachment : MonoBehaviour
         public string name;
         public Dictionary<StatNames, int> stats;
     }
-
+   
     public void NewAttachment(Attachment x)
     {
         transform.position= x.transform.position;
@@ -34,10 +33,11 @@ public class View_Attachment : MonoBehaviour
 
         foreach (StatNames key in data.stats.Keys)
         {
-            //View_SliderAttachment.Add();
+            View_SliderAttachment newSlider = Instantiate(sliderTemplate).GetComponent<View_SliderAttachment>();
+            newSlider.transform.parent= Panel.transform;
+            View_SliderAttachment.Add(newSlider);        
+            newSlider.SetSliderValue(key, data.stats[key]);
         }
-
-
     }
 
     void AddSlider()
