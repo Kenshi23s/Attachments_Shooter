@@ -18,8 +18,11 @@ public class View_Attachment : MonoBehaviour
 
     public void NewAttachment(Attachment x)
     {
+        transform.position= x.transform.position;
         AttachmentData data = GetData(x);
-        myTypeText.text = x.name
+        myTypeText.text = data.type.ToString();
+        nameText.text = data.name;
+
     }
 
     AttachmentData GetData(Attachment attachment)

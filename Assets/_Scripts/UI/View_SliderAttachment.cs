@@ -17,10 +17,9 @@ public class View_SliderAttachment : MonoBehaviour
         public Dictionary<StatNames, int> stats;
     }
 
-    
-
-    public void SetSlider() 
+    public void SetSliderValue(StatNames name,int value)
     {
 
     }
+
 }
