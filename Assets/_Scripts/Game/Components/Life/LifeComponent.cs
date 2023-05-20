@@ -97,7 +97,7 @@ public class LifeComponent : MonoBehaviour, IDamagable, IHealable
 
     public virtual void AddDamageOverTime(int TotalDamageToDeal, float TimeAmount)
     {
-        int damagePerTick = Mathf.Max(1, (int)((TotalDamageToDeal / TimeAmount) * Time.deltaTime));
+        int damagePerTick = Mathf.Max(1, (int)((TotalDamageToDeal / TimeAmount)));
 
         Action action = () =>
         {

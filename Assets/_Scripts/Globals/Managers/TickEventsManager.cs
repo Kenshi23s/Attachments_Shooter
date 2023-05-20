@@ -1,7 +1,6 @@
 using System.Collections.Generic;
 using System;
 using UnityEngine;
-using System.Diagnostics;
 
 [RequireComponent(typeof(DebugableObject))]
 public class TickEventsManager : MonoSingleton<TickEventsManager>
