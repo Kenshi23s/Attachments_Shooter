@@ -61,7 +61,7 @@ public abstract class Attachment : MonoBehaviour
 
         #region Pivot
 
-        pivotPos = pivotPos != null ? pivotPos : transform;
+        pivotPos = pivotPos == null ? transform : pivotPos;
 
         if (pivotPos != transform)       
             OriginPivot = Tuple.Create(transform.position-pivotPos.position, pivotPos.rotation);        

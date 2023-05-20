@@ -27,7 +27,7 @@ Transform:
   m_GameObject: {fileID: 4164632021795825408}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: -141.67755, y: 0.546, z: 24.170477}
-  m_LocalScale: {x: 0.93802106, y: 0.97487026, z: 0.93802106}
+  m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 1204931849146444184}
@@ -63,7 +63,10 @@ MonoBehaviour:
   pivotPos: {fileID: 0}
   _myType: 0
   Attachment_stats:
-    _serializedList: []
+    _serializedList:
+    - Key: 0
+      Value:
+        _value: 0
   _shootPos: {fileID: 4227555323560522202}
 --- !u!1 &4227555323560522203
 GameObject:

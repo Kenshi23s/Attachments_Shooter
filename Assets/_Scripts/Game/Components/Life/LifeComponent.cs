@@ -1,8 +1,9 @@
 using System;
+using System.Collections;
 using UnityEngine;
 using static TickEventsManager;
 [RequireComponent(typeof(DebugableObject))]
-public class LifeComponent : MonoBehaviour,IDamagable,IHealable
+public class LifeComponent : MonoBehaviour, IDamagable, IHealable
 {
     DebugableObject _debug;
 
@@ -12,36 +13,36 @@ public class LifeComponent : MonoBehaviour,IDamagable,IHealable
     public int life => _life;
     public int maxLife => _maxLife;
 
-    public bool ShowdamageNumber 
+    public bool ShowdamageNumber
     {
-        get 
+        get
         {
-           return _showdamageNumber;
+            return _showdamageNumber;
         }
 
-        set 
+        set
         {
             if (_showdamageNumber == value) return;
-            
-                if (value)               
-                    OnTakeDamage += ShowDamageNumber;                
-                else               
-                    OnTakeDamage -= ShowDamageNumber;               
-            
+
+            if (value)
+                OnTakeDamage += ShowDamageNumber;
+            else
+                OnTakeDamage -= ShowDamageNumber;
+
             _showdamageNumber = value;
-            
-        } 
+
+        }
     }
     bool _showdamageNumber = true;
 
-    [SerializeField,Range(0.1f,2)] 
-    float _dmgMultiplier=1f;
+    [SerializeField, Range(0.1f, 2)]
+    float _dmgMultiplier = 1f;
 
 
     [SerializeField] public bool canTakeDamage = true;
     [SerializeField] public bool canBeHealed = true;
 
-    public event Action<int,int> OnHealthChange;
+    public event Action<int, int> OnHealthChange;
     public event Action OnHeal;
     public event Action<int> OnTakeDamage;
     public event Action OnKilled;
@@ -52,10 +53,10 @@ public class LifeComponent : MonoBehaviour,IDamagable,IHealable
     {
         _debug = GetComponent<DebugableObject>();
         // por si tenes hijos que pueden hacer de 
-        foreach (var item in GetComponentsInChildren<HitableObject>()) 
+        foreach (var item in GetComponentsInChildren<HitableObject>())
             item.SetOwner(this);
-        OnHeal += () =>       OnHealthChange(life,maxLife);
-        OnTakeDamage+= (x) => OnHealthChange(life, maxLife);
+        OnHeal += () => OnHealthChange(life, maxLife);
+        OnTakeDamage += (x) => OnHealthChange(life, maxLife);
         OnTakeDamage += ShowDamageNumber;
 
     }
@@ -65,21 +66,21 @@ public class LifeComponent : MonoBehaviour,IDamagable,IHealable
         FloatingTextManager.instance.PopUpText(x.ToString(), transform.position);
     }
 
-    public void SetNewMaxLife(int value) => _maxLife = Mathf.Clamp(value,1,int.MaxValue);
-    
+    public void SetNewMaxLife(int value) => _maxLife = Mathf.Clamp(value, 1, int.MaxValue);
+
 
     public void Initialize()
     {
         _life = _maxLife;
         enabled = false;
     }
-   
+
     #region DamageSide
     public virtual DamageData TakeDamage(int dmgDealt)
     {
         DamageData data = new DamageData();
         if (!canTakeDamage) return data;
-       
+
 
 
         _life -= (int)(Mathf.Abs(dmgDealt) * _dmgMultiplier); OnTakeDamage?.Invoke(dmgDealt);
@@ -96,11 +97,11 @@ public class LifeComponent : MonoBehaviour,IDamagable,IHealable
 
     public virtual void AddDamageOverTime(int TotalDamageToDeal, float TimeAmount)
     {
-        int damagePerTick = Mathf.Max(1, (int)(TotalDamageToDeal / TimeAmount));
+        int damagePerTick = Mathf.Max(1, (int)((TotalDamageToDeal / TimeAmount) * Time.deltaTime));
 
-        Action action = () => 
+        Action action = () =>
         {
-            int dmgToDeal =  life - damagePerTick > 0 ? damagePerTick : 0;
+            int dmgToDeal = life - damagePerTick > 0 ? damagePerTick : 0;
             TakeDamage(dmgToDeal);
         };
 
@@ -123,13 +124,11 @@ public class LifeComponent : MonoBehaviour,IDamagable,IHealable
 
     public void AddHealOverTime(int totalHeal, float timeAmount)
     {
-        //No se puede morir de daño OverTime, siempre te deja a un hit
-        //, se podria ver q para los enemigos si mueran de esto
-       
-        int HealPerTick = (int)(totalHeal / timeAmount);
 
-        Action action = () => 
-        {           
+        int HealPerTick = (int)(totalHeal / timeAmount * Time.deltaTime);
+
+        Action action = () =>
+        {
             Heal(HealPerTick);
         };
 
@@ -137,6 +136,7 @@ public class LifeComponent : MonoBehaviour,IDamagable,IHealable
     }
     #endregion
 
+    
     void AddHealthEvent(Action action,float timeAmount)
     {
 

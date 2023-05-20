@@ -52,17 +52,30 @@ public class AttachmentHandler : MonoBehaviour
     public void Awake()
     {
         _gun = GetComponent<Gun>();
-      
+
+        _shootPos = _defaultShootPos;
+
         Action onMuzzleChange = () =>
         {
             if (activeAttachments[AttachmentType.Muzzle].TryGetComponent<Muzzle>(out var a))
-            { _shootPos = a.shootPos; return; }  _shootPos = _defaultShootPos;                       
+            {
+                _shootPos = a.shootPos;
+                _gun._debug.Log($"cambio mi shootpos a la de{a.gameObject.name}");
+                return;
+            
+            }
+            _gun._debug.Log($"no tengo muzzle, vuelvo a mi shootpos default");
+            _shootPos = _defaultShootPos;                       
         };
-        _shootPos = _defaultShootPos;
+       
 
         AddOnChangeEvent(AttachmentType.Muzzle, onMuzzleChange);
 
-        SetDefaultAttachments();       
+             
+    }
+    private void Start()
+    {
+        SetDefaultAttachments();
     }
 
     /// <summary>
@@ -91,9 +104,10 @@ public class AttachmentHandler : MonoBehaviour
 
     public void AddOnChangeEvent(AttachmentType eventType, Action new_action)
     {
-        if (_onAttachmentChange.TryGetValue(eventType, out var OnCall))       
-            OnCall += new_action;
-        
+        if (_onAttachmentChange.ContainsKey(eventType))
+        {
+            _onAttachmentChange[eventType] += new_action;
+        }         
         else
         {
             Action OnCallCreate = default;
@@ -104,13 +118,20 @@ public class AttachmentHandler : MonoBehaviour
 
     public void RemoveOnChangeEvent(AttachmentType eventType, Action action)
     {
-        if (_onAttachmentChange.TryGetValue(eventType, out var OnCall))        
-            OnCall -= action;
+        if (_onAttachmentChange.ContainsKey(eventType))
+        {
+            _onAttachmentChange[eventType] -= action;
+        }       
+            
     }   
 
     void CallEvent(AttachmentType type)
     {
-        if (_onAttachmentChange.TryGetValue(type, out var Call)) Call?.Invoke();
+        if (_onAttachmentChange.TryGetValue(type, out var Call)) 
+        {
+            Call?.Invoke(); _gun._debug.Log("Invoco el evento change de tipo "+ type);
+        }
+       
     }
 
     /// <summary>
