@@ -31,16 +31,17 @@ public class Node : MonoBehaviour
 
     private void NodeGizmo()
     {
-       if (Neighbors.Count < 0) return;      
+       if (Neighbors.Count < 0) return;
 
-       foreach (Node node in Neighbors) foreach (Node neighbor in node.Neighbors)
-       {
-          if (neighbor == this)
-          {
-              Gizmos.color = Color.blue;
-              Gizmos.DrawLine(node.transform.position, transform.position);
-          }
-          else Gizmos.color = Color.cyan;
+        List<Node> nodes2 = Neighbors.Aggregate(new List<Node>(), (x, y) =>
+        {
+            if (y.Neighbors.Contains(this)) x.Add(y);
+            return x;
+        });
+       foreach (Node node in nodes2)
+       {      
+         Gizmos.color = Color.blue;
+         Gizmos.DrawLine(node.transform.position, transform.position);       
        }
             
           

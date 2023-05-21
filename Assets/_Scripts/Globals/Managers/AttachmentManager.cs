@@ -8,8 +8,9 @@ public class AttachmentManager : MonoSingleton<AttachmentManager>
     //lo debe crear el gunManager?
     Dictionary<AttachmentType, Dictionary<int,Attachment>> _attachmentsInventory = new Dictionary<AttachmentType, Dictionary<int, Attachment>>();
 
-    public LayerMask attachmentLayer => _attachmentLayer;
+    [SerializeField] View_Attachment _canvasAttachments;
 
+    public LayerMask attachmentLayer => _attachmentLayer;
     [SerializeField] LayerMask _attachmentLayer;
     [SerializeField] float raycastDistance;
     [SerializeField] KeyCode Equip = KeyCode.F, Save = KeyCode.G;
@@ -21,7 +22,10 @@ public class AttachmentManager : MonoSingleton<AttachmentManager>
     {
         base.SingletonAwake();
         _debug = GetComponent<DebugableObject>(); _debug.AddGizmoAction(DrawRaycast);
-     
+
+        _canvasAttachments = Instantiate(_canvasAttachments);
+
+
     }
 
     private void Start() => getGun = () => GunManager.instance.actualGun;
@@ -37,6 +41,7 @@ public class AttachmentManager : MonoSingleton<AttachmentManager>
             Attachment x = hit.transform.GetComponent<Attachment>();
             Gun gun = getGun?.Invoke();
 
+            _canvasAttachments.NewAttachment(x);
             if (Input.GetKey(Equip)) getGun?.Invoke().attachmentHandler.AddAttachment(x);
 
             else if (Input.GetKey(Save)) Inventory_SaveAttachment(getGun?.Invoke(), x);

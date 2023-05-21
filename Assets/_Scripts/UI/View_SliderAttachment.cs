@@ -2,20 +2,18 @@ using System.Collections.Generic;
 using System;
 using UnityEngine;
 using UnityEngine.UI;
-using static Attachment;
-using static StatsHandler;
 
 public class View_SliderAttachment : MonoBehaviour
 {
     float maxShowValue = 100f;
     [SerializeField] Slider positiveStat, negativeStat;
-    Text statName;
+    [SerializeField]Text statName;
 
-    public void SetSliderValue(StatNames name,int value)
+    public void SetSliderValue(string name,int value)
     {
-        statName.text = name.ToString();
+        statName.text = "Stat Placeholder";
 
-        if (0 > value)
+        if (value > 0)
         {
             negativeStat.value = 0;
             positiveStat.value = value * (1 / maxShowValue);

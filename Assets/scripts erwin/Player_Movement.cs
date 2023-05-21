@@ -74,6 +74,10 @@ public class Player_Movement : MonoBehaviour
             onRunning = false;
             maxvelocity = maxWalkingVel;
         }
+        if (Input.GetKeyDown(KeyCode.K))
+        {
+            lifehandler.TakeDamage(int.MaxValue);
+        }
        
 
         RotateCamera("Mouse X", "Mouse Y");
