@@ -7,7 +7,7 @@ using static Attachment;
 [DisallowMultipleComponent]
 public class StatsHandler : MonoBehaviour
 {
-
+    //clase que maneja todas las estadisticas del arma
     
     public enum StatNames
     {
@@ -32,17 +32,17 @@ public class StatsHandler : MonoBehaviour
 
     private void Awake()
     {
-        string statsname = "";
+        string statName = "";
         foreach (StatNames item in Enum.GetValues(typeof(StatNames)))
         {
             if (!_myGunStats.ContainsKey(item))
             {
                 _myGunStats.Add(item, 1);
 
-                statsname += item.ToString() + ", ";
+                statName += item.ToString() + ", ";
             }
         }
-        Debug.LogWarning($"El arma no contenia la/s estadistica {statsname} asi que la/s cree y le asigne valor = 1");
+        Debug.LogWarning($"El arma no contenia la/s estadistica {statName} asi que la/s cree y le asigne valor = 1");
     }
     
 
@@ -63,29 +63,8 @@ public class StatsHandler : MonoBehaviour
             {
                 _myGunStats[actualKey] = Mathf.Clamp(_myGunStats[actualKey] + (NewStats[actualKey].value * x), 0, 100);          
             }
-        } 
-
-        
+        }        
     }
-
-    //void CheckShootPos()
-    //{
-    //    if (shootPos==null)
-    //    {
-    //        _shootPos = defaultShootPos;
-    //    }
-    //}
-    //public void ChangeShootPos(Transform newShootPos)
-    //{
-    //    if (newShootPos!=null)
-    //    {
-    //        _shootPos=newShootPos;
-    //    }
-    //    else
-    //    {
-    //        _shootPos = defaultShootPos;
-    //    }
-    //}
 }
 
 

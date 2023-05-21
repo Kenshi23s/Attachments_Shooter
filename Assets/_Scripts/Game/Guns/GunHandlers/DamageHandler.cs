@@ -3,6 +3,7 @@ using UnityEngine;
 [DisallowMultipleComponent]
 public class DamageHandler : MonoBehaviour
 {
+    //esta clase maneja el daño del arma, le falta trabajo
    
     public void Initialize()
     {

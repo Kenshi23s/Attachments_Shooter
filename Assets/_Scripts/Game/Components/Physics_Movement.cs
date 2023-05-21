@@ -7,13 +7,14 @@ using UnityEngine;
 [RequireComponent(typeof(PausableObject))]
 #endregion
 [DisallowMultipleComponent]
+//se usa para hacer movimiento "Realista"(lo usan las IA del juego, pero no esta limitado a ellas)
 public class Physics_Movement : MonoBehaviour
 {
     Rigidbody _rb;
     DebugableObject _debug;
 
-    Vector3 _velocity;
-    public Vector3 velocity { get => _velocity; private set => _velocity = value; }
+   
+    public Vector3 _velocity { get; private set; }
 
     [SerializeField,Range(1,100)]
     float _maxForce;
@@ -79,5 +80,5 @@ public class Physics_Movement : MonoBehaviour
         Gizmos.DrawLine(_rb.position, _rb.position + _velocity);
     }
 
-   public Vector3 CalculateSteering(Vector3 desired) => Vector3.ClampMagnitude(desired - velocity * steeringForce, maxSpeed);
+   public Vector3 CalculateSteering(Vector3 desired) => Vector3.ClampMagnitude(desired - _velocity * steeringForce, maxSpeed);
 }

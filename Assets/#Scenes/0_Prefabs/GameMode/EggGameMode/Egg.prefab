@@ -215,7 +215,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _viewRadius: 15
-  viewAngle: 74.7
+  viewAngle: 70
 --- !u!54 &56997222
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -273,9 +273,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8acd364f316a31a499706c4da6c3dad3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _alignmentForce: 1
-  _cohesionForce: 1
-  _separationForce: 1
+  flockingParameters:
+    AlignmentForce: 0
+    _separationForce: 0
+    _cohesionForce: 0
   obstacleMask:
     serializedVersion: 2
     m_Bits: 8192

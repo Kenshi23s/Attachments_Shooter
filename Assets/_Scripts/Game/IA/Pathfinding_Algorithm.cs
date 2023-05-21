@@ -2,7 +2,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using System.Linq;
 using System;
-//todos los algoritmos de pathfinding visto en la materia de IA 1
+//Todos los algoritmos de pathfinding visto en la materia de IA 1
 //los nodos deben tener de nombre de clase "Node" y las siguientes variables con los siguientes nombres:
 
 // int cost = 1;

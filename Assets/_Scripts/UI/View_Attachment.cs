@@ -23,6 +23,7 @@ public class View_Attachment : MonoBehaviour
         public Dictionary<StatNames, int> stats;
     }
    
+
     public void NewAttachment(Attachment x)
     {
         transform.position = x.transform.position;

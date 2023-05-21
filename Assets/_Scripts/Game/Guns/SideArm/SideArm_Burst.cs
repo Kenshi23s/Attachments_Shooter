@@ -16,8 +16,8 @@ public class SideArm_Burst : Burst_Gun
     }
     public override void ShootOnBurst()
     {
-        Vector3 from = attachmentHandler.shootPos.position;
-        Vector3 to = attachmentHandler.shootPos.forward;     
+        Vector3 from = attachmentHandler._shootPos.position;
+        Vector3 to = attachmentHandler._shootPos.forward;     
         
        _raycast.ShootRaycast(from, OnHitCallBack);
     }

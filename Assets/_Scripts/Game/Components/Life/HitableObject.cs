@@ -1,6 +1,6 @@
 using System;
 using UnityEngine;
-
+//se usaria para hacer varios spots donde puede ser golpeado un enemigo
 public class HitableObject : MonoBehaviour,IDamagable,IHealable
 {
     LifeComponent _owner;
