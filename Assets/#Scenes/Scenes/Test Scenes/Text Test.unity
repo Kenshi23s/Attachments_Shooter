@@ -158,7 +158,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   function: 0
   Amount: 1
-  time: 30
+  time: 1
 --- !u!114 &240588133
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -260,38 +260,6 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
-    - target: {fileID: 404769702446859729, guid: 4e0b8e6078937b342881ef0454eba315, type: 3}
-      propertyPath: _dmgMultiplier
-      value: 0.5
-      objectReference: {fileID: 0}
-    - target: {fileID: 526804367776745053, guid: 4e0b8e6078937b342881ef0454eba315, type: 3}
-      propertyPath: canDebug
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 5310175879794366923, guid: 4e0b8e6078937b342881ef0454eba315, type: 3}
-      propertyPath: canDebug
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 5310175879794366923, guid: 4e0b8e6078937b342881ef0454eba315, type: 3}
-      propertyPath: gizmoDraw.m_PersistentCalls.m_Calls.Array.size
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 5310175879794366923, guid: 4e0b8e6078937b342881ef0454eba315, type: 3}
-      propertyPath: gizmoDraw.m_PersistentCalls.m_Calls.Array.data[0].m_Mode
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 5310175879794366923, guid: 4e0b8e6078937b342881ef0454eba315, type: 3}
-      propertyPath: gizmoDraw.m_PersistentCalls.m_Calls.Array.data[0].m_Target
-      value: 
-      objectReference: {fileID: 0}
-    - target: {fileID: 5310175879794366923, guid: 4e0b8e6078937b342881ef0454eba315, type: 3}
-      propertyPath: gizmoDraw.m_PersistentCalls.m_Calls.Array.data[0].m_CallState
-      value: 2
-      objectReference: {fileID: 0}
-    - target: {fileID: 8366505079162908116, guid: 4e0b8e6078937b342881ef0454eba315, type: 3}
-      propertyPath: lastLifecheck
-      value: 0
-      objectReference: {fileID: 0}
     - target: {fileID: 8568796443268590855, guid: 4e0b8e6078937b342881ef0454eba315, type: 3}
       propertyPath: m_RootOrder
       value: 4
@@ -407,8 +375,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   function: 1
-  Amount: 7
-  time: 5.19
+  Amount: 10
+  time: 2
 --- !u!114 &1020779410
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -696,7 +664,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   function: 0
   Amount: 10
-  time: 6.17
+  time: 1.24
 --- !u!114 &1733029813
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -784,7 +752,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1733029811}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -93.56, y: 6.64, z: 85.39}
+  m_LocalPosition: {x: -93.56, y: 6.64, z: 88.1}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []

@@ -2,18 +2,21 @@ using UnityEngine;
 
 public class GunVFX_Handler : MonoBehaviour
 {
+    [Header("Particle")]
     [SerializeField]
     ParticleHolder _muzzleFlash;
     int muzzleFlashKey;
 
-   [SerializeField] 
-    AudioClip Shot_clip;
+    [Header("SFX")]
+    [SerializeField] AudioClip Shot_clip;
+    [SerializeField] AudioClip HitMarker_clip;
     // Start is called before the first frame update
     Gun gun;
     private void Awake()
     {
-        gun= GetComponent<Gun>();
+        gun = GetComponent<Gun>();
         gun.onShoot += ShootFedback;
+        gun.onHit += (x) => AudioPool.instance.SpawnAudio(HitMarker_clip, gun.transform.position);
     }
     void Start()
     {     

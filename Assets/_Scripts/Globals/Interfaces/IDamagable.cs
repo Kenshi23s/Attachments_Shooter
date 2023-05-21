@@ -10,13 +10,9 @@ public struct DamageData
     public int damageDealt;
     public bool wasKilled;
     public bool wasCrit;
+    public IDamagable victim;
 
-    public DamageData(int damageDealt = 0, bool wasKilled = false, bool wasCrit = false)
-    {
-        this.damageDealt = damageDealt;
-        this.wasKilled = wasKilled;
-        this.wasCrit = wasCrit;
-    }
+   
 }
 
 public interface IHealable

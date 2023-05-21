@@ -60,23 +60,15 @@ public class AttachmentHandler : MonoBehaviour
             if (activeAttachments[AttachmentType.Muzzle].TryGetComponent<Muzzle>(out var a))
             {
                 _shootPos = a.shootPos;
-                _gun._debug.Log($"cambio mi shootpos a la de{a.gameObject.name}");
-                return;
-            
+                _gun._debug.Log($"cambio mi shootpos a la de {a.gameObject.name}");
+                return;          
             }
             _gun._debug.Log($"no tengo muzzle, vuelvo a mi shootpos default");
             _shootPos = _defaultShootPos;                       
         };
-       
-
-        AddOnChangeEvent(AttachmentType.Muzzle, onMuzzleChange);
-
-             
+        AddOnChangeEvent(AttachmentType.Muzzle, onMuzzleChange);           
     }
-    private void Start()
-    {
-        SetDefaultAttachments();
-    }
+    private void Start() => SetDefaultAttachments();
 
     /// <summary>
     /// añade los accesorios default, en caso de tener alguno
@@ -104,34 +96,28 @@ public class AttachmentHandler : MonoBehaviour
 
     public void AddOnChangeEvent(AttachmentType eventType, Action new_action)
     {
-        if (_onAttachmentChange.ContainsKey(eventType))
-        {
-            _onAttachmentChange[eventType] += new_action;
-        }         
-        else
+        if (!_onAttachmentChange.ContainsKey(eventType))
         {
             Action OnCallCreate = default;
             _onAttachmentChange.Add(eventType, OnCallCreate);
-            AddOnChangeEvent(eventType, new_action);//recursion         
-        }             
+            AddOnChangeEvent(eventType, new_action);//recursion   
+            return;
+        }
+        _onAttachmentChange[eventType] += new_action;
     }
 
     public void RemoveOnChangeEvent(AttachmentType eventType, Action action)
     {
-        if (_onAttachmentChange.ContainsKey(eventType))
-        {
-            _onAttachmentChange[eventType] -= action;
-        }       
-            
+        if (_onAttachmentChange.ContainsKey(eventType))        
+            _onAttachmentChange[eventType] -= action;          
     }   
 
     void CallEvent(AttachmentType type)
     {
-        if (_onAttachmentChange.TryGetValue(type, out var Call)) 
+        if (_onAttachmentChange.TryGetValue(type, out var Call))
         {
-            Call?.Invoke(); _gun._debug.Log("Invoco el evento change de tipo "+ type);
-        }
-       
+            Call?.Invoke(); _gun._debug.Log("Invoco el evento change de tipo " + type);
+        }                    
     }
 
     /// <summary>
@@ -144,33 +130,29 @@ public class AttachmentHandler : MonoBehaviour
         //si contengo una posicion
         AttachmentType key = value.myType;
 
-            if (!_attachmentPos.ContainsKey(key)) 
-            {
-                _gun._debug.WarningLog($"NO conecte el attachment de tipo{key} a el arma," +
-                    $" ya que no tengo una posicion para darle"); return;
-            }
+        if (!_attachmentPos.ContainsKey(key)) 
+        {
+            _gun._debug.WarningLog($"NO conecte el attachment de tipo{key} a el arma," +
+                $" ya que no tengo una posicion para darle"); return;
+        }
         
-            //y no tengo un accesorio de ese tipo ya activo
-            if (!_activeAttachments.ContainsKey(key))
-            {
-                //lo añado y agrego sus stats
-                _activeAttachments.Add(key, value);               
-                _activeAttachments[key].Attach(_gun, _attachmentPos[key]);
+        //y no tengo un accesorio de ese tipo ya activo
+        if (!_activeAttachments.ContainsKey(key))
+        {
+            //lo añado y agrego sus stats
+            _activeAttachments.Add(key, value);               
+            _activeAttachments[key].Attach(_gun, _attachmentPos[key]);
 
-                //hago un callback para chequear que cambio
-                CallEvent(key);
-                _gun._debug.Log($"conecte el attachment de tipo {key} a el arma");
-         
-            }
-            else
-            {
-                //si ya tenia un accesorio de ese tipo lo remplazo
-                ReplaceAttachment(key, value);
-            }
-            return;
+            //hago un callback para chequear que cambio
+            CallEvent(key);
+            _gun._debug.Log($"conecte el attachment de tipo {key} a el arma");
         
-       
-
+        }
+        else
+        {
+            //si ya tenia un accesorio de ese tipo lo remplazo
+            ReplaceAttachment(key, value);
+        }
     }
 
     /// <summary>
@@ -202,8 +184,6 @@ public class AttachmentHandler : MonoBehaviour
 
     void SaveAttachment(Attachment x)
     {
-        x.Dettach();
-        AttachmentManager.instance.Inventory_SaveAttachment(_gun, x);
+        x.Dettach(); AttachmentManager.instance.Inventory_SaveAttachment(_gun, x);
     }
-
 }

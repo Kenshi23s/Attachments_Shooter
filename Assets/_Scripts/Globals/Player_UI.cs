@@ -1,14 +1,14 @@
 using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using Cyan;
-
+[RequireComponent(typeof(DebugableObject))]
 public class Player_UI : MonoBehaviour
 {
     [SerializeField] Player_Movement player;
     LifeComponent playerLife;
+    DebugableObject _debug;
 
-    [SerializeField] Color _damage=Color.red,Heal=Color.green;
+    [SerializeField] Color _damage=Color.red,_heal=Color.green;
     [SerializeField] Blit _blitBlood;
     Material mat;
     [SerializeField,Range(0,1)]float lastLifecheck;
@@ -22,7 +22,7 @@ public class Player_UI : MonoBehaviour
         }  
         private set
         {
-            lastLifecheck = Mathf.Clamp01(value);
+            lastLifecheck = value;
             mat.SetFloat("_Life", lastLifecheck);
         }
     
@@ -31,11 +31,9 @@ public class Player_UI : MonoBehaviour
     private void Awake()
     {
         mat = _blitBlood.blitPass.blitMaterial;
-        playerLife=player.GetComponent<LifeComponent>();
+        _debug=GetComponent<DebugableObject>();
+        playerLife =player.GetComponent<LifeComponent>();
         playerLife.OnHealthChange += UpdateDamageShader;
-      
-
-
     }
 
     void UpdateDamageShader(int life,int maxLife)
@@ -43,23 +41,23 @@ public class Player_UI : MonoBehaviour
         int actualLife = life / maxLife;
         if (actualLife == lastLifecheck) return;
      
+
         if (actualLife>lastLifecheck)        
             StartCoroutine(HealTowards(actualLife));        
         else        
-            StartCoroutine(DamageTowards(actualLife));
-        
-      
+            StartCoroutine(DamageTowards(actualLife));     
     }
 
     IEnumerator HealTowards(int actualLife)
     {
-        mat.SetColor("_Color", Heal);
+        mat.SetColor("_Color", _heal);
         while (LastLifecheck < actualLife)
         {
            yield return new WaitForEndOfFrame();
-           LastLifecheck += Time.deltaTime;
+           LastLifecheck += Time.fixedDeltaTime;
         }
         LastLifecheck = actualLife;
+        _debug.Log("Heal UI Effect Ended");
     }
 
     IEnumerator DamageTowards(int actualLife)
@@ -68,12 +66,10 @@ public class Player_UI : MonoBehaviour
         while (LastLifecheck > actualLife)
         {
             yield return new WaitForEndOfFrame();
-            LastLifecheck -= Time.deltaTime;
+            LastLifecheck -= Time.fixedDeltaTime;
         }
         LastLifecheck = actualLife;
-
+        _debug.Log("Damage UI Effect Ended");
     }
-
-
 
 }
