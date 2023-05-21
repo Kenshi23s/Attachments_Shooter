@@ -22,5 +22,4 @@ public class View_SliderAttachment : MonoBehaviour
             negativeStat.value = value * (1 / -maxShowValue);
         }
     }
-
 }
