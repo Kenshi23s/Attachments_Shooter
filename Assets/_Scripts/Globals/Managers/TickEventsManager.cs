@@ -10,6 +10,7 @@ public class TickEventsManager : MonoSingleton<TickEventsManager>
     DebugableObject _debug;
     //lo podria haber hecho con eventos, pero no podria hacer estas preguntas de si es basado en tiempo O s
     List<TickEvent> _actionsSubscribed = new List<TickEvent>();
+    bool coroutineRunning;
 
     protected override void SingletonAwake()
     {
@@ -22,7 +23,10 @@ public class TickEventsManager : MonoSingleton<TickEventsManager>
         if (_actionsSubscribed.Contains(x)) return;
 
         if (x.isTimeBased) x.currentTime = x.timeStart;
-        _actionsSubscribed.Add(x); StartCoroutine(OverTimeCoroutine());
+        _actionsSubscribed.Add(x);
+        if (!coroutineRunning) StartCoroutine(OverTimeCoroutine());
+       
+      
     }
 
     public void RemoveAction(TickEvent action)
@@ -56,6 +60,7 @@ public class TickEventsManager : MonoSingleton<TickEventsManager>
 
     IEnumerator OverTimeCoroutine()
     {
+        coroutineRunning = true;
         while (_actionsSubscribed.Count > 0)
         {          
             foreach (TickEvent actual in _actionsSubscribed)
@@ -65,7 +70,8 @@ public class TickEventsManager : MonoSingleton<TickEventsManager>
                 ChangeTickTime(actual, 1);
             }
             yield return new WaitForSeconds(1);
-        }       
+        }
+        coroutineRunning = false;
     }
     void ChangeTickTime(TickEvent x,float time)
     {

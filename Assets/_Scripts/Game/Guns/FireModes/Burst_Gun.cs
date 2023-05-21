@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -14,8 +15,9 @@ public abstract class Burst_Gun : Gun
     [SerializeField, Range(0.1f, 1f), Tooltip("Cooldown entre rafaga y rafaga")]
     protected float burstCooldown;
     #endregion
+    public int burstCount { get; private set; }
 
-    
+    public event Action<int> burstNumber;
     public abstract void ShootOnBurst();
 
     public override void Shoot() => StartCoroutine(ShootBurst());
@@ -25,19 +27,20 @@ public abstract class Burst_Gun : Gun
     IEnumerator ShootBurst()
     {
         canShoot = false;
-        int count = 0;
-        while (count < bulletsPerBurst)
+        burstCount = 0;
+        while (burstCount < bulletsPerBurst)
         {
             ShootOnBurst(); CallOnShootEvent();
-            count++;
-            _debug.Log("Bullet "+ count + " de "+ bulletsPerBurst);
+            burstCount++;
+            burstNumber?.Invoke(burstCount);
+            _debug.Log("Bullet "+ burstCount + " de "+ bulletsPerBurst);
             yield return new WaitForSeconds(bulletCooldown);
             
 
         }
-        
+       
         yield return new WaitForSeconds(burstCooldown);
-        canShoot= true;
+        canShoot = true;
     }
 
     // es lo mismo solo q saco el ONSHOOT, pq no lo puedo invocar como hijo

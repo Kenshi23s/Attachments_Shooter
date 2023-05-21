@@ -55,9 +55,10 @@ public class LifeComponent : MonoBehaviour, IDamagable, IHealable
         // por si tenes hijos que pueden hacer de 
         foreach (var item in GetComponentsInChildren<HitableObject>()) item.SetOwner(this);
 
-        OnHeal += () => OnHealthChange(life, maxLife);
-        OnTakeDamage += (x) => OnHealthChange(life, maxLife);
+        OnHeal += () => OnHealthChange?.Invoke(life, maxLife);
+        OnTakeDamage += (x) => OnHealthChange?.Invoke(life, maxLife);
         OnTakeDamage += ShowDamageNumber;
+        OnHealthChange?.Invoke(life, maxLife);
 
     }
 
@@ -122,34 +123,22 @@ public class LifeComponent : MonoBehaviour, IDamagable, IHealable
 
     public void AddHealOverTime(int totalHeal, float timeAmount)
     {
-
-        int HealPerTick = (int)(totalHeal / timeAmount * Time.deltaTime);
-
-        Action action = () =>
-        {
-            Heal(HealPerTick);
-        };
-
-        AddHealthEvent(action, timeAmount);
+        int HealPerTick = (int)(totalHeal / timeAmount);   
+        AddHealthEvent(() => Heal(HealPerTick), timeAmount);
     }
     #endregion
 
     
     void AddHealthEvent(Action action,float timeAmount)
     {
+        TickEvent newHealthEvent = new TickEvent(); 
 
-        TickEvent newDamageEvent = new TickEvent(); 
+        newHealthEvent.OnTickAction= action;
+        newHealthEvent.isTimeBased = true;
+        newHealthEvent.timeStart = timeAmount;
 
-        newDamageEvent.OnTickAction= action;
-        newDamageEvent.isTimeBased = true;
-        newDamageEvent.timeStart = timeAmount;
-
-        TickEventsManager.instance.AddAction(newDamageEvent);
-    }
-
-   
-
-   
+        TickEventsManager.instance.AddAction(newHealthEvent);
+    }   
 }
 
 
