@@ -1,5 +1,4 @@
 using System;
-using System.Collections;
 using UnityEngine;
 using static TickEventsManager;
 [RequireComponent(typeof(DebugableObject))]
@@ -54,8 +53,8 @@ public class LifeComponent : MonoBehaviour, IDamagable, IHealable
         
         _debug = GetComponent<DebugableObject>();
         // por si tenes hijos que pueden hacer de 
-        foreach (var item in GetComponentsInChildren<HitableObject>())
-            item.SetOwner(this);
+        foreach (var item in GetComponentsInChildren<HitableObject>()) item.SetOwner(this);
+
         OnHeal += () => OnHealthChange(life, maxLife);
         OnTakeDamage += (x) => OnHealthChange(life, maxLife);
         OnTakeDamage += ShowDamageNumber;
@@ -81,8 +80,6 @@ public class LifeComponent : MonoBehaviour, IDamagable, IHealable
     {
         DamageData data = new DamageData();
         if (!canTakeDamage) return data;
-
-
 
         _life -= (int)(Mathf.Abs(dmgDealt) * _dmgMultiplier); OnTakeDamage?.Invoke(dmgDealt);
         _debug.Log($" recibio {dmgDealt * _dmgMultiplier} de daño ");

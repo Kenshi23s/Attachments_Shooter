@@ -1,27 +1,11 @@
 using System.Collections.Generic;
 using System;
 using UnityEngine;
+using System.Collections;
 
 [RequireComponent(typeof(DebugableObject))]
 public class TickEventsManager : MonoSingleton<TickEventsManager>
 {
-    public struct TickEvent
-    {
-        public Action OnTickAction;
-        public bool isTimeBased; 
-        public float timeStart;
-        public float currentTime;
-
-        public bool TimesUp(float tick)
-        {
-            if (!isTimeBased) return false;
-
-            currentTime -= tick;
-
-            return currentTime <= 0;
-
-        }
-    }
 
     DebugableObject _debug;
     //lo podria haber hecho con eventos, pero no podria hacer estas preguntas de si es basado en tiempo O s
@@ -33,12 +17,12 @@ public class TickEventsManager : MonoSingleton<TickEventsManager>
         enabled = false;
     }
    
-    public void AddAction(TickEvent action)
+    public void AddAction(TickEvent x)
     {
-        if (_actionsSubscribed.Contains(action)) return;
+        if (_actionsSubscribed.Contains(x)) return;
 
-        _actionsSubscribed.Add(action); enabled = true;
-        if (action.isTimeBased) action.currentTime = action.timeStart;
+        if (x.isTimeBased) x.currentTime = x.timeStart;
+        _actionsSubscribed.Add(x); StartCoroutine(OverTimeCoroutine());
     }
 
     public void RemoveAction(TickEvent action)
@@ -67,10 +51,35 @@ public class TickEventsManager : MonoSingleton<TickEventsManager>
     private void Update()
     {
         //solo si on enabled esta en true
-        foreach (TickEvent actual in _actionsSubscribed)
-        {
-            actual.OnTickAction();
-            if (actual.TimesUp(Time.deltaTime)) RemoveAction(actual);            
-        }
+     
     }
+
+    IEnumerator OverTimeCoroutine()
+    {
+        while (_actionsSubscribed.Count > 0)
+        {          
+            foreach (TickEvent actual in _actionsSubscribed)
+            {
+                actual.OnTickAction?.Invoke();
+                if (!actual.isTimeBased) continue;
+                ChangeTickTime(actual, 1);
+            }
+            yield return new WaitForSeconds(1);
+        }       
+    }
+    void ChangeTickTime(TickEvent x,float time)
+    {
+        _debug.WarningLog(x.currentTime.ToString());
+        x.currentTime -= time;
+        _debug.WarningLog(x.currentTime.ToString());
+        if (0 >= x.currentTime) RemoveAction(x);
+    }
+
+}
+public class TickEvent
+{
+    public Action OnTickAction;
+    public bool isTimeBased;
+    public float timeStart;
+    public float currentTime;
 }

@@ -18,17 +18,12 @@ public class HealItem : MonoBehaviour
         _debug = GetComponent<DebugableObject>();
         GetComponent<BoxCollider>().isTrigger = true;
         Color a = default;
-        if (function==Function.Damage)
-        {
-            a = Color.red;
-        }
-        else
-        {
+
+        if (function==Function.Damage)        
+            a = Color.red;     
+        else      
             a = Color.green;
-        }
-
-
-
+ 
         GetComponent<Renderer>().material.color = a;
     }
 
