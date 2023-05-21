@@ -52,6 +52,10 @@ Material:
         m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
+    - _NormalTexWater:
+        m_Texture: {fileID: 2800000, guid: f72ec654a42ddd44c930b96cf312322c, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
     - _OcclusionMap:
         m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
@@ -80,15 +84,15 @@ Material:
     m_Floats:
     - Vector1_303a4a7694da42619158fa110f3dda7c: 0.045
     - Vector1_493e14e7ea854e3aad20e776ff834b43: 7.33
-    - Vector1_4ddff1536b9f4249bcbedf564862155a: 0.81
-    - Vector1_5c4cfe3988ca4d2cb6c5828be9dd1c59: 0.35
-    - Vector1_68aba5c751074fd3bcc4b418d99e64dd: 2.2
+    - Vector1_4ddff1536b9f4249bcbedf564862155a: 0.58
+    - Vector1_5c4cfe3988ca4d2cb6c5828be9dd1c59: 0.64
+    - Vector1_68aba5c751074fd3bcc4b418d99e64dd: 1
     - Vector1_78c308201dc6445cb71826f0002a4cba: 2.18
     - Vector1_a24f0c3cd7594e2d9db88a1a41b6aa51: 0.76
     - Vector1_a37dbb584dfc4634af953dc255f96ee7: 0.1
     - Vector1_a8a0c7d1eb294f0d987a33ed5b33e2ac: 0.023
     - Vector1_c2a0226a05754e1aaf9bdbb7eebe32ba: -0.38
-    - Vector1_da329329f2914fd29c189981825586d2: 5.3
+    - Vector1_da329329f2914fd29c189981825586d2: 4.87
     - _AlphaClip: 0
     - _Blend: 0
     - _BumpScale: 1
@@ -103,7 +107,10 @@ Material:
     - _GlossMapScale: 0
     - _Glossiness: 0
     - _GlossyReflections: 0
+    - _Metalic: 0.09
     - _Metallic: 0
+    - _MiniIntensity: -0.04
+    - _MiniScaleWater: 0.17
     - _OcclusionStrength: 1
     - _Parallax: 0.005
     - _QueueControl: 0
@@ -117,7 +124,7 @@ Material:
     - _WorkflowMode: 1
     - _ZWrite: 1
     m_Colors:
-    - Color_0b6c53884979419e92a109078723cc9d: {r: 0.039649345, g: 0.254717, b: 0.25279674, a: 0}
+    - Color_0b6c53884979419e92a109078723cc9d: {r: 0, g: 0.6226415, b: 0.21418874, a: 0}
     - Color_145a2146061748c8a50996a50dc2e09f: {r: 0.060653254, g: 0.2735849, b: 0.15977661, a: 0}
     - Color_88277a5dc188432ab992f9de73543e5d: {r: 0.25938946, g: 0.6320754, b: 0.3202961, a: 0}
     - Color_a4840c1efe4846e5adb1f168fa0356f5: {r: 1, g: 1, b: 1, a: 0}
