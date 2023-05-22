@@ -31,7 +31,9 @@ public class View_Attachment : MonoBehaviour
         transform.forward=new Vector3(dir.x,0,dir.z);
     }
     public void NewAttachment(Attachment x)
-    {    
+    {
+        if (x == null) return;
+       
         transform.position = x.transform.position;
         if (actual == x) return;
         actual = x; RemoveStats();

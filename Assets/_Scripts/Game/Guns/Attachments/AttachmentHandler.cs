@@ -84,12 +84,11 @@ public class AttachmentHandler : MonoBehaviour
                 {
                     //añado
                     AddAttachment(_DefaultAttachMent[key]);
+                    if (_onAttachmentChange.TryGetValue(key, out var action)) action?.Invoke();
                     continue;
                 }
                 //chequeo por las dudas para que no salten errores              
-            }
-            if (_onAttachmentChange.TryGetValue(key,out var action)) action?.Invoke();
-                 
+            }                
         }
     }
     //añado cosas al diccionario de eventos(no podes hacer un diccionario de eventos en si, tiene q ser de actions)
@@ -130,6 +129,8 @@ public class AttachmentHandler : MonoBehaviour
     public void AddAttachment(Attachment value)
     {
         //si contengo una posicion
+        if (value == null) return;
+        
         AttachmentType key = value.myType;
 
         if (!_attachmentPos.ContainsKey(key)) 

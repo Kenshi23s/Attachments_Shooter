@@ -472,7 +472,7 @@ MonoBehaviour:
   - {fileID: 2092784009869039981}
   _misileStats:
     owner: {fileID: 0}
-    damage: 29
+    damage: 1
     life: 2
     explosionRadius: 7.29
     explosionForce: 23
@@ -486,9 +486,6 @@ MonoBehaviour:
   misilesPerVolley: 30
   cd_BetweenMisiles: 0.156
   cd_Volleys: 7.15
-  actualMisileCD: 0
-  actualVolleyCD: 0
-  misilesLeft: 0
   wallMask:
     serializedVersion: 2
     m_Bits: 4160
@@ -521,7 +518,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 360ca867e48780448a1401b7fc47e037, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  canDebug: 1
+  canDebug: 0
   gizmoDraw:
     m_PersistentCalls:
       m_Calls: []
