@@ -15,6 +15,10 @@ public class Magazine : Attachment
     }
     private void Start() => _bulletKey = Bullet_Manager.instance.CreateBulletPool(_bulletPrefab);
 
+    protected override void Comunicate()
+    {
+        
+    }
     protected override void Initialize()
     {
         _myType = AttachmentType.Magazine;

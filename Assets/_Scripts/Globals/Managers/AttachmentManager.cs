@@ -9,6 +9,9 @@ public class AttachmentManager : MonoSingleton<AttachmentManager>
     Dictionary<AttachmentType, Dictionary<int,Attachment>> _attachmentsInventory = new Dictionary<AttachmentType, Dictionary<int, Attachment>>();
 
     [SerializeField] View_Attachment _canvasAttachments;
+    public LineRenderer attachmentIndicator=> _attachmentIndicator;
+    [SerializeField] LineRenderer _attachmentIndicator;
+
 
     public LayerMask attachmentLayer => _attachmentLayer;
     [SerializeField] LayerMask _attachmentLayer;
@@ -36,8 +39,9 @@ public class AttachmentManager : MonoSingleton<AttachmentManager>
     {
         Transform tr = Camera.main.transform;
         //desde                     //hacia                         //distancia      //layer
-        if (Physics.Raycast(tr.position, tr.forward, out RaycastHit hit, raycastDistance, attachmentLayer))
+        if (Physics.SphereCast(tr.position,1f ,tr.forward, out RaycastHit hit, raycastDistance, attachmentLayer))
         {
+            _canvasAttachments.gameObject.SetActive(true);
             Attachment x = hit.transform.GetComponent<Attachment>();
             Gun gun = getGun?.Invoke();
 
@@ -46,9 +50,9 @@ public class AttachmentManager : MonoSingleton<AttachmentManager>
 
             else if (Input.GetKey(Save)) Inventory_SaveAttachment(getGun?.Invoke(), x);
 
-           
-           
+            return;
         }
+        _canvasAttachments.gameObject.SetActive(false);
     }
     
 

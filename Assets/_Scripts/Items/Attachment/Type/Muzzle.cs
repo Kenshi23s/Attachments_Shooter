@@ -15,7 +15,10 @@ public class Muzzle : Attachment
     {
         
     }
-
+    protected override void Comunicate()
+    {
+        
+    }
     //private void Awake()
     //{
     //    OnAtach += () => { gunAttachedTo?.Stats.AddRange(rangeStat);};

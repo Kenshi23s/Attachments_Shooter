@@ -12,6 +12,7 @@ public class View_Attachment : MonoBehaviour
     public Text myTypeText;
     public Text nameText;
     public View_SliderAttachment sliderTemplate;
+    Canvas _canvas;
 
     public List<View_SliderAttachment> View_SliderAttachment;
     Attachment actual;
@@ -22,10 +23,15 @@ public class View_Attachment : MonoBehaviour
         public string name;
         public Dictionary<StatNames, int> stats;
     }
-   
 
-    public void NewAttachment(Attachment x)
+    private void LateUpdate()
     {
+        //saco la direccion opuesta para q lo vea bien(????)
+        Vector3 dir = transform.position - Camera.main.transform.position;
+        transform.forward=new Vector3(dir.x,0,dir.z);
+    }
+    public void NewAttachment(Attachment x)
+    {    
         transform.position = x.transform.position;
         if (actual == x) return;
         actual = x; RemoveStats();

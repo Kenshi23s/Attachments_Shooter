@@ -11,5 +11,9 @@ public class Sight : Attachment
     {
         _myType = AttachmentType.Sight;
     }
+    protected override void Comunicate()
+    {
+       
+    }
 
 }
