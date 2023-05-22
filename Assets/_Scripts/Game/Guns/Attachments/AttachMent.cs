@@ -1,6 +1,6 @@
 using AYellowpaper.SerializedCollections;
 using System;
-using System.Collections.Generic;
+using System.Collections;
 using UnityEngine;
 using static StatsHandler;
 [RequireComponent(typeof(BoxCollider))]
@@ -49,10 +49,19 @@ public abstract class Attachment : MonoBehaviour
 
     protected Gun gunAttachedTo;
 
-    
+    LineRenderer sign;
 
     Tuple<Vector3, Quaternion> OriginPivot; 
     BoxCollider b_collider;
+
+    /// <summary>
+    /// Awake
+    /// </summary>
+    protected abstract void Initialize();
+    /// <summary>
+    /// Start
+    /// </summary>
+    protected abstract void Comunicate();
 
     private void Awake()
     {
@@ -60,7 +69,7 @@ public abstract class Attachment : MonoBehaviour
         Action<bool> colliderEnable = (x) => b_collider.enabled = x;
         onAttach += () => colliderEnable(false);
         onDettach += () => colliderEnable(true);
-
+        _isAttached = false;
         #region Pivot
 
         pivotPos = pivotPos == null ? transform : pivotPos;
@@ -78,19 +87,55 @@ public abstract class Attachment : MonoBehaviour
         
     }
 
-    private void Start()
+    protected virtual void Start()
     {
         gameObject.layer = AttachmentManager.instance.attachmentLayer;
+        Comunicate();
+        StartCoroutine(Wait1Frame());
+       
+    }
+    IEnumerator Wait1Frame()
+    {
+        yield return new WaitForEndOfFrame();
+        SetVFXsign();
+    }
+    void SetVFXsign()
+    {
+        #region Hardcoded Laser(ChangeLater)
+        sign = Instantiate(AttachmentManager.instance.attachmentIndicator,transform);
+        sign.transform.parent = transform;
+        Material mat = sign.GetComponent<Renderer>().material;
+        mat.color= Color.red;
+        sign.GetComponent<Renderer>().material = mat;
+        sign.name = "ATTACHMENT SIGN";
+
+        onAttach += () => 
+        { 
+            sign.gameObject.SetActive(false); 
+          
+        };
+        Action activateLaserSign = () =>
+        {
+            sign.gameObject.SetActive(true);
+            sign.SetPosition(0, transform.position);
+            sign.SetPosition(1, transform.position + (Vector3.up * 5f));
+        };
+        onDettach += activateLaserSign;
+        Debug.Log("Test");
+        if (isAttached) sign.gameObject.SetActive(false); else activateLaserSign();
+
+        #endregion
     }
 
-    protected abstract void Initialize();
+ 
 
     // hace que el accesorio se vuelva hijo del arma y le añada sus estadisticas
     public void Attach(Gun gun,Transform AttachTo)
     {
+        gun._debug.Log("Call");
         if (gun == null) return;
-        
-         transform.parent = AttachTo;
+        gun._debug.Log("Call2");
+        transform.parent = AttachTo;
 
          pivotPos.position = AttachTo.position;
          pivotPos.rotation = AttachTo.rotation;

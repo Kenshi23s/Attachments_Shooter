@@ -12,6 +12,9 @@ public class LifeComponent : MonoBehaviour, IDamagable, IHealable
     public int life => _life;
     public int maxLife => _maxLife;
 
+    [SerializeField, Range(0.1f, 2)]
+    float _dmgMultiplier = 1f;
+
     public bool ShowdamageNumber
     {
         get
@@ -34,17 +37,18 @@ public class LifeComponent : MonoBehaviour, IDamagable, IHealable
     }
     bool _showdamageNumber = true;
 
-    [SerializeField, Range(0.1f, 2)]
-    float _dmgMultiplier = 1f;
+ 
 
 
     [SerializeField] public bool canTakeDamage = true;
     [SerializeField] public bool canBeHealed = true;
 
+    #region Events
     public event Action<int, int> OnHealthChange;
     public event Action OnHeal;
     public event Action<int> OnTakeDamage;
     public event Action OnKilled;
+    #endregion
 
 
 
@@ -54,11 +58,12 @@ public class LifeComponent : MonoBehaviour, IDamagable, IHealable
         _debug = GetComponent<DebugableObject>();
         // por si tenes hijos que pueden hacer de 
         foreach (var item in GetComponentsInChildren<HitableObject>()) item.SetOwner(this);
-
+        #region SetEvents
         OnHeal += () => OnHealthChange?.Invoke(life, maxLife);
         OnTakeDamage += (x) => OnHealthChange?.Invoke(life, maxLife);
         OnTakeDamage += ShowDamageNumber;
         OnHealthChange?.Invoke(life, maxLife);
+        #endregion
 
     }
 
@@ -109,6 +114,11 @@ public class LifeComponent : MonoBehaviour, IDamagable, IHealable
     #endregion
 
     #region HealingSide
+    /// <summary>
+    /// añade vida, no supera la vida maxima
+    /// </summary>
+    /// <param name="HealAmount"></param>
+    /// <returns></returns>
     public virtual int Heal(int HealAmount)
     {
         if (!canBeHealed) return 0;
@@ -120,7 +130,11 @@ public class LifeComponent : MonoBehaviour, IDamagable, IHealable
 
         return HealAmount;
     }
-
+    /// <summary>
+    /// Añade x cantidad de vida al objetivo a lo largo de y segundos(no supera la vida maxima)
+    /// </summary>
+    /// <param name="totalHeal"></param>
+    /// <param name="timeAmount"></param>
     public void AddHealOverTime(int totalHeal, float timeAmount)
     {
         int HealPerTick = (int)(totalHeal / timeAmount);   

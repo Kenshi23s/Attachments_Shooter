@@ -9,13 +9,10 @@ public class LaserSight : Attachment
     [SerializeField] Transform _laserOutPoint;
 
 
-    protected override void Initialize()
+    protected override void Initialize() => _myType = AttachmentType.LaserSight;       
+
+    protected override void Comunicate() 
     {
-     
-
-        _myType = AttachmentType.LaserSight;
-        _laserLineRender = GetComponentInChildren<LineRenderer>();
-
         Action<bool> enable = (x) =>
         {
             _laserLineRender.gameObject.SetActive(x);
@@ -26,6 +23,7 @@ public class LaserSight : Attachment
         onDettach += () => enable(false);
         enable(isAttached);
     }
+   
 
     private void Update() => UpdateLaser();
     

@@ -13,13 +13,15 @@ public class SideArm_Burst : Burst_Gun
     {
         base.OptionalInitialize();
         _raycast= GetComponent<RaycastComponent>();
+        onHit += OmnivampBurst;
     }
     public override void ShootOnBurst()
     {
-        Vector3 from = attachmentHandler.shootPos.position;
-        Vector3 to = attachmentHandler.shootPos.forward;     
+        Vector3 from = attachmentHandler._shootPos.position;
+        Vector3 to = attachmentHandler._shootPos.forward;     
         
        _raycast.ShootRaycast(from, OnHitCallBack);
+       
     }
 
     void OmnivampBurst(HitData hit)
@@ -29,8 +31,6 @@ public class SideArm_Burst : Burst_Gun
         p.lifehandler.Heal(hit.dmgData.damageDealt/2);
       
     }
-
-
 
    
 }

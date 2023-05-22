@@ -28,16 +28,18 @@ public abstract class Burst_Gun : Gun
     {
         canShoot = false;
         burstCount = 0;
-        while (burstCount < bulletsPerBurst)
+        do
         {
+
             ShootOnBurst(); CallOnShootEvent();
             burstCount++;
             burstNumber?.Invoke(burstCount);
-            _debug.Log("Bullet "+ burstCount + " de "+ bulletsPerBurst);
+            _debug.Log("Bullet " + burstCount + " de " + bulletsPerBurst);
             yield return new WaitForSeconds(bulletCooldown);
-            
 
-        }
+
+        } while (burstCount < bulletsPerBurst);
+
        
         yield return new WaitForSeconds(burstCooldown);
         canShoot = true;

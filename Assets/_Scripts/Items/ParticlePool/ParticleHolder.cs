@@ -32,4 +32,11 @@ public class ParticleHolder : MonoBehaviour
         _returnToPool(this,key);
     }
 
+    public void ReturnNow()
+    {
+        StopCoroutine(CooldownDecrease());
+        OnFinish?.Invoke();
+        _returnToPool(this, key);
+    }
+
 }

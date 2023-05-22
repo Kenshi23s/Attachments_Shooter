@@ -8,6 +8,10 @@ public class Stock : Attachment
     {
         _myType = AttachmentType.Stock;
     }
+    protected override void Comunicate()
+    {
+        throw new System.NotImplementedException();
+    }
 
-   
+
 }

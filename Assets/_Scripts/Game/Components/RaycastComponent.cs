@@ -1,6 +1,4 @@
 using System;
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 [RequireComponent(typeof(DebugableObject))]
 public class RaycastComponent : MonoBehaviour
@@ -10,6 +8,7 @@ public class RaycastComponent : MonoBehaviour
     LayerMask _shootableLayers;
     [SerializeField]
     Camera cam;
+    // se encarga de manejar los disparos con raycast del arma
     private void Start()
     {
         gun = GetComponent<Gun>();
@@ -35,7 +34,7 @@ public class RaycastComponent : MonoBehaviour
             }
         }
     }
-
+    //chequea si lo que con lo que choco es damagable
     bool CheckDamagable(RaycastHit hit, out HitData hitData)
     {
         hitData = default;
@@ -52,10 +51,10 @@ public class RaycastComponent : MonoBehaviour
 
     void DrawRaycast()
     {
-        if (gun.attachmentHandler.shootPos == null||cam==null) return;
+        if (gun.attachmentHandler._shootPos == null||cam==null) return;
        
         Gizmos.color = Color.blue;
-        Vector3 from = gun.attachmentHandler.shootPos.position;
+        Vector3 from = gun.attachmentHandler._shootPos.position;
 
         if (Physics.Raycast(cam.transform.position, cam.transform.forward, out RaycastHit testHit, 500f, _shootableLayers))
         {

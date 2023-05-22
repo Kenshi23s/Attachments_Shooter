@@ -8,7 +8,7 @@ public class Editor_Physics_Movement : Editor
 
         EditorGUILayout.HelpBox("Info", MessageType.Info);
 
-        EditorGUILayout.LabelField("ActualVelocity", myTarget.velocity.magnitude.ToString());
+        EditorGUILayout.LabelField("ActualVelocity", myTarget._velocity.magnitude.ToString());
 
         EditorGUILayout.Space(10f);
         DrawDefaultInspector();

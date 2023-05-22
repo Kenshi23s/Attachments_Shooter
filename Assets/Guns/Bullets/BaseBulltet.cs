@@ -49,7 +49,7 @@ public abstract class BaseBulltet : MonoBehaviour
         
          this._hitCallBack = _hitCallBack;
     
-         Transform shootPos = myGun.attachmentHandler.shootPos;
+         Transform shootPos = myGun.attachmentHandler._shootPos;
     
          transform.position = shootPos.position; transform.forward = shootPos.forward;
     }

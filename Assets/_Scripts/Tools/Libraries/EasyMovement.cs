@@ -1,14 +1,22 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using UnityEngine;
-
+[System.Serializable]
 public struct FlockingParameters
 {
-    public IEnumerable<IA_Movement> targets;
+    [NonSerialized] 
     public Transform myTransform;
+    [NonSerialized]
     public float maxForce;
+    [NonSerialized]
     public float viewRadius;
+
+    [SerializeField,Range(0f,3f)]public float AlignmentForce;
+    [SerializeField,Range(0f,3f)]public float _separationForce;
+    [SerializeField,Range(0f,3f)]public float _cohesionForce;
 
 }
 public static class EasyMovement 
@@ -26,18 +34,29 @@ public static class EasyMovement
        return rb;
    }
 
+    public static Vector3 Flocking(this IEnumerable<IA_Movement> targets,FlockingParameters parameters)
+    {
+        Vector3 actualforce = Vector3.zero;
+
+        actualforce += targets.GroupAlignment(parameters);
+        actualforce += targets.Cohesion(parameters);
+        actualforce += targets.Separation(parameters);
+
+        return actualforce;
+    }
+
     public static Vector3 CalculateSteering(this Vector3 velocity, Vector3 desired, float steeringForce) => (desired - velocity) * steeringForce;
 
     #region Flocking
-    public static Vector3 GroupAlignment(this IEnumerable<IA_Movement> targets, Transform myTransform, float viewRadius,float maxForce)
+    public static Vector3 GroupAlignment(this IEnumerable<IA_Movement> targets, FlockingParameters parameters)
     {
         Vector3 desired = Vector3.zero;
         int count = 0;
         foreach (IA_Movement item in targets)
         {
-            Vector3 dist = item.transform.position - myTransform.position;
+            Vector3 dist = item.transform.position - parameters.myTransform.position;
 
-            if (dist.magnitude <= viewRadius)
+            if (dist.magnitude <= parameters.viewRadius)
             {
                 desired += item.velocity;
                 count++;
@@ -50,21 +69,21 @@ public static class EasyMovement
         desired /= count;
 
         desired.Normalize();
-        desired *= maxForce;
+        desired *= parameters.maxForce;
 
         return desired;
     }
 
-    public static Vector3 Cohesion(this IEnumerable<IA_Movement> targets,Transform myTransform,float maxForce,float viewRadius)
+    public static Vector3 Cohesion(this IEnumerable<IA_Movement> targets, FlockingParameters parameters)
     {
         Vector3 desired = Vector3.zero;
         int count = 0;
-
-        foreach (var item in targets.Where(x => x.transform!=myTransform))
+        Vector3 myPos= parameters.myTransform.position;
+        foreach (var item in targets.Where(x => x.transform != parameters.myTransform))
         {
-            Vector3 dist = item.transform.position - myTransform.position;
+            Vector3 dist = item.transform.position - myPos;
 
-            if (dist.magnitude <= viewRadius)
+            if (dist.magnitude <= parameters.viewRadius)
             {
                 desired += item.transform.position;
                 count++;
@@ -75,22 +94,22 @@ public static class EasyMovement
             return desired;
 
         desired /= count;
-        desired -= myTransform.position;
+        desired -= myPos;
 
         desired.Normalize();
-        desired *= maxForce;
+        desired *= parameters.maxForce;
 
-        return desired;
+        return desired*parameters._cohesionForce;
     }
 
-    public static Vector3 Separation(this IEnumerable<IA_Movement> targets, Transform myTransform, float maxForce, float viewRadius)
+    public static Vector3 Separation(this IEnumerable<IA_Movement> targets,FlockingParameters parameters)
     {
         Vector3 desired = Vector3.zero;
-        foreach (var item in targets.Where(x=> x.transform !=myTransform))
+        foreach (var item in targets.Where(x => x.transform != parameters.myTransform))
         {
-            Vector3 dist = item.transform.position - myTransform.position;
+            Vector3 dist = item.transform.position - parameters.myTransform.position;
 
-            if (dist.magnitude <= viewRadius)
+            if (dist.magnitude <= parameters.viewRadius)
                 desired += dist;
         }
 
@@ -100,9 +119,9 @@ public static class EasyMovement
         desired = -desired;
 
         desired.Normalize();
-        desired *= maxForce;
+        desired *= parameters.maxForce;
 
-        return desired;
+        return desired*parameters._separationForce;
     }
     #endregion
 

@@ -1,14 +1,13 @@
 using AYellowpaper.SerializedCollections;
 using System;
 using System.Collections.Generic;
-using System.Linq;
 using UnityEngine;
 using static Attachment;
 
 [DisallowMultipleComponent]
 public class AttachmentHandler : MonoBehaviour
 {
-
+    //se encarga de organizar los accesorios en el arma
     Gun _gun;
 
     #region Descripcion Pos
@@ -32,16 +31,15 @@ public class AttachmentHandler : MonoBehaviour
     #endregion
     SerializedDictionary<AttachmentType, Attachment> _DefaultAttachMent = new SerializedDictionary<AttachmentType, Attachment>();
 
+    // lo uso para crear eventos para cuando quiero cambiar algun tipo de accesorio
     #region Diccionario Eventos
     public Dictionary<AttachmentType, Action> onAttachmentCgange => _onAttachmentChange;
     private Dictionary<AttachmentType, Action> _onAttachmentChange = new Dictionary<AttachmentType, Action>();
     #endregion
 
 
-
-
-    public Transform shootPos => _shootPos;
-    Transform _shootPos;
+    public Transform _shootPos { get; private set; }
+   
     [SerializeField, Tooltip("La posicion default de salida de bala en caso de no tener cañon")]
     Transform _defaultShootPos;
 
@@ -54,7 +52,7 @@ public class AttachmentHandler : MonoBehaviour
         _gun = GetComponent<Gun>();
 
         _shootPos = _defaultShootPos;
-
+        // este metodo lo uso para chequear desde donde tiene q salir mi bala
         Action onMuzzleChange = () =>
         {
             if (activeAttachments[AttachmentType.Muzzle].TryGetComponent<Muzzle>(out var a))
@@ -68,6 +66,7 @@ public class AttachmentHandler : MonoBehaviour
         };
         AddOnChangeEvent(AttachmentType.Muzzle, onMuzzleChange);           
     }
+
     private void Start() => SetDefaultAttachments();
 
     /// <summary>
@@ -85,15 +84,14 @@ public class AttachmentHandler : MonoBehaviour
                 {
                     //añado
                     AddAttachment(_DefaultAttachMent[key]);
+                    if (_onAttachmentChange.TryGetValue(key, out var action)) action?.Invoke();
                     continue;
                 }
                 //chequeo por las dudas para que no salten errores              
-            }
-            if (_onAttachmentChange.TryGetValue(key,out var action)) action?.Invoke();
-                 
+            }                
         }
     }
-
+    //añado cosas al diccionario de eventos(no podes hacer un diccionario de eventos en si, tiene q ser de actions)
     public void AddOnChangeEvent(AttachmentType eventType, Action new_action)
     {
         if (!_onAttachmentChange.ContainsKey(eventType))
@@ -110,8 +108,11 @@ public class AttachmentHandler : MonoBehaviour
     {
         if (_onAttachmentChange.ContainsKey(eventType))        
             _onAttachmentChange[eventType] -= action;          
-    }   
-
+    }
+    /// <summary>
+    /// llama a un evento de tipo AttachmentType en caso de q exista
+    /// </summary>
+    /// <param name="type"></param>
     void CallEvent(AttachmentType type)
     {
         if (_onAttachmentChange.TryGetValue(type, out var Call))
@@ -121,13 +122,15 @@ public class AttachmentHandler : MonoBehaviour
     }
 
     /// <summary>
-    /// Añade un accesorio al arma, requiere q le pases el tipo(key) y la clase de tipo attachment que deseas agregar
+    /// Añade un accesorio x al arma(si los de su tipo tienen una ubicacion en el arma)
     /// </summary>
     /// <param name="key"></param>
     /// <param name="value"></param>
     public void AddAttachment(Attachment value)
     {
         //si contengo una posicion
+        if (value == null) return;
+        
         AttachmentType key = value.myType;
 
         if (!_attachmentPos.ContainsKey(key)) 
@@ -151,7 +154,7 @@ public class AttachmentHandler : MonoBehaviour
         else
         {
             //si ya tenia un accesorio de ese tipo lo remplazo
-            ReplaceAttachment(key, value);
+            ReplaceAttachment(value);
         }
     }
 
@@ -160,8 +163,10 @@ public class AttachmentHandler : MonoBehaviour
     /// </summary>
     /// <param name="key"></param>
     /// <param name="value"></param>
-    void ReplaceAttachment(AttachmentType key, Attachment value)
+    void ReplaceAttachment(Attachment value)
     {
+        AttachmentType key= value.myType;
+        _gun._debug.Log($"Remplazo el accesorio {_activeAttachments[key].name}, por {value.name}");
         SaveAttachment(_activeAttachments[key]);
         _activeAttachments.Remove(key);
         AddAttachment(value);
@@ -178,7 +183,7 @@ public class AttachmentHandler : MonoBehaviour
             _activeAttachments.Remove(key);
         }     
         if (_DefaultAttachMent.TryGetValue(key,out var _default)) AddAttachment(_default);
-   
+        
         _onAttachmentChange[key]?.Invoke();
     }
 

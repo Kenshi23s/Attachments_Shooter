@@ -12,56 +12,44 @@ using UnityEngine;
 
 public class IA_Movement : MonoBehaviour
 {
+    [SerializeField]
     FlockingParameters flockingParameters= new FlockingParameters();
     DebugableObject _debug;
     FOVAgent _fov;
     Physics_Movement movement;
 
-    public Vector3 destination=> _destination;
-    Vector3 _destination;
+    public Vector3 destination { get; private set; } 
 
-    public Vector3 velocity => movement.velocity;
-
-    
+    public Vector3 velocity => movement._velocity;
 
     [Header("Flocking Forces")]
 
-    [SerializeField,Range(0f,3f)]  float _alignmentForce;
-    [SerializeField,Range(0f, 3f)] float _cohesionForce;
-    [SerializeField,Range(0f, 3f)] float _separationForce;
     public LayerMask obstacleMask;
     Action _fixedUpdate;
 
-    public bool isFlockingActive 
-    { 
-        get => _isFlockingActive;
-        set 
-        {
-            _isFlockingActive = value;
-            if (value)
-            {
-                
-            }
-
-        } 
-    }
-    [SerializeField]bool _isFlockingActive;
+    [SerializeField]public bool isFlockingActive {get; private set;}
+   
     private void Awake()
     {
         _fov = GetComponent<FOVAgent>();
         movement = GetComponent<Physics_Movement>();
-        _debug=GetComponent<DebugableObject>();
+        _debug = GetComponent<DebugableObject>();    
 
-     
+        flockingParameters.myTransform = transform;
+        flockingParameters.maxForce = movement.maxForce;
+        flockingParameters.viewRadius= _fov.viewRadius;
     }
 
     private void FixedUpdate() => _fixedUpdate?.Invoke();
 
-
     public void SetMaxSpeed(float newSpeed) =>   movement.SetMaxSpeed(newSpeed);
-    
-   
+      
     #region Pathfinding Methods
+    /// <summary>
+    /// Se mueve hasta esa ubicacion usando TITA*(aplicando flocking y obstacle avoidance)
+    /// si la ubicacion esta a la vista no calcula el camino y va directo
+    /// </summary>
+    /// <param name="target"></param>
     public void SetDestination(Vector3 target)
     {
         if (transform.position.InLineOffSight(target,IA_Manager.instance.wall_Mask))
@@ -72,7 +60,7 @@ public class IA_Movement : MonoBehaviour
 
                 Vector3 actualForce = Vector3.zero;
                 actualForce += Seek(target);
-                actualForce += FlockingUpdate();
+                actualForce += IA_Manager.instance.flockingTargets.Flocking(flockingParameters);
                 actualForce += ObstacleAvoidance(transform);
                 movement.AddForce(actualForce);
             };
@@ -85,18 +73,23 @@ public class IA_Movement : MonoBehaviour
             _fixedUpdate = () => PlayPath(waypoints);
         }     
     }
-    
+    /// <summary>
+    /// setea el camino para TITA*
+    /// </summary>
+    /// <param name="target"></param>
+    /// <returns></returns>
     List<Vector3> SetPath(Vector3 target)
     {
         IA_Manager I = IA_Manager.instance;
     
         Tuple<Node, Node> keyNodes = Tuple.Create(I.GetNearestNode(transform.position), I.GetNearestNode(target));
     
-        return keyNodes.CalculateThetaStar(I.wall_Mask, target);
-    
-    
+        return keyNodes.CalculateThetaStar(I.wall_Mask, target);   
     }
-
+    /// <summary>
+    /// Reproduce el camino con TITA*
+    /// </summary>
+    /// <param name="waypoints"></param>
     void PlayPath(List<Vector3> waypoints)
     {
         if (!waypoints.Any()) 
@@ -111,7 +104,7 @@ public class IA_Movement : MonoBehaviour
         Vector3 actualForce = Vector3.zero;
 
         actualForce += Seek(waypoints[0]);
-        actualForce += FlockingUpdate();
+        actualForce += IA_Manager.instance.flockingTargets.Flocking(flockingParameters); 
         actualForce += ObstacleAvoidance(transform);
 
         
@@ -121,23 +114,7 @@ public class IA_Movement : MonoBehaviour
 
     #endregion
 
-    #region Movement Updates
-    public Vector3 FlockingUpdate()
-    {           
-       Vector3 actualforce = Vector3.zero;
-        _debug.Log("Flocking");
-       
-       
-        actualforce += Alignment() * _alignmentForce;
-        actualforce += Cohesion() * _cohesionForce;
-        actualforce += Separation() * _separationForce;
-
-        return actualforce;     
-    }
-
-    
-
-   
+    #region Movement Updates 
 
     Vector3 ObstacleAvoidance(Transform transform)
     {
@@ -159,101 +136,17 @@ public class IA_Movement : MonoBehaviour
     }
     #endregion
 
-    #region Flocking
-    Vector3 Alignment()
-    {
-        Vector3 desired = Vector3.zero;
-        int count = 0;
-        foreach (IA_Movement item in IA_Manager.instance.flockingTargets.Where(x => x != this))
-        {
-            Vector3 dist = item.transform.position - transform.position;
-
-            if (dist.magnitude <= _fov.viewRadius)
-            {
-                desired += item.velocity;
-                count++;
-            }
-        }
-
-        if (count <= 0)
-            return desired;
-
-        desired /= count;
-
-        desired.Normalize();
-        desired *= movement.maxForce;
-
-        return desired;
-    }
-
-    Vector3 Cohesion()
-    {
-        Vector3 desired = Vector3.zero;
-        int count = 0;
-
-        foreach (var item in IA_Manager.instance.flockingTargets.Where(x => x != this))
-        {
-            Vector3 dist = item.transform.position - transform.position;
-
-            if (dist.magnitude <= _fov.viewRadius)
-            {
-                desired += item.transform.position;
-                count++;
-            }
-        }
-
-        if (count <= 0)
-            return desired;
-
-        desired /= count;
-        desired -= transform.position;
-
-        desired.Normalize();
-        desired *= movement.maxForce;
-
-        return desired;
-    }
-
-    Vector3 Separation()
-    {
-        Vector3 desired = Vector3.zero;
-        IEnumerable<IA_Movement> targets = IA_Manager.instance.flockingTargets.Where(x => x != this);
-        foreach (var item in targets)
-        {        
-            Vector3 dist = item.transform.position - transform.position;
-
-            if (dist.magnitude <= _fov.viewRadius)
-                desired += dist;
-        }
-
-        if (desired == Vector3.zero)
-            return desired;
-
-        desired = -desired;
-
-        desired.Normalize();
-        desired *= movement.maxForce;
-
-        return desired;
-    }
-    #endregion
-
     #region MovementTypes
     public Vector3 Seek(Vector3 targetSeek)
-    {
-    
+    {  
         Vector3 desired = targetSeek - transform.position;
         desired.Normalize();
-        desired *= movement.maxForce;
-
-        return desired;
+        return desired* movement.maxForce;
     }
 
 
     public Vector3 Arrive(Vector3 actualTarget,float arriveRadius)
-    {
-       
-       
+    {    
         Vector3 desired = actualTarget - transform.position;
         float dist = desired.magnitude;
         desired.Normalize();
@@ -263,10 +156,5 @@ public class IA_Movement : MonoBehaviour
             desired *= movement.maxSpeed;   
         return desired;
     }
-
-    #endregion
-
-  
-
-  
+    #endregion  
 }

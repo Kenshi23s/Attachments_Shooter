@@ -10,6 +10,10 @@ public class Grip : Attachment
     {
        
     }
+    protected override void Comunicate()
+    {
+        throw new System.NotImplementedException();
+    }
 
-   
+
 }

@@ -5,20 +5,7 @@ using static StatsHandler;
 using AYellowpaper.SerializedCollections;
 using System.Diagnostics;
 
-[System.Serializable]
-public struct GunAudioClips
-{
-    [Header("SFX")]
-    //sonido inicial
-    [SerializeField] public AudioClip _StartShootingClip;
-    //sonido loop
-    [SerializeField] public AudioClip _LoopShootingClip;
-    //sonido final
-    [SerializeField] public AudioClip _EndShootingClip;
-
-    [SerializeField] public AudioClip _ReloadClip;
-}
-//struct encargado de recolectar datos de los "Hits"
+//struct encargado de recolectar datos de los "Hits" y luego pasarlo por un evento a los interesados
 public struct HitData
 {
     public Vector3 _impactPos;
@@ -32,15 +19,17 @@ public struct HitData
         this.gunUsed = weapon;
     }
 }
+
+#region Components
 [RequireComponent(typeof(DamageHandler))]
 [RequireComponent(typeof(StatsHandler))]
 [RequireComponent(typeof(AttachmentHandler))]
 [RequireComponent(typeof(DebugableObject))]
+#endregion
 public abstract class Gun : MonoBehaviour
 {
     [Header("Animator")]
     [SerializeField] Animator _gunAnim;
-
 
     [SerializeField] public int _actualAmmo;
 
@@ -51,7 +40,6 @@ public abstract class Gun : MonoBehaviour
     [NonSerialized] public AttachmentHandler attachmentHandler;
 
     [NonSerialized] public DebugableObject _debug;
-
 
 
     [Header("Perks Stats"),Tooltip("perk equipados,(se deberia de hacer un PERK MANAGER creo," +
@@ -109,9 +97,7 @@ public abstract class Gun : MonoBehaviour
 
     protected virtual void OptionalInitialize() { }
 
-    private void Update() => everyTick?.Invoke();
-    
-    
+    private void Update() => everyTick?.Invoke();  
 
     //lo ideal seria tener un metodo q llame a la animacion de recarga,
     //y que en algun frame la animacion de recarga llame a este metodo
@@ -122,7 +108,7 @@ public abstract class Gun : MonoBehaviour
     }
 
     /// <summary>
-    /// dispara el arma, solo si no esta en cd y tiene balas
+    /// Intenta disparar el arma, las herencias por lo general modifican por completo esto
     /// </summary>
     public virtual void Trigger()
     { 
@@ -131,10 +117,8 @@ public abstract class Gun : MonoBehaviour
         if (ShootCondition())
         {
             Shoot();
-            onShoot?.Invoke();
-            //_actualAmmo -= (int)stats.myGunStats[StatNames.AmooPerShoot];
+            onShoot?.Invoke();         
         }
-
     }
 
     protected void CallOnShootEvent() => onShoot?.Invoke();

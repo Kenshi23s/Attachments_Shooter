@@ -33,7 +33,7 @@ public class GunVFX_Handler : MonoBehaviour
     {
         ParticleHolder aux = GameManager.instance.vfxPool.GetVFX(muzzleFlashKey);
 
-        Transform shootPos = gun.attachmentHandler.shootPos;
+        Transform shootPos = gun.attachmentHandler._shootPos;
 
         aux.transform.position = shootPos.position;
         aux.transform.forward = shootPos.forward;
