@@ -3445,7 +3445,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 8568796443389817191}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -0.0060017537, y: -0.11200002, z: 0.2609983}
+  m_LocalPosition: {x: 0.0879993, y: -0.05900053, z: 0.294999}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -3622,7 +3622,7 @@ MonoBehaviour:
   _minRun: 12
   soft: 0.284
   handsInfluence: 0.7
-  aimPos: {x: -0.253, y: 0.09, z: -0.2}
+  aimPos: {x: -0.35, y: 0.13, z: -0.2}
   hands: {fileID: 8568796444031059869}
   cam: {fileID: 8568796442919035190}
   playerMov: {fileID: 8568796443268590854}
@@ -3644,7 +3644,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &8169744721956300895
 Transform:
   m_ObjectHideFlags: 0
@@ -3653,7 +3653,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 8803150952759800549}
   m_LocalRotation: {x: -0.5618923, y: 0.027097594, z: 0.021995662, w: 0.8264739}
-  m_LocalPosition: {x: -0.015, y: -0.313, z: 0.093}
+  m_LocalPosition: {x: 0.079, y: -0.26, z: 0.127}
   m_LocalScale: {x: 0.16592085, y: 0.1659209, z: 0.16592088}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -3890,6 +3890,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 8568796443389817190}
     m_Modifications:
+    - target: {fileID: 2165113967237311115, guid: 6a12480e9990c5940a6962d8971dfa1a, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: -0.1682
+      objectReference: {fileID: 0}
     - target: {fileID: 2868271147788517936, guid: 6a12480e9990c5940a6962d8971dfa1a, type: 3}
       propertyPath: m_RootOrder
       value: 0
@@ -3937,6 +3941,10 @@ PrefabInstance:
     - target: {fileID: 2868271147788517937, guid: 6a12480e9990c5940a6962d8971dfa1a, type: 3}
       propertyPath: m_Name
       value: BurstPistol
+      objectReference: {fileID: 0}
+    - target: {fileID: 4499589815596832500, guid: 6a12480e9990c5940a6962d8971dfa1a, type: 3}
+      propertyPath: m_CastShadows
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 5846903351772916011, guid: 6a12480e9990c5940a6962d8971dfa1a, type: 3}
       propertyPath: _DefaultAttachMent._serializedList.Array.size
