@@ -10,9 +10,9 @@ public abstract class Burst_Gun : Gun
   
     [SerializeField,Range(2,5)]
     protected int bulletsPerBurst;
-    [SerializeField, Range(0.1f, 1f),Tooltip("Cooldown entre bala y bala en una rafaga")]
+    [SerializeField, Range(0.0f, 1f),Tooltip("Cooldown entre bala y bala en una rafaga")]
     protected float bulletCooldown;
-    [SerializeField, Range(0.1f, 1f), Tooltip("Cooldown entre rafaga y rafaga")]
+    [SerializeField, Range(0.0f, 1f), Tooltip("Cooldown entre final de rafaga y princirafaga")]
     protected float burstCooldown;
     #endregion
     public int burstCount { get; private set; }
@@ -28,17 +28,14 @@ public abstract class Burst_Gun : Gun
     {
         canShoot = false;
         burstCount = 0;
-        do
+        while (burstCount < bulletsPerBurst)
         {
-
             ShootOnBurst(); CallOnShootEvent();
             burstCount++;
             burstNumber?.Invoke(burstCount);
             _debug.Log("Bullet " + burstCount + " de " + bulletsPerBurst);
             yield return new WaitForSeconds(bulletCooldown);
-
-
-        } while (burstCount < bulletsPerBurst);
+        } 
 
        
         yield return new WaitForSeconds(burstCooldown);
