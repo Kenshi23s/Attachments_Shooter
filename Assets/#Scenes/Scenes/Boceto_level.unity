@@ -17,7 +17,7 @@ RenderSettings:
   m_Fog: 1
   m_FogColor: {r: 0.49411768, g: 0.5647059, b: 0.8588236, a: 1}
   m_FogMode: 2
-  m_FogDensity: 0.001
+  m_FogDensity: 0.0007
   m_LinearFogStart: 30
   m_LinearFogEnd: 300
   m_AmbientSkyColor: {r: 0.41037738, g: 0.6098086, b: 1, a: 1}
@@ -25,9 +25,9 @@ RenderSettings:
   m_AmbientGroundColor: {r: 0.6415094, g: 0.44482023, b: 0.4498636, a: 1}
   m_AmbientIntensity: 1
   m_AmbientMode: 1
-  m_SubtractiveShadowColor: {r: 0.42, g: 0.478, b: 0.627, a: 1}
+  m_SubtractiveShadowColor: {r: 0, g: 0, b: 0, a: 1}
   m_SkyboxMaterial: {fileID: 2100000, guid: ebc298b5b6076154e82cf7e321d001b2, type: 2}
-  m_HaloStrength: 0.5
+  m_HaloStrength: 0.478
   m_FlareStrength: 1
   m_FlareFadeSpeed: 3
   m_HaloTexture: {fileID: 0}
@@ -37,8 +37,8 @@ RenderSettings:
   m_ReflectionBounces: 1
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
-  m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.4807976, g: 0.62342864, b: 1.4466918, a: 1}
+  m_Sun: {fileID: 1313838263}
+  m_IndirectSpecularColor: {r: 0.47038117, g: 0.6099348, b: 1.4149319, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -20011,6 +20011,11 @@ PrefabInstance:
 --- !u!4 &1313838262 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 4507519660097635982, guid: 64f66f9332363b04d9b821b2a2957000, type: 3}
+  m_PrefabInstance: {fileID: 1313838261}
+  m_PrefabAsset: {fileID: 0}
+--- !u!108 &1313838263 stripped
+Light:
+  m_CorrespondingSourceObject: {fileID: 4507519660977668886, guid: 64f66f9332363b04d9b821b2a2957000, type: 3}
   m_PrefabInstance: {fileID: 1313838261}
   m_PrefabAsset: {fileID: 0}
 --- !u!1 &1313975882
