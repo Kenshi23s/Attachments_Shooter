@@ -31,7 +31,7 @@ public class Player_UI : MonoBehaviour
     private void Awake()
     {
         mat = _blitBlood.blitPass.blitMaterial;
-        _debug=GetComponent<DebugableObject>();
+        _debug = GetComponent<DebugableObject>();
         playerLife =player.GetComponent<LifeComponent>();
         playerLife.OnHealthChange += UpdateDamageShader;
     }
@@ -54,7 +54,7 @@ public class Player_UI : MonoBehaviour
         while (LastLifecheck < actualLife)
         {
            yield return new WaitForEndOfFrame();
-           LastLifecheck += Time.fixedDeltaTime;
+           LastLifecheck += Time.deltaTime;
         }
         LastLifecheck = actualLife;
         _debug.Log("Heal UI Effect Ended");
@@ -66,7 +66,7 @@ public class Player_UI : MonoBehaviour
         while (LastLifecheck > actualLife)
         {
             yield return new WaitForEndOfFrame();
-            LastLifecheck -= Time.fixedDeltaTime;
+            LastLifecheck -= Time.deltaTime;
         }
         LastLifecheck = actualLife;
         _debug.Log("Damage UI Effect Ended");

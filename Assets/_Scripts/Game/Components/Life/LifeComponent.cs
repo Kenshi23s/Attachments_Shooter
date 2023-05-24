@@ -87,8 +87,9 @@ public class LifeComponent : MonoBehaviour, IDamagable, IHealable
         DamageData data = new DamageData();
         if (!canTakeDamage) return data;
 
-        _life -= (int)(Mathf.Abs(dmgDealt) * _dmgMultiplier); OnTakeDamage?.Invoke(dmgDealt);
-        _debug.Log($" recibio {dmgDealt * _dmgMultiplier} de daño ");
+         dmgDealt = (int)(Mathf.Abs(dmgDealt) * _dmgMultiplier);
+        _life -= dmgDealt; OnTakeDamage?.Invoke(dmgDealt);
+        _debug.Log($" recibio {dmgDealt} de daño ");
 
         if (_life <= 0)
         {
@@ -123,6 +124,7 @@ public class LifeComponent : MonoBehaviour, IDamagable, IHealable
     {
         if (!canBeHealed) return 0;
 
+        _debug.Log($" se curo {HealAmount} de vida ");
         _life += Mathf.Abs(HealAmount);
 
         OnHeal?.Invoke();

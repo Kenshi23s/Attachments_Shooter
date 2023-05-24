@@ -2,6 +2,7 @@ using System.Collections.Generic;
 using System;
 using UnityEngine;
 using System.Collections;
+using System.Linq;
 
 [RequireComponent(typeof(DebugableObject))]
 public class TickEventsManager : MonoSingleton<TickEventsManager>
@@ -58,27 +59,34 @@ public class TickEventsManager : MonoSingleton<TickEventsManager>
      
     }
 
+    public event Action turnOffEvent;
     IEnumerator OverTimeCoroutine()
     {
         coroutineRunning = true;
         while (_actionsSubscribed.Count > 0)
-        {          
+        {
+            List<TickEvent> toRemove = new List<TickEvent>();
+
             foreach (TickEvent actual in _actionsSubscribed)
             {
                 actual.OnTickAction?.Invoke();
                 if (!actual.isTimeBased) continue;
-                ChangeTickTime(actual, 1);
+
+                if (ChangeTickTime(actual, 1))
+                    toRemove.Add(actual);
+
             }
+
+            foreach (var x in toRemove) _actionsSubscribed.Remove(x);
+          
             yield return new WaitForSeconds(1);
         }
         coroutineRunning = false;
     }
-    void ChangeTickTime(TickEvent x,float time)
+    bool ChangeTickTime(TickEvent x,float time)
     {
-        _debug.WarningLog(x.currentTime.ToString());
         x.currentTime -= time;
-        _debug.WarningLog(x.currentTime.ToString());
-        if (0 >= x.currentTime) RemoveAction(x);
+        return 0 >= x.currentTime;
     }
 
 }
