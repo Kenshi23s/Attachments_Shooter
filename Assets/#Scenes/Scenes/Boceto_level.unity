@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.4807986, g: 0.6234295, b: 1.4466941, a: 1}
+  m_IndirectSpecularColor: {r: 0.4807976, g: 0.62342864, b: 1.4466918, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -18338,8 +18338,8 @@ Terrain:
   m_TreeDistance: 5000
   m_TreeBillboardDistance: 50
   m_TreeCrossFadeLength: 5
-  m_TreeMaximumFullLODCount: 50
-  m_DetailObjectDistance: 33
+  m_TreeMaximumFullLODCount: 200
+  m_DetailObjectDistance: 69
   m_DetailObjectDensity: 1
   m_HeightmapPixelError: 5
   m_SplatMapDistance: 1000
@@ -20006,12 +20006,7 @@ PrefabInstance:
       propertyPath: m_Name
       value: Ilumination
       objectReference: {fileID: 0}
-    - target: {fileID: 4507519660097635983, guid: 64f66f9332363b04d9b821b2a2957000, type: 3}
-      propertyPath: m_IsActive
-      value: 1
-      objectReference: {fileID: 0}
-    m_RemovedComponents:
-    - {fileID: 4507519659959024244, guid: 64f66f9332363b04d9b821b2a2957000, type: 3}
+    m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 64f66f9332363b04d9b821b2a2957000, type: 3}
 --- !u!4 &1313838262 stripped
 Transform:
