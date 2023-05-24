@@ -9,7 +9,7 @@ public class View_SliderAttachment : MonoBehaviour
 
     public void SetSliderValue(string name,int value)
     {
-        statName.text = "Stat";
+        statName.text = name;
 
         if (value > 0)
         {

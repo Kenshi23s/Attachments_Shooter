@@ -1,9 +1,10 @@
 using UnityEngine;
 using static FloatingText;
-
+[RequireComponent(typeof(DebugableObject))]
 public class FloatingTextManager : MonoSingleton<FloatingTextManager>
 {
-  
+
+    DebugableObject _debug;
     TextPool pool = new TextPool();
 
     [SerializeField]
@@ -15,7 +16,8 @@ public class FloatingTextManager : MonoSingleton<FloatingTextManager>
     protected override void SingletonAwake()
     {
         base.SingletonAwake();
-        pool.Initialize(transform, sampleFloatingText);
+        _debug = GetComponent<DebugableObject>();   
+        pool.Initialize(transform, sampleFloatingText, _debug);
     }
     //podriamos tener en este metodo variaciones por ej
     // si es critico o baja que salga de otro color el texto, con otra fuente, o otra proporcion
@@ -28,14 +30,9 @@ public class FloatingTextManager : MonoSingleton<FloatingTextManager>
         FloatingText t = pool.GetHolder();
 
         if (t != null)
-        {
-                           //Z randomnes deberia ser Y randomnes,
-            _parameters.IncreaseSortingOrder();      //pq esto ya no es un top down, ajustar luego.
-            t.InitializeText(text, pos, _parameters);
-            
+        {                         
+            _parameters.IncreaseSortingOrder();    
+            t.InitializeText(text, pos, _parameters);         
         }
     }
-
-   
-
 }

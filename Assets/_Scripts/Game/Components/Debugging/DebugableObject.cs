@@ -6,10 +6,19 @@ using UnityEngine.Events;
 public class DebugableObject : MonoBehaviour
 {
     [SerializeField]public bool canDebug = true;
-    
     public UnityEvent gizmoDraw;
 
+
     private void Awake() => enabled = false;
+
+
+    private void Start()
+    {
+#if !UNITY_EDITOR
+       canDebug = false;
+       
+#endif
+    }
 
     public void AddGizmoAction(Action x) => gizmoDraw.AddListener(new UnityAction(x));
 

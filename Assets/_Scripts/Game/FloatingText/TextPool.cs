@@ -13,7 +13,7 @@ public class TextPool
     Transform _transform;
     #endregion
 
-    public void Initialize(Transform _transform, FloatingText sample)
+    public void Initialize(Transform _transform, FloatingText sample,DebugableObject _debug)
     {
         this._transform = _transform;
         this.sample= sample;    
@@ -25,7 +25,7 @@ public class TextPool
         Func<FloatingText> build = () =>
         {
             FloatingText dmgText = GameObject.Instantiate(sample);
-            dmgText.Configure(ReturnHolder);
+            dmgText.Configure(ReturnHolder, _debug);
             dmgText.transform.SetParent(_transform);
             return dmgText;
 

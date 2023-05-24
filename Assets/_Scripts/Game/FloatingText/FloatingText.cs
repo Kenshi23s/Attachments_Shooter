@@ -10,9 +10,7 @@ public class FloatingText : MonoBehaviour
     public struct FloatingTextParam
     {
         [Range(0f, 1f)]
-        public float x_Spread;
-        [Range(0f, 1f)]
-        public float y_Spread;
+        public float x_Spread;       
 
         [Range(0.1f, 1), Tooltip("la velocidad con la que se mueve el texto")]
         public float speed;
@@ -27,6 +25,9 @@ public class FloatingText : MonoBehaviour
        
 
     }
+   
+
+    DebugableObject _debug;
     [SerializeField]
     FloatingTextParam _textParameters;
 
@@ -36,18 +37,24 @@ public class FloatingText : MonoBehaviour
 
     Vector3 _textForce, _initialPos;   
    
-    Action<FloatingText> pool_ReturnMethod;
+    Action<FloatingText> _pool_ReturnMethod;
 
     Color _color, _actualColor;
 
+ 
 
     #region Initialize
     //Al crearse                                                     // MI metodo Return es igual al metodo Return que me pasaron por parametro
-    public void Configure(Action<FloatingText> pool_ReturnMethod) 
-    { 
-        this.pool_ReturnMethod = pool_ReturnMethod;
+    public void Configure(Action<FloatingText> pool_ReturnMethod,DebugableObject debug) 
+    {
+        _pool_ReturnMethod = pool_ReturnMethod;
+
+        _debug = debug;
+        _debug.AddGizmoAction(TextGizmos);
+
         _ren = GetComponent<MeshRenderer>();
         _color = _popUpText.color;
+        
     }
  
 
@@ -64,7 +71,7 @@ public class FloatingText : MonoBehaviour
        _initialPos = transform.position =  pos;
        _textParameters = parametersPass;
        SetText(TextValueDamage,parametersPass.sortingOrderRead);   
-       SetRandomForce(parametersPass.x_Spread,parametersPass.y_Spread);
+       SetRandomForce(parametersPass.x_Spread);
 
     }
  
@@ -77,14 +84,14 @@ public class FloatingText : MonoBehaviour
         _popUpText.text = value.ToString();
         // se pone el alpha al maximo por las dudas de que no lo estuviera
         _popUpText.color = _actualColor;
-        _popUpText.gameObject.name = ("Text Damage  " + value );
+        _popUpText.gameObject.name = "Text Damage  " + value ;
     }
 
-    void SetRandomForce(float RandomX,float RandomZ)
+    void SetRandomForce(float RandomX)
     {
         _textParameters.x_Spread = SetRandomValue(RandomX);
-        _textParameters.y_Spread = 1; 
-        _textForce = new Vector3(_textParameters.x_Spread, _textParameters.y_Spread);
+       
+        _textForce = new Vector3(_textParameters.x_Spread, 1);
     }
 
     float SetRandomValue(float Randomness) => Random.Range(-Mathf.Abs(Randomness), Mathf.Abs(Randomness));
@@ -118,17 +125,13 @@ public class FloatingText : MonoBehaviour
     void GoToPool()
     {     
         _initialPos = _textForce = Vector3.zero;
-        pool_ReturnMethod(this);
+        _pool_ReturnMethod(this);
     }
 
-    private void OnDrawGizmos()
-    {
-        
-        //_textParameters.x_Spread = SetRandomValue(1);
-        //_textParameters.y_Spread = 1;
-        //Vector3 a = new Vector3(_textParameters.x_Spread, _textParameters.y_Spread);
-        //Gizmos.color = Color.yellow;
-        //Gizmos.DrawLine(_initialPos, _initialPos+ a * 10);
-        //Gizmos.DrawWireSphere(_initialPos + a * 10, 2);
+    private void TextGizmos()
+    {          
+        Gizmos.color = Color.yellow;
+        Gizmos.DrawLine(_initialPos, _initialPos + _textForce * 10);
+        Gizmos.DrawWireSphere(_initialPos + _textForce*10,1f);
     }
 }
