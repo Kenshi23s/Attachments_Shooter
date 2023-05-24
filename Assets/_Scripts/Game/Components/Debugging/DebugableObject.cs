@@ -5,13 +5,13 @@ using UnityEngine.Events;
 [DisallowMultipleComponent]
 public class DebugableObject : MonoBehaviour
 {
-    [SerializeField] public bool canDebug = true;
+    [SerializeField]public bool canDebug = true;
     
     public UnityEvent gizmoDraw;
 
     private void Awake() => enabled = false;
 
-    public void AddGizmoAction(Action a) => gizmoDraw.AddListener(new UnityAction(a));
+    public void AddGizmoAction(Action x) => gizmoDraw.AddListener(new UnityAction(x));
 
     void OnDrawGizmos()
     {

@@ -80,5 +80,25 @@ public class Physics_Movement : MonoBehaviour
         Gizmos.DrawLine(_rb.position, _rb.position + _velocity);
     }
 
-   public Vector3 CalculateSteering(Vector3 desired) => Vector3.ClampMagnitude(desired - _velocity * steeringForce, maxSpeed);
+    public Vector3 Seek(Vector3 targetSeek)
+    {
+        Vector3 desired = targetSeek - transform.position;
+        desired.Normalize();
+        return desired * maxForce;
+    }
+
+
+    public Vector3 Arrive(Vector3 actualTarget, float arriveRadius)
+    {
+        Vector3 desired = actualTarget - transform.position;
+        float dist = desired.magnitude;
+        desired.Normalize();
+        if (dist <= arriveRadius)
+            desired *= maxSpeed * (dist / arriveRadius);
+        else
+            desired *= maxSpeed;
+        return desired;
+    }
+
+    public Vector3 CalculateSteering(Vector3 desired) => Vector3.ClampMagnitude(desired - _velocity * steeringForce, maxSpeed);
 }

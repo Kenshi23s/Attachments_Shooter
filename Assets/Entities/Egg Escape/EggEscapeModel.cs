@@ -6,6 +6,7 @@ using static EggState;
 [RequireComponent(typeof(FOVAgent))]
 [RequireComponent(typeof(LifeComponent))]
 [RequireComponent(typeof(DebugableObject))]
+[RequireComponent(typeof(IA_Movement))]
 public class EggEscapeModel : MonoBehaviour
 {
     [System.Serializable]
@@ -81,7 +82,7 @@ public class EggEscapeModel : MonoBehaviour
         data._fov = _fov;
         data._fsm = _fsm;
         data._agent = _agent;
-        data._transform = transform;
+        data.manual_Movement = _agent._movement;
         data._eggStats.debug= _debug;
         #endregion
 

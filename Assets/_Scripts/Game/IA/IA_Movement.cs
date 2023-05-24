@@ -16,11 +16,11 @@ public class IA_Movement : MonoBehaviour
     FlockingParameters flockingParameters= new FlockingParameters();
     DebugableObject _debug;
     FOVAgent _fov;
-    Physics_Movement movement;
+    public Physics_Movement _movement { get; private set; }
 
     public Vector3 destination { get; private set; } 
 
-    public Vector3 velocity => movement._velocity;
+    public Vector3 velocity => _movement._velocity;
 
     [Header("Flocking Forces")]
 
@@ -32,17 +32,17 @@ public class IA_Movement : MonoBehaviour
     private void Awake()
     {
         _fov = GetComponent<FOVAgent>();
-        movement = GetComponent<Physics_Movement>();
+        _movement = GetComponent<Physics_Movement>();
         _debug = GetComponent<DebugableObject>();    
 
         flockingParameters.myTransform = transform;
-        flockingParameters.maxForce = movement.maxForce;
+        flockingParameters.maxForce = _movement.maxForce;
         flockingParameters.viewRadius= _fov.viewRadius;
     }
 
     private void FixedUpdate() => _fixedUpdate?.Invoke();
 
-    public void SetMaxSpeed(float newSpeed) =>   movement.SetMaxSpeed(newSpeed);
+    public void SetMaxSpeed(float newSpeed) =>   _movement.SetMaxSpeed(newSpeed);
       
     #region Pathfinding Methods
     /// <summary>
@@ -59,10 +59,10 @@ public class IA_Movement : MonoBehaviour
                 _debug.Log("veo el destino, voy directo ");
 
                 Vector3 actualForce = Vector3.zero;
-                actualForce += Seek(target);
+                actualForce += _movement.Seek(target);
                 actualForce += IA_Manager.instance.flockingTargets.Flocking(flockingParameters);
                 actualForce += ObstacleAvoidance(transform);
-                movement.AddForce(actualForce);
+                _movement.AddForce(actualForce);
             };
         }
         else
@@ -94,8 +94,7 @@ public class IA_Movement : MonoBehaviour
     {
         if (!waypoints.Any()) 
         {
-            _fixedUpdate = null;
-            movement.RemoveForces();
+            ClearPath();
             return;
         }
 
@@ -103,15 +102,20 @@ public class IA_Movement : MonoBehaviour
 
         Vector3 actualForce = Vector3.zero;
 
-        actualForce += Seek(waypoints[0]);
+        actualForce += (waypoints[0]);
         actualForce += IA_Manager.instance.flockingTargets.Flocking(flockingParameters); 
         actualForce += ObstacleAvoidance(transform);
 
         
-        movement.AddForce(velocity.CalculateSteering(actualForce, movement.steeringForce));
+        _movement.AddForce(velocity.CalculateSteering(actualForce, _movement.steeringForce));
         if (Vector3.Distance(waypoints[0], transform.position) < 2f) waypoints.RemoveAt(0);
     }    
 
+    public void ClearPath()
+    {
+        _fixedUpdate = null;
+        _movement.RemoveForces();
+    }
     #endregion
 
     #region Movement Updates 
@@ -129,7 +133,7 @@ public class IA_Movement : MonoBehaviour
 
             Vector3 desired = angleInBetween >= 0 ? -transform.right : transform.right;
 
-            return velocity.CalculateSteering(desired,movement.maxSpeed);
+            return velocity.CalculateSteering(desired,_movement.maxSpeed);
         }
 
         return Vector3.zero;
@@ -137,24 +141,6 @@ public class IA_Movement : MonoBehaviour
     #endregion
 
     #region MovementTypes
-    public Vector3 Seek(Vector3 targetSeek)
-    {  
-        Vector3 desired = targetSeek - transform.position;
-        desired.Normalize();
-        return desired* movement.maxForce;
-    }
-
-
-    public Vector3 Arrive(Vector3 actualTarget,float arriveRadius)
-    {    
-        Vector3 desired = actualTarget - transform.position;
-        float dist = desired.magnitude;
-        desired.Normalize();
-        if (dist <= arriveRadius)
-            desired *= movement.maxSpeed * (dist / arriveRadius);
-        else
-            desired *= movement.maxSpeed;   
-        return desired;
-    }
+   
     #endregion  
 }

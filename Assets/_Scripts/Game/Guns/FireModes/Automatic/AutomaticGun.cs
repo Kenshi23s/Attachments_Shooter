@@ -1,5 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 [RequireComponent(typeof(RateOfFireHandler))]
 public abstract class AutomaticGun : Gun
@@ -11,8 +9,5 @@ public abstract class AutomaticGun : Gun
         //_rateFireHandler.Initialize(this);
         base.OptionalInitialize();
         _rateFireHandler = GetComponent<RateOfFireHandler>();
-
     }
-
-
 }

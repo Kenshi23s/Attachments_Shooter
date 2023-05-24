@@ -21,18 +21,25 @@ public class EggState_Kidnaped : EggState
         onGrab?.Invoke();
         _actualKidnapTime = _eggStats.kidnapedTime;
         _agent.SetMaxSpeed(_eggStats.kidnapSpeed);
+        _agent.ClearPath();
        
     }
         
   
     public override void OnUpdate()
     {
-        _actualKidnapTime -= Time.deltaTime;        
-
-        Vector3 newDestin = (Vector3.Distance(myPos, _eggStats.gameMode.playerPos) > _eggStats.kidnapFollowRadius) 
-                          ? _eggStats.gameMode.playerPos : myPos;
-
-           _agent.SetDestination(_eggStats.gameMode.playerPos);
+        _actualKidnapTime -= Time.deltaTime;
+        if (Vector3.Distance(_eggStats.gameMode.playerPos,_manual_Movement.transform.position)>5f)
+        {
+            Vector3 force = _manual_Movement.Seek(_eggStats.gameMode.playerPos);
+            _manual_Movement.AddForce(force);
+        }
+        else
+        {
+            _manual_Movement.RemoveForces();
+        }
+      
+       
         
         if (_actualKidnapTime <= 0)
             _fsm.ChangeState(States.Escape);

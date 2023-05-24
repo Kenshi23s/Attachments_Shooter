@@ -148,7 +148,7 @@ RectTransform:
   - {fileID: 5675563998620263934}
   - {fileID: 5675563998194470623}
   m_Father: {fileID: 8057132550997207645}
-  m_RootOrder: 1
+  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
@@ -665,7 +665,7 @@ GameObject:
   - component: {fileID: 8057132550997207641}
   - component: {fileID: 8057132550997207640}
   - component: {fileID: 821459981140226238}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: Incrubator
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -684,8 +684,8 @@ Transform:
   m_LocalScale: {x: 6.872654, y: 6.872654, z: 6.872654}
   m_ConstrainProportionsScale: 0
   m_Children:
-  - {fileID: 5984572343660030832}
   - {fileID: 5675563997585581079}
+  - {fileID: 5984572343660030832}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -725,8 +725,8 @@ MonoBehaviour:
   _sliderImage: {fileID: 0}
   _backSliderImage: {fileID: 0}
   _debug: {fileID: 0}
-  can_InteractText: 
-  canT_InteractText: 
+  can_InteractText: Tenes Huevos
+  canT_InteractText: No Tenes Huevos
 --- !u!135 &8057132550997207640
 SphereCollider:
   m_ObjectHideFlags: 0
@@ -752,7 +752,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 360ca867e48780448a1401b7fc47e037, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  canDebug: 1
+  canDebug: 0
   gizmoDraw:
     m_PersistentCalls:
       m_Calls: []
@@ -765,7 +765,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: -8679921383154817045, guid: 0b49d004c715c2e49b4d9e5cadfa819d, type: 3}
       propertyPath: m_RootOrder
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 0b49d004c715c2e49b4d9e5cadfa819d, type: 3}
       propertyPath: m_LocalScale.x

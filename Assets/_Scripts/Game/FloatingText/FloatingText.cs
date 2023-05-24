@@ -2,6 +2,7 @@ using TMPro;
 using UnityEngine;
 using System;
 using Random = UnityEngine.Random;
+using Unity.Mathematics;
 
 public class FloatingText : MonoBehaviour
 {
@@ -75,7 +76,7 @@ public class FloatingText : MonoBehaviour
     void SetRandomForce(float RandomX,float RandomZ)
     {
         _textParameters.x_Spread = SetRandomValue(RandomX);
-        _textParameters.y_Spread = SetRandomValue(RandomZ);
+        _textParameters.y_Spread = 1; 
         _textForce = new Vector3(_textParameters.x_Spread, _textParameters.y_Spread);
     }
 
@@ -87,13 +88,9 @@ public class FloatingText : MonoBehaviour
     {
         //se le suma al transform una fuerza para que se mueva a lo largo del tiempo hasta que
         //el "Alpha" del texto llegue a 0 (va de 0 a 1, no de 0 a 255)
-
-        this.transform.position += _textForce.normalized * Time.deltaTime * 5;
+        transform.position += _textForce.normalized * Time.deltaTime * _textParameters.speed;
         float A = SubstractAlpha(_textParameters.fadeSpeed);
         if (A == 0) GoToPool();
-
-
-
     }
 
     private void LateUpdate()
@@ -121,7 +118,12 @@ public class FloatingText : MonoBehaviour
 
     private void OnDrawGizmos()
     {
-        Gizmos.color = Color.yellow;
-        Gizmos.DrawLine(_initialPos, _initialPos+_textForce *10);
+        
+        //_textParameters.x_Spread = SetRandomValue(1);
+        //_textParameters.y_Spread = 1;
+        //Vector3 a = new Vector3(_textParameters.x_Spread, _textParameters.y_Spread);
+        //Gizmos.color = Color.yellow;
+        //Gizmos.DrawLine(_initialPos, _initialPos+ a * 10);
+        //Gizmos.DrawWireSphere(_initialPos + a * 10, 2);
     }
 }
