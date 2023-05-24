@@ -474,9 +474,10 @@ MonoBehaviour:
     owner: {fileID: 0}
     damage: 1
     life: 2
-    explosionRadius: 7.29
-    explosionForce: 1000000
-    triggerRadius: 6.17
+    explosionRadius: 4
+    explosionForce: 25
+    upwardsMultiplier: 0.5
+    triggerRadius: 1
     force: 33.1
     maxSpeed: 80.9
     steeringSpeed: 10
@@ -484,7 +485,7 @@ MonoBehaviour:
     stopTrackingRadius: 16.2
   misilePrefab: {fileID: 8636688741096114684, guid: c7ff976714c0bca4aa079e0b2c8ef40d, type: 3}
   misilesPerVolley: 30
-  cd_BetweenMisiles: 0.156
+  cd_BetweenMisiles: 0.5
   cd_Volleys: 7.15
   wallMask:
     serializedVersion: 2

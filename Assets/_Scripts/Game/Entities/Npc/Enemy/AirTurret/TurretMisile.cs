@@ -22,6 +22,8 @@ public class TurretMisile : MonoBehaviour
         public float explosionRadius;
         [Tooltip("La fuerza que le aplica a otros rigidboy al explotar(Varia segun la distancia a la que el misil explote)")]
         public float explosionForce;
+        [Tooltip("La fuerza hacia arriba que se le aplica al objeto")]
+        public float upwardsMultiplier;
         [Tooltip("La distancia necesaria para explotar"), Range(0, 7)]
         public float triggerRadius;
 
@@ -45,6 +47,7 @@ public class TurretMisile : MonoBehaviour
     [SerializeField]
     Transform _target;
 
+    Vector3 _upwardsMultiplier;
 
     DebugableObject _debug;
     Rigidbody _rb;
@@ -59,9 +62,8 @@ public class TurretMisile : MonoBehaviour
 
         _debug = GetComponent<DebugableObject>();
         _debug.AddGizmoAction(MisileGizmos);
+    }
 
-    } 
-  
     public void Initialize(MisileStats _myNewStats,Transform _newTarget,Vector3 forward)
     {
         _lifeComponent.SetNewMaxLife((int)_myStats.life); 
@@ -69,6 +71,9 @@ public class TurretMisile : MonoBehaviour
         _target = _newTarget;
         transform.forward = forward;
         _movement = MoveForward;
+
+        // Calcular fuerza hacia arriba para no tener que hacerlo cada frame.
+        _upwardsMultiplier = Vector3.up * _myStats.upwardsMultiplier;
 
         StartCoroutine(ChangeCourse());
     }
@@ -123,14 +128,21 @@ public class TurretMisile : MonoBehaviour
     #region Explosion Logic
     void Explosion()
     {
-        foreach (IDamagable x in transform.position.GetItemsOFTypeAround<IDamagable>(_myStats.explosionRadius).Where(x=> x != this))                    
-            x.TakeDamage(_myStats.damage);       
+        foreach (IDamagable x in transform.position.GetItemsOFTypeAround<IDamagable>(_myStats.explosionRadius).Where(x => x != this))
+            x.TakeDamage(_myStats.damage);
 
 
-        foreach (Rigidbody rb in transform.position.GetItemsOFTypeAround<Rigidbody>(_myStats.explosionRadius).Where(x => x != this).ToList())       
-             rb.AddExplosionForce(_myStats.explosionForce, transform.position, _myStats.explosionRadius);
-                 
-       
+        foreach (Rigidbody rb in transform.position.GetItemsOFTypeAround<Rigidbody>(_myStats.explosionRadius).Where(x => x != this)) {
+
+            Vector3 vector = rb.position - transform.position;
+            // Conseguimos la direccion en el plano XZ
+            Vector3 dirXZ = Vector3.ProjectOnPlane(vector, Vector3.up).normalized;
+            // Calculamos la fuerza de la explosion en base a la distancia al objeto
+            float explosionForce = (1 - vector.magnitude / _myStats.explosionRadius) *_myStats.explosionForce;
+            _debug.Log("EXPLOSION FORCE: " + explosionForce);
+            rb.AddForce((dirXZ + _upwardsMultiplier) * explosionForce, ForceMode.Impulse);
+        }
+
         _movement = null;
 
         //esto sacarlo y meterlo en una pool mas adelante
