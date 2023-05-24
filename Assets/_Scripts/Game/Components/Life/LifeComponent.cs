@@ -64,6 +64,7 @@ public class LifeComponent : MonoBehaviour, IDamagable, IHealable
         OnTakeDamage += ShowDamageNumber;
         OnHealthChange?.Invoke(life, maxLife);
         #endregion
+        enabled = false;
 
     }
 
@@ -78,7 +79,7 @@ public class LifeComponent : MonoBehaviour, IDamagable, IHealable
     public void Initialize()
     {
         _life = _maxLife;
-        enabled = false;
+       
     }
 
     #region DamageSide

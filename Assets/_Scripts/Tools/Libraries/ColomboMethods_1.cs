@@ -23,7 +23,17 @@ namespace FacundoColomboMethods
     {
 
         public static bool InBetween(this float value, float lessThan, float moreThan) => value < lessThan && value > moreThan;
- 
+
+        public static float InverseDistanceScalar(this Vector3 pos,Vector3 target,float radius)
+        {
+            // la distancia / el radio
+            // pongo 1 - (valor entre 0 y 1) porque:
+            // si esta en el limite de la distancia, la division me daria 1, por lo que recibiria la maxima fuerza si no lo restara por -1
+            // y por si estoy en el centro, la division seria " 0 / 1" y en caso de que no le restara -1, no recibiria la maxima fuerza
+            // deberia informarme mas de matematica para videojuegos, sin jocha no podria haber sacado esta "Magnitud Inversa"
+            return Mathf.Max(1 - (Vector3.Distance(pos, target) / radius),0f);           
+        }
+
         public static T[] GetItemsOFTypeAround<T>(this Vector3 pos, float radius)
         {
             return Physics.OverlapSphere(pos, radius)
