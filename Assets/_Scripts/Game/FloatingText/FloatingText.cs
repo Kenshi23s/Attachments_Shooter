@@ -30,19 +30,25 @@ public class FloatingText : MonoBehaviour
     [SerializeField]
     FloatingTextParam _textParameters;
 
-    public TextMeshPro _popUpText;
+    Renderer _ren;
+
+    public TMP_Text _popUpText;
 
     Vector3 _textForce, _initialPos;   
    
     Action<FloatingText> pool_ReturnMethod;
 
-
+    Color _color, _actualColor;
 
 
     #region Initialize
     //Al crearse                                                     // MI metodo Return es igual al metodo Return que me pasaron por parametro
-    public void Configure(Action<FloatingText> pool_ReturnMethod) => this.pool_ReturnMethod = pool_ReturnMethod;
-  
+    public void Configure(Action<FloatingText> pool_ReturnMethod) 
+    { 
+        this.pool_ReturnMethod = pool_ReturnMethod;
+        _ren = GetComponent<MeshRenderer>();
+        _color = _popUpText.color;
+    }
  
 
     /// <summary>
@@ -53,7 +59,8 @@ public class FloatingText : MonoBehaviour
     {
         //inital pos lo uso para fijarme(en el gizmos) en que direccion va el texto 
         //transform.position = pos;
-       
+
+       _actualColor = _color;
        _initialPos = transform.position =  pos;
        _textParameters = parametersPass;
        SetText(TextValueDamage,parametersPass.sortingOrderRead);   
@@ -64,12 +71,12 @@ public class FloatingText : MonoBehaviour
     void SetText(string value,int sortOrder)
     {
         // esto es para que el texto actual tenga prioridad de renderizado sobre los anteriores
-        _popUpText.sortingOrder = sortOrder;
+        _ren.sortingOrder = sortOrder;
 
         //aplico el int pasado al texto
         _popUpText.text = value.ToString();
         // se pone el alpha al maximo por las dudas de que no lo estuviera
-        _popUpText.alpha = 255f;
+        _popUpText.color = _actualColor;
         _popUpText.gameObject.name = ("Text Damage  " + value );
     }
 
@@ -89,8 +96,7 @@ public class FloatingText : MonoBehaviour
         //se le suma al transform una fuerza para que se mueva a lo largo del tiempo hasta que
         //el "Alpha" del texto llegue a 0 (va de 0 a 1, no de 0 a 255)
         transform.position += _textForce.normalized * Time.deltaTime * _textParameters.speed;
-        float A = SubstractAlpha(_textParameters.fadeSpeed);
-        if (A == 0) GoToPool();
+        SubstractAlpha(_textParameters.fadeSpeed);
     }
 
     private void LateUpdate()
@@ -100,13 +106,12 @@ public class FloatingText : MonoBehaviour
 
     void LookCamera(Vector3 cam, Vector3 posToChange) => transform.LookAt(new Vector3(posToChange.x, cam.y, cam.z));
 
-    float SubstractAlpha(float _decreaseSpeed)
+    void SubstractAlpha(float decreaseSpeed)
     {
-        float newAlpha = _decreaseSpeed * Time.deltaTime;
-        Color newColor = _popUpText.color;
-        newColor.a -= newAlpha;
-       _popUpText.color = newColor;
-        return Mathf.Clamp(_popUpText.color.a, 0f, 1f);       
+        _actualColor.a = Mathf.Max(_actualColor.a - decreaseSpeed * Time.deltaTime, 0);
+        _popUpText.color = _actualColor;
+
+        if (_actualColor.a <= 0) GoToPool();
     }
     #endregion
    
