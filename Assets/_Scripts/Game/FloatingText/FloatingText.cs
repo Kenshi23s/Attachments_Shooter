@@ -41,9 +41,13 @@ public class FloatingText : MonoBehaviour
 
     Color _color, _actualColor;
 
- 
+
 
     #region Initialize
+    private void Awake()
+    {
+        _ren = _popUpText.GetComponent<MeshRenderer>();
+    }
     //Al crearse                                                     // MI metodo Return es igual al metodo Return que me pasaron por parametro
     public void Configure(Action<FloatingText> pool_ReturnMethod,DebugableObject debug) 
     {
@@ -52,7 +56,7 @@ public class FloatingText : MonoBehaviour
         _debug = debug;
         _debug.AddGizmoAction(TextGizmos);
 
-        _ren = GetComponent<MeshRenderer>();
+       
         _color = _popUpText.color;
         
     }

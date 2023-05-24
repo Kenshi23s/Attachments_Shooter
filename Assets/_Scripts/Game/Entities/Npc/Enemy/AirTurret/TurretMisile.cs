@@ -36,9 +36,6 @@ public class TurretMisile : MonoBehaviour
         public float timeBeforeTracking;
         [Tooltip("La distancia a la que el misil deja de trackear(Por estar cerca del target)"), Range(0, 100)]
         public float stopTrackingRadius;
-     
-
-
 
 
     }
@@ -129,8 +126,10 @@ public class TurretMisile : MonoBehaviour
         foreach (IDamagable x in transform.position.GetItemsOFTypeAround<IDamagable>(_myStats.explosionRadius).Where(x=> x != this))                    
             x.TakeDamage(_myStats.damage);       
 
-        foreach (Rigidbody rb in transform.position.GetItemsOFTypeAround<Rigidbody>(_myStats.explosionRadius).Where(x => x != this))
-            rb.AddExplosionForce(GetForce(rb.position), transform.position, _myStats.explosionRadius);
+
+        foreach (Rigidbody rb in transform.position.GetItemsOFTypeAround<Rigidbody>(_myStats.explosionRadius).Where(x => x != this).ToList())       
+             rb.AddExplosionForce(_myStats.explosionForce, transform.position, _myStats.explosionRadius);
+                 
        
         _movement = null;
 
