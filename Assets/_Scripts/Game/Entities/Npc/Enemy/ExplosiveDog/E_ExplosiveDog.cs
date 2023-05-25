@@ -1,13 +1,38 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 [RequireComponent(typeof(IA_Movement))]
 public class E_ExplosiveDog : Enemy
 {
-    // Start is called before the first frame update
+    StateMachine<string> _fsm;
+    public IA_Movement agent { get; private set; }
+
+    #region Idle
+    float alarmRadius;
+    #endregion
+    #region Pursuit
+    float pursuitMaxSpeed;
+    float minJumpDistance;
+   
+
+    #region OnJump
+    float JumpSpeed;
+    #endregion
+
+
+    #endregion
+    private void Awake()
+    {
+        agent= GetComponent<IA_Movement>();
+        _fsm = GetComponent<StateMachine<string>>();
+    }
+
     void Start()
     {
-        
+        //esto no deberia poder hacerlo
+        EnemyManager.instance.activeEnemies.Add(this);
+        agent.SetTargets(EnemyManager.instance.activeEnemies.Where(x => x.TryGetComponent<IA_Movement>(out var z)).Select(x => x.GetComponent<IA_Movement>()));
     }
 
     // Update is called once per frame

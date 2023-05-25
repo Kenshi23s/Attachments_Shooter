@@ -14,6 +14,6 @@ public abstract class MonoSingleton<T> : MonoBehaviour where T : MonoSingleton<T
         instance = (T)this;
         SingletonAwake();
     }
-    protected virtual void SingletonAwake() { }
+    protected abstract void SingletonAwake();
 
 }

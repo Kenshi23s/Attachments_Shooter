@@ -26,7 +26,7 @@ public class ModesManager : MonoSingleton<ModesManager>
     //}
     protected override void SingletonAwake()
     {
-        base.SingletonAwake();
+      
 
         //if (actualGameMode == GameMode.Random)
         //{

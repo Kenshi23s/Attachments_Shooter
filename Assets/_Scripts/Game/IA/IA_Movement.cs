@@ -15,7 +15,7 @@ public class IA_Movement : MonoBehaviour
     [SerializeField]
     FlockingParameters flockingParameters= new FlockingParameters();
     DebugableObject _debug;
-    FOVAgent _fov;
+    public FOVAgent _fov { get; private set; }
     public Physics_Movement _movement { get; private set; }
 
     public Vector3 destination { get; private set; } 
@@ -26,6 +26,8 @@ public class IA_Movement : MonoBehaviour
 
     public LayerMask obstacleMask;
     Action _fixedUpdate;
+
+    IEnumerable<IA_Movement> f_targets;
 
     [SerializeField]public bool isFlockingActive {get; private set;}
    
@@ -40,9 +42,14 @@ public class IA_Movement : MonoBehaviour
         flockingParameters.viewRadius= _fov.viewRadius;
     }
 
+    public void SetTargets(IEnumerable<IA_Movement> targets)
+    {
+        this.f_targets = targets;
+    }
+
     private void FixedUpdate() => _fixedUpdate?.Invoke();
 
-    public void SetMaxSpeed(float newSpeed) =>   _movement.SetMaxSpeed(newSpeed);
+    public void SetMaxSpeed(float newSpeed) =>  _movement.SetMaxSpeed(newSpeed);
       
     #region Pathfinding Methods
     /// <summary>
@@ -60,7 +67,7 @@ public class IA_Movement : MonoBehaviour
 
                 Vector3 actualForce = Vector3.zero;
                 actualForce += _movement.Seek(target);
-                actualForce += IA_Manager.instance.flockingTargets.Flocking(flockingParameters);
+                actualForce += f_targets.Flocking(flockingParameters);
                 actualForce += ObstacleAvoidance(transform);
                 _movement.AddForce(actualForce);
             };

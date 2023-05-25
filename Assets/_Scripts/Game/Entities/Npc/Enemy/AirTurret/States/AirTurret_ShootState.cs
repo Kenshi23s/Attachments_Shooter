@@ -53,7 +53,7 @@ public class AirTurretState_Shoot : IState
           
             if (0 >= misilesLeft)
             {
-                _turret.debug.Log("Entro en cd");
+                _turret.debug.Log("Entro en cooldown");
                 _actualVolleyCD = _volleyCD;
                 _updateEvent = VolleyCD;
             } 

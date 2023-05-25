@@ -22,7 +22,6 @@ public class GunManager : MonoSingleton<GunManager>
        
     protected override void SingletonAwake()
     {
-        base.SingletonAwake();
         myGuns = ColomboMethods.GetChildrenComponents<Gun>(this.transform).ToList();
     }
 

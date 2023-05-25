@@ -22,7 +22,6 @@ public class IA_Manager : MonoSingleton<IA_Manager>
 
     protected override void SingletonAwake()
     {
-        base.SingletonAwake();
         nodes = transform.GetChildrenComponents<Node>().ToList();
         nodes.ForEach(x =>
         {

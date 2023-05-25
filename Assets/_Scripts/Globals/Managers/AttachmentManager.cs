@@ -21,7 +21,7 @@ public class AttachmentManager : MonoSingleton<AttachmentManager>
 
     protected override void SingletonAwake()
     {
-        base.SingletonAwake();
+       
         _debug = GetComponent<DebugableObject>(); _debug.AddGizmoAction(DrawRaycast);
         _canvasAttachments = Instantiate(_canvasAttachments);
     }

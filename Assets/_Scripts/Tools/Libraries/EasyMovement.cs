@@ -4,6 +4,8 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 using UnityEngine;
+using static UnityEditor.Progress;
+
 [System.Serializable]
 public struct FlockingParameters
 {
@@ -52,15 +54,13 @@ public static class EasyMovement
     {
         Vector3 desired = Vector3.zero;
         int count = 0;
-        foreach (IA_Movement item in targets)
-        {
-            Vector3 dist = item.transform.position - parameters.myTransform.position;
-
-            if (dist.magnitude <= parameters.viewRadius)
-            {
-                desired += item.velocity;
-                count++;
-            }
+        //todo lo de flocking se podria resumir mas con Flist y Linq
+        //por el momento quedara asi pq hay otras cosas mas importantes que optimizar
+        foreach (IA_Movement item in targets.
+            Where(x => Vector3.Distance(x.transform.position,parameters.myTransform.position) <= parameters.viewRadius))
+        {                     
+             desired += item.velocity;
+             count++;           
         }
 
         if (count <= 0)

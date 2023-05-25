@@ -9,7 +9,7 @@ public class AudioPool : MonoSingleton<AudioPool>
 
     protected override void SingletonAwake()
     {
-        base.SingletonAwake();
+       
 
         Action<AudioHolder> _turnOn = (x) => x.gameObject.SetActive(true);
 

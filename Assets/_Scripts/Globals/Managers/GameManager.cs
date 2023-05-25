@@ -1,4 +1,5 @@
  using System;
+using System.Collections;
 using UnityEngine;
 [RequireComponent(typeof(TickEventsManager))]
 public class GameManager : MonoSingleton<GameManager>
@@ -10,9 +11,18 @@ public class GameManager : MonoSingleton<GameManager>
 
     protected override void SingletonAwake()
     {
-        base.SingletonAwake();     
+           
         vfxPool = new ParticlePool();   
         
+    }
+
+    public void HelpStartCoroutine(Func<IEnumerator> x)
+    {
+        StartCoroutine(x());
+    }
+    public void HelpStopCoroutine(Func<IEnumerator> x)
+    {
+       StopCoroutine(x());
     }
 
 }

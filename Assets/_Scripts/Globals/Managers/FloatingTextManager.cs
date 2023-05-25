@@ -15,7 +15,6 @@ public class FloatingTextManager : MonoSingleton<FloatingTextManager>
  
     protected override void SingletonAwake()
     {
-        base.SingletonAwake();
         _debug = GetComponent<DebugableObject>();   
         pool.Initialize(transform, sampleFloatingText, _debug);
     }
