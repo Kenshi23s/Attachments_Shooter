@@ -1,53 +1,73 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Diagnostics;
 using UnityEngine;
 
 public abstract class Charge_Gun : Gun
 {
-    bool isCharging;
-    public bool IsCharging
-    {
-        get => isCharging;
+    public bool isCharging { get; private set; }
+   
+    //si se quiere testear el arma, se debe hacer hijo de gunmanager(esta dentro del player)
+    //y eliminar la otra arma(a menos que ya haya hecho codigo para swapear armas)
 
-        set
+    [SerializeField,Tooltip("Tiempo de carga necesario"),Header("Charge Stats")]float _requiredTime;
+     float _checkTime;
+    //tiempo de carga actual
+    float _currentTime;
+    public float currentTime { get => _currentTime; private set => _currentTime = Mathf.Clamp(value,0,_requiredTime); }
+    //cooldown actual de disparo
+    float _currentCooldown;
+    [SerializeField, Tooltip("cooldown antes de empezar a cargar otro tiro")] float _cooldownTime;
+
+   
+    //cuando se oprime el gatillo
+    public override void Trigger()
+    {
+        //me guardo el tiempo actual
+        _checkTime = currentTime;
+        //si no puedo disparar aun, is charging es falso
+        if (!ShootCondition()) 
         {
-            isCharging = enabled  = value;
+             _debug.Log($"Arma en cooldown");
+             isCharging = false; return; 
+        }
+
+        isCharging = true;  currentTime += Time.deltaTime;
+        _debug.Log($"Se esta cargando, la carga sube a {currentTime}");
+        if (currentTime >= _requiredTime)
+        {
+            _debug.Log($"Se termino de cargar, entro en cooldown");
+            Shoot(); CallOnShootEvent(); StartCoroutine(CooldownTime());     
         }
     }
 
-    float _requiredTime;
-    float _currentTime;
-    float _checkTime;
-
-    public float currentTime { get => _currentTime; set => _currentTime = Mathf.Clamp(_currentTime,0,_requiredTime); }
-
-    float _currentCooldown;
-    float _cooldownTime;
-
-    // despues preguntar a jocha q le parece y como podria seguirlo
-    public override void Trigger()
+    //mas adelante estaria bueno no tenerlo en corrutina, para saber cuanto bajo la carga, pero por ahora...
+    IEnumerator CooldownTime()
     {
-       _checkTime = currentTime;
-       if (!ShootCondition()) { IsCharging = false; return; }
-
-        IsCharging = true;  currentTime += Time.deltaTime;
-       
-       if (currentTime >= _requiredTime)
-       {
-           Shoot(); CallOnShootEvent();
-           _currentCooldown = _cooldownTime;
-           IsCharging=false;
-       }
+        _currentCooldown = _cooldownTime;
+        currentTime = 0;
+        isCharging = false;
+        yield return new WaitForSeconds(_cooldownTime);
+        _currentCooldown = 0;
     }
     private void LateUpdate()
     {
-        if (_checkTime > currentTime)
+        //si el tiempo de chequeo es mayor a el tiempo q me habia guardado
+        if (_checkTime >= currentTime)
         {
+            //resto carga
             currentTime -= Time.deltaTime;
-            if (currentTime<=0) isCharging = false;
+            _checkTime = currentTime;
+            _debug.Log($"Se dejo de cargar, la carga disminuye a {currentTime}");
+            if (currentTime <= 0) 
+            {
+                _debug.Log("La carga llego a 0");
+                isCharging = false;
+            } 
         }
     }
 
+    //condicion de disparo
     public override bool ShootCondition() => _currentCooldown <= 0;
     
 }
