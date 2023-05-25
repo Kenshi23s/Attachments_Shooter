@@ -12,6 +12,8 @@ GameObject:
   - component: {fileID: 6311860125530000952}
   - component: {fileID: 8636688741096114684}
   - component: {fileID: 3923370010140872196}
+  - component: {fileID: 2199800001294089173}
+  - component: {fileID: 7220496283996455327}
   m_Layer: 10
   m_Name: Misile
   m_TagString: Untagged
@@ -69,6 +71,7 @@ MonoBehaviour:
     life: 0
     explosionRadius: 0
     explosionForce: 0
+    upwardsMultiplier: 0
     triggerRadius: 0
     force: 0
     maxSpeed: 0
@@ -89,6 +92,39 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 0.69130325, y: 0.46384495, z: 0.93176186}
   m_Center: {x: -0.001625061, y: 0.0016247332, z: -0.45004565}
+--- !u!114 &2199800001294089173
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2972508742637403625}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 360ca867e48780448a1401b7fc47e037, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  canDebug: 0
+  gizmoDraw:
+    m_PersistentCalls:
+      m_Calls: []
+--- !u!114 &7220496283996455327
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2972508742637403625}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d9c8b9bb2e7803e418e7eb18ca7d9b0f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _life: 100
+  _maxLife: 100
+  _dmgMultiplier: 1
+  canTakeDamage: 1
+  canBeHealed: 1
 --- !u!1 &5607869777047318305
 GameObject:
   m_ObjectHideFlags: 0
