@@ -59,7 +59,6 @@ public class TickEventsManager : MonoSingleton<TickEventsManager>
      
     }
 
-    public event Action turnOffEvent;
     IEnumerator OverTimeCoroutine()
     {
         coroutineRunning = true;

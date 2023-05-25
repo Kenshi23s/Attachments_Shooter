@@ -9,11 +9,7 @@ public class Magazine : Attachment
     public int bulletKey=>_bulletKey;
     private int _bulletKey;
 
-    private void Awake()
-    {
-        
-    }
-    private void Start() => _bulletKey = Bullet_Manager.instance.CreateBulletPool(_bulletPrefab);
+   
 
     protected override void Comunicate()
     {

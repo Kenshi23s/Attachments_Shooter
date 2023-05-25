@@ -37,10 +37,7 @@ public class ModesManager : MonoSingleton<ModesManager>
 
         gameMode.InitializeMode();
     }
-    private void Awake()
-    {
-
-    }
+   
 
 
     //GameModeBaseClass SelectGameMode()

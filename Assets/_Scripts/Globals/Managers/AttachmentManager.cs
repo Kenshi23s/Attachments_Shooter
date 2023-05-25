@@ -9,8 +9,6 @@ public class AttachmentManager : MonoSingleton<AttachmentManager>
     Dictionary<AttachmentType, Dictionary<int,Attachment>> _attachmentsInventory = new Dictionary<AttachmentType, Dictionary<int, Attachment>>();
 
     [SerializeField] View_Attachment _canvasAttachments;
-    public LineRenderer attachmentIndicator=> _attachmentIndicator;
-    [SerializeField] LineRenderer _attachmentIndicator;
 
 
     public LayerMask attachmentLayer => _attachmentLayer;
@@ -25,10 +23,7 @@ public class AttachmentManager : MonoSingleton<AttachmentManager>
     {
         base.SingletonAwake();
         _debug = GetComponent<DebugableObject>(); _debug.AddGizmoAction(DrawRaycast);
-
         _canvasAttachments = Instantiate(_canvasAttachments);
-
-
     }
 
     private void Start() => getGun = () => GunManager.instance.actualGun;
@@ -50,9 +45,9 @@ public class AttachmentManager : MonoSingleton<AttachmentManager>
 
             else if (Input.GetKey(Save)) Inventory_SaveAttachment(getGun?.Invoke(), x);
 
-            return;
         }
-        _canvasAttachments.gameObject.SetActive(false);
+        else       
+            _canvasAttachments.gameObject.SetActive(false);       
     }
     
 
@@ -78,11 +73,6 @@ public class AttachmentManager : MonoSingleton<AttachmentManager>
         return key;
 
     }
-
-  
-
-    //key diccionario 1(enum Attachment) 
-    //key diccionario 2(HashCode)
 
     public bool Inventory_GetAttachment(out Attachment x, Tuple<AttachmentType, int> keys)
     {
