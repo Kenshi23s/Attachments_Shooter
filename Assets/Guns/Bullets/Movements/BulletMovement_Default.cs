@@ -8,8 +8,8 @@ public class BulletMovement_Default : BulletMovement
 
     private void FixedUpdate()
     {
-        Vector3 playerVelocity = Player_Movement._velocity != Vector3.zero 
-            ? Player_Movement._velocity 
+        Vector3 playerVelocity = Player_Movement.velocity != Vector3.zero 
+            ? Player_Movement.velocity 
             : Vector3.one;
 
         Vector3 force = transform.forward * _movement.maxForce;

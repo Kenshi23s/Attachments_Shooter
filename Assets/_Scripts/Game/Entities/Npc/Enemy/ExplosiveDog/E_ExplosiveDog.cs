@@ -31,8 +31,10 @@ public class E_ExplosiveDog : Enemy
     void Start()
     {
         //esto no deberia poder hacerlo
-        EnemyManager.instance.activeEnemies.Add(this);
-        agent.SetTargets(EnemyManager.instance.activeEnemies.Where(x => x.TryGetComponent<IA_Movement>(out var z)).Select(x => x.GetComponent<IA_Movement>()));
+        EnemyManager.instance.AddEnemy(this);
+        agent.SetTargets(EnemyManager.instance.activeEnemies
+            .Where(x => x.TryGetComponent<IA_Movement>(out var T))
+            .Select(x => x.GetComponent<IA_Movement>()));
     }
 
     // Update is called once per frame

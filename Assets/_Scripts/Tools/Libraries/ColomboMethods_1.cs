@@ -21,7 +21,18 @@ namespace FacundoColomboMethods
 
     public static class ColomboMethods
     {
+        public static void CheckAndRemove<T>(this List<T> col,T item)
+        {
+            if (!col.Contains(item))
+            {
+                col.Add(item);
+            }
+        }
 
+        public static void CheckAndAdd<T>(this List<T> col, T item)
+        {
+            if (col.Contains(item)) col.Remove(item);
+        }
         public static bool InBetween(this float value, float lessThan, float moreThan) => value < lessThan && value > moreThan;
 
         public static float InverseDistanceScalar(this Vector3 pos,Vector3 target,float radius)

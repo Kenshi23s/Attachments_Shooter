@@ -1,33 +1,30 @@
 using System.Collections;
 using System.Collections.Generic;
-using UnityEngine;
+using System.Collections.ObjectModel;
+using System.Linq;
+using FacundoColomboMethods;
 
 public class EnemyManager : MonoSingleton<EnemyManager>
 {
     //preguntarle a jocha como era para hacer q no se pueda modificar esta lista
-    public List<Enemy> activeEnemies => _activeEnemies;
-    List<Enemy> _activeEnemies = new List<Enemy>();
+    public ReadOnlyCollection<Enemy> activeEnemies { get; private set; }
+    List<Enemy> _activeEnemies
+    {
+        get => _activeEnemies;
+        set 
+        {
+            _activeEnemies = value;
+            activeEnemies= new ReadOnlyCollection<Enemy>(_activeEnemies);
+        }
+    }
     // Start is called before the first frame update
 
     protected override void SingletonAwake()
     {
-        throw new System.NotImplementedException();
+        activeEnemies = new ReadOnlyCollection<Enemy>(_activeEnemies);
     }
 
-    void Start()
-    {
-       
-    }
+    public void AddEnemy(Enemy x) => _activeEnemies.CheckAndAdd(x);
 
-    public Enemy[] GetEnemies()
-    {
-        return activeEnemies.ToArray();
-    }
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
-
-   
+    public void RemoveEnemy(Enemy x) => _activeEnemies.CheckAndRemove(x);   
 }

@@ -8,7 +8,8 @@ public class Player_Movement : MonoBehaviour
 
     // crouch, slide, run, walk, jump
 
-    public static Vector3 _velocity;
+    public static Vector3 velocity { get; private set; }
+    public static Vector3 position { get; private set; }
 
     Rigidbody rb;
 
@@ -111,9 +112,13 @@ public class Player_Movement : MonoBehaviour
 
         // devuelvo a la velocidad que voy a una variable estatica
         // (para que las balas no colisionen conmigo sumo su velocidad con la mia)
-        _velocity = rb.velocity;
+        velocity = rb.velocity;
     }
-    
+    private void LateUpdate()
+    {
+        position = transform.position;
+    }
+
 
     public void MovementKey(KeyCode mykey, Vector3 newMovement, float force)
     {
