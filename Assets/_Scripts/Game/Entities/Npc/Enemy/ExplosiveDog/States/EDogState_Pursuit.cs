@@ -38,12 +38,15 @@ public class EDogState_Pursuit : IState
             Gizmos.DrawLine(_agent.transform.position, _agent.transform.position + dir.normalized * _jumpRadius);
             Gizmos.DrawWireSphere(_agent.transform.position + dir.normalized * _jumpRadius, 2f);
         }
+        Gizmos.color = Color.green;
+        Gizmos.DrawWireSphere(_agent.transform.position, _jumpRadius);
     }
 
     public void OnUpdate()
     {
         _agent.SetDestination(Player_Movement.position);
-        if (Vector3.Distance(_agent.transform.position, Player_Movement.position) <= _jumpRadius)        
+        if (Vector3.Distance(_agent.transform.position, Player_Movement.position) <= _jumpRadius)      
+        //if (Vector3.Angle(_agent.transform.forward, Player_Movement.position) < 15f)
         if (_agent.transform.position.InLineOffSight(Player_Movement.position,IA_Manager.instance.wall_Mask))
         {
            _fsm.ChangeState("JumpAttack");

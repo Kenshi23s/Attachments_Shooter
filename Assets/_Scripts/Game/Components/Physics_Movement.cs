@@ -10,7 +10,7 @@ using UnityEngine;
 //se usa para hacer movimiento "Realista"(lo usan las IA del juego, pero no esta limitado a ellas)
 public class Physics_Movement : MonoBehaviour
 {
-    Rigidbody _rb;
+    public Rigidbody _rb { get; private set; }
     DebugableObject _debug;
 
    
@@ -33,7 +33,6 @@ public class Physics_Movement : MonoBehaviour
     private void Awake()
     {
         GetComponent<PausableObject>().onPause += () => StartCoroutine(OnPause());
-
         _debug = GetComponent<DebugableObject>(); _debug.AddGizmoAction(MovementGizmos);
         _rb = GetComponent<Rigidbody>();
     }
@@ -56,7 +55,7 @@ public class Physics_Movement : MonoBehaviour
     public void SetMaxSpeed(float _maxSpeed)
     {
         _debug.Log($"MAXSPEED cambio de {this._maxSpeed} a {_maxSpeed}");
-        this._maxSpeed = _maxSpeed;
+        this._maxSpeed = _maxSpeed;    
     }
 
     public void SetMaxForce(float _maxForce)
@@ -98,6 +97,10 @@ public class Physics_Movement : MonoBehaviour
         else
             desired *= maxSpeed;
         return desired;
+    }
+    private void OnValidate()
+    {
+        _maxForce = Mathf.Min(_maxForce, _maxSpeed);
     }
 
     public Vector3 CalculateSteering(Vector3 desired) => Vector3.ClampMagnitude(desired - _velocity * steeringForce, maxSpeed);
