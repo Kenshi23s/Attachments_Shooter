@@ -66,7 +66,7 @@ public class E_ExplosiveDog : Enemy
     }
 
     // Update is called once per frame
-    void Update()
+    void FixedUpdate()
     {
         _fsm.Execute();
     }

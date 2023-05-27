@@ -14,7 +14,7 @@ public class EDogState_JumpAttack : IState
     StateMachine<string> _fsm;
 
     int count = 0;
-    Vector3[] pos = new Vector3[2];
+    Vector3 jumpWp;
 
     public EDogState_JumpAttack(Action _explosion, Physics_Movement _move, float unitsBehindPlayer, float unitsAbovePlayer, StateMachine<string> _fsm)
     {
@@ -29,55 +29,55 @@ public class EDogState_JumpAttack : IState
     {
         _move.RemoveForces();
 
-        pos[0] = Player_Movement.position + Vector3.up * unitsAbovePlayer;
-        Vector3 dir = Player_Movement.position - _move.transform.position;
-        pos[1] = Player_Movement.position + _move.transform.forward * unitsBehindPlayer ;
+        jumpWp = Player_Movement.position + Vector3.up * unitsAbovePlayer;
+        state = Jump;
         _move._rb.constraints = RigidbodyConstraints.None;
                
     }
 
     public void OnExit()
-    {
-        count = 0;
-        for (int i = 0; i < pos.Length; i++)
-        {
-            pos[i] = Vector3.zero;
-        }
+    {        
         _move._rb.constraints = RigidbodyConstraints.FreezePositionY;
+        state = null;
     }
+    Action state;
+    public void OnUpdate()=> state?.Invoke();
 
-    public void OnUpdate()
-    {
-        Move();
-        if (Vector3.Distance(_move.transform.position,Player_Movement.position)<0.5f&&count==0)
+    void Jump()
+    {          
+        _move.AddForce(_move.Seek(jumpWp));
+        if (Vector3.Distance(_move.transform.position, Player_Movement.position) < 0.5f)
             _explosion?.Invoke();
+        if (Vector3.Distance(_move.transform.position, jumpWp)<0.5f)
+        {
+            state = Falling;
+        }
     }
-
-    void Move()
+    void Falling()
     {
-         _move.AddForce(_move.Seek(pos[count]));
-        if (Vector3.Distance(pos[count], _move.transform.position) > 0.2f) return;
-        
-            if (count+1<pos.Length)
-            {
-               count++;
-              _fsm.Debug("count++, paso al siguiente waypoint ");
-            } 
-                   
-            else           
-                _fsm.ChangeState("Pursuit");          
-        
+        Vector3 force = _move.transform.position + _move.transform.forward + Vector3.down;
+        _move.AddForce(_move.Seek(force));
+        if (Physics.Raycast(_move.transform.position,Vector3.down,1f))
+        {
+            _fsm.ChangeState("Pursuit");
+        }
+        else
+        {
+            _fsm.Debug("No choque con nada");
+        }
     }
 
     public void GizmoShow()
     {
-        Gizmos.color = Color.blue;
-        Gizmos.DrawLine(_move.transform.position, pos[count]);
-        Gizmos.DrawLine(pos[0], pos[1]);
-        for (int i = 0; i < pos.Length; i++)
-        {
-            Gizmos.DrawWireSphere(pos[0], 0.5f);
-        }
+        //if (count >= jumpWp.Length) return;
+        
+        //Gizmos.color = Color.blue;
+        //Gizmos.DrawLine(_move.transform.position, jumpWp[count]);
+        //Gizmos.DrawLine(jumpWp[0], jumpWp[1]);
+        //for (int i = 0; i < jumpWp.Length; i++)
+        //{
+        //    Gizmos.DrawWireSphere(jumpWp[i], 0.5f);
+        //}
         
     }
 
