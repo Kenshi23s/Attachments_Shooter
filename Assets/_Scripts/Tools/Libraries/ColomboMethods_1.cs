@@ -62,12 +62,12 @@ namespace FacundoColomboMethods
         /// 
         public static Vector3 RandomDirFrom(this Vector3 myDir,float angle)
         {
+            // el angulo maximo entre 2 vectores es 180, si se pasa vuelvea a empezar de 0
             Vector3 random = UnityEngine.Random.insideUnitSphere;
 
             angle =  Mathf.Clamp(MathF.Abs(angle),0,180);
-            // lo divido por 180 para "Remapearlo a un valor mas bajo"
-            Vector3 Randomdir = Vector3.Slerp(myDir.normalized, random, angle / 180f);
-            return Randomdir;
+            // lo divido por 180 para "Remapearlo a un valor mas bajo"     
+            return Vector3.Slerp(myDir.normalized, random, angle / 180f); ;
         }
 
         public static List<T> CloneList<T>(List<T> listToClone)

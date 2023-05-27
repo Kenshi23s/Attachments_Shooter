@@ -13,6 +13,8 @@ public class Physics_Movement : MonoBehaviour
     public Rigidbody _rb { get; private set; }
     DebugableObject _debug;
 
+   public bool isFalling => _rb.velocity.y <= 0; 
+
    
     public Vector3 _velocity { get; private set; }
 
@@ -49,8 +51,15 @@ public class Physics_Movement : MonoBehaviour
 
         _rb.velocity = Vector3.ClampMagnitude(_velocity, _maxSpeed);
 
-        transform.forward = _velocity.normalized;
+        _rb.rotation = Quaternion.LookRotation(_rb.velocity,Vector3.up);
     }
+
+   public void AddImpulse(Vector3 force) => _rb.AddForce(force, ForceMode.Impulse);
+   
+        //sin clampearlo para hacerlo de forma manual
+        //velocity += Impulse
+        
+   
 
     public void SetMaxSpeed(float _maxSpeed)
     {

@@ -1,3 +1,4 @@
+using FacundoColomboMethods;
 using System.Linq;
 using UnityEngine;
 [RequireComponent(typeof(IA_Movement))]
@@ -29,6 +30,7 @@ public class E_ExplosiveDog : Enemy
     #region OnJump
     float JumpSpeed;
     #endregion
+    float _explosionRadius;
 
     private void Awake()
     {
@@ -37,7 +39,7 @@ public class E_ExplosiveDog : Enemy
         _health = GetComponent<LifeComponent>();
         agent = GetComponent<IA_Movement>();
 
-        _health.OnKilled += () => Destroy(gameObject);
+       
 
     }
 
@@ -49,14 +51,19 @@ public class E_ExplosiveDog : Enemy
 
         _fsm.CreateState("Idle", new EDogState_Idle(agent, _fsm, _health));
         _fsm.CreateState("Pursuit", new EDogState_Pursuit(_fsm,agent, pursuitMaxSpeed, minJumpDistance));
-        _fsm.CreateState("JumpAttack", new EDogState_JumpAttack(Explosion, agent._movement, unitsBehindPlayer, unitsAbovePlayer, _fsm));
+        _fsm.CreateState("JumpAttack", new EDogState_JumpAttack(Explosion, agent._movement, unitsAbovePlayer, _fsm));
         _fsm.ChangeState("Idle");
     }
 
     void Explosion()
     {
         _health.TakeDamage(_health.maxLife);
-        _debug.Log("Explosion!");
+        foreach (var item in transform.position.GetItemsOFTypeAround<IDamagable>(_explosionRadius))
+        {
+
+        }
+        Destroy(gameObject);
+        debug.Log("Explosion!");
     }
     void Initialize()
     {

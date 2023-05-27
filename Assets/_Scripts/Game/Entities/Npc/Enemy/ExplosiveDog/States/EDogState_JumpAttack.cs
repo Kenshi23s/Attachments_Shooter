@@ -6,9 +6,9 @@ using UnityEngine;
 public class EDogState_JumpAttack : IState
 {
 
-    Action _explosion;   
+    Action _explosion;
+    Action state;
     Physics_Movement _move;
-    float unitsBehindPlayer;
 
     float unitsAbovePlayer=2.5f;
     StateMachine<string> _fsm;
@@ -16,47 +16,47 @@ public class EDogState_JumpAttack : IState
     int count = 0;
     Vector3 jumpWp;
 
-    public EDogState_JumpAttack(Action _explosion, Physics_Movement _move, float unitsBehindPlayer, float unitsAbovePlayer, StateMachine<string> _fsm)
+    public EDogState_JumpAttack(Action _explosion, Physics_Movement _move, float unitsAbovePlayer, StateMachine<string> _fsm)
     {
         this._explosion = _explosion;
-        this._move = _move;
-        this.unitsBehindPlayer = unitsBehindPlayer;
+        this._move = _move;     
         this.unitsAbovePlayer = unitsAbovePlayer;
         this._fsm = _fsm;
     }
 
     public void OnEnter()
     {
-        _move.RemoveForces();
-
         jumpWp = Player_Movement.position + Vector3.up * unitsAbovePlayer;
         state = Jump;
-        _move._rb.constraints = RigidbodyConstraints.None;
+        //_move._rb.constraints = RigidbodyConstraints.None;
                
     }
 
     public void OnExit()
     {        
-        _move._rb.constraints = RigidbodyConstraints.FreezePositionY;
+        //_move._rb.constraints = RigidbodyConstraints.FreezePositionY;
         state = null;
+        _move.RemoveForces();
     }
-    Action state;
-    public void OnUpdate()=> state?.Invoke();
+
+
+    public void OnUpdate()
+    {
+        state?.Invoke();
+        if (Vector3.Distance(_move.transform.position, Player_Movement.position) < 5f)
+            _explosion?.Invoke();
+    } 
 
     void Jump()
     {          
-        _move.AddForce(_move.Seek(jumpWp));
-        if (Vector3.Distance(_move.transform.position, Player_Movement.position) < 0.5f)
-            _explosion?.Invoke();
-        if (Vector3.Distance(_move.transform.position, jumpWp)<0.5f)
-        {
-            state = Falling;
-        }
+        _move.AddImpulse(Vector3.up * unitsAbovePlayer);      
+            state = Falling;     
     }
     void Falling()
     {
-        Vector3 force = _move.transform.position + _move.transform.forward + Vector3.down;
-        _move.AddForce(_move.Seek(force));
+        //jumpForce = Mathf.Sqrt(-2 * Physics.gravity.y * jumpHeight);
+        if (!_move.isFalling) return;
+       
         if (Physics.Raycast(_move.transform.position,Vector3.down,1f))
         {
             _fsm.ChangeState("Pursuit");

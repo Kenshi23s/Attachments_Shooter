@@ -46,7 +46,6 @@ public class EDogState_Pursuit : IState
     {
         _agent.SetDestination(Player_Movement.position);
         if (Vector3.Distance(_agent.transform.position, Player_Movement.position) <= _jumpRadius)      
-        //if (Vector3.Angle(_agent.transform.forward, Player_Movement.position) < 15f)
         if (_agent.transform.position.InLineOffSight(Player_Movement.position,IA_Manager.instance.wall_Mask))
         {
            _fsm.ChangeState("JumpAttack");

@@ -121,7 +121,7 @@ public class IA_Movement : MonoBehaviour
     public void ClearPath()
     {
         _fixedUpdate = null;
-        _movement.RemoveForces();
+        
     }
     #endregion
 

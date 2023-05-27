@@ -8,16 +8,26 @@ public class EDogState_Idle : IState
 {
     IA_Movement _agent;
     StateMachine<string> _fsm;
+    LifeComponent myLifeComponent;
 
     public EDogState_Idle(IA_Movement agent, StateMachine<string> fsm,LifeComponent myLifeComponent)
     {
         _agent = agent;
         _fsm = fsm;
+        this.myLifeComponent = myLifeComponent;
+
+
     }
 
     public void OnEnter()
     {
         GameManager.instance.HelpStartCoroutine(StayIdle);
+        myLifeComponent.OnTakeDamage += (x) => Change();
+    }
+
+    void Change()
+    {
+        _fsm.ChangeState("Pursuit");
     }
 
     IEnumerator StayIdle()
@@ -59,6 +69,7 @@ public class EDogState_Idle : IState
     public void OnExit()
     {
         GameManager.instance.HelpStopCoroutine(StayIdle);
+        myLifeComponent.OnTakeDamage -= (x) => Change();
     }
 
     public void GizmoShow()
