@@ -31,6 +31,11 @@ public class StateMachine<T>
         _currentState.OnUpdate();
     }
 
+    public void Debug(string msg)
+    {
+        _debug.Log("Estado "+ _currentState +" :"+ msg);
+    }
+
     public void ChangeState(T name)
     {
         if (_statesList.ContainsKey(name))
@@ -39,13 +44,21 @@ public class StateMachine<T>
             if (_currentState != null)
                 _currentState.OnExit();
 
-            _actualState=name;
+            _actualState = name;
             _currentState = _statesList[name];
-            _debug.Log($"changed state : {aux} ===> {_currentState}");            
+            _debug.Log($"changed state : {aux} ===> {_currentState}");
             _currentState.OnEnter();
         }
         else
-            _debug.Log($"el estado { name } no existe");  
+        {
+            string debug = "";
+            foreach (var item in _statesList)
+            {
+                debug += item.Key+", ";
+            }
+            _debug.Log($"el estado {name} no existe, en esta fsm solo existen los estados:"+debug);
+        }
+           
     }
     public void StateGizmos() => _currentState?.GizmoShow();
 }

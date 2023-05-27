@@ -67,10 +67,6 @@ public class ShakeCamera : MonoBehaviour
             actualAimPos = Vector3.zero;
         }
         cam.transform.localPosition = temp1;
-        
-
-
-
     }
 
 

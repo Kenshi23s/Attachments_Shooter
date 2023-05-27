@@ -6,17 +6,17 @@ using FacundoColomboMethods;
 
 public class EnemyManager : MonoSingleton<EnemyManager>
 {
-    //preguntarle a jocha como era para hacer q no se pueda modificar esta lista
+  
     public ReadOnlyCollection<Enemy> activeEnemies { get; private set; }
-    List<Enemy> _activeEnemies
-    {
-        get => _activeEnemies;
-        set 
-        {
-            _activeEnemies = value;
-            activeEnemies= new ReadOnlyCollection<Enemy>(_activeEnemies);
-        }
-    }
+    public List<Enemy> _activeEnemies = new List<Enemy>();
+    //{
+    //    get => _activeEnemies;
+    //    set 
+    //    {
+    //        _activeEnemies = value;
+    //        activeEnemies = new ReadOnlyCollection<Enemy>(_activeEnemies);
+    //    }
+    //}
     // Start is called before the first frame update
 
     protected override void SingletonAwake()

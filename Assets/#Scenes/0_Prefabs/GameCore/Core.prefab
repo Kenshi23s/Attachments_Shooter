@@ -56,6 +56,7 @@ GameObject:
   m_Component:
   - component: {fileID: 7694219261517185919}
   - component: {fileID: 7065639148592596031}
+  - component: {fileID: 5279303872127800460}
   m_Layer: 0
   m_Name: FloatingTextManager
   m_TagString: Untagged
@@ -92,10 +93,25 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _parameters:
     x_Spread: 1
-    y_Spread: 1
     speed: 0.584
     fadeSpeed: 0.683
   sampleFloatingText: {fileID: 3319472181107479526, guid: 67588cfab510a7b45a9ba826a55a5362, type: 3}
+--- !u!114 &5279303872127800460
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5415417243373183835}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 360ca867e48780448a1401b7fc47e037, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  canDebug: 1
+  gizmoDraw:
+    m_PersistentCalls:
+      m_Calls: []
 --- !u!1 &6551094190892342438
 GameObject:
   m_ObjectHideFlags: 0
@@ -145,6 +161,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cf447375d41e6314ab6520906415de8a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  sampleLineSign: {fileID: 7110057129659534097, guid: 05414c04b8141614285f6763d92e1428, type: 3}
 --- !u!114 &6551094190892342439
 MonoBehaviour:
   m_ObjectHideFlags: 0

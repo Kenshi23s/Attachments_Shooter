@@ -24,7 +24,7 @@ public class Physics_Movement : MonoBehaviour
     float _maxSpeed;
     public float maxSpeed => _maxSpeed;
 
-    [SerializeField, Range(0.1f, 10)]
+    [SerializeField, Range(0.1f, 50)]
     float _steeringForce;
     public float steeringForce => _steeringForce;
 
@@ -62,7 +62,7 @@ public class Physics_Movement : MonoBehaviour
     public void SetMaxForce(float _maxForce)
     {
         _maxForce = Mathf.Clamp(_maxForce, 1, _maxSpeed);
-        _debug.Log($"MAXSPEED cambio de {this._maxForce} a {_maxForce}");
+        _debug.Log($"MAXFORCE cambio de {this._maxForce} a {_maxForce}");
         this._maxForce = _maxForce;
     }
 
