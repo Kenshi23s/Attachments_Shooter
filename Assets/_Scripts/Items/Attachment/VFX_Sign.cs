@@ -3,7 +3,7 @@ using UnityEngine;
 public class VFX_Sign : MonoBehaviour
 {
     LineRenderer sign;
-    [SerializeField] Color _color =Color.red;
+    [SerializeField] Color _color = Color.white;
     [SerializeField] float length=5f;
 
     private void Start()
@@ -12,8 +12,8 @@ public class VFX_Sign : MonoBehaviour
         sign.transform.parent = transform;
 
         Material mat = sign.GetComponent<Renderer>().material;
-        mat.color = _color;
-        sign.GetComponent<Renderer>().material = mat;
+        mat.SetColor("_Color", _color);
+        //sign.GetComponent<Renderer>().material = mat;
 
         sign.name = gameObject.name + " HelpSign";
     }

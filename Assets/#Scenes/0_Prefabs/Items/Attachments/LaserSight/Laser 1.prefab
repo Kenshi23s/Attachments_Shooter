@@ -11,6 +11,7 @@ GameObject:
   - component: {fileID: 7993079114820009348}
   - component: {fileID: 7993079114820009354}
   - component: {fileID: 7993079114820009349}
+  - component: {fileID: 3141935995479390572}
   m_Layer: 11
   m_Name: Laser 1
   m_TagString: Untagged
@@ -66,6 +67,20 @@ MonoBehaviour:
     _serializedList: []
   _laserLineRender: {fileID: 7993079114910758357}
   _laserOutPoint: {fileID: 7993079116449760143}
+--- !u!114 &3141935995479390572
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7993079114820009351}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 545a131cceef9d64aa8337430330dd66, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _color: {r: 1, g: 0, b: 0, a: 1}
+  length: 3
 --- !u!1 &7993079114910758359
 GameObject:
   m_ObjectHideFlags: 0
