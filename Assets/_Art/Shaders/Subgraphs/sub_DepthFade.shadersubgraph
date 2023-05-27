@@ -1,5 +1,5 @@
 {
-    "m_SGVersion": 2,
+    "m_SGVersion": 3,
     "m_Type": "UnityEditor.ShaderGraph.GraphData",
     "m_ObjectId": "6e7435d8ec5b4e51b3c2777009f778a2",
     "m_Properties": [
@@ -8,6 +8,12 @@
         }
     ],
     "m_Keywords": [],
+    "m_Dropdowns": [],
+    "m_CategoryData": [
+        {
+            "m_Id": "ed58bcad20554c0eb0f9345c770b206e"
+        }
+    ],
     "m_Nodes": [
         {
             "m_Id": "befa608474254d70883f0e45dd5b2d71"
@@ -171,10 +177,11 @@
         "serializedMesh": {
             "m_SerializedMesh": "{\"mesh\":{\"instanceID\":0}}",
             "m_Guid": ""
-        }
+        },
+        "preventRotation": false
     },
     "m_Path": "Sub Graphs",
-    "m_ConcretePrecision": 0,
+    "m_GraphPrecision": 0,
     "m_PreviewMode": 2,
     "m_OutputNode": {
         "m_Id": "befa608474254d70883f0e45dd5b2d71"
@@ -190,9 +197,13 @@
         "m_GuidSerialized": "97572e04-70bf-4d9f-affa-965772959741"
     },
     "m_Name": "Depth",
+    "m_DefaultRefNameVersion": 0,
+    "m_RefNameGeneratedByDisplayName": "",
     "m_DefaultReferenceName": "Vector1_0086ad7be124438686c56c43225ed931",
     "m_OverrideReferenceName": "",
     "m_GeneratePropertyBlock": true,
+    "m_UseCustomSlotLabel": false,
+    "m_CustomSlotLabel": "",
     "m_Precision": 0,
     "overrideHLSLDeclaration": false,
     "hlslDeclarationOverride": 0,
@@ -902,6 +913,18 @@
     "m_Value": 0.0,
     "m_DefaultValue": 0.0,
     "m_Labels": []
+}
+
+{
+    "m_SGVersion": 0,
+    "m_Type": "UnityEditor.ShaderGraph.CategoryData",
+    "m_ObjectId": "ed58bcad20554c0eb0f9345c770b206e",
+    "m_Name": "",
+    "m_ChildObjectList": [
+        {
+            "m_Id": "0086ad7be124438686c56c43225ed931"
+        }
+    ]
 }
 
 {
