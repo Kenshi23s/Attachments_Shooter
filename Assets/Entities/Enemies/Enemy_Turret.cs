@@ -21,7 +21,10 @@ public class Enemy_Turret : Enemy
 
 
 
-
+    public override void ArtificialAwake()
+    {
+        
+    }
 
     bool AlignCanon(Vector3 playerPos)
     {

@@ -4,11 +4,11 @@ using System.Collections.Generic;
 using UnityEngine;
 using System.Linq;
 [RequireComponent(typeof(AttachmentManager))]
-public class GunManager : MonoSingleton<GunManager>
+public class GunManager : MonoBehaviour
 {
     [SerializeField]List<Gun> myGuns = new List<Gun>();
     [SerializeField]Gun _actualGun;
-    public Gun actualGun=> _actualGun;
+    public Gun actualGun => _actualGun;
 
    
     event Action<HitData> onActualGunHit;
@@ -18,13 +18,11 @@ public class GunManager : MonoSingleton<GunManager>
     //awake para inicializacion
     
     
-      
-       
-    protected override void SingletonAwake()
+ 
+    private void Awake()
     {
         myGuns = ColomboMethods.GetChildrenComponents<Gun>(this.transform).ToList();
     }
-
     //start para comunicacion
     void Start()
     {
@@ -35,13 +33,19 @@ public class GunManager : MonoSingleton<GunManager>
         Debug.LogWarning("Armas en full auto, asegurarse q tengan el RateofFire != 0 ");
     }
 
-    // Update is called once per frame
+    int actualGunCount;
     void Update()
     {
       
         if (Input.GetKey(KeyCode.Mouse0))
         {
             TriggerActualGun();
+        }
+
+        if (Input.GetKeyDown(KeyCode.Z))
+        {
+            actualGunCount = actualGunCount >= myGuns.Count ? actualGunCount++:0;
+            SwapWeapons(myGuns[actualGunCount]);
         }
     }
 

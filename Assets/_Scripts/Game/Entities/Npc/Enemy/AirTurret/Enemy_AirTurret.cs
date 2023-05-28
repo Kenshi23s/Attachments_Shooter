@@ -71,11 +71,12 @@ public class Enemy_AirTurret : Enemy, IDetector
     //[SerializeField]Transform[] _batteries;
     StateMachine<string> _fsm;
 
-    void Awake()
-    {    
+    public override void ArtificialAwake()
+    {
+        
         _misileStats.owner = this;
         GetComponent<LifeComponent>().OnKilled += () => Destroy(gameObject);
-        debug=GetComponent<DebugableObject>();
+        debug = GetComponent<DebugableObject>();
         debug.AddGizmoAction(DrawGizmo);
         SetTurretFSM();
     }

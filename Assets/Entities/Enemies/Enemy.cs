@@ -10,5 +10,7 @@ public abstract class Enemy : MonoBehaviour
     {
         debug = GetComponent<DebugableObject>();
         health= GetComponent<LifeComponent>();
+        ArtificialAwake();
     }
+    public abstract void ArtificialAwake();
 }

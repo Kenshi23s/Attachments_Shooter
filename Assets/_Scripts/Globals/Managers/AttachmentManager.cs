@@ -15,18 +15,18 @@ public class AttachmentManager : MonoSingleton<AttachmentManager>
     [SerializeField] LayerMask _attachmentLayer;
     [SerializeField] float raycastDistance;
     [SerializeField] KeyCode Equip = KeyCode.F, Save = KeyCode.G;
-
+    GunManager gunHandler;
     Func<Gun> getGun;
     DebugableObject _debug;
 
     protected override void SingletonAwake()
     {
-       
-        _debug = GetComponent<DebugableObject>(); _debug.AddGizmoAction(DrawRaycast);
+        gunHandler = GetComponent<GunManager>();
+         _debug = GetComponent<DebugableObject>(); _debug.AddGizmoAction(DrawRaycast);
         _canvasAttachments = Instantiate(_canvasAttachments);
     }
-
-    private void Start() => getGun = () => GunManager.instance.actualGun;
+    
+    private void Start() => getGun = () => gunHandler.actualGun;
 
     private void Update() => AttachmentOnSight();
  

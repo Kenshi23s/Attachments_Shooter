@@ -5,10 +5,8 @@ using UnityEngine;
 [RequireComponent(typeof(DebugableObject))]
 public class E_ExplosiveDog : Enemy
 {
-    DebugableObject _debug;
     StateMachine<string> _fsm;
 
-    LifeComponent _health;
     public IA_Movement agent { get; private set; }
 
     #region Idle
@@ -32,15 +30,13 @@ public class E_ExplosiveDog : Enemy
     #endregion
     float _explosionRadius;
 
-    private void Awake()
+    public override void ArtificialAwake()
     {
-        _debug= GetComponent<DebugableObject>();
-        _fsm = new StateMachine<string>(); _fsm.Initialize(_debug);
-        _health = GetComponent<LifeComponent>();
+        debug = GetComponent<DebugableObject>();
+        _fsm = new StateMachine<string>(); _fsm.Initialize(debug);
+        health = GetComponent<LifeComponent>(); health.OnKilled += () => Explosion();
+
         agent = GetComponent<IA_Movement>();
-
-       
-
     }
 
     void Start()
@@ -49,7 +45,7 @@ public class E_ExplosiveDog : Enemy
             .Where(x => x.TryGetComponent(out IA_Movement y))
             .Select(x=> x.GetComponent<IA_Movement>()));
 
-        _fsm.CreateState("Idle", new EDogState_Idle(agent, _fsm, _health));
+        _fsm.CreateState("Idle", new EDogState_Idle(agent, _fsm, health));
         _fsm.CreateState("Pursuit", new EDogState_Pursuit(_fsm,agent, pursuitMaxSpeed, minJumpDistance));
         _fsm.CreateState("JumpAttack", new EDogState_JumpAttack(Explosion, agent._movement, unitsAbovePlayer, _fsm));
         _fsm.ChangeState("Idle");
@@ -57,13 +53,15 @@ public class E_ExplosiveDog : Enemy
 
     void Explosion()
     {
-        _health.TakeDamage(_health.maxLife);
+        if (health.life > 0) { health.TakeDamage(int.MaxValue); return; }
+       
         foreach (var item in transform.position.GetItemsOFTypeAround<IDamagable>(_explosionRadius))
         {
-
+            item.TakeDamage(10);
         }
-        Destroy(gameObject);
         debug.Log("Explosion!");
+        Destroy(gameObject,0.5f);
+        
     }
     void Initialize()
     {
@@ -77,4 +75,6 @@ public class E_ExplosiveDog : Enemy
     {
         _fsm.Execute();
     }
+
+  
 }
