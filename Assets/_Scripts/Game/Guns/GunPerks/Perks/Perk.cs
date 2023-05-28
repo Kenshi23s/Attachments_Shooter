@@ -8,7 +8,10 @@ public abstract class Perk : MonoBehaviour// deberia heredar de monobehaiviour??
     //todos los perks deben de heredar de esta clase para su correcto funcionamiento
     protected Gun myGun;
     internal abstract void InitializePerk(Gun gun);
+    public string GetName() => perkName;
     [SerializeField] string perkName;
     [SerializeField] string perkDescription;
+
+   
 
 }

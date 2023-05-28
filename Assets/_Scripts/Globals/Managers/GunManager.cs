@@ -9,7 +9,7 @@ public class GunManager : MonoBehaviour
     [SerializeField]List<Gun> myGuns = new List<Gun>();
     [SerializeField]Gun _actualGun;
     public Gun actualGun => _actualGun;
-
+    public Player_Handler myPlayer { get; private set; }
    
     event Action<HitData> onActualGunHit;
     
@@ -17,6 +17,10 @@ public class GunManager : MonoBehaviour
 
     //awake para inicializacion
     
+    public void SetPlayer(Player_Handler player)
+    {
+        myPlayer = player;
+    }
     
  
     private void Awake()

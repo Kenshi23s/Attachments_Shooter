@@ -25,6 +25,7 @@ public struct HitData
 [RequireComponent(typeof(StatsHandler))]
 [RequireComponent(typeof(AttachmentHandler))]
 [RequireComponent(typeof(DebugableObject))]
+[RequireComponent(typeof(PerkHandler))]
 #endregion
 public abstract class Gun : MonoBehaviour
 {
@@ -32,22 +33,20 @@ public abstract class Gun : MonoBehaviour
     [SerializeField] Animator _gunAnim;
 
     [SerializeField] public int _actualAmmo;
-
+    #region Components
     [NonSerialized] public DamageHandler damageHandler;
 
     [NonSerialized] public StatsHandler stats;
 
     [NonSerialized] public AttachmentHandler attachmentHandler;
 
+    [NonSerialized] public PerkHandler perkHandler;
+
     [NonSerialized] public DebugableObject _debug;
 
+    #endregion
 
-    [Header("Perks Stats"),Tooltip("perk equipados,(se deberia de hacer un PERK MANAGER creo," +
-        " no estoy seguro)"),SerializeField]
-     PerkHandler perkHandler;
 
-    [SerializeField,Tooltip("Las estadisticas del arma (no se muestra una actualizacion in game " +
-        "en caso de que se tenga un accesorio)")]
 
     #region Events
     //estos eventos se usarian para callback hacia los perks y para feedback(particulas, sonidos,animaciones) 
@@ -90,6 +89,7 @@ public abstract class Gun : MonoBehaviour
         canShoot = true;
         attachmentHandler = GetComponent<AttachmentHandler>();       
         damageHandler = GetComponent<DamageHandler>(); 
+        perkHandler = GetComponent<PerkHandler>();
         stats = GetComponent<StatsHandler>(); 
         _debug = GetComponent<DebugableObject>();
         OptionalInitialize();
