@@ -41,9 +41,13 @@ public class GunManager : MonoBehaviour
     void Update()
     {
       
-        if (Input.GetKey(KeyCode.Mouse0))
+        if (Input.GetKeyDown(KeyCode.Mouse0))
         {
             TriggerActualGun();
+        }
+        else if(Input.GetKeyUp(KeyCode.Mouse0))
+        {
+            ReleaseTriggerActualGun();
         }
 
         if (Input.GetKeyDown(KeyCode.Z))
@@ -51,10 +55,13 @@ public class GunManager : MonoBehaviour
             actualGunCount = actualGunCount >= myGuns.Count ? actualGunCount++:0;
             SwapWeapons(myGuns[actualGunCount]);
         }
+
+        foreach (Gun item in myGuns) item.GunUpdate();    
     }
 
     
-    public void TriggerActualGun() => actualGun.Trigger();
+    public void TriggerActualGun() => actualGun.PressTrigger();
+    public void ReleaseTriggerActualGun() => actualGun.ReleaseTrigger();
 
     void SwapWeapons(Gun actualWeapon)
     {

@@ -43,7 +43,7 @@ public abstract class Burst_Gun : Gun
     }
 
     // es lo mismo solo q saco el ONSHOOT, pq no lo puedo invocar como hijo
-    public override void Trigger()
+    public override void PressTrigger()
     {
         if (ShootCondition())
         {

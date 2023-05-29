@@ -9,6 +9,7 @@ using static UnityEngine.Networking.UnityWebRequest;
 public static class PerkDataBase 
 {
     public static string PerksPath => Application.dataPath + "/Json/Perks/";
+
     public static Perk GetRandomPerk(this Gun gunType)
     {
         List<string> Incompatibles = new List<string>();

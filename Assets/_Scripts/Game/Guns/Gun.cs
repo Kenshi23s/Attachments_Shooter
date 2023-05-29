@@ -27,6 +27,7 @@ public struct HitData
 [RequireComponent(typeof(DebugableObject))]
 [RequireComponent(typeof(PerkHandler))]
 #endregion
+
 public abstract class Gun : MonoBehaviour
 {
     [Header("Animator")]
@@ -44,9 +45,8 @@ public abstract class Gun : MonoBehaviour
 
     [NonSerialized] public DebugableObject _debug;
 
+
     #endregion
-
-
 
     #region Events
     //estos eventos se usarian para callback hacia los perks y para feedback(particulas, sonidos,animaciones) 
@@ -56,6 +56,10 @@ public abstract class Gun : MonoBehaviour
     public event Action onReload;
 
     public event Action onStow;
+
+    public event Action onTriggerPressed;
+
+    public event Action onTriggerReleased;
 
     public event Action onDraw;
 
@@ -67,17 +71,27 @@ public abstract class Gun : MonoBehaviour
     //lo malo de esto es que va a haber llamados a los cual no les importe algo de lo q hay guardado en el struct,
     //por ej si le paso a la pool de particulas donde fue el impacto, no le va a importar si fue critico o no(o quizas si?)
 
-    //internal event Action OnKill;
-
-    //internal event Action OnCritHit;
-
-    //internal event Action OnCritKill;
-
 
     #endregion
 
-    [SerializeField]
-    protected bool canShoot;
+    bool _triggerPressed;
+    public bool TriggerPressed 
+    {
+        get => _triggerPressed;
+                       
+        protected set 
+        {
+            _triggerPressed = value;
+
+            if (_triggerPressed)
+                onTriggerPressed?.Invoke();
+            else
+                onTriggerReleased?.Invoke();
+        }
+        
+    }
+
+    public bool canShoot { get; protected set; }
 
     public abstract void Shoot();
     public abstract bool ShootCondition();
@@ -87,17 +101,20 @@ public abstract class Gun : MonoBehaviour
     protected virtual void Awake()
     {
         canShoot = true;
+        _triggerPressed = false;
+
         attachmentHandler = GetComponent<AttachmentHandler>();       
         damageHandler = GetComponent<DamageHandler>(); 
         perkHandler = GetComponent<PerkHandler>();
         stats = GetComponent<StatsHandler>(); 
         _debug = GetComponent<DebugableObject>();
         OptionalInitialize();
+        
     }
 
     protected virtual void OptionalInitialize() { }
 
-    private void Update() => everyTick?.Invoke();  
+    public void GunUpdate() => everyTick?.Invoke();  
 
     //lo ideal seria tener un metodo q llame a la animacion de recarga,
     //y que en algun frame la animacion de recarga llame a este metodo
@@ -110,23 +127,32 @@ public abstract class Gun : MonoBehaviour
     /// <summary>
     /// Intenta disparar el arma, las herencias por lo general modifican por completo esto
     /// </summary>
-    public virtual void Trigger()
-    { 
+    public virtual void PressTrigger()
+    {
         //talvez deberia tener un metodo abstracto para las condiciones de disparo,
         //y cada arma eligiria cual quiere que sean sus condiciones para dispararse
+        TriggerPressed = true;
+        everyTick += WhileTriggerPressed;
+
+
+    }
+
+    void WhileTriggerPressed()
+    {
         if (ShootCondition())
         {
             Shoot();
-            onShoot?.Invoke();         
+            onShoot?.Invoke();
         }
     }
 
-    protected void CallOnShootEvent() => onShoot?.Invoke();
-
-    void Equip()
+    public void ReleaseTrigger()
     {
-
+        TriggerPressed = false;
+        everyTick -= WhileTriggerPressed;
     }
+
+    protected void CallOnShootEvent() => onShoot?.Invoke();
 
     public void Draw()
     {

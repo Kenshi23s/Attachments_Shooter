@@ -9,5 +9,11 @@ public abstract class AutomaticGun : Gun
         //_rateFireHandler.Initialize(this);
         base.OptionalInitialize();
         _rateFireHandler = GetComponent<RateOfFireHandler>();
+
+    }
+
+    public override void PressTrigger()
+    {
+        base.PressTrigger();
     }
 }

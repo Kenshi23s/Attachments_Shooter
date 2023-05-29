@@ -21,7 +21,7 @@ public abstract class Charge_Gun : Gun
 
    
     //cuando se oprime el gatillo
-    public override void Trigger()
+    public override void PressTrigger()
     {
         //me guardo el tiempo actual
         _checkTime = currentTime;
@@ -37,7 +37,7 @@ public abstract class Charge_Gun : Gun
         if (currentTime >= _requiredTime)
         {
             _debug.Log($"Se termino de cargar, entro en cooldown");
-            Shoot(); CallOnShootEvent(); StartCoroutine(CooldownTime());     
+            Shoot();  StartCoroutine(CooldownTime());     
         }
     }
 

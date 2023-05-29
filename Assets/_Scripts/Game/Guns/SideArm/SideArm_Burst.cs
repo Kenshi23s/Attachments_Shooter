@@ -23,6 +23,7 @@ public class SideArm_Burst : Burst_Gun
        _raycast.ShootRaycast(from, OnHitCallBack);
        
     }
+   
 
     void OmnivampBurst(HitData hit)
     {
