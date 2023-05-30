@@ -5,7 +5,7 @@ public class KillClip : OverTimePerks
     [SerializeField, Range(1.1f , 2f)]
     float multiplyBy;
 
-    internal override void InitializePerk(Gun gun)
+    public override void InitializePerk(Gun gun)
     {
         myGun = gun;
         myGun.onHit += KillClipCondition;

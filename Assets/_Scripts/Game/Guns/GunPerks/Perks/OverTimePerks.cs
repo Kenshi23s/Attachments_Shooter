@@ -4,7 +4,7 @@ using UnityEngine;
 public abstract class OverTimePerks : Perk
 {
 
-    internal abstract override void InitializePerk(Gun gun);
+    public abstract override void InitializePerk(Gun gun);
 
     internal protected event Action<float> TimerUpdate;
 

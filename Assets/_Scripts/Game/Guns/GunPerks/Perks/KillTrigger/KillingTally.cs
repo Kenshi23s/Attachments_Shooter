@@ -11,7 +11,7 @@ public class KillingTally : Perk
     
 
 
-    internal override void InitializePerk(Gun gun)
+    public override void InitializePerk(Gun gun)
     {
        myGun = gun;
        timesApplied = 0;
