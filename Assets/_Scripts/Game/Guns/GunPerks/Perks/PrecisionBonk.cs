@@ -21,8 +21,9 @@ public class PrecisionBonk : Perk
 
     }
 
-    void AddPoint(HitData data) => precisionHits =
-    data.dmgData.wasCrit ? Mathf.Clamp(precisionHits++, 1, maxPrecisionHits) : precisionHits;
+    void AddPoint(HitData data) => precisionHits = data.dmgData.wasCrit 
+        ? Mathf.Clamp(precisionHits++, 1, maxPrecisionHits) 
+        : precisionHits;
     //Mathf.Clamp(precisionHits++ , 1, maxPrecisionHits)
 
     void ResetPoints()

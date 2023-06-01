@@ -43,7 +43,7 @@ public class AttachmentManager : MonoSingleton<AttachmentManager>
             _canvasAttachments.NewAttachment(x);
             if (Input.GetKey(Equip)) getGun?.Invoke().attachmentHandler.AddAttachment(x);
 
-            else if (Input.GetKey(Save)) Inventory_SaveAttachment(getGun?.Invoke(), x);
+            else if (Input.GetKey(Save)) Inventory_SaveAttachment(x);
 
         }
         else       
@@ -52,7 +52,7 @@ public class AttachmentManager : MonoSingleton<AttachmentManager>
     
 
     #region Inventory
-    public int Inventory_SaveAttachment(Gun gun,Attachment value)
+    public int Inventory_SaveAttachment(Attachment value)
     {
         _debug.Log("Saving Attachment"+ value.name);
         int key = value.GetHashCode();
@@ -61,8 +61,8 @@ public class AttachmentManager : MonoSingleton<AttachmentManager>
 
         if (_attachmentsInventory[value.myType].ContainsKey(key)) return key;
 
-        if (value.isAttached)       
-           gun.attachmentHandler.RemoveAttachment(value.myType); value.Dettach();
+        if (value.isAttached)
+            value.owner.attachmentHandler.RemoveAttachment(value.myType); value.Dettach();
 
 
         
@@ -77,10 +77,7 @@ public class AttachmentManager : MonoSingleton<AttachmentManager>
     public bool Inventory_GetAttachment(out Attachment x, Tuple<AttachmentType, int> keys)
     {
         x = default;
-
-        //if (!_attachmentsInventory.ContainsKey(keys.Item1)) return false;
-        //if (!_attachmentsInventory[keys.Item1].ContainsKey(keys.Item2)) return false;
-        //x = _attachmentsInventory[keys.Item1][keys.Item2];
+        
         if (_attachmentsInventory.TryGetValue(keys.Item1,out var a))        
             if (a.TryGetValue(keys.Item2,out var attachment))
             {
@@ -90,6 +87,14 @@ public class AttachmentManager : MonoSingleton<AttachmentManager>
             }
 
         return false;    
+    }
+
+    public Attachment RemoveFromInventory(Attachment x)
+    {     
+        if (_attachmentsInventory[x.myType].ContainsKey(x.GetHashCode()))       
+            _attachmentsInventory[x.myType].Remove(x.GetHashCode());
+        
+        return x;
     }
     #endregion
     void DrawRaycast()

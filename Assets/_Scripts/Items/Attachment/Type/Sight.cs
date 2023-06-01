@@ -15,5 +15,9 @@ public class Sight : Attachment
     {
        
     }
+    public void TESTATTACH(bool x)
+    {
+        _isAttached = x;
+    }
 
 }

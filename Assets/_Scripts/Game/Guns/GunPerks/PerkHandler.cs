@@ -11,14 +11,14 @@ public class PerkHandler : MonoBehaviour
     private void Start()
     {
         myGun = GetComponent<Gun>();
-        for (int i = 0; i < perks.Length; i++)
-        {
-            if (perks[i] == null) 
-            {
-                perks[i] = myGun.GetRandomPerk();              
-            }
-            perks[i].InitializePerk(myGun);
-        }
+        //for (int i = 0; i < perks.Length; i++)
+        //{
+        //    if (perks[i] == null) 
+        //    {
+        //        perks[i] = myGun.GetRandomPerk();              
+        //    }
+        //    perks[i].InitializePerk(myGun);
+        //}
     }
 
     public void ChangePerk(Perk newPerk,int i)

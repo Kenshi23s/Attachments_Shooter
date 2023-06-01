@@ -10,6 +10,7 @@ public abstract class Attachment : MonoBehaviour
 
     // queria que la variable de "value" tuviera un range,
     // pero no era posible si no estaba en un struct
+    public string TESTNAME;
     [System.Serializable]
     public struct StatChangeParams
     {
@@ -17,6 +18,7 @@ public abstract class Attachment : MonoBehaviour
         public int value => _value;
     }
    
+    
 
     public enum AttachmentType
     {
@@ -40,13 +42,13 @@ public abstract class Attachment : MonoBehaviour
     public SerializedDictionary<StatNames, StatChangeParams> Attachment_stats;
     //SerializedDictionary<StatNames, int> _stats= new SerializedDictionary<StatNames, int>();
     
-    bool _isAttached;
+    protected bool _isAttached;
     public bool isAttached => _isAttached;
 
     protected event Action onAttach;
     protected event Action onDettach;
 
-    protected Gun gunAttachedTo;
+    public Gun owner { get; private set; }
 
     LineRenderer sign;
 
@@ -120,10 +122,10 @@ public abstract class Attachment : MonoBehaviour
             transform.position = pivotPos.position + OriginPivot.Item1;
             transform.rotation = pivotPos.rotation * OriginPivot.Item2;
         }        
-         gunAttachedTo = gun;
+         owner = gun;
          _isAttached = true;
 
-         gunAttachedTo.stats.ChangeStats(Attachment_stats, true);
+         owner.stats.ChangeStats(Attachment_stats, true);
          onAttach?.Invoke();       
     }
 
@@ -137,9 +139,9 @@ public abstract class Attachment : MonoBehaviour
     public void Dettach()
     {
         if (!_isAttached) return;
-        gunAttachedTo.stats.ChangeStats(Attachment_stats, false);
+        owner.stats.ChangeStats(Attachment_stats, false);
 
-        gunAttachedTo=null;
+        owner=null;
         this.transform.parent=null;
         _isAttached=false;
 

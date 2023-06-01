@@ -189,6 +189,6 @@ public class AttachmentHandler : MonoBehaviour
 
     void SaveAttachment(Attachment x)
     {
-        x.Dettach(); AttachmentManager.instance.Inventory_SaveAttachment(_gun, x);
+        x.Dettach(); AttachmentManager.instance.Inventory_SaveAttachment(x);
     }
 }
