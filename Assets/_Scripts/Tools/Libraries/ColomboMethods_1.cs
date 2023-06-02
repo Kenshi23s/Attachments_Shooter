@@ -1,6 +1,7 @@
 
 using System;
 using System.Collections.Generic;
+using System.Drawing;
 using System.Linq;
 using UnityEngine;
 using UnityEngine.UIElements;
@@ -21,6 +22,30 @@ namespace FacundoColomboMethods
 
     public static class ColomboMethods
     {
+        public static string GenerateName(int len)
+        {
+            System.Random r = new System.Random();
+            string[] consonants = { "b", "c", "d", "f", "g", "h", "j", "k", "l", "m", "l", "n", "p", "q", "r", "s", "sh", "zh", "t", "v", "w", "x" };
+            string[] vowels = { "a", "e", "i", "o", "u", "ae", "y" };
+            string Name = "";
+            Name += consonants[r.Next(consonants.Length)].ToUpper();
+            Name += vowels[r.Next(vowels.Length)];
+            int b = 2; //b tells how many times a new letter has been added. It's 2 right now because the first two letters are already in the name.
+            while (b < len)
+            {
+                Name += consonants[r.Next(consonants.Length)];
+                b++;
+                Name += vowels[r.Next(vowels.Length)];
+                b++;
+            }
+
+            return Name;
+
+
+        }
+
+        public static int LayerBitmapToInt(this LayerMask x) => Mathf.RoundToInt(Mathf.Log(x, 2));
+
         public static void CheckAndRemove<T>(this List<T> col,T item)
         {
             if (!col.Contains(item))

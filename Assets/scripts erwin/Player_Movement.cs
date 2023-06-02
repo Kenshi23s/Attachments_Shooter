@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 [RequireComponent(typeof(LifeComponent))]
+[RequireComponent(typeof(PausableObject))]
 public class Player_Movement : MonoBehaviour
 {
 
@@ -44,6 +45,7 @@ public class Player_Movement : MonoBehaviour
     private void Awake()
     {
         lifehandler = GetComponent<LifeComponent>();
+        GetComponent<PausableObject>().onPause += () => StartCoroutine(WhilePaused()); 
     }
     // Start is called before the first frame update
     void Start()
@@ -64,6 +66,8 @@ public class Player_Movement : MonoBehaviour
 
     void Update()
     {
+        if (ScreenManager.isPaused) return;
+        
         //detecta si el jugador corre (si el personaje no avanza hacia adelante no puede correr)
         if (Input.GetKey(KeyCode.W) && Input.GetKey(KeyCode.LeftShift) && !onCrouch)
         {
@@ -113,6 +117,15 @@ public class Player_Movement : MonoBehaviour
         // devuelvo a la velocidad que voy a una variable estatica
         // (para que las balas no colisionen conmigo sumo su velocidad con la mia)
         velocity = rb.velocity;
+    }
+
+    IEnumerator WhilePaused()
+    {
+        rb.velocity = Vector3.zero;
+        rb.useGravity= false;
+        yield return new WaitWhile(() => ScreenManager.isPaused);
+        rb.useGravity= true;
+        rb.velocity = velocity;
     }
     private void LateUpdate()
     {
@@ -176,6 +189,8 @@ public class Player_Movement : MonoBehaviour
 
     public void RotateCamera(string axisX, string axisY)
     {
+        if (ScreenManager.isPaused) return;
+        
         
             ejeX = Input.GetAxisRaw(axisX) * sens;
             ejeY = Input.GetAxisRaw(axisY) * sens;

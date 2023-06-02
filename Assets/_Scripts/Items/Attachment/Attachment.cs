@@ -1,7 +1,9 @@
 using AYellowpaper.SerializedCollections;
+using FacundoColomboMethods;
 using System;
 using System.Collections;
 using UnityEngine;
+using UnityEngine.UI;
 using static StatsHandler;
 [RequireComponent(typeof(BoxCollider))]
 [RequireComponent(typeof(VFX_Sign))]
@@ -90,7 +92,8 @@ public abstract class Attachment : MonoBehaviour
 
     protected virtual void Start()
     {
-        gameObject.layer = AttachmentManager.instance.attachmentLayer;
+
+        gameObject.layer = AttachmentManager.instance.attachmentLayer.LayerBitmapToInt();    
         Comunicate(); SetVFXsign();   
         if (isAttached) onAttach?.Invoke(); else onDettach?.Invoke();
         
