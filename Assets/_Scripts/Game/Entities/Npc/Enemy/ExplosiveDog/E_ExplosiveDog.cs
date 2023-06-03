@@ -28,6 +28,7 @@ public class E_ExplosiveDog : Enemy
     #region OnJump
     float JumpSpeed;
     #endregion
+    int _explosionDamage;
     float _explosionRadius;
 
     public override void ArtificialAwake()
@@ -57,7 +58,7 @@ public class E_ExplosiveDog : Enemy
        
         foreach (var item in transform.position.GetItemsOFTypeAround<IDamagable>(_explosionRadius))
         {
-            item.TakeDamage(10);
+            item.TakeDamage(_explosionDamage);
         }
         debug.Log("Explosion!");
         Destroy(gameObject,0.5f);

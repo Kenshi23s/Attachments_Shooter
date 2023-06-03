@@ -40,7 +40,7 @@ public class RaycastComponent : MonoBehaviour
         hitData = default;
         if (hit.transform.TryGetComponent(out IDamagable damagable))
         {
-            hitData.dmgData = damagable.TakeDamage(gun.damageHandler.actualDamage);
+            hitData.dmgData = damagable.TakeDamage(gun.damageHandler.actualDamage,hit.point);
             hitData.dmgData.victim = damagable;
             hitData._impactPos = hit.point;
             hitData.gunUsed = gun;

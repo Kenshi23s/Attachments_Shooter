@@ -46,11 +46,7 @@ public abstract class Attachment : MonoBehaviour
 
     public bool isAttached { get; protected set; }
 
-
- 
-
     public Gun owner { get; private set; }
-
 
     protected event Action onAttach;
     protected event Action onDettach;
@@ -86,19 +82,14 @@ public abstract class Attachment : MonoBehaviour
         #endregion
 
         colliderEnable(!isAttached);
-
-        Initialize();
-        
+        Initialize();       
     }
 
     protected virtual void Start()
     {
-
         gameObject.layer = AttachmentManager.instance.attachmentLayer.LayerBitmapToInt();    
         Comunicate(); SetVFXsign();   
-        if (isAttached) onAttach?.Invoke(); else onDettach?.Invoke();
-        
-       
+        if (isAttached) onAttach?.Invoke(); else onDettach?.Invoke();       
     }
    
     void SetVFXsign()
@@ -106,10 +97,7 @@ public abstract class Attachment : MonoBehaviour
         VFX_Sign a = GetComponent<VFX_Sign>();
         onAttach += a.DeactivateSign;
         onDettach += a.ActivateSign;
-
     }
-
- 
 
     // hace que el accesorio se vuelva hijo del arma y le añada sus estadisticas
     public void Attach(Gun gun,Transform AttachTo)
@@ -136,9 +124,9 @@ public abstract class Attachment : MonoBehaviour
     // para cuando las armas tengan colliders
     Vector3 GetMeshCollision(Transform pivot)
     {
-        return Physics.Raycast(pivot.position, Vector3.down, out RaycastHit hit) ? hit.point : pivot.position;
-       
+        return Physics.Raycast(pivot.position, Vector3.down, out RaycastHit hit) ? hit.point : pivot.position;      
     }
+
     //saca sus stats del arma y queda sin padre
     public void Dettach()
     {
@@ -149,8 +137,7 @@ public abstract class Attachment : MonoBehaviour
         this.transform.parent=null;
         isAttached = false;
 
-        onDettach?.Invoke();
-       
+        onDettach?.Invoke();      
     }
 
     private void OnDrawGizmos()
@@ -162,9 +149,6 @@ public abstract class Attachment : MonoBehaviour
         else
         {
             Gizmos.DrawWireCube(transform.position, new Vector3(0.01f, 0.01f, 0.01f));
-        }
-
-        
+        }     
     }
-
 }

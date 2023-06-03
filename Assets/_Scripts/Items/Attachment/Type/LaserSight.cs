@@ -13,34 +13,36 @@ public class LaserSight : Attachment
     {
         _myType = AttachmentType.LaserSight;
         GetComponent<PausableObject>().onPause += () => StartCoroutine(StopLaser());
-    } 
-
+    }
+    Action<bool> _enable;
     protected override void Comunicate() 
     {
-        Action<bool> enable = (x) =>
+        _enable = (x) =>
         {
             _laserLineRender.gameObject.SetActive(x);
             enabled = x;
         };
 
-        onAttach += () => enable(true);
-        onDettach += () => enable(false);
-        enable(isAttached);
+        onAttach += () => _enable(!ScreenManager.IsPaused());
+        onDettach += () => _enable(false);
+        _enable(isAttached);
     }
    
   
-    private void Update() => UpdateLaser();
+    private void Update() => UpdateLaser(Camera.main.transform.forward);
     
     IEnumerator StopLaser()
     {
-        enabled = false;
-        yield return new WaitWhile(ScreenManager.IsPaused);
-        enabled = true;
+        _enable?.Invoke(false);
+        UpdateLaser(_laserOutPoint.forward);
+         yield return new WaitWhile(ScreenManager.IsPaused);
+        _enable?.Invoke(isAttached);
     }
-    void UpdateLaser()
+
+    void UpdateLaser(Vector3 forward)
     {
 
-        Vector3 forward = Camera.main.transform.forward;
+        
         _laserLineRender.SetPosition(0, _laserOutPoint.position);
         if (Physics.Raycast(_laserOutPoint.position, forward, out RaycastHit hit))        
             _laserLineRender.SetPosition(1, hit.point);        

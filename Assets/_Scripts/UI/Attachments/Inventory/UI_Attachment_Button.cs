@@ -22,19 +22,19 @@ public class UI_Attachment_Button : MonoBehaviour
 
     public UI_Attachment_Button AssignAttachment(Attachment x,Gun y,Action<UI_Attachment_Button> onChange)
     {
+        button.onClick.RemoveAllListeners();
         owner = x;
         displayGun = y;
         _onChange = onChange;
-
+     
         Buttontext.text = owner.gameObject.name;
-        UnityAction clickAction = default;
-      
-        if (x.isAttached)                
-            clickAction = new UnityAction(() => SaveAttachment());       
-        else           
-            clickAction = new UnityAction(() => EquipAttachment());
+        gameObject.name = "[Button]" + Buttontext.text;
 
-        button.onClick.AddListener(clickAction);
+        if (x.isAttached)
+            button.onClick.AddListener(SaveAttachment);
+        else
+            button.onClick.AddListener(EquipAttachment);
+        
         return this;        
     }
 

@@ -70,8 +70,12 @@ public class LifeComponent : MonoBehaviour, IDamagable, IHealable
 
     void ShowDamageNumber(int x)
     {
-        FloatingTextManager.instance.PopUpText(x.ToString(), transform.position);
+        
+        FloatingTextManager.instance.PopUpText(x.ToString(), hitPos != Vector3.zero? hitPos : transform.position);
     }
+    Vector3 hitPos = Vector3.zero;
+
+    public void SetHitPos(Vector3 x) => hitPos = x;
 
     public void SetNewMaxLife(int value) => _maxLife = Mathf.Clamp(value, 1, int.MaxValue);
 
@@ -83,6 +87,13 @@ public class LifeComponent : MonoBehaviour, IDamagable, IHealable
     }
 
     #region DamageSide
+
+    public virtual DamageData TakeDamage(int dmgDealt,Vector3 hitPos)
+    {
+        this.hitPos = hitPos;
+        return TakeDamage(dmgDealt);
+    }
+
     public virtual DamageData TakeDamage(int dmgDealt)
     {
         DamageData data = new DamageData();
@@ -155,7 +166,9 @@ public class LifeComponent : MonoBehaviour, IDamagable, IHealable
         newHealthEvent.timeStart = timeAmount;
 
         TickEventsManager.instance.AddAction(newHealthEvent);
-    }   
+    }
+
+    
 }
 
 

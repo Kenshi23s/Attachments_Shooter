@@ -1,7 +1,8 @@
-
+using UnityEngine;
 public interface IDamagable 
 {
     DamageData TakeDamage(int dmgToDeal);
+    DamageData TakeDamage(int dmgToDeal,Vector3 hitPoint);
     void AddDamageOverTime(int TotalDamageToDeal, float TimeAmount);
 }
 

@@ -27,4 +27,10 @@ public class HitableObject : MonoBehaviour,IDamagable,IHealable
         data.wasCrit = isCritSpot;
         return data;
     }
+
+    public DamageData TakeDamage(int dmgToDeal, Vector3 hitPoint)
+    {
+        _owner.SetHitPos(hitPoint);
+        return TakeDamage(dmgToDeal);
+    }
 }
