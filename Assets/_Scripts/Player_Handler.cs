@@ -6,6 +6,8 @@ public class Player_Handler : MonoBehaviour
     public LifeComponent myHealth { get; private set;}
     public Player_Movement myMovement { get; private set; }
 
+    
+
     private void Awake()
     {
         mygunHandler = GetComponentInChildren<GunManager>();

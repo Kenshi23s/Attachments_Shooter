@@ -49,7 +49,7 @@ public static class ScreenManager
             item.Resume();
             ItemsPaused += $" {item}, ";
         }
-        Debug.Log("Se PAUSARON los items" + ItemsPaused);
+        Debug.Log("Se DES PAUSARON los items" + ItemsPaused);
     }
 }
 

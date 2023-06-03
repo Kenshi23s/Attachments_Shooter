@@ -1,58 +1,97 @@
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using System.Linq;
 using System;
 using FacundoColomboMethods;
-using URandom = UnityEngine.Random;
-
+[RequireComponent(typeof(DebugableObject))]
 public class UI_AttachmentInventory : MonoBehaviour
 {
-    Canvas canvas;
+    #region Canvas
+    Canvas _inventoryCanvas;
     [SerializeField] UI_Attachment_Button template;
     [SerializeField] GameObject SavedPanel, EquippedPanel;
+    #endregion
+
+    #region InventoryCamera Camera
     [SerializeField] Camera viewGunCamPrefab;
     Camera viewGunCamInstance;
+
     [SerializeField] Transform pointTogo;
 
-    List<UI_Attachment_Button> buttons= new List<UI_Attachment_Button>();
+    [SerializeField,Range(1,10)] float _camRotationSpeed, _cam_MoveSpeed;
 
-    event Action u;
+    event Action _camUpdate;
+    #endregion
+
+    List<UI_Attachment_Button> buttons = new List<UI_Attachment_Button>();
+ 
+    Action _inventoryState;
+
+    //las camaras que habia activadas antes de poner la UI
+    Camera[] enabledbeforeUI;
 
     private void Awake()
     {
-        canvas = GetComponent<Canvas>();
+        
+        _inventoryCanvas = GetComponent<Canvas>();
+        pointTogo = PlayerCameraPivots.instance.ViewFromInventory;
     }
+ 
+    //private void LateUpdate()
+    //{
+    //    if (Input.GetKeyDown(KeyCode.V)) _inventoryState?.Invoke();    
 
-    private void Update()
-    {
-        if (Input.GetKeyDown(KeyCode.V))
-        {
-            TestInventory();
-        }
+    //    _camUpdate?.Invoke();
+    //}
 
-        u?.Invoke();
-    }
+    //void TestInventory()
+    //{      
+    //    int testNumber = URandom.Range(1, 50);
 
-    void TestInventory()
-    {
+    //    List<Attachment> testAttachments = new List<Attachment>();
+    //    for (int i = 0; i < testNumber; i++)
+    //    {
+    //        Sight a = new Sight();
+    //        a.TESTATTACH(URandom.Range(0, 100) % 2 == 0);
+    //        a.TESTNAME = ColomboMethods.GenerateName(6);
+    //        testAttachments.Add(a);
+    //    }       
+    //}
+
+ 
+    
+    
+    public void SetInventoryUI(IEnumerable<Attachment> AttachmentsSaved,Gun DisplayGun)
+    {       
+        _inventoryCanvas.enabled = true;
+
+        // por si no tengo un arma equipada actualmente(?) lo dejo por las dudas
+        IEnumerable<Attachment> gunAttachments = DisplayGun != null ? DisplayGun.attachmentHandler.activeAttachments.Values : default;
+
+        var result = FList.Create<UI_Attachment_Button>() + CreateButtons(AttachmentsSaved) + CreateButtons(gunAttachments);
+
+        buttons = result.ToList();       
+
         ScreenManager.PauseGame();
-        int testNumber = URandom.Range(1, 50);
-
-        List<Attachment> testAttachments = new List<Attachment>();
-        for (int i = 0; i < testNumber; i++)
-        {
-
-            Sight a = new Sight();
-            a.TESTATTACH(URandom.Range(0, 100) % 2 == 0);
-            a.TESTNAME = ColomboMethods.GenerateName(6);
-            testAttachments.Add(a);
-        }
-        SetCamera();
-        SetInventoryUI(testAttachments);
+        SetCamera();     
     }
 
-    Camera[] enabledbeforeUI;
+    public void DeactivateInventory()
+    {
+        foreach (var item in enabledbeforeUI) item.gameObject.SetActive(true);
+
+        enabledbeforeUI = default;
+        _inventoryCanvas.enabled = false;
+
+        _camUpdate = null;
+
+        Destroy(viewGunCamInstance.gameObject);
+        DestroyButtons();
+
+        ScreenManager.ResumeGame();
+    }
+
+    #region Camera Methods
     void SetCamera()
     {
         Transform cam = Camera.main.transform;
@@ -62,41 +101,37 @@ public class UI_AttachmentInventory : MonoBehaviour
 
         foreach (var item in enabledbeforeUI) item.gameObject.SetActive(false);
 
-
-
-
-        u += MoveCamera;
+        _camUpdate += MoveCamera;
     }
+
     void MoveCamera()
     {
-        viewGunCamInstance.transform.position = Vector3.Slerp(viewGunCamInstance.transform.position, pointTogo.transform.position, Time.deltaTime * 3);
-        viewGunCamInstance.transform.rotation = Quaternion.Slerp(viewGunCamInstance.transform.rotation, pointTogo.rotation, Time.deltaTime * 4);
-        
+        //cree este variable para que sea un poco mas legible
+        Transform viewGun = viewGunCamInstance.transform; 
+
+        viewGun.position = Vector3.Slerp(viewGun.position, pointTogo.transform.position, _cam_MoveSpeed * Time.deltaTime);
+        viewGun.rotation = Quaternion.Slerp(viewGun.rotation, pointTogo.rotation, _camRotationSpeed * Time.deltaTime);
     }
-    
-    public void SetInventoryUI(IEnumerable<Attachment> Attachments)
+    #endregion
+
+    #region Buttons Methods
+    public IEnumerable<UI_Attachment_Button> CreateButtons(IEnumerable<Attachment> attachments)
     {
-        canvas.enabled = true;
-        buttons = Attachments.Aggregate(new FList<UI_Attachment_Button>(), (x, y) =>
+        return attachments.Aggregate(new FList<UI_Attachment_Button>(), (x, y) =>
         {
 
             Transform parent = y.isAttached ? EquippedPanel.transform : SavedPanel.transform;
             var fillTemplate = Instantiate(template, parent);
-            fillTemplate.AssignAttachment(y);
-
-            return x;
-        }).ToList();
 
 
+            return x + fillTemplate.AssignAttachment(y);
+        });
     }
 
     void DestroyButtons()
     {
-        for (int i = 0; i < buttons.Count; i++)
-        {
-            Destroy(buttons[i]);
-        }
+        for (int i = 0; i < buttons.Count; i++) { Debug.Log("Destruyo el boton numero"+ i); Destroy(buttons[i].gameObject); } 
     }
+    #endregion
 
-   
 }

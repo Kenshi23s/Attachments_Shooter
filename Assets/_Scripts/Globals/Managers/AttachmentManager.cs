@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 using static Attachment;
 [RequireComponent(typeof(DebugableObject))]
@@ -7,16 +8,19 @@ public class AttachmentManager : MonoSingleton<AttachmentManager>
 {
     //lo debe crear el gunManager?
     Dictionary<AttachmentType, Dictionary<int,Attachment>> _attachmentsInventory = new Dictionary<AttachmentType, Dictionary<int, Attachment>>();
-
     [SerializeField] View_Attachment _canvasAttachments;
+    [SerializeField] KeyCode _inventoryKey;
+    [SerializeField] UI_AttachmentInventory _canvasInventory;
 
-
+    #region  InteractWithAttachments
     public LayerMask attachmentLayer => _attachmentLayer;
     [SerializeField] LayerMask _attachmentLayer;
     [SerializeField] float raycastDistance;
     [SerializeField] KeyCode Equip = KeyCode.F, Save = KeyCode.G;
+    #endregion
+
     GunManager gunHandler;
-    Func<Gun> getGun;
+  
     DebugableObject _debug;
 
     protected override void SingletonAwake()
@@ -25,23 +29,34 @@ public class AttachmentManager : MonoSingleton<AttachmentManager>
          _debug = GetComponent<DebugableObject>(); _debug.AddGizmoAction(DrawRaycast);
         _canvasAttachments = Instantiate(_canvasAttachments);
     }
-    
-    private void Start() => getGun = () => gunHandler.actualGun;
+
+    private void Start()
+    {
+        _canvasInventory = Instantiate(_canvasInventory);
+        state = OpenInventory;
+    }
 
     private void Update() => AttachmentOnSight();
- 
+
+    private void LateUpdate()
+    {
+        if (Input.GetKeyDown(_inventoryKey))
+        {
+            state?.Invoke();
+        }
+    }
+
     void AttachmentOnSight()
     {
         Transform tr = Camera.main.transform;
         //desde                     //hacia                         //distancia      //layer
-        if (Physics.SphereCast(tr.position,1f ,tr.forward, out RaycastHit hit, raycastDistance, attachmentLayer))
+        if (Physics.SphereCast(tr.position, 1f ,tr.forward, out RaycastHit hit, raycastDistance, attachmentLayer))
         {
             _canvasAttachments.gameObject.SetActive(true);
             Attachment x = hit.transform.GetComponent<Attachment>();
-            Gun gun = getGun?.Invoke();
-
+         
             _canvasAttachments.NewAttachment(x);
-            if (Input.GetKey(Equip)) getGun?.Invoke().attachmentHandler.AddAttachment(x);
+            if (Input.GetKey(Equip)) gunHandler.actualGun.attachmentHandler.AddAttachment(x);
 
             else if (Input.GetKey(Save)) Inventory_SaveAttachment(x);
 
@@ -49,9 +64,28 @@ public class AttachmentManager : MonoSingleton<AttachmentManager>
         else       
             _canvasAttachments.gameObject.SetActive(false);       
     }
+
+    Action state;
+    void OpenInventory()
+    {
+        var result = _attachmentsInventory.Aggregate(FList.Create<Attachment>(), (x, y) =>
+        {
+            var result = y.Value.Aggregate(FList.Create<Attachment>(), (x, y) => x + FList.Create(y.Value));
+            return x + result;
+        });
+
+        _canvasInventory.SetInventoryUI(result, gunHandler.actualGun);
+        state = CloseInventory;
+    }
+
+    void CloseInventory()
+    {
+        _canvasInventory.DeactivateInventory();
+        state = OpenInventory;
+    }
     
 
-    #region Inventory
+    #region Inventory Managment
     public int Inventory_SaveAttachment(Attachment value)
     {
         _debug.Log("Saving Attachment"+ value.name);
@@ -97,6 +131,7 @@ public class AttachmentManager : MonoSingleton<AttachmentManager>
         return x;
     }
     #endregion
+
     void DrawRaycast()
     {
         Transform tr = Camera.main.transform;

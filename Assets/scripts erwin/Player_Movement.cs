@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Diagnostics;
 using UnityEngine;
 [RequireComponent(typeof(LifeComponent))]
 [RequireComponent(typeof(PausableObject))]
@@ -42,9 +43,12 @@ public class Player_Movement : MonoBehaviour
     public float maxWalkingVel;
     [NonSerialized]
     public LifeComponent lifehandler;
+
+    DebugableObject _debug;
     private void Awake()
     {
         lifehandler = GetComponent<LifeComponent>();
+        _debug = GetComponent<DebugableObject>();
         GetComponent<PausableObject>().onPause += () => StartCoroutine(WhilePaused()); 
     }
     // Start is called before the first frame update
@@ -121,11 +125,14 @@ public class Player_Movement : MonoBehaviour
 
     IEnumerator WhilePaused()
     {
+        Vector3 auxVelocity = rb.velocity;
         rb.velocity = Vector3.zero;
         rb.useGravity= false;
+        
         yield return new WaitWhile(() => ScreenManager.isPaused);
+
+        rb.velocity = auxVelocity;
         rb.useGravity= true;
-        rb.velocity = velocity;
     }
     private void LateUpdate()
     {

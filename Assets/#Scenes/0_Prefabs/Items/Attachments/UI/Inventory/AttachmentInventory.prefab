@@ -705,6 +705,7 @@ GameObject:
   - component: {fileID: 151103344065731311}
   - component: {fileID: 151103344065731310}
   - component: {fileID: 151103344065731306}
+  - component: {fileID: 1971193044436575543}
   m_Layer: 5
   m_Name: AttachmentInventory
   m_TagString: Untagged
@@ -814,3 +815,21 @@ MonoBehaviour:
   EquippedPanel: {fileID: 151103342660171868}
   viewGunCamPrefab: {fileID: 8778942942074206513, guid: a1794a6c65d812e40938c1bc2cff258c, type: 3}
   pointTogo: {fileID: 0}
+  _camRotationSpeed: 4
+  _cam_MoveSpeed: 3
+--- !u!114 &1971193044436575543
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 151103344065731309}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 360ca867e48780448a1401b7fc47e037, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  canDebug: 1
+  gizmoDraw:
+    m_PersistentCalls:
+      m_Calls: []

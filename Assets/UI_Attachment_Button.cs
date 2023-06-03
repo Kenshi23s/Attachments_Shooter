@@ -18,10 +18,11 @@ public class UI_Attachment_Button : MonoBehaviour
         button= GetComponent<Button>();
         
     }
-    public void AssignAttachment(Attachment x)
+    public UI_Attachment_Button AssignAttachment(Attachment x)
     {
         owner = x;
         Buttontext.text = owner.TESTNAME;
+        return this;
       
         
     }
