@@ -11,14 +11,14 @@ public class IA_Manager : MonoSingleton<IA_Manager>
     public LayerMask obstacle => _obstacle;
     public LayerMask wall_Mask => _walls;
 
-    public List<IA_Movement> flockingTargets => _flockingTargets; 
-    private List<IA_Movement> _flockingTargets = new List<IA_Movement>();
+    public List<AI_Movement> flockingTargets => _flockingTargets; 
+    private List<AI_Movement> _flockingTargets = new List<AI_Movement>();
 
     [SerializeField] bool debugNodeConnections;
 
     public List<Node> nodes;
 
-    public void AddToFlockingTargets(IA_Movement a) => _flockingTargets.Add(a);
+    public void AddToFlockingTargets(AI_Movement a) => _flockingTargets.Add(a);
 
     protected override void SingletonAwake()
     {

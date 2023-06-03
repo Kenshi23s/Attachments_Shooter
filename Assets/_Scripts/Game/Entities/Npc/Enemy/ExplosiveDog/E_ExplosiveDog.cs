@@ -1,13 +1,13 @@
 using FacundoColomboMethods;
 using System.Linq;
 using UnityEngine;
-[RequireComponent(typeof(IA_Movement))]
+[RequireComponent(typeof(AI_Movement))]
 [RequireComponent(typeof(DebugableObject))]
 public class E_ExplosiveDog : Enemy
 {
     StateMachine<string> _fsm;
 
-    public IA_Movement agent { get; private set; }
+    public AI_Movement agent { get; private set; }
 
     #region Idle
     float alarmRadius;
@@ -37,18 +37,18 @@ public class E_ExplosiveDog : Enemy
         _fsm = new StateMachine<string>(); _fsm.Initialize(debug);
         health = GetComponent<LifeComponent>(); health.OnKilled += () => Explosion();
 
-        agent = GetComponent<IA_Movement>();
+        agent = GetComponent<AI_Movement>();
     }
 
     void Start()
     {
         agent.SetTargets(EnemyManager.instance.activeEnemies
-            .Where(x => x.TryGetComponent(out IA_Movement y))
-            .Select(x=> x.GetComponent<IA_Movement>()));
+            .Where(x => x.TryGetComponent(out AI_Movement y))
+            .Select(x=> x.GetComponent<AI_Movement>()));
 
         _fsm.CreateState("Idle", new EDogState_Idle(agent, _fsm, health));
         _fsm.CreateState("Pursuit", new EDogState_Pursuit(_fsm,agent, pursuitMaxSpeed, minJumpDistance));
-        _fsm.CreateState("JumpAttack", new EDogState_JumpAttack(Explosion, agent._movement, unitsAbovePlayer, _fsm));
+        _fsm.CreateState("JumpAttack", new EDogState_JumpAttack(Explosion, agent.Movement, unitsAbovePlayer, _fsm));
         _fsm.ChangeState("Idle");
     }
 
@@ -67,8 +67,8 @@ public class E_ExplosiveDog : Enemy
     void Initialize()
     {
         agent.SetTargets(EnemyManager.instance.activeEnemies
-           .Where(x => x.TryGetComponent<IA_Movement>(out var T))
-           .Select(x => x.GetComponent<IA_Movement>()));
+           .Where(x => x.TryGetComponent<AI_Movement>(out var T))
+           .Select(x => x.GetComponent<AI_Movement>()));
     }
 
     // Update is called once per frame

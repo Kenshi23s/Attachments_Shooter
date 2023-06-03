@@ -273,11 +273,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8acd364f316a31a499706c4da6c3dad3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  flockingParameters:
-    AlignmentForce: 0
-    _separationForce: 0
-    _cohesionForce: 0
-  obstacleMask:
+  WhatIsGround:
+    serializedVersion: 2
+    m_Bits: 4096
+  ObstacleMask:
     serializedVersion: 2
     m_Bits: 8192
 --- !u!114 &1659573396

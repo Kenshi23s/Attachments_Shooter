@@ -6,7 +6,7 @@ using static EggState;
 [RequireComponent(typeof(FOVAgent))]
 [RequireComponent(typeof(LifeComponent))]
 [RequireComponent(typeof(DebugableObject))]
-[RequireComponent(typeof(IA_Movement))]
+[RequireComponent(typeof(AI_Movement))]
 public class EggEscapeModel : MonoBehaviour
 {
     [System.Serializable]
@@ -36,7 +36,7 @@ public class EggEscapeModel : MonoBehaviour
 
     LifeComponent myLife;
     FOVAgent _fov;
-    IA_Movement _agent;
+    AI_Movement _agent;
 
     StateMachine<States> _fsm;
     public States actualState => _fsm.actualState;
@@ -69,7 +69,7 @@ public class EggEscapeModel : MonoBehaviour
 
         #region GetComponents
         DebugableObject _debug= GetComponent<DebugableObject>();
-        _agent = GetComponent<IA_Movement>();
+        _agent = GetComponent<AI_Movement>();
         _fov   = GetComponent<FOVAgent>();
         _fsm   = new StateMachine<States>();
     
@@ -82,7 +82,7 @@ public class EggEscapeModel : MonoBehaviour
         data._fov = _fov;
         data._fsm = _fsm;
         data._agent = _agent;
-        data.manual_Movement = _agent._movement;
+        data.manual_Movement = _agent.Movement;
         data._eggStats.debug= _debug;
         #endregion
 
@@ -140,9 +140,7 @@ public class EggEscapeModel : MonoBehaviour
         {
             _fsm.ChangeState(States.Stunned);
              myLife.canTakeDamage = false;
-        }
-           
-          
+        }       
     }
 
     private void DrawEggGizmos()
@@ -150,11 +148,10 @@ public class EggEscapeModel : MonoBehaviour
         if (_agent != null && _fsm != null)
         {
             Gizmos.color = Color.red;
-            Gizmos.DrawLine(_agent.destination, transform.position);
-            Gizmos.DrawWireSphere(_agent.destination, 5f);
+            Gizmos.DrawLine(_agent.Destination, transform.position);
+            Gizmos.DrawWireSphere(_agent.Destination, 5f);
             _fsm.StateGizmos();
-        }
-     
+        }     
     }
 
 }

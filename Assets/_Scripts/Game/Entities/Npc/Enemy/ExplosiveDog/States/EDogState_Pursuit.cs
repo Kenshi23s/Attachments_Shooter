@@ -6,11 +6,11 @@ using UnityEngine;
 public class EDogState_Pursuit : IState
 {
     StateMachine<string> _fsm;
-    IA_Movement _agent;
+    AI_Movement _agent;
     float _pursuitSpeed;
     float _jumpRadius;
 
-    public EDogState_Pursuit(StateMachine<string> fsm, IA_Movement agent, float pursuitSpeed, float jumpRadius)
+    public EDogState_Pursuit(StateMachine<string> fsm, AI_Movement agent, float pursuitSpeed, float jumpRadius)
     {
         _fsm = fsm;
         _agent = agent;

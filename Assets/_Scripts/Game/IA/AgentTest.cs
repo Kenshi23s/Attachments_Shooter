@@ -1,15 +1,15 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-[RequireComponent(typeof(IA_Movement))]
+[RequireComponent(typeof(AI_Movement))]
 public class AgentTest : MonoBehaviour
 {
-    IA_Movement agent;
+    AI_Movement agent;
     [SerializeField]GameObject objectToLookFor;
 
     private void Awake()
     {
-        agent = GetComponent<IA_Movement>();
+        agent = GetComponent<AI_Movement>();
     }
     private void Start()
     {

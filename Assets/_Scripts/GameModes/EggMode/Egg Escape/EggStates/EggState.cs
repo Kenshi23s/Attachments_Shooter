@@ -13,11 +13,12 @@ public abstract class EggState : IState
         Stunned,
         Kidnapped
     }
+
     public struct EggStateData
     {
         public EggStats _eggStats;
         public FOVAgent _fov;
-        public IA_Movement _agent;
+        public AI_Movement _agent;
         public StateMachine<States> _fsm;
         public Physics_Movement manual_Movement;
     }
@@ -39,10 +40,8 @@ public abstract class EggState : IState
     public Vector3 myPos => _manual_Movement.transform.position; 
     public EggStats _eggStats;
     public FOVAgent _fov;
-    public IA_Movement _agent;
+    public AI_Movement _agent;
     public StateMachine<States> _fsm;
-
-  
     
     public abstract void OnEnter();
     public abstract void OnExit();

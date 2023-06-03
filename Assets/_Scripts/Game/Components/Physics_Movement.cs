@@ -50,7 +50,6 @@ public class Physics_Movement : MonoBehaviour
         _velocity = Vector3.ClampMagnitude(_velocity + force * Time.fixedDeltaTime, _maxForce);
 
         _rb.velocity = Vector3.ClampMagnitude(_velocity, _maxSpeed);
-
         _rb.rotation = Quaternion.LookRotation(_rb.velocity,Vector3.up);
     }
 

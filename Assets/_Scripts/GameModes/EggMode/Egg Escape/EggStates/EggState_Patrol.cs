@@ -4,7 +4,7 @@ using UnityEngine;
 using UnityEngine.AI;
 using static EggEscapeModel;
 
-public class EggState_Patrol:EggState
+public class EggState_Patrol : EggState
 {
  
    
@@ -14,30 +14,27 @@ public class EggState_Patrol:EggState
       _eggStats.gameMode.waypoints[UnityEngine.Random.Range(0, _eggStats.gameMode.waypoints.Length)]; 
     }
     //como podria acortar este func?, consultar a alguien
-    Transform actualWaypoint;
+    Transform _actualWaypoint;
 
     Func<Transform> _getRandomWaypoint;
 
     public override void OnEnter()
     {      
-        actualWaypoint = _getRandomWaypoint?.Invoke();
+        _actualWaypoint = _getRandomWaypoint?.Invoke();
 
         _agent.SetMaxSpeed(_eggStats.patrolSpeed);
-        _agent.SetDestination(actualWaypoint.position);
+        _agent.SetDestination(_actualWaypoint.position);
     } 
 
     public override void OnUpdate()
     {
-        _eggStats.debug.Log(actualWaypoint.position.ToString()) ;
-        float distance = Vector3.Distance(actualWaypoint.position, myPos);     
+        _eggStats.debug.Log(_actualWaypoint.position.ToString()) ;
+        float distance = Vector3.Distance(_actualWaypoint.position, myPos);     
         if (_eggStats.gameMode.interactRadius > distance)
         {
-            actualWaypoint = _getRandomWaypoint?.Invoke();
-            _agent.SetDestination(actualWaypoint.position);
-        }       
-            
-        
-          
+            _actualWaypoint = _getRandomWaypoint?.Invoke();
+            _agent.SetDestination(_actualWaypoint.position);
+        }
 
         if (_fov.inFOV(_eggStats.gameMode.playerPos))
             _fsm.ChangeState(States.Escape);
@@ -49,7 +46,7 @@ public class EggState_Patrol:EggState
     public override void GizmoShow()
     {
         Gizmos.color = Color.green;
-        Gizmos.DrawWireSphere(actualWaypoint.position, _eggStats.gameMode.interactRadius);
+        Gizmos.DrawWireSphere(_actualWaypoint.position, _eggStats.gameMode.interactRadius);
     }
   
 }

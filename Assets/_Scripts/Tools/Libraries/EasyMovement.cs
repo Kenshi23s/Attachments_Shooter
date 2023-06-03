@@ -37,7 +37,7 @@ public static class EasyMovement
        return rb;
    }
 
-    public static Vector3 Flocking(this IEnumerable<IA_Movement> targets,FlockingParameters parameters)
+    public static Vector3 Flocking(this IEnumerable<AI_Movement> targets,FlockingParameters parameters)
     {
         Vector3 actualforce = Vector3.zero;
 
@@ -51,7 +51,7 @@ public static class EasyMovement
     public static Vector3 CalculateSteering(this Vector3 velocity, Vector3 desired, float steeringForce) => (desired - velocity) * steeringForce;
 
     #region Flocking
-    public static Vector3 GroupAlignment(this IEnumerable<IA_Movement> targets, FlockingParameters parameters)
+    public static Vector3 GroupAlignment(this IEnumerable<AI_Movement> targets, FlockingParameters parameters)
     {
         Vector3 desired = Vector3.zero;
         int count = 0;
@@ -65,9 +65,9 @@ public static class EasyMovement
         //por el momento quedara asi pq hay otras cosas mas importantes que optimizar
         
         
-        foreach (IA_Movement item in result)
+        foreach (AI_Movement item in result)
         {                     
-             desired += item.velocity;
+             desired += item.Velocity;
              count++;           
         }
 
@@ -82,7 +82,7 @@ public static class EasyMovement
         return desired;
     }
 
-    public static Vector3 Cohesion(this IEnumerable<IA_Movement> targets, FlockingParameters parameters)
+    public static Vector3 Cohesion(this IEnumerable<AI_Movement> targets, FlockingParameters parameters)
     {
         Vector3 desired = Vector3.zero;
         int count = 0;
@@ -110,7 +110,7 @@ public static class EasyMovement
         return desired*parameters._cohesionForce;
     }
 
-    public static Vector3 Separation(this IEnumerable<IA_Movement> targets,FlockingParameters parameters)
+    public static Vector3 Separation(this IEnumerable<AI_Movement> targets,FlockingParameters parameters)
     {
         Vector3 desired = Vector3.zero;
         foreach (var item in targets.Where(x => x.transform != parameters.myTransform))
