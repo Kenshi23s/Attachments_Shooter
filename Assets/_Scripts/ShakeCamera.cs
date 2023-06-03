@@ -1,9 +1,10 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-
+[RequireComponent(typeof(PausableObject))]
 public class ShakeCamera : MonoBehaviour
 {
+    
     [Header("Caminar"), Space(1)]
     public float _walkFrequency = 0.7f;
     public float _walkAmplitude = 1f;
@@ -31,8 +32,18 @@ public class ShakeCamera : MonoBehaviour
     [SerializeField] Player_Movement playerMov;
     [SerializeField] Rigidbody rb;
 
+    private void Awake()
+    {
+        
+       
+    }
+
     public void Update()
     {
+        if (ScreenManager.IsPaused()) return;
+        
+
+        
         Vector3 temp1;
         Vector3 temp2;
 

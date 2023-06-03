@@ -1,8 +1,10 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Diagnostics;
 using UnityEngine;
 [RequireComponent(typeof(LifeComponent))]
+[RequireComponent(typeof(PausableObject))]
 public class Player_Movement : MonoBehaviour
 {
 
@@ -41,9 +43,13 @@ public class Player_Movement : MonoBehaviour
     public float maxWalkingVel;
     [NonSerialized]
     public LifeComponent lifehandler;
+
+    DebugableObject _debug;
     private void Awake()
     {
         lifehandler = GetComponent<LifeComponent>();
+        _debug = GetComponent<DebugableObject>();
+        GetComponent<PausableObject>().onPause += () => StartCoroutine(WhilePaused()); 
     }
     // Start is called before the first frame update
     void Start()
@@ -64,6 +70,8 @@ public class Player_Movement : MonoBehaviour
 
     void Update()
     {
+        if (ScreenManager.IsPaused()) return;
+        
         //detecta si el jugador corre (si el personaje no avanza hacia adelante no puede correr)
         if (Input.GetKey(KeyCode.W) && Input.GetKey(KeyCode.LeftShift) && !onCrouch)
         {
@@ -113,6 +121,18 @@ public class Player_Movement : MonoBehaviour
         // devuelvo a la velocidad que voy a una variable estatica
         // (para que las balas no colisionen conmigo sumo su velocidad con la mia)
         velocity = rb.velocity;
+    }
+
+    IEnumerator WhilePaused()
+    {
+        Vector3 auxVelocity = rb.velocity;
+        rb.velocity = Vector3.zero;
+        rb.useGravity= false;
+        
+        yield return new WaitWhile(ScreenManager.IsPaused);
+
+        rb.velocity = auxVelocity;
+        rb.useGravity= true;
     }
     private void LateUpdate()
     {
@@ -176,6 +196,8 @@ public class Player_Movement : MonoBehaviour
 
     public void RotateCamera(string axisX, string axisY)
     {
+        if (ScreenManager.IsPaused()) return;
+        
         
             ejeX = Input.GetAxisRaw(axisX) * sens;
             ejeY = Input.GetAxisRaw(axisY) * sens;

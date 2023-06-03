@@ -70,5 +70,10 @@ public class View_Attachment : MonoBehaviour
 
         return data;
     }
-  
+
+   
+    private void OnBecameInvisible()
+    {
+        gameObject.SetActive(false);
+    }
 }

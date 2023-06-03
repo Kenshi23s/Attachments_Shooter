@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using static StatsHandler;
 using AYellowpaper.SerializedCollections;
 using System.Diagnostics;
+using System.Collections;
 
 //struct encargado de recolectar datos de los "Hits" y luego pasarlo por un evento a los interesados
 public struct HitData
@@ -27,7 +28,7 @@ public struct HitData
 [RequireComponent(typeof(DebugableObject))]
 [RequireComponent(typeof(PerkHandler))]
 #endregion
-
+[RequireComponent(typeof(PausableObject))]
 public abstract class Gun : MonoBehaviour
 {
     [Header("Animator")]
@@ -45,6 +46,7 @@ public abstract class Gun : MonoBehaviour
 
     [NonSerialized] public DebugableObject _debug;
 
+   protected PausableObject _pausableObject;
 
     #endregion
 
@@ -75,11 +77,11 @@ public abstract class Gun : MonoBehaviour
     #endregion
 
     bool _triggerPressed;
-    public bool TriggerPressed 
+    public bool TriggerPressed
     {
         get => _triggerPressed;
-                       
-        protected set 
+
+        protected set
         {
             _triggerPressed = value;
 
@@ -88,7 +90,7 @@ public abstract class Gun : MonoBehaviour
             else
                 onTriggerReleased?.Invoke();
         }
-        
+
     }
 
     public bool canShoot { get; protected set; }
@@ -103,18 +105,21 @@ public abstract class Gun : MonoBehaviour
         canShoot = true;
         _triggerPressed = false;
 
-        attachmentHandler = GetComponent<AttachmentHandler>();       
-        damageHandler = GetComponent<DamageHandler>(); 
+        attachmentHandler = GetComponent<AttachmentHandler>();
+        damageHandler = GetComponent<DamageHandler>();
         perkHandler = GetComponent<PerkHandler>();
-        stats = GetComponent<StatsHandler>(); 
+        stats = GetComponent<StatsHandler>();
         _debug = GetComponent<DebugableObject>();
+        _pausableObject = GetComponent<PausableObject>();
+        _pausableObject.onPause += () => StartCoroutine(RememberTrigger());
+
         OptionalInitialize();
-        
+
     }
 
     protected virtual void OptionalInitialize() { }
 
-    public void GunUpdate() => everyTick?.Invoke();  
+    public void GunUpdate() => everyTick?.Invoke();
 
     //lo ideal seria tener un metodo q llame a la animacion de recarga,
     //y que en algun frame la animacion de recarga llame a este metodo
@@ -131,10 +136,20 @@ public abstract class Gun : MonoBehaviour
     {
         //talvez deberia tener un metodo abstracto para las condiciones de disparo,
         //y cada arma eligiria cual quiere que sean sus condiciones para dispararse
+
         TriggerPressed = true;
         everyTick += WhileTriggerPressed;
+    }
 
+    IEnumerator RememberTrigger()
+    {
+        bool aux = TriggerPressed;
+        TriggerPressed = false;
+        everyTick -= WhileTriggerPressed;
 
+        yield return new WaitWhile(ScreenManager.IsPaused);  
+        
+        if (aux) PressTrigger();
     }
 
     void WhileTriggerPressed()

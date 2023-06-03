@@ -27,7 +27,7 @@ public class IA_Movement : MonoBehaviour
     public LayerMask obstacleMask;
     Action _fixedUpdate;
 
-    IEnumerable<IA_Movement> f_targets;
+    IEnumerable<IA_Movement> f_targets = default;
 
     [SerializeField]public bool isFlockingActive {get; private set;}
    
@@ -44,7 +44,9 @@ public class IA_Movement : MonoBehaviour
 
     public void SetTargets(IEnumerable<IA_Movement> targets)
     {
-        this.f_targets = targets;
+        _debug.Log("Targets para flocking Seteados");
+        f_targets = targets;
+       
     }
 
     private void FixedUpdate() => _fixedUpdate?.Invoke();

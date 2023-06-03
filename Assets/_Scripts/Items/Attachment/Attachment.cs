@@ -1,7 +1,9 @@
 using AYellowpaper.SerializedCollections;
+using FacundoColomboMethods;
 using System;
 using System.Collections;
 using UnityEngine;
+using UnityEngine.UI;
 using static StatsHandler;
 [RequireComponent(typeof(BoxCollider))]
 [RequireComponent(typeof(VFX_Sign))]
@@ -10,15 +12,13 @@ public abstract class Attachment : MonoBehaviour
 
     // queria que la variable de "value" tuviera un range,
     // pero no era posible si no estaba en un struct
-    public string TESTNAME;
+    #region DataStructures
     [System.Serializable]
     public struct StatChangeParams
     {
-        [Range(-100,100),SerializeField] int _value;
+        [Range(-100, 100), SerializeField] int _value;
         public int value => _value;
     }
-   
-    
 
     public enum AttachmentType
     {
@@ -31,6 +31,7 @@ public abstract class Attachment : MonoBehaviour
         TriggerHandler
 
     }
+    #endregion
 
     [SerializeField] Transform pivotPos;
     [SerializeField] protected AttachmentType _myType;
@@ -41,16 +42,18 @@ public abstract class Attachment : MonoBehaviour
     [SerializeField, SerializedDictionary("Stat Name", "Value To Add/Substract")]
     public SerializedDictionary<StatNames, StatChangeParams> Attachment_stats;
     //SerializedDictionary<StatNames, int> _stats= new SerializedDictionary<StatNames, int>();
-    
-    protected bool _isAttached;
-    public bool isAttached => _isAttached;
 
-    protected event Action onAttach;
-    protected event Action onDettach;
+
+    public bool isAttached { get; protected set; }
+
+
+ 
 
     public Gun owner { get; private set; }
 
-    LineRenderer sign;
+
+    protected event Action onAttach;
+    protected event Action onDettach;
 
     Tuple<Vector3, Quaternion> OriginPivot; 
     BoxCollider b_collider;
@@ -70,7 +73,7 @@ public abstract class Attachment : MonoBehaviour
         Action<bool> colliderEnable = (x) => b_collider.enabled = x;
         onAttach += () => colliderEnable(false);
         onDettach += () => colliderEnable(true);
-        _isAttached = false;
+        isAttached = false;
         #region Pivot
 
         pivotPos = pivotPos == null ? transform : pivotPos;
@@ -90,7 +93,8 @@ public abstract class Attachment : MonoBehaviour
 
     protected virtual void Start()
     {
-        gameObject.layer = AttachmentManager.instance.attachmentLayer;
+
+        gameObject.layer = AttachmentManager.instance.attachmentLayer.LayerBitmapToInt();    
         Comunicate(); SetVFXsign();   
         if (isAttached) onAttach?.Invoke(); else onDettach?.Invoke();
         
@@ -123,7 +127,7 @@ public abstract class Attachment : MonoBehaviour
             transform.rotation = pivotPos.rotation * OriginPivot.Item2;
         }        
          owner = gun;
-         _isAttached = true;
+         isAttached = true;
 
          owner.stats.ChangeStats(Attachment_stats, true);
          onAttach?.Invoke();       
@@ -138,12 +142,12 @@ public abstract class Attachment : MonoBehaviour
     //saca sus stats del arma y queda sin padre
     public void Dettach()
     {
-        if (!_isAttached) return;
+        if (!isAttached) return;
         owner.stats.ChangeStats(Attachment_stats, false);
 
         owner=null;
         this.transform.parent=null;
-        _isAttached=false;
+        isAttached = false;
 
         onDettach?.Invoke();
        

@@ -85,12 +85,16 @@ public class AttachmentHandler : MonoBehaviour
                     //añado
                     AddAttachment(_DefaultAttachMent[key]);
                     if (_onAttachmentChange.TryGetValue(key, out var action)) action?.Invoke();
-                    continue;
+                    
                 }
                 //chequeo por las dudas para que no salten errores              
             }                
         }
     }
+
+    public bool IsDefaultAttachment(Attachment x) => _DefaultAttachMent.ContainsValue(x);
+
+    #region Events
     //añado cosas al diccionario de eventos(no podes hacer un diccionario de eventos en si, tiene q ser de actions)
     public void AddOnChangeEvent(AttachmentType eventType, Action new_action)
     {
@@ -120,6 +124,7 @@ public class AttachmentHandler : MonoBehaviour
             Call?.Invoke(); _gun._debug.Log("Invoco el evento change de tipo " + type);
         }                    
     }
+    #endregion
 
     /// <summary>
     /// Añade un accesorio x al arma(si los de su tipo tienen una ubicacion en el arma)
@@ -143,6 +148,7 @@ public class AttachmentHandler : MonoBehaviour
         if (!_activeAttachments.ContainsKey(key))
         {
             //lo añado y agrego sus stats
+            value.gameObject.SetActive(true);
             _activeAttachments.Add(key, value);               
             _activeAttachments[key].Attach(_gun, _attachmentPos[key]);
 
@@ -183,8 +189,12 @@ public class AttachmentHandler : MonoBehaviour
             _activeAttachments.Remove(key);
         }     
         if (_DefaultAttachMent.TryGetValue(key,out var _default)) AddAttachment(_default);
-        
-        _onAttachmentChange[key]?.Invoke();
+
+        if (_onAttachmentChange.TryGetValue(key,out var x))
+        {
+            x?.Invoke();
+        }
+       
     }
 
     void SaveAttachment(Attachment x)
