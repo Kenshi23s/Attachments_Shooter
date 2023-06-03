@@ -12,11 +12,13 @@ public class GunManager : MonoBehaviour
     public Player_Handler myPlayer { get; private set; }
    
     event Action<HitData> onActualGunHit;
-    
+
+    int actualGunCount;
+
     //event Action OnSwapWeapons;
 
     //awake para inicializacion
-    
+
     public void SetPlayer(Player_Handler player)
     {
         myPlayer = player;
@@ -37,9 +39,12 @@ public class GunManager : MonoBehaviour
         Debug.LogWarning("Armas en full auto, asegurarse q tengan el RateofFire != 0 ");
     }
 
-    int actualGunCount;
+ 
     void Update()
     {
+        foreach (Gun item in myGuns) item.GunUpdate();
+
+        if (ScreenManager.IsPaused()) return;
       
         if (Input.GetKeyDown(KeyCode.Mouse0))
         {
@@ -56,7 +61,7 @@ public class GunManager : MonoBehaviour
             SwapWeapons(myGuns[actualGunCount]);
         }
 
-        foreach (Gun item in myGuns) item.GunUpdate();    
+       
     }
 
     

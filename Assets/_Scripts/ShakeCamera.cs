@@ -40,7 +40,7 @@ public class ShakeCamera : MonoBehaviour
 
     public void Update()
     {
-        if (ScreenManager.isPaused) return;
+        if (ScreenManager.IsPaused()) return;
         
 
         

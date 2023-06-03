@@ -7,17 +7,7 @@ public class Sight : Attachment
     [SerializeField]SpriteRenderer _sightDot;
     public SpriteRenderer sightDot => _sightDot;
 
-    protected override void Initialize()
-    {
-        _myType = AttachmentType.Sight;
-    }
-    protected override void Comunicate()
-    {
-       
-    }
-    public void TESTATTACH(bool x)
-    {
-        _isAttached = x;
-    }
-
+    protected override void Initialize() => _myType = AttachmentType.Sight;
+   
+    protected override void Comunicate() { }
 }

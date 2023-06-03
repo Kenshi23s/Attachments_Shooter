@@ -2,14 +2,18 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-
+[RequireComponent(typeof(PausableObject))]
 public class LaserSight : Attachment
 {
     [SerializeField] LineRenderer _laserLineRender;
     [SerializeField] Transform _laserOutPoint;
 
 
-    protected override void Initialize() => _myType = AttachmentType.LaserSight;       
+    protected override void Initialize()
+    {
+        _myType = AttachmentType.LaserSight;
+        GetComponent<PausableObject>().onPause += () => StartCoroutine(StopLaser());
+    } 
 
     protected override void Comunicate() 
     {
@@ -24,12 +28,18 @@ public class LaserSight : Attachment
         enable(isAttached);
     }
    
-
+  
     private void Update() => UpdateLaser();
     
-
+    IEnumerator StopLaser()
+    {
+        enabled = false;
+        yield return new WaitWhile(ScreenManager.IsPaused);
+        enabled = true;
+    }
     void UpdateLaser()
     {
+
         Vector3 forward = Camera.main.transform.forward;
         _laserLineRender.SetPosition(0, _laserOutPoint.position);
         if (Physics.Raycast(_laserOutPoint.position, forward, out RaycastHit hit))        
@@ -37,5 +47,6 @@ public class LaserSight : Attachment
         else
             _laserLineRender.SetPosition(1, _laserOutPoint.position + forward * 200f);
     }
+    
 
 }

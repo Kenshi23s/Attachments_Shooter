@@ -5,6 +5,7 @@ using System.Diagnostics;
 using System.Linq;
 using UnityEngine;
 using static UnityEditor.Progress;
+using static UnityEngine.Networking.UnityWebRequest;
 
 [System.Serializable]
 public struct FlockingParameters
@@ -54,10 +55,17 @@ public static class EasyMovement
     {
         Vector3 desired = Vector3.zero;
         int count = 0;
+        if (!targets.Any()) return desired;        
+        
+        var result = targets.Where(x => Vector3.Distance(x.transform.position, parameters.myTransform.position) <= parameters.viewRadius);
+        if (!result.Any()) return desired;
+
+       
         //todo lo de flocking se podria resumir mas con Flist y Linq
         //por el momento quedara asi pq hay otras cosas mas importantes que optimizar
-        foreach (IA_Movement item in targets.
-            Where(x => Vector3.Distance(x.transform.position,parameters.myTransform.position) <= parameters.viewRadius))
+        
+        
+        foreach (IA_Movement item in result)
         {                     
              desired += item.velocity;
              count++;           

@@ -78,7 +78,7 @@ public class Physics_Movement : MonoBehaviour
     {
         Vector3 actualVelocity = _rb.velocity;
         _rb.velocity = Vector3.zero;
-        yield return new WaitWhile(() => ScreenManager.isPaused);
+        yield return new WaitWhile(ScreenManager.IsPaused);
         _rb.velocity = actualVelocity;
     }
  

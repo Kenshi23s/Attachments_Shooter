@@ -70,7 +70,7 @@ public class Player_Movement : MonoBehaviour
 
     void Update()
     {
-        if (ScreenManager.isPaused) return;
+        if (ScreenManager.IsPaused()) return;
         
         //detecta si el jugador corre (si el personaje no avanza hacia adelante no puede correr)
         if (Input.GetKey(KeyCode.W) && Input.GetKey(KeyCode.LeftShift) && !onCrouch)
@@ -129,7 +129,7 @@ public class Player_Movement : MonoBehaviour
         rb.velocity = Vector3.zero;
         rb.useGravity= false;
         
-        yield return new WaitWhile(() => ScreenManager.isPaused);
+        yield return new WaitWhile(ScreenManager.IsPaused);
 
         rb.velocity = auxVelocity;
         rb.useGravity= true;
@@ -196,7 +196,7 @@ public class Player_Movement : MonoBehaviour
 
     public void RotateCamera(string axisX, string axisY)
     {
-        if (ScreenManager.isPaused) return;
+        if (ScreenManager.IsPaused()) return;
         
         
             ejeX = Input.GetAxisRaw(axisX) * sens;
