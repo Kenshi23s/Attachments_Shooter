@@ -171,10 +171,11 @@ public class AttachmentHandler : MonoBehaviour
     /// <param name="value"></param>
     void ReplaceAttachment(Attachment value)
     {
-        AttachmentType key= value.myType;
+        AttachmentType key = value.myType;
+        
         _gun._debug.Log($"Remplazo el accesorio {_activeAttachments[key].name}, por {value.name}");
-        SaveAttachment(_activeAttachments[key]);
-        _activeAttachments.Remove(key);
+
+        RemoveAttachment(key);
         AddAttachment(value);
     }
     /// <summary>
@@ -185,16 +186,14 @@ public class AttachmentHandler : MonoBehaviour
     {
         if (_activeAttachments.TryGetValue(key,out var toRemove))
         {
-            SaveAttachment(toRemove);
             _activeAttachments.Remove(key);
+            SaveAttachment(toRemove);
         }     
+
         if (_DefaultAttachMent.TryGetValue(key,out var _default)) AddAttachment(_default);
 
-        if (_onAttachmentChange.TryGetValue(key,out var x))
-        {
-            x?.Invoke();
-        }
-       
+        if (_onAttachmentChange.TryGetValue(key,out var x)) x?.Invoke();
+
     }
 
     void SaveAttachment(Attachment x)

@@ -1,4 +1,5 @@
 using System;
+using System.Diagnostics;
 using TMPro;
 using UnityEngine;
 using UnityEngine.Events;
@@ -47,8 +48,18 @@ public class UI_Attachment_Button : MonoBehaviour
 
     void EquipAttachment()
     {
-        _debug.Log($"Equipo el accesorio {owner} a {displayGun}");
+   
+        string debug =  $"Equipo el accesorio {owner} a {displayGun} ";
+        if (displayGun.attachmentHandler.activeAttachments.ContainsKey(owner.myType))
+        {
+             var aux = displayGun.attachmentHandler.activeAttachments[owner.myType];
+            displayGun.attachmentHandler.RemoveAttachment(aux.myType);
+            debug += $",PERO ANTES desconecto el accesorio {aux} (la cual de mi mismo tipo) de el arma";
+        }
+        _debug.Log(debug);
+
         displayGun.attachmentHandler.AddAttachment(AttachmentManager.instance.RemoveFromInventory(owner));
+
         _onChange?.Invoke(this);
     }
 }

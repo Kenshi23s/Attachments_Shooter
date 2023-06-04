@@ -108,15 +108,19 @@ public class AttachmentManager : MonoSingleton<AttachmentManager>
         if (value.isAttached)
             value.owner.attachmentHandler.RemoveAttachment(value.myType); value.Dettach();
 
-
-        if (!_attachmentsInventory[value.myType].ContainsKey(key))
-        {
+        if (!_attachmentsInventory[value.myType].ContainsKey(key))       
             _attachmentsInventory[value.myType].Add(key, value);
-        }
+        
        
         value.gameObject.SetActive(false);
 
         _debug.Log(" Attachment"+ value.name + " Saved!");
+
+        if (_inventoryState != OpenInventory)
+        {
+            _debug.Log($"Intento Crear un boton para{value}");
+            _canvasInventory.AddButton(value);
+        }
         return key;
 
     }

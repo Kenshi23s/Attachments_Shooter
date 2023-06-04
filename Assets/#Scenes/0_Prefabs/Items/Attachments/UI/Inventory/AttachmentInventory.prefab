@@ -37,8 +37,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: -329, y: -44.070923}
-  m_SizeDelta: {x: -656.9507, y: -88.1418}
+  m_AnchoredPosition: {x: -238.52, y: -48.233}
+  m_SizeDelta: {x: -476, y: -96.466}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &151103342660171865
 CanvasRenderer:
@@ -305,7 +305,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -329, y: 277}
+  m_AnchoredPosition: {x: -238.52, y: 177}
   m_SizeDelta: {x: 324, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &151103343530596917
@@ -382,8 +382,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 324, y: 275}
-  m_SizeDelta: {x: 324, y: 100}
+  m_AnchoredPosition: {x: 243.95, y: 181.16}
+  m_SizeDelta: {x: 324, y: 91.676}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &151103343643025187
 CanvasRenderer:
@@ -460,8 +460,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 326, y: -44.070923}
-  m_SizeDelta: {x: -656.9507, y: -88.1418}
+  m_AnchoredPosition: {x: 239.74, y: -44.070923}
+  m_SizeDelta: {x: -484.43, y: -88.1418}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &151103343951027359
 CanvasRenderer:
@@ -770,7 +770,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0cd44c1031e13a943bb63640046fad76, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_UiScaleMode: 0
+  m_UiScaleMode: 1
   m_ReferencePixelsPerUnit: 100
   m_ScaleFactor: 1
   m_ReferenceResolution: {x: 800, y: 600}
@@ -811,10 +811,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   template: {fileID: 5931648148543068310, guid: 544714b9145264d4ca69b246947938b1, type: 3}
-  SavedPanel: {fileID: 151103343951027347}
-  EquippedPanel: {fileID: 151103342660171868}
+  savedPanel: {fileID: 151103343951027347}
+  equippedPanel: {fileID: 151103342660171868}
   viewGunCamPrefab: {fileID: 8778942942074206513, guid: a1794a6c65d812e40938c1bc2cff258c, type: 3}
-  pointTogo: {fileID: 0}
+  _pointTogo: {fileID: 0}
   _camRotationSpeed: 4
   _cam_MoveSpeed: 3
 --- !u!114 &1971193044436575543
