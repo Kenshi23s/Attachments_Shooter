@@ -1,10 +1,8 @@
-using System.Collections;
+#if UNITY_EDITOR
 using System.Collections.Generic;
 using UnityEngine;
 using System.IO;
-using UnityEditor.VersionControl;
 using UnityEditor;
-using static UnityEngine.Networking.UnityWebRequest;
 
 public static class PerkDataBase 
 {
@@ -66,3 +64,4 @@ public static class PerkDataBase
       
     }
 }
+#endif

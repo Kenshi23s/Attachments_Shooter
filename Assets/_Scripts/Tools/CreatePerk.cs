@@ -1,3 +1,4 @@
+#if UNITY_EDITOR
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -21,6 +22,7 @@ public class CreatePerk : MonoBehaviour
 
     //C:\Users\Facundo\Documents\Seminario Scavenger\Assets\Json\Perks
 }
+
 [CustomEditor(typeof(CreatePerk))]
 public class CreatePerkEditor : Editor
 {
@@ -37,3 +39,4 @@ public class CreatePerkEditor : Editor
         base.OnInspectorGUI();
     }
 }
+#endif

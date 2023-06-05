@@ -104,7 +104,7 @@ public abstract class Attachment : MonoBehaviour
     {
     
         if (gun == null) return;      
-        transform.parent = AttachTo;
+         transform.parent = AttachTo;
 
          pivotPos.position = AttachTo.position;
          pivotPos.rotation = AttachTo.rotation;

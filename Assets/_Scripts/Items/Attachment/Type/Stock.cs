@@ -10,7 +10,7 @@ public class Stock : Attachment
     }
     protected override void Comunicate()
     {
-        throw new System.NotImplementedException();
+        
     }
 
 

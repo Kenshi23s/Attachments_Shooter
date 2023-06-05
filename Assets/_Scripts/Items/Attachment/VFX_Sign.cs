@@ -3,9 +3,10 @@ using UnityEngine;
 public class VFX_Sign : MonoBehaviour
 {
     LineRenderer sign;
-    [SerializeField] Color _color = Color.white;
+    [SerializeField] Color _color = Color.blue;
     [SerializeField] float length=5f;
 
+    int count;
     private void Start()
     {
         sign = Instantiate(GameManager.instance.sampleLineSign, transform);
@@ -16,10 +17,15 @@ public class VFX_Sign : MonoBehaviour
         //sign.GetComponent<Renderer>().material = mat;
 
         sign.name = gameObject.name + " HelpSign";
+        count++;
+        Debug.Log(count);
     }
 
     public void ActivateSign()
     {
+        Start();
+        count++;
+        Debug.Log(count + gameObject.name);
         sign.gameObject.SetActive(true);
         sign.SetPosition(0, transform.position);
         sign.SetPosition(1, transform.position + (Vector3.up * length));

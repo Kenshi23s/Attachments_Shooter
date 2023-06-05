@@ -4,8 +4,6 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 using UnityEngine;
-using static UnityEditor.Progress;
-using static UnityEngine.Networking.UnityWebRequest;
 
 [System.Serializable]
 public struct FlockingParameters
