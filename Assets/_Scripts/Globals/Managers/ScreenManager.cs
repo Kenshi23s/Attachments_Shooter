@@ -1,5 +1,6 @@
 
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 public interface IPausable
@@ -28,6 +29,9 @@ public static class ScreenManager
 
     public static void PauseGame()
     {
+        pausables = pausables.Where(x => x!= null).ToList();
+
+
         time = 0 ;
         isPaused=true ;
         string ItemsPaused = "";

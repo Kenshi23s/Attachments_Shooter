@@ -45,4 +45,8 @@ public class DebugableObject : MonoBehaviour
         if (!canDebug) return;
         Debug.LogError(gameObject.name + ": " + message);
     }
+    private void OnValidate()
+    {
+        OnDrawGizmos();
+    }
 }

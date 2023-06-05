@@ -13,8 +13,8 @@ public class EDogState_JumpAttack : IState
     float unitsAbovePlayer=2.5f;
     StateMachine<string> _fsm;
 
-    int count = 0;
-    Vector3 jumpWp;
+
+    Vector3 jumpWp = Vector3.zero;
 
     public EDogState_JumpAttack(Action _explosion, Physics_Movement _move, float unitsAbovePlayer, StateMachine<string> _fsm)
     {
@@ -43,7 +43,7 @@ public class EDogState_JumpAttack : IState
     public void OnUpdate()
     {
         state?.Invoke();
-        if (Vector3.Distance(_move.transform.position, Player_Movement.position) < 5f)
+        if (Vector3.Distance(_move.transform.position, Player_Movement.position) < 2f)
             _explosion?.Invoke();
     } 
 

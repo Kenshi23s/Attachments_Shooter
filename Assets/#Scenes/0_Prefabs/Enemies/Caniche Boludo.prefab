@@ -17,6 +17,7 @@ GameObject:
   - component: {fileID: 7995179844713157492}
   - component: {fileID: 7995179844713157493}
   - component: {fileID: 7995179844713157494}
+  - component: {fileID: 6040398420493665900}
   m_Layer: 0
   m_Name: Caniche Boludo
   m_TagString: Untagged
@@ -125,13 +126,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8acd364f316a31a499706c4da6c3dad3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  flockingParameters:
-    AlignmentForce: 1
-    _separationForce: 1
-    _cohesionForce: 1
-  obstacleMask:
+  WhatIsGround:
     serializedVersion: 2
-    m_Bits: 8192
+    m_Bits: 0
+  ObstacleMask:
+    serializedVersion: 2
+    m_Bits: 0
 --- !u!114 &7995179844713157493
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -165,6 +165,21 @@ MonoBehaviour:
   minJumpDistance: 10
   unitsAbovePlayer: 10
   unitsBehindPlayer: 10
+  _explosionDamage: 0
+  _explosionRadius: 0
+--- !u!65 &6040398420493665900
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7995179844713157495}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 2.5822277, y: 2.5521946, z: 1.9823914}
+  m_Center: {x: -0.034773827, y: 1.0977592, z: -0.099975586}
 --- !u!1001 &6863919696760206666
 PrefabInstance:
   m_ObjectHideFlags: 0

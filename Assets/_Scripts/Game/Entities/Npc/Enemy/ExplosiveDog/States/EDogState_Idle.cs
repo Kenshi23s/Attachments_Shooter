@@ -34,7 +34,7 @@ public class EDogState_Idle : IState
     {
         while (_fsm.actualState == "Idle")
         {
-            if (_fsm.actualState == "Idle") break;
+            if (_fsm.actualState != "Idle") break;
 
 
 

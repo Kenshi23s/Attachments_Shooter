@@ -13,9 +13,15 @@ public class PausableObject : MonoBehaviour, IPausable
     private void Awake()
     {
         ScreenManager.AddPausable(this);
-        enabled = false;
+        enabled = true;
     }
- 
+
+    private void OnDestroy()
+    {
+        ScreenManager.RemovePausable(this);
+        onPause = default;
+        onResume = default;
+    }
     public void Pause() => onPause?.Invoke();
 
     public void Resume() => onResume?.Invoke();

@@ -20,14 +20,9 @@ public class E_ExplosiveDog : Enemy
     [Header("JumpAttack")]
     [SerializeField,Tooltip("unidades arriba del player en el salto")] 
     float unitsAbovePlayer;
-    //me lo imagino como que salta, le erra y aterriza como derrapando(?) tendria que debatirlo con jocha
-    [SerializeField,Tooltip("unidades detras del player al atterrizar" +
-        "(habria que chequearlo con un raycast para que no quiera aterrizar en una pared)")] 
-    float unitsBehindPlayer;
 
-    #region OnJump
-    float JumpSpeed;
-    #endregion
+
+    [Header("Explosion")]
     [SerializeField]int _explosionDamage;
     [SerializeField]float _explosionRadius;
 
