@@ -72,6 +72,7 @@ public class LifeComponent : MonoBehaviour, IDamagable, IHealable
     {
         
         FloatingTextManager.instance.PopUpText(x.ToString(), hitPos != Vector3.zero? hitPos : transform.position);
+        hitPos = Vector3.zero;
     }
     Vector3 hitPos = Vector3.zero;
 

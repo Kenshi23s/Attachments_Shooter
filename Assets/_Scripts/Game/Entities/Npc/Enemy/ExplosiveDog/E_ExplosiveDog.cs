@@ -28,23 +28,23 @@ public class E_ExplosiveDog : Enemy
     #region OnJump
     float JumpSpeed;
     #endregion
-    int _explosionDamage;
-    float _explosionRadius;
+    [SerializeField]int _explosionDamage;
+    [SerializeField]float _explosionRadius;
 
     public override void ArtificialAwake()
     {
         debug = GetComponent<DebugableObject>();
         _fsm = new StateMachine<string>(); _fsm.Initialize(debug);
-        health = GetComponent<LifeComponent>(); health.OnKilled += () => Explosion();
+        health = GetComponent<LifeComponent>(); health.OnKilled += Explosion;
 
         agent = GetComponent<AI_Movement>();
     }
 
     void Start()
     {
-        agent.SetTargets(EnemyManager.instance.activeEnemies
-            .Where(x => x.TryGetComponent(out AI_Movement y))
-            .Select(x=> x.GetComponent<AI_Movement>()));
+        //agent.SetTargets(EnemyManager.instance.activeEnemies
+        //    .Where(x => x.TryGetComponent(out AI_Movement y))
+        //    .Select(x=> x.GetComponent<AI_Movement>()));
 
         _fsm.CreateState("Idle", new EDogState_Idle(agent, _fsm, health));
         _fsm.CreateState("Pursuit", new EDogState_Pursuit(_fsm,agent, pursuitMaxSpeed, minJumpDistance));
@@ -54,6 +54,7 @@ public class E_ExplosiveDog : Enemy
 
     void Explosion()
     {
+        health.OnKilled -= Explosion;
         if (health.life > 0) { health.TakeDamage(int.MaxValue); return; }
        
         foreach (var item in transform.position.GetItemsOFTypeAround<IDamagable>(_explosionRadius))
@@ -61,7 +62,7 @@ public class E_ExplosiveDog : Enemy
             item.TakeDamage(_explosionDamage);
         }
         debug.Log("Explosion!");
-        Destroy(gameObject,0.5f);
+        Destroy(gameObject);
         
     }
     void Initialize()

@@ -49,6 +49,7 @@ public class Player_Movement : MonoBehaviour
     {
         lifehandler = GetComponent<LifeComponent>();
         _debug = GetComponent<DebugableObject>();
+        _debug.AddGizmoAction(DebugVelocity);
         GetComponent<PausableObject>().onPause += () => StartCoroutine(WhilePaused()); 
     }
     // Start is called before the first frame update
@@ -66,6 +67,11 @@ public class Player_Movement : MonoBehaviour
         heightStand = mycollider.height;
 
 
+    }
+
+    void DebugVelocity()
+    {
+        DrawArrow.ForGizmo(transform.position,velocity,1);
     }
 
     void Update()
@@ -210,10 +216,6 @@ public class Player_Movement : MonoBehaviour
 
     }
 
-    #region UtilidadesEntidad
-
-    
-    #endregion
 }
 
 
