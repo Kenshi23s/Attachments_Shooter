@@ -2,6 +2,7 @@ using UnityEngine;
 using static EggEscapeModel;
 using UnityEngine.AI;
 using FacundoColomboMethods;
+using System.Linq;
 
 public class EggState_Escape : EggState
 {
@@ -9,7 +10,9 @@ public class EggState_Escape : EggState
 
     Transform _actualWaypoint;
 
-    Transform GetFurthestWaypoint() => _eggStats.gameMode.waypoints.GetFurthest(_agent.transform.position);
+    Transform GetFurthestWaypoint() => _eggStats.gameMode.waypoints
+        .OrderByDescending(x => Vector3.Distance(_agent.transform.position, x.transform.position))
+        .First();
 
     public override void OnEnter()
     {

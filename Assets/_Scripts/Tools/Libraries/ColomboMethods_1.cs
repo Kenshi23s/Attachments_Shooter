@@ -5,6 +5,7 @@ using System.Drawing;
 using System.Linq;
 using UnityEngine;
 using UnityEngine.UIElements;
+using Random = UnityEngine.Random;
 
 namespace FacundoColomboMethods
 {
@@ -22,6 +23,17 @@ namespace FacundoColomboMethods
 
     public static class ColomboMethods
     {
+        public static Vector3 GetOrientedVector(this Transform tr, Vector3 T)
+        {
+            return T.x * tr.right + T.y * tr.up + tr.forward * T.z;
+        }
+
+        public static Vector3 GetOrientedVector(this Vector3 T,Transform tr)
+        {
+            return T.x * tr.right + T.y * tr.up + tr.forward * T.z;
+        }
+
+
         public static string GenerateName(int len)
         {
             System.Random r = new System.Random();
@@ -88,7 +100,7 @@ namespace FacundoColomboMethods
         public static Vector3 RandomDirFrom(this Vector3 myDir,float angle)
         {
             // el angulo maximo entre 2 vectores es 180, si se pasa vuelvea a empezar de 0
-            Vector3 random = UnityEngine.Random.insideUnitSphere;
+            Vector3 random = Random.insideUnitSphere;
 
             angle =  Mathf.Clamp(MathF.Abs(angle),0,180);
             // lo divido por 180 para "Remapearlo a un valor mas bajo"     
@@ -234,6 +246,7 @@ namespace FacundoColomboMethods
             return new Vector3(pos.x, pos.y, pos.z + range);
 
         }
+        #region se pueden hacer con linq mas facil D: :D
 
         /// <summary>
         /// obtiene el componente "T" mas cercano sin importar si esta a la vista o no
@@ -243,47 +256,50 @@ namespace FacundoColomboMethods
         /// <param name="myPos"></param>
         /// <returns></returns>
         /// 
-        public static T GetNearest<T>(T[] objPosition, Vector3 myPos) where T : MonoBehaviour
-        {
-            int nearestIndex = 0;
 
-            float nearestMagnitude = (objPosition[0].transform.position - myPos).magnitude;
+        //existe una funcion de linq para esto(order by)
+        //public static T GetNearest<T>(T[] objPosition, Vector3 myPos) where T : MonoBehaviour
+        //{
+        //    int nearestIndex = 0;
 
-            for (int i = 1; i < objPosition.Length; i++)
-            {
-                float tempMagnitude = (objPosition[i].transform.position - myPos).magnitude;
+        //    float nearestMagnitude = (objPosition[0].transform.position - myPos).magnitude;
 
-                if (nearestMagnitude > tempMagnitude)
-                {
-                    nearestMagnitude = tempMagnitude;
-                    nearestIndex = i;
-                }
+        //    for (int i = 1; i < objPosition.Length; i++)
+        //    {
+        //        float tempMagnitude = (objPosition[i].transform.position - myPos).magnitude;
 
-            }
+        //        if (nearestMagnitude > tempMagnitude)
+        //        {
+        //            nearestMagnitude = tempMagnitude;
+        //            nearestIndex = i;
+        //        }
 
-            return objPosition[nearestIndex];
-        }
+        //    }
 
-        public static T GetFurthest<T>(this T[] objPosition, Vector3 myPos) where T : Transform
-        {
-            int nearestIndex = 0;
+        //    return objPosition[nearestIndex];
+        //}
 
-            float nearestMagnitude = (objPosition[0].transform.position - myPos).magnitude;
+        // existe una funcion de linq para esto(order By)
+        //public static T GetFurthest<T>(this T[] objPosition, Vector3 myPos) where T : Transform
+        //{
+        //    int nearestIndex = 0;
 
-            for (int i = 1; i < objPosition.Length; i++)
-            {
-                float tempMagnitude = (objPosition[i].transform.position - myPos).magnitude;
+        //    float nearestMagnitude = (objPosition[0].transform.position - myPos).magnitude;
 
-                if (nearestMagnitude > tempMagnitude)
-                {
-                    nearestMagnitude = tempMagnitude;
-                    nearestIndex = i;
-                }
+        //    for (int i = 1; i < objPosition.Length; i++)
+        //    {
+        //        float tempMagnitude = (objPosition[i].transform.position - myPos).magnitude;
 
-            }
+        //        if (nearestMagnitude > tempMagnitude)
+        //        {
+        //            nearestMagnitude = tempMagnitude;
+        //            nearestIndex = i;
+        //        }
 
-            return objPosition[nearestIndex];
-        }
+        //    }
+
+        //    return objPosition[nearestIndex];
+        //}
 
         //public static T CheckNearest<T>(Transform[] objPosition, Vector3 myPos)
         //{
@@ -457,5 +473,5 @@ namespace FacundoColomboMethods
         }
 
     }
-    
+    #endregion
 }

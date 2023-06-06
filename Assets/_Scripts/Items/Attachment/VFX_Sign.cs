@@ -17,15 +17,17 @@ public class VFX_Sign : MonoBehaviour
         //sign.GetComponent<Renderer>().material = mat;
 
         sign.name = gameObject.name + " HelpSign";
-        count++;
-        Debug.Log(count);
+       
     }
 
     public void ActivateSign()
     {
         Start();
-        count++;
-        Debug.Log(count + gameObject.name);
+        if (sign==null)
+        {
+            Start();
+        }
+       
         sign.gameObject.SetActive(true);
         sign.SetPosition(0, transform.position);
         sign.SetPosition(1, transform.position + (Vector3.up * length));

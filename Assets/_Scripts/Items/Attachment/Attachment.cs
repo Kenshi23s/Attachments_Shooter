@@ -1,15 +1,14 @@
 using AYellowpaper.SerializedCollections;
 using FacundoColomboMethods;
 using System;
-using System.Collections;
 using UnityEngine;
-using UnityEngine.UI;
 using static StatsHandler;
 [RequireComponent(typeof(BoxCollider))]
 [RequireComponent(typeof(VFX_Sign))]
+[RequireComponent(typeof(DebugableObject))]
 public abstract class Attachment : MonoBehaviour
 {
-
+    protected DebugableObject _debug;
     // queria que la variable de "value" tuviera un range,
     // pero no era posible si no estaba en un struct
     #region DataStructures
@@ -51,7 +50,7 @@ public abstract class Attachment : MonoBehaviour
     protected event Action onAttach;
     protected event Action onDettach;
 
-    Tuple<Vector3, Quaternion> OriginPivot; 
+    Vector3 OriginPivot = Vector3.zero; 
     BoxCollider b_collider;
 
     /// <summary>
@@ -66,18 +65,27 @@ public abstract class Attachment : MonoBehaviour
     private void Awake()
     {
         b_collider = GetComponent<BoxCollider>();
+
+        _debug = GetComponent<DebugableObject>();
+        _debug.AddGizmoAction(DebugGizmo);
         Action<bool> colliderEnable = (x) => b_collider.enabled = x;
         onAttach += () => colliderEnable(false);
         onDettach += () => colliderEnable(true);
         isAttached = false;
         #region Pivot
-
+        
         pivotPos = pivotPos == null ? transform : pivotPos;
 
-        if (pivotPos != transform)       
-            OriginPivot = Tuple.Create(transform.position-pivotPos.position, pivotPos.rotation);        
-        else        
-            OriginPivot = Tuple.Create(Vector3.zero, new Quaternion(0,0,0,0));
+        if (pivotPos != transform)
+        {
+            OriginPivot = pivotPos.localPosition;
+            _debug.Log(OriginPivot.ToString());
+        }   
+           
+         
+        
+          
+      
 
         #endregion
 
@@ -85,6 +93,8 @@ public abstract class Attachment : MonoBehaviour
         Initialize();       
     }
 
+
+   
     protected virtual void Start()
     {
         gameObject.layer = AttachmentManager.instance.attachmentLayer.LayerBitmapToInt();    
@@ -103,17 +113,36 @@ public abstract class Attachment : MonoBehaviour
     public void Attach(Gun gun,Transform AttachTo)
     {
     
-        if (gun == null) return;      
+        if (gun == null) return;
+
+        Debug.LogWarning(AttachTo);
+        
+       
          transform.parent = AttachTo;
 
-         pivotPos.position = AttachTo.position;
-         pivotPos.rotation = AttachTo.rotation;
+        
 
         if (pivotPos != transform)
         {
-            transform.position = pivotPos.position + OriginPivot.Item1;
-            transform.rotation = pivotPos.rotation * OriginPivot.Item2;
-        }        
+            _debug.Log("Tengo pivot!, lo uso para posicionarme");
+            //Vector3 savePos = pivotPos.position + OriginPivot.Item1;
+
+            transform.rotation = AttachTo.rotation;
+
+            transform.position =  AttachTo.position - OriginPivot.GetOrientedVector(AttachTo);
+
+
+            //transform.forward *= pivotPos.forward.z;
+            //transform.right *= pivotPos.right.x;
+            //transform.up *= pivotPos.up.y;
+
+        }
+        else
+        {
+            pivotPos.position = AttachTo.position;
+            pivotPos.rotation = AttachTo.rotation;
+        }
+        
          owner = gun;
          isAttached = true;
 
@@ -140,7 +169,7 @@ public abstract class Attachment : MonoBehaviour
         onDettach?.Invoke();      
     }
 
-    private void OnDrawGizmos()
+    private void DebugGizmo()
     {
         if (pivotPos != null) 
         {

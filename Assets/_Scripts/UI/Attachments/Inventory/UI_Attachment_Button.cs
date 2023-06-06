@@ -49,14 +49,14 @@ public class UI_Attachment_Button : MonoBehaviour
     void EquipAttachment()
     {
    
-        string debug =  $"Equipo el accesorio {owner} a {displayGun} ";
+        string msg =  $"Equipo el accesorio {owner} a {displayGun} ";
         if (displayGun.attachmentHandler.activeAttachments.ContainsKey(owner.myType))
         {
              var aux = displayGun.attachmentHandler.activeAttachments[owner.myType];
             displayGun.attachmentHandler.RemoveAttachment(aux.myType);
-            debug += $",PERO ANTES desconecto el accesorio {aux} (la cual de mi mismo tipo) de el arma";
+            msg += $",PERO ANTES desconecto el accesorio {aux} (la cual de mi mismo tipo) de el arma";
         }
-        _debug.Log(debug);
+        _debug.Log(msg);
 
         displayGun.attachmentHandler.AddAttachment(AttachmentManager.instance.RemoveFromInventory(owner));
 
