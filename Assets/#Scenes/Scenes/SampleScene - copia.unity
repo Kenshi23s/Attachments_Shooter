@@ -10387,6 +10387,8 @@ GameObject:
   - component: {fileID: 1039414915}
   - component: {fileID: 1039414917}
   - component: {fileID: 1039414916}
+  - component: {fileID: 1039414919}
+  - component: {fileID: 1039414918}
   m_Layer: 12
   m_Name: Laser 3
   m_TagString: Untagged
@@ -10442,6 +10444,32 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 0.19732666, y: 0.13056707, z: 0.16140938}
   m_Center: {x: -0.01184082, y: 0.0040376186, z: 0.0006170273}
+--- !u!114 &1039414918
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1039414914}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 545a131cceef9d64aa8337430330dd66, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _color: {r: 1, g: 1, b: 1, a: 1}
+  length: 5
+--- !u!114 &1039414919
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1039414914}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4c397f19295381e47bdd3801f1c64751, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!4 &1067744467 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: -8679921383154817045, guid: fc0a592a9470e5f4ea072b79e3e87e11, type: 3}
@@ -16880,6 +16908,7 @@ GameObject:
   - component: {fileID: 1828360971}
   - component: {fileID: 1828360974}
   - component: {fileID: 1828360975}
+  - component: {fileID: 1828360976}
   m_Layer: 0
   m_Name: Muzzle_Silencer
   m_TagString: Untagged
@@ -16983,6 +17012,20 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 1, y: 1, z: 1}
   m_Center: {x: 0, y: 0, z: 0}
+--- !u!114 &1828360976
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1828360969}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 545a131cceef9d64aa8337430330dd66, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _color: {r: 1, g: 1, b: 1, a: 1}
+  length: 5
 --- !u!1 &1836265302
 GameObject:
   m_ObjectHideFlags: 0
@@ -19470,10 +19513,6 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
-    - target: {fileID: 4507519659496112083, guid: 64f66f9332363b04d9b821b2a2957000, type: 3}
-      propertyPath: m_Enabled
-      value: 1
-      objectReference: {fileID: 0}
     - target: {fileID: 4507519660097635982, guid: 64f66f9332363b04d9b821b2a2957000, type: 3}
       propertyPath: m_RootOrder
       value: 3
