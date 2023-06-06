@@ -17,49 +17,22 @@ public class ModesManager : MonoSingleton<ModesManager>
     [SerializeField]
     GameMode actualGameMode;
 
-    //GameMode RandomGameMode()
-    //{
 
-
-    //   return GameMode randomGameMode= UnityEngine.Random.Range(0, Enum.GetValues.Length+1);
-
-    //}
     protected override void SingletonAwake()
     {
-      
 
-        //if (actualGameMode == GameMode.Random)
-        //{
-        //    actualGameMode = RandomGameMode();
-        //}
+        gameMode = AvailableGameModes[0];
+       
+    }
 
-        //gameMode = SelectGameMode();
-
+    private void Start()
+    {
+        gameMode.gameObject.SetActive(true);
         gameMode.InitializeMode();
     }
-   
 
 
-    //GameModeBaseClass SelectGameMode()
-    //{
-    //    switch (actualGameMode)
-    //    {
-    //        case GameMode.EkillConfirm:
-    //           return SearchGameMode<KillConfirmManager>();
-               
-    //        case GameMode.EhardPoint:
-    //            return SearchGameMode<HardPointManager>();
 
-    //    }
-    //    return null;
-    //}
-    //GameModeBaseClass SearchGameMode<T>() where T : GameModeBaseClass
-    //{
-    //    foreach (T gameModeClass in AvailableGameModes)
-    //    {
-    //        return gameModeClass;
-    //    }
-    //    return null;
-    //}
+
 
 }

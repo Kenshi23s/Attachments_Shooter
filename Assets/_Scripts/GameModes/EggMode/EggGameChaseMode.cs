@@ -1,23 +1,23 @@
 using System.Collections;
 using System.Collections.Generic;
-using System.Diagnostics;
 using UnityEngine;
 using static EggEscapeModel;
 
 public class EggGameChaseMode : GameModeBaseClass
 {
     [Header("EggGameMode")]
-    [SerializeField]EggEscapeModel model;
+    [SerializeField] EggEscapeModel model;
+
+
  
 
-    [SerializeField,Range(0,10)] 
-    int _eggsQuantity;
+    public float interactRadius => _egg_interactRadius;
+    [SerializeField] float _egg_interactRadius;
 
-    public float interactRadius=> _egg_interactRadius;
-    [SerializeField]float _egg_interactRadius;
-
-    [SerializeField,Tooltip("huevos en el mapa, solo lectura")]
+    [SerializeField, Tooltip("huevos en el mapa, solo lectura")]
     EggEscapeModel[] eggsEscaping;
+
+    [SerializeField] Transform Incubators;
 
     public Transform[] waypoints => _waypoints;
     [SerializeField] Transform[] _waypoints;
@@ -34,7 +34,7 @@ public class EggGameChaseMode : GameModeBaseClass
         eggStats.gameMode = this;
      
         // preguntarle a algun profe o compañero si esto esta bien
-        eggsEscaping = new EggEscapeModel[_eggsQuantity];
+        eggsEscaping = new EggEscapeModel[Incubators.childCount];
 
         for (int i = 0; i < eggsEscaping.Length; i++)
         {
@@ -44,16 +44,17 @@ public class EggGameChaseMode : GameModeBaseClass
         }
     }
 
-    Vector3 GetMeshPath()
-    {
-        Transform pos = _waypoints[Random.Range(0, waypoints.Length)];
-        RaycastHit hit;
-        if(Physics.Raycast(pos.position,-pos.up,out hit))
-        {
-            return hit.point;
-        }
-        return pos.position;
-    }
+    //Vector3 GetMeshPath()
+    //{
+    //    Transform pos = _waypoints[Random.Range(0, waypoints.Length)];
+    //    RaycastHit hit;
+    //    if(Physics.Raycast(pos.position,-pos.up,out hit))
+    //    {
+    //        return hit.point;
+    //    }
+    //    return pos.position;
+    //}
+
     protected override void ModeFinish()
     {
         // que deberia pasar aca¿?
@@ -61,5 +62,7 @@ public class EggGameChaseMode : GameModeBaseClass
         //menu principal?
         //pantalla de victoria?
         //en duda, consultar con equipo
+        Debug.Log("EL JUEGO TERMINO");
+        Application.Quit();
     }
 }

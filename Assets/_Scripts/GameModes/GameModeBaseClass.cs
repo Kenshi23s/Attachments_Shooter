@@ -16,10 +16,9 @@ public abstract class GameModeBaseClass : MonoBehaviour
 
     public abstract void InitializeMode();
 
-    private void Start()
+    private void Awake()
     {
-        _debug = GetComponent<DebugableObject>();
-        InitializeMode();
+        _debug = GetComponent<DebugableObject>();      
     } 
 
     public void AddPoints(int value)
