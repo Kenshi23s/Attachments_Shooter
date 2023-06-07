@@ -11,27 +11,29 @@ public class Enemy_Worm : Enemy
        Idle,
        Attack,
        Die,
-       Stunned     
+       Stunned, 
+       Search
     }
-    StateMachine<EWormStates> _fsm;
-    AI_Movement AI_move;
-   public Animator anim;
+
+    public StateMachine<EWormStates> fsm;
+    public AI_Movement AI_move;
+    public Animator anim;
 
     public override void ArtificialAwake()
     {
         AI_move = GetComponent<AI_Movement>();
-        _fsm = new StateMachine<EWormStates>();
-        _fsm.Initialize(debug);
+        fsm = new StateMachine<EWormStates>();
+        fsm.Initialize(debug);
 
         anim = GetComponent<Animator>();
 
         health.OnKilled += DieChange;
         health.OnTakeDamage += AddStunCharge;
 
-        _fsm.ChangeState(EWormStates.Idle);
+        fsm.ChangeState(EWormStates.Idle);
     }
 
-    void DieChange() => _fsm.ChangeState(EWormStates.Die);
+    void DieChange() => fsm.ChangeState(EWormStates.Die);
 
     #region Stun
 
@@ -46,7 +48,7 @@ public class Enemy_Worm : Enemy
     public void StunWorm()
     {      
         _stunDmgCount = 0;
-        _fsm.ChangeState(EWormStates.Stunned);
+        fsm.ChangeState(EWormStates.Stunned);
     }
     #endregion
 

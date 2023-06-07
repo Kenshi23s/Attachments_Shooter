@@ -46,6 +46,8 @@ public class LifeComponent : MonoBehaviour, IDamagable, IHealable
     #region Events
     public event Action<int, int> OnHealthChange;
     public event Action OnHeal;
+
+    //pasar TODA LA INFORMACION AL TOMAR DAÑO (USAR EL STRUCT DE DAMAGE DATA)
     public event Action<int> OnTakeDamage;
     public event Action OnKilled;
     #endregion

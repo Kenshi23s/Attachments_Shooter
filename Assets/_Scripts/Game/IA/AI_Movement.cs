@@ -26,6 +26,8 @@ public class AI_Movement : MonoBehaviour
     public LayerMask ObstacleMask;
     Action _fixedUpdate;
 
+    public event Action OnDestinationReach;
+
     #region Flocking
     [SerializeField]
     public bool Flocking {get; private set;}
@@ -63,18 +65,16 @@ public class AI_Movement : MonoBehaviour
     /// <param name="target"></param>
     public void SetDestination(Vector3 target)
     {
+        ClearPath();
         if (transform.position.InLineOffSight(target,IA_Manager.instance.wall_Mask))
         {
             _fixedUpdate = () => 
             {
                 _debug.Log("Veo el destino, voy directo.");
+                MoveTowards(target);
+                if (Vector3.Distance(target, transform.position) < 2f) OnDestinationReach?.Invoke();
 
-                Vector3 actualForce = Vector3.zero;
-                actualForce += Movement.Seek(target);
-                if (Flocking) actualForce += _flockingTargets.Flocking(_flockingParameters);
-                actualForce += ObstacleAvoidance(transform);
-                actualForce = ProjectAlongSlope(actualForce);
-                Movement.AddForce(actualForce);
+
             };
         }
         else
@@ -83,7 +83,20 @@ public class AI_Movement : MonoBehaviour
 
             List<Vector3> waypoints = GetPath(target);
             _fixedUpdate = () => PlayPath(waypoints);
-        }     
+        }
+
+        OnDestinationReach += ClearPath;
+
+    }
+
+    void MoveTowards(Vector3 target)
+    {
+        Vector3 actualForce = Vector3.zero;
+        actualForce += Movement.Seek(target);
+        if (Flocking) actualForce += _flockingTargets.Flocking(_flockingParameters);
+        actualForce += ObstacleAvoidance(transform);
+        actualForce = ProjectAlongSlope(actualForce);
+        Movement.AddForce(actualForce);
     }
 
     public Vector3 ProjectAlongSlope(Vector3 force) 
@@ -118,7 +131,7 @@ public class AI_Movement : MonoBehaviour
     {
         if (!waypoints.Any()) 
         {
-            ClearPath();
+            OnDestinationReach?.Invoke();
             return;
         }
 
@@ -137,6 +150,7 @@ public class AI_Movement : MonoBehaviour
 
     public void ClearPath()
     {
+        OnDestinationReach = null;
         _fixedUpdate = null;
         
     }
