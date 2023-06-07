@@ -36,7 +36,7 @@ public class EggState_Patrol : EggState
             _agent.SetDestination(_actualWaypoint.position);
         }
 
-        if (_fov.inFOV(_eggStats.gameMode.playerPos))
+        if (_fov.IN_FOV(_eggStats.gameMode.playerPos))
             _fsm.ChangeState(States.Escape);
     }
 

@@ -15,7 +15,7 @@ public class FOVAgent : MonoBehaviour
     {
         GetComponent<DebugableObject>().AddGizmoAction(FovGizmos);
     }
-    public bool inFOV(Vector3 obj)
+    public bool IN_FOV(Vector3 obj)
     {
         Vector3 dir = obj - transform.position;
 

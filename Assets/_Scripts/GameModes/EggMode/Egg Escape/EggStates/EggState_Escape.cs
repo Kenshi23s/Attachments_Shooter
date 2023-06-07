@@ -26,7 +26,7 @@ public class EggState_Escape : EggState
         float distance = Vector3.Distance(_actualWaypoint.position, _agent.transform.position);
         if (distance < _eggStats.gameMode.interactRadius)
         {
-            if (!_fov.inFOV(_eggStats.gameMode.playerPos))
+            if (!_fov.IN_FOV(_eggStats.gameMode.playerPos))
             {
                 _fsm.ChangeState(States.Patrol);
                 return;

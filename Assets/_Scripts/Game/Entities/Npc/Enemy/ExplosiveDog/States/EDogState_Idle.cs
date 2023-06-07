@@ -45,7 +45,7 @@ public class EDogState_Idle : IState
             //.Where(x => _agent.transform.position.InLineOffSight(x.transform.position, IA_Manager.instance.wall_Mask))
             //.First();
             //buscar alguna manera que no sea calculando la posicion
-            if (_agent.FOV.inFOV(Player_Movement.position))
+            if (_agent.FOV.IN_FOV(Player_Movement.position))
             {
                 _fsm.Debug("Veo al player"); _fsm.ChangeState("Pursuit");
                 break;
