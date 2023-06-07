@@ -101,9 +101,9 @@ public class Player_UI : MonoBehaviour
     }
     private void OnValidate()
     {
-        if (!Application.IsPlaying(this))
-        mat = _blitBlood.blitPass.blitMaterial;
-        mat.SetFloat("_Life", lastLifecheck);
+        //if (!Application.IsPlaying(this))
+        //mat = _blitBlood.blitPass.blitMaterial;
+        //mat.SetFloat("_Life", lastLifecheck);
     }
 
 }
