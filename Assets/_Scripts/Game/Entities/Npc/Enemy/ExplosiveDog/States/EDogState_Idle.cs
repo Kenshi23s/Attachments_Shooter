@@ -32,9 +32,9 @@ public class EDogState_Idle : IState
 
     IEnumerator StayIdle()
     {
-        while (_fsm.actualState == "Idle")
+        while (_fsm.actualStateKey == "Idle")
         {
-            if (_fsm.actualState != "Idle") break;
+            if (_fsm.actualStateKey != "Idle") break;
 
 
 

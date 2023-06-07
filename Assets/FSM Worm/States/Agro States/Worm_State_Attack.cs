@@ -6,19 +6,32 @@ public class Worm_State_Attack : Worm_State
 {
     public Worm_State_Attack(Enemy_Worm worm) : base(worm)
     {
+        _attackFSM = new StateMachine<Worm_AttackState>();
+
     }
 
     public enum Worm_AttackState
     {
         Pursuit,
         Melee,
-        Shoot,
-        Absorbdirt
+        ShootAcid,
+        AbsorbDirt,
+        ShootDirt
     }
 
-    StateMachine<Worm_AttackState> _AttackFSM;
+    StateMachine<Worm_AttackState> _attackFSM;
+
+   
     public override void OnUpdate()
     {
-        _AttackFSM.Execute();
+        _attackFSM.Execute();
     }
+
+
+    public override void OnExit()
+    {
+        _attackFSM.AnulateStates();
+    }
+
+
 }

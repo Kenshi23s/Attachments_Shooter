@@ -9,7 +9,7 @@ public class FOVAgent : MonoBehaviour
   
     [SerializeField]float _viewRadius;
     public float viewRadius => _viewRadius;
-    [SerializeField,Range(0,180)]float viewAngle;
+    [SerializeField,Range(0,360)]float viewAngle;
 
     private void Awake()
     {

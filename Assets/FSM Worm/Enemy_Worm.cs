@@ -3,23 +3,19 @@ using System.Collections.Generic;
 using UnityEngine;
 
 [RequireComponent(typeof(AI_Movement))]
+[RequireComponent(typeof(Animator))]
 public class Enemy_Worm : Enemy
 {
     public enum EWormStates
     {
-        Idle,
-        Pursuit,
-        Stunned,
-        Die,
-        Shoot,
-        Melee,
-        Underground,
-        Emerge,
-        Submerge
+       Idle,
+       Attack,
+       Die,
+       Stunned     
     }
     StateMachine<EWormStates> _fsm;
     AI_Movement AI_move;
-
+   public Animator anim;
 
     public override void ArtificialAwake()
     {
@@ -27,27 +23,32 @@ public class Enemy_Worm : Enemy
         _fsm = new StateMachine<EWormStates>();
         _fsm.Initialize(debug);
 
-        health.OnKilled += DieChange;
-        health.OnTakeDamage += Stun;
+        anim = GetComponent<Animator>();
 
-        _fsm.ChangeState(EWormStates.Underground);
+        health.OnKilled += DieChange;
+        health.OnTakeDamage += AddStunCharge;
+
+        _fsm.ChangeState(EWormStates.Idle);
     }
 
     void DieChange() => _fsm.ChangeState(EWormStates.Die);
+
+    #region Stun
+
+    [SerializeField]
+    int _dmgNeeded4stun;
+    int _stunDmgCount;
+
+    public bool CanBeStunned => _stunDmgCount >= _dmgNeeded4stun;
+
+    void AddStunCharge(int dmgTaken) => _stunDmgCount += dmgTaken;
    
-
-    int stunCount;
-    int dmgNeeded4stun;
-
-    void Stun(int dmgTaken)
-    {
-        stunCount += dmgTaken;
-        if (stunCount>= dmgNeeded4stun && (_fsm.actualState != EWormStates.Melee))
-        {
-            stunCount = 0;
-            _fsm.ChangeState(EWormStates.Stunned);
-        }
+    public void StunWorm()
+    {      
+        _stunDmgCount = 0;
+        _fsm.ChangeState(EWormStates.Stunned);
     }
+    #endregion
 
     [SerializeField]
     Transform _shootPivot;
@@ -55,6 +56,13 @@ public class Enemy_Worm : Enemy
     {
 
     }
+
+
+    public void Destroy()
+    {
+        Destroy(gameObject);
+    }
     
+
 }
 

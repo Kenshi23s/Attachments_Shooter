@@ -39,7 +39,7 @@ public class EggEscapeModel : MonoBehaviour
     AI_Movement _agent;
 
     StateMachine<States> _fsm;
-    public States actualState => _fsm.actualState;
+    public States actualState => _fsm.actualStateKey;
 
     EggStats _eggStats;
 
@@ -124,7 +124,7 @@ public class EggEscapeModel : MonoBehaviour
 
     public void Grab()
     {
-        if (_fsm.actualState != States.Kidnapped)                
+        if (_fsm.actualStateKey != States.Kidnapped)                
             _fsm.ChangeState(States.Kidnapped);                           
     }
 
@@ -136,7 +136,7 @@ public class EggEscapeModel : MonoBehaviour
     
     public void Stun()
     {
-        if (_fsm.actualState != States.Kidnapped && _fsm.actualState != States.Stunned)
+        if (_fsm.actualStateKey != States.Kidnapped && _fsm.actualStateKey != States.Stunned)
         {
             _fsm.ChangeState(States.Stunned);
              myLife.canTakeDamage = false;

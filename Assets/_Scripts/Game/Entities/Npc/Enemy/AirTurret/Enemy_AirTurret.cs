@@ -107,7 +107,7 @@ public class Enemy_AirTurret : Enemy, IDetector
     //tendria q hacer otra clase q haga un callback hacia esta?
     void TargetDetected(Transform target)
     {
-        if (target!=null && _fsm.actualState != "Shoot")
+        if (target!=null && _fsm.actualStateKey != "Shoot")
         {
             this._target = target;
             _fsm.ChangeState("Align");

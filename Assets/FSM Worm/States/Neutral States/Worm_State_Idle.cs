@@ -8,5 +8,10 @@ public class Worm_State_Idle : Worm_State
     {
     }
 
-   
+
+    public override void OnEnter()
+    {
+        base.OnEnter();
+    }
+
 }
