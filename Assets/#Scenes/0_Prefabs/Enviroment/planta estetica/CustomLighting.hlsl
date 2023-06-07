@@ -67,6 +67,9 @@ void CalculateCustomLighting_float(float3 Position, float3 Normal, float3 ViewDi
 
 	float3 vertexSH;
 	OUTPUT_SH(Normal, vertexSH);
+	// This func
+	d.bakedGI = SAMPLE_GI(lightmapUV, vertexSH, Normal);
+
 #endif
 
 	Color = CalculateCustomLighting(d);
