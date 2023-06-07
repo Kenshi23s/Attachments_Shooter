@@ -38,6 +38,11 @@ public class Player_UI : MonoBehaviour
         mat = _blitBlood.blitPass.blitMaterial;
         _debug = GetComponent<DebugableObject>();
         player.GetComponent<LifeComponent>().OnHealthChange += UpdateDamageShader;
+
+       #if UNITY_EDITOR
+        mat.SetFloat("_Life", 1);
+       #endif
+       
     }
 
     void UpdateDamageShader(int life,int maxLife)
@@ -93,6 +98,12 @@ public class Player_UI : MonoBehaviour
         _isDamaging = false;
         LastLifecheck = actualLife;
         _debug.Log("Damage UI Effect Ended");
+    }
+    private void OnValidate()
+    {
+        if (!Application.IsPlaying(this))
+        mat = _blitBlood.blitPass.blitMaterial;
+        mat.SetFloat("_Life", lastLifecheck);
     }
 
 }
