@@ -4,21 +4,22 @@ using UnityEngine;
 
 public class Worm_State_Shoot : Worm_State
 {
-    public Worm_State_Shoot(Enemy_Worm worm,float _requiredCharge) : base(worm)
+    public Worm_State_Shoot(Enemy_Worm worm) : base(worm)
     {
-        this._requiredCharge = _requiredCharge;
+       
     }
 
-    float actualCharge, _requiredCharge;
+  
 
     public override void OnEnter()
-    {        
-        actualCharge = 0;
+    {      
+        _worm.anim.SetTrigger("ShootAcid");
+        _worm.anim.SetFloat("Speed", 0);
     }
 
-    public override void OnUpdate()
-    {
-        actualCharge += Time.deltaTime;
-        
-    }
+    public override void OnUpdate() => _worm.transform.forward = Player_Movement.position - _worm.transform.position;
+  
+
+    public override void OnExit() => _worm.anim.SetFloat("Speed", 0);
+    
 }
