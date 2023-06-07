@@ -21,8 +21,9 @@ public class Egg_Incubator : InteractableObject
         //"casteo" de funcion a unity action
         UnityAction action = () =>
         {
-            Debug.Log("Quit");
-            Application.Quit(); 
+            ModesManager.instance.gameMode.AddPoints(1);
+            Destroy(_eggs[0].gameObject);
+            Destroy(this.gameObject);
         };
 
         InteractData._OnInteract.AddListener(action);
@@ -47,7 +48,6 @@ public class Egg_Incubator : InteractableObject
 
         cantInsert.Invoke();
        
-
     }
 
     
@@ -64,6 +64,8 @@ public class Egg_Incubator : InteractableObject
          }
           
     }
+
+    #region Triggers
     protected override void OnTriggerEnter(Collider other)
     {
         base.OnTriggerEnter(other);
@@ -106,10 +108,8 @@ public class Egg_Incubator : InteractableObject
         if (other.gameObject.TryGetComponent(out EggEscapeModel egg))
         {
             if (_eggs.Contains(egg))            
-                _eggs.Remove(egg);
-          
-               
-           
+                _eggs.Remove(egg);         
         }
     }
+    #endregion
 }
