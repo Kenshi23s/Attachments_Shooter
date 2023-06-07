@@ -48,6 +48,7 @@ void CalculateCustomLighting_float(float3 Position, float3 Normal, float3 ViewDi
 	CustomLightingData d;
 	d.viewDirectionWS = ViewDirection;
 	d.albedo = Albedo;
+	d.bakedGI = 0;
 
 #ifdef SHADERGRAPH_PREVIEW
 	d.shadowCoord = 0;
@@ -58,6 +59,17 @@ void CalculateCustomLighting_float(float3 Position, float3 Normal, float3 ViewDi
 #else
 	d.shadowCoord = TransformWorldToShadowCoord(Position);
 #endif
+
+	//the following URP functions and macros
+
+	float3 lightmapUV;
+	OUTPUT_LIGHTMAP_UV(LightmapUV, unity_LightmapST, lightmapUV);
+
+	float3 vertexSH;
+	OUTPUT_SH(Normal, vertexSH);
+	// This func
+	d.bakedGI = SAMPLE_GI(lightmapUV, vertexSH, Normal);
+
 #endif
 
 	Color = CalculateCustomLighting(d);
