@@ -93,8 +93,8 @@ public abstract class Attachment : MonoBehaviour
         Initialize();       
     }
 
-
-   
+    
+ 
     protected virtual void Start()
     {
         gameObject.layer = AttachmentManager.instance.attachmentLayer.LayerBitmapToInt();    

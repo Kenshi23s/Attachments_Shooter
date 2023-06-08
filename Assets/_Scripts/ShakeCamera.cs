@@ -71,7 +71,7 @@ public class ShakeCamera : MonoBehaviour
         if (Input.GetKey(KeyCode.Mouse1))
         {
             int handling = myGunHandler.actualGun.stats.statDictionary[StatsHandler.StatNames.Handling];
-            actualAimPos = Vector3.Lerp(actualAimPos,aimPos + GunHandler.sightPosition,soft * handling  * Time.deltaTime);
+            actualAimPos = Vector3.Lerp(actualAimPos,aimPos - GunHandler.sightPosition,(soft + handling )* Time.deltaTime);
 
             hands.transform.localPosition = actualAimPos + temp1;
         } 

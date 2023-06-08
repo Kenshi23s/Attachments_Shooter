@@ -46,10 +46,13 @@ public class GunHandler : MonoBehaviour
         AttachmentHandler x = _actualGun.attachmentHandler;
         x.AddOnChangeEvent(key, () =>
         {
-             var y = x.activeAttachments[key].GetComponent<Sight>();
-              
-            _sightPoint = y != null ? y.sightPoint : null;
-           
+            if (x.activeAttachments.TryGetValue(key,out var z))
+            {
+                var y = x.activeAttachments[key].GetComponent<Sight>();
+                _sightPoint = y.sightPoint;
+                return;
+            }
+            _sightPoint = null;
         });
     }
 

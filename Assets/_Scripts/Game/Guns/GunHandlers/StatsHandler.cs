@@ -26,6 +26,10 @@ public class StatsHandler : MonoBehaviour
     //el arma deberia tener referencia de todos sus accesorios o no es de gran importancia?
     //(si, deberia para saber donde posicionarlos)
 
+    public int GetStat(StatNames key)
+    {
+        return _myGunStats[key];
+    }
     public Dictionary<StatNames, int> statDictionary => _myGunStats;
     [SerializeField,SerializedDictionary("Stat", "Value")]
     SerializedDictionary<StatNames, int> _myGunStats;

@@ -18,7 +18,7 @@ public class UI_AttachmentInventory : MonoBehaviour
     [SerializeField] Camera viewGunCamPrefab;
     Camera viewGunCamInstance;
 
-    [SerializeField] Transform _pointTogo;
+   Transform _pointTogo;
 
     [SerializeField,Range(1,10)] float _camRotationSpeed, _cam_MoveSpeed;
 
