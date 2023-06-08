@@ -97,7 +97,7 @@ public abstract class Attachment : MonoBehaviour
  
     protected virtual void Start()
     {
-        gameObject.layer = AttachmentManager.instance.attachmentLayer.LayerBitmapToInt();    
+        gameObject.layer = AttachmentManager.instance.attachmentLayer.LayerBitmaskToInt();    
         Comunicate(); SetVFXsign();   
         if (isAttached) onAttach?.Invoke(); else onDettach?.Invoke();       
     }

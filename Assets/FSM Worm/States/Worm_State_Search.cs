@@ -16,10 +16,10 @@ public class Worm_State_Search : Worm_State
         _worm.AI_move.SetDestination(Player_Movement.position);
         _worm.anim.SetFloat("Speed", 1);
 
-        _worm.AI_move.OnDestinationReach += () =>
+        _worm.AI_move.OnDestinationReached += () =>
         {
             _worm.AI_move.SetDestination(actualPos);
-            _worm.AI_move.OnDestinationReach += () => _worm.fsm.ChangeState(EWormStates.Idle);
+            _worm.AI_move.OnDestinationReached += () => _worm.fsm.ChangeState(EWormStates.Idle);
         };
 
     }

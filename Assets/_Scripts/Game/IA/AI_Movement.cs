@@ -26,7 +26,7 @@ public class AI_Movement : MonoBehaviour
     public LayerMask ObstacleMask;
     Action _fixedUpdate;
 
-    public event Action OnDestinationReach;
+    public event Action OnDestinationReached, OnDestinationChanged;
 
     #region Flocking
     [SerializeField]
@@ -65,29 +65,33 @@ public class AI_Movement : MonoBehaviour
     /// <param name="target"></param>
     public void SetDestination(Vector3 target)
     {
-        ClearPath();
+        if (_waypoints.Any() && target != _destination) OnDestinationChanged?.Invoke();
+
+        _destination = target;        
+
         if (transform.position.InLineOffSight(target,IA_Manager.instance.wall_Mask))
         {
             _fixedUpdate = () => 
             {
                 _debug.Log("Veo el destino, voy directo.");
                 MoveTowards(target);
-                if (Vector3.Distance(target, transform.position) < 2f) OnDestinationReach?.Invoke();
-
-
+                if (Vector3.Distance(target, transform.position) < 2f) { 
+                    OnDestinationReached?.Invoke();
+                    ClearPath();
+                }
             };
         }
         else
         {
             _debug.Log( "No veo el destino, calculo el camino.");
 
-            List<Vector3> waypoints = GetPath(target);
-            _fixedUpdate = () => PlayPath(waypoints);
+            _waypoints = GetPath(target);
+            _fixedUpdate = PlayPath;
         }
-
-        OnDestinationReach += ClearPath;
-
     }
+
+    Vector3 _destination;
+    List<Vector3> _waypoints;
 
     void MoveTowards(Vector3 target)
     {
@@ -127,32 +131,32 @@ public class AI_Movement : MonoBehaviour
     /// Reproduce el camino con Theta*
     /// </summary>
     /// <param name="waypoints"></param>
-    void PlayPath(List<Vector3> waypoints)
+    void PlayPath()
     {
-        if (!waypoints.Any()) 
+        if (!_waypoints.Any()) 
         {
-            OnDestinationReach?.Invoke();
+            OnDestinationReached?.Invoke();
+            ClearPath();
             return;
         }
 
-        _debug.Log("Se mueve hacia el siguiente nodo, me faltan " + waypoints.Count);
+        _debug.Log("Se mueve hacia el siguiente nodo, me faltan " + _waypoints.Count);
 
         Vector3 actualForce = Vector3.zero;
 
-        actualForce += waypoints[0];
+        actualForce += _waypoints[0];
         actualForce += IA_Manager.instance.flockingTargets.Flocking(_flockingParameters); 
         actualForce += ObstacleAvoidance(transform);
         actualForce = ProjectAlongSlope(actualForce);
 
         Movement.AddForce(Velocity.CalculateSteering(actualForce, Movement.steeringForce));
-        if (Vector3.Distance(waypoints[0], transform.position) < 2f) waypoints.RemoveAt(0);
+        if (Vector3.Distance(_waypoints[0], transform.position) < 2f) _waypoints.RemoveAt(0);
     }    
 
     public void ClearPath()
     {
-        OnDestinationReach = null;
+        OnDestinationReached = null;
         _fixedUpdate = null;
-        
     }
     #endregion
 

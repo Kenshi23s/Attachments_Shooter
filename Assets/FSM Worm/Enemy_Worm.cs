@@ -47,6 +47,8 @@ public class Enemy_Worm : Enemy
 
     public bool CanBeStunned => _stunDmgCount >= _dmgNeeded4stun;
 
+    public float StunTime;
+
     void AddStunCharge(int dmgTaken) => _stunDmgCount += dmgTaken;
    
     public void StunWorm()

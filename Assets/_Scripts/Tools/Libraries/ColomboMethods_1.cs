@@ -56,7 +56,7 @@ namespace FacundoColomboMethods
 
         }
 
-        public static int LayerBitmapToInt(this LayerMask x) => Mathf.RoundToInt(Mathf.Log(x, 2));
+        public static int LayerBitmaskToInt(this LayerMask x) => Mathf.RoundToInt(Mathf.Log(x, 2));
 
         public static void CheckAndRemove<T>(this List<T> col,T item)
         {
