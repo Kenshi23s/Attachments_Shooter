@@ -19,6 +19,10 @@ public class Enemy_Worm : Enemy
     public AI_Movement AI_move;
     public Animator anim;
 
+    
+
+    public Transform target;
+
     public override void ArtificialAwake()
     {
         AI_move = GetComponent<AI_Movement>();
@@ -54,14 +58,16 @@ public class Enemy_Worm : Enemy
 
     [SerializeField]
     Transform _shootPivot;
-    public void Shoot(Vector3 player)
+    public void ShootAcid()
     {
 
     }
 
+    public void AssignTarget(Transform newtarget) => target = newtarget != this ? newtarget : target;
 
     public void Destroy()
     {
+        debug.Log("Mori");
         Destroy(gameObject);
     }
     
