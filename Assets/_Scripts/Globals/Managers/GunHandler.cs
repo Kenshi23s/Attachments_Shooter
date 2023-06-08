@@ -22,7 +22,7 @@ public class GunHandler : MonoBehaviour
 
     //Esto esta mal, rompe con solid, preguntarle a jocha como hacerlo de mejor manera, pero por ahora...
     static Transform _sightPoint;
-    public static Vector3 sightPosition=>_sightPoint.position; 
+    public static Vector3 sightPosition=>_sightPoint != null? _sightPoint.localPosition : Vector3.zero; 
 
     public void SetPlayer(Player_Handler player) => myPlayer = player;
   
@@ -35,7 +35,7 @@ public class GunHandler : MonoBehaviour
     {
         if (actualGun == null) _actualGun = myGuns[UnityEngine.Random.Range(0, myGuns.Count)];
 
-        
+        OnSightChange();
         Debug.LogWarning("Armas en full auto, asegurarse q tengan el RateofFire != 0 ");
     }
 
