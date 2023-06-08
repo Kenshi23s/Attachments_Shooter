@@ -3021,7 +3021,7 @@ MonoBehaviour:
   _damage: {r: 1, g: 0, b: 0, a: 1}
   _heal: {r: 0, g: 1, b: 0, a: 1}
   _blitBlood: {fileID: 385626960270167318, guid: 4a8e21d5c33334b11b34a596161b9360, type: 2}
-  lastLifecheck: 0
+  lastLifecheck: 1
 --- !u!114 &3625573193884317111
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3701,6 +3701,7 @@ MonoBehaviour:
   cam: {fileID: 8568796442919035190}
   playerMov: {fileID: 8568796443268590854}
   rb: {fileID: 8568796443268590849}
+  myGunHandler: {fileID: 375377512}
 --- !u!114 &4777580876267569269
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3977,8 +3978,36 @@ PrefabInstance:
     m_TransformParent: {fileID: 8568796443389817190}
     m_Modifications:
     - target: {fileID: 2165113967237311115, guid: 6a12480e9990c5940a6962d8971dfa1a, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0.2726
+      objectReference: {fileID: 0}
+    - target: {fileID: 2165113967237311115, guid: 6a12480e9990c5940a6962d8971dfa1a, type: 3}
       propertyPath: m_LocalPosition.y
       value: -0.1682
+      objectReference: {fileID: 0}
+    - target: {fileID: 2296197202727447013, guid: 6a12480e9990c5940a6962d8971dfa1a, type: 3}
+      propertyPath: Attachment_stats._serializedList.Array.size
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 2296197202727447013, guid: 6a12480e9990c5940a6962d8971dfa1a, type: 3}
+      propertyPath: Attachment_stats._serializedList.Array.data[1].Key
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 2296197202727447013, guid: 6a12480e9990c5940a6962d8971dfa1a, type: 3}
+      propertyPath: Attachment_stats._serializedList.Array.data[1].Value._value
+      value: 41
+      objectReference: {fileID: 0}
+    - target: {fileID: 2758121616146713901, guid: 6a12480e9990c5940a6962d8971dfa1a, type: 3}
+      propertyPath: m_LocalScale.x
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2758121616146713901, guid: 6a12480e9990c5940a6962d8971dfa1a, type: 3}
+      propertyPath: m_LocalScale.y
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2758121616146713901, guid: 6a12480e9990c5940a6962d8971dfa1a, type: 3}
+      propertyPath: m_LocalScale.z
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 2868271147788517936, guid: 6a12480e9990c5940a6962d8971dfa1a, type: 3}
       propertyPath: m_RootOrder
@@ -4047,6 +4076,22 @@ PrefabInstance:
     - target: {fileID: 4499589815596832500, guid: 6a12480e9990c5940a6962d8971dfa1a, type: 3}
       propertyPath: m_CastShadows
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5326311287930302329, guid: 6a12480e9990c5940a6962d8971dfa1a, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0.2626
+      objectReference: {fileID: 0}
+    - target: {fileID: 5837568057718177996, guid: 6a12480e9990c5940a6962d8971dfa1a, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0.2701
+      objectReference: {fileID: 0}
+    - target: {fileID: 5837568057718177996, guid: 6a12480e9990c5940a6962d8971dfa1a, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: -0.155
+      objectReference: {fileID: 0}
+    - target: {fileID: 5837568057718177996, guid: 6a12480e9990c5940a6962d8971dfa1a, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: -0.0628
       objectReference: {fileID: 0}
     - target: {fileID: 5846903351772916011, guid: 6a12480e9990c5940a6962d8971dfa1a, type: 3}
       propertyPath: _DefaultAttachMent._serializedList.Array.size

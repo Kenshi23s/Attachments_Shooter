@@ -16,7 +16,7 @@ public class Projectile_Acid : MonoBehaviour
     LayerMask wallnfloor;
 
     int damage;
-    float acidRadius;
+    float _acidRadius;
 
     private void Awake()
     {
