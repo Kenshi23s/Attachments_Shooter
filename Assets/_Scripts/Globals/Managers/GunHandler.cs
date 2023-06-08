@@ -3,8 +3,9 @@ using FacundoColomboMethods;
 using System.Collections.Generic;
 using UnityEngine;
 using System.Linq;
+using static Attachment;
 [RequireComponent(typeof(AttachmentManager))]
-public class GunManager : MonoBehaviour
+public class GunHandler : MonoBehaviour
 {
     [SerializeField]List<Gun> myGuns = new List<Gun>();
     [SerializeField]Gun _actualGun;
@@ -19,27 +20,39 @@ public class GunManager : MonoBehaviour
 
     //awake para inicializacion
 
-    public void SetPlayer(Player_Handler player)
-    {
-        myPlayer = player;
-    }
+    //Esto esta mal, rompe con solid, preguntarle a jocha como hacerlo de mejor manera, pero por ahora...
+    static Transform _sightPoint;
+    public static Vector3 sightPosition=>_sightPoint.position; 
+
+    public void SetPlayer(Player_Handler player) => myPlayer = player;
+  
     
  
-    private void Awake()
-    {
-        myGuns = ColomboMethods.GetChildrenComponents<Gun>(this.transform).ToList();
-    }
+    private void Awake() => myGuns = ColomboMethods.GetChildrenComponents<Gun>(this.transform).ToList();
+   
     //start para comunicacion
     void Start()
     {
-        if (actualGun == null)
-        {
-            _actualGun = myGuns[UnityEngine.Random.Range(0, myGuns.Count)];
-        }
+        if (actualGun == null) _actualGun = myGuns[UnityEngine.Random.Range(0, myGuns.Count)];
+
+        
         Debug.LogWarning("Armas en full auto, asegurarse q tengan el RateofFire != 0 ");
     }
 
- 
+
+    void OnSightChange()
+    {
+        AttachmentType key = AttachmentType.Sight;
+        AttachmentHandler x = _actualGun.attachmentHandler;
+        x.AddOnChangeEvent(key, () =>
+        {
+             var y = x.activeAttachments[key].GetComponent<Sight>();
+              
+            _sightPoint = y != null ? y.sightPoint : null;
+           
+        });
+    }
+
     void Update()
     {
         foreach (Gun item in myGuns) item.GunUpdate();

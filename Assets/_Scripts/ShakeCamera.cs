@@ -23,6 +23,7 @@ public class ShakeCamera : MonoBehaviour
 
     [Header("Apuntado"), Space(1)]
     public Vector3 aimPos;
+   
     bool aiming;
     Vector3 actualAimPos;
 
@@ -68,7 +69,7 @@ public class ShakeCamera : MonoBehaviour
 
         if (Input.GetKey(KeyCode.Mouse1))
         {
-            actualAimPos = Vector3.Lerp(actualAimPos,aimPos,soft);
+            actualAimPos = Vector3.Lerp(actualAimPos,aimPos + GunHandler.sightPosition,soft);
 
             hands.transform.localPosition = actualAimPos + temp1;
         } 

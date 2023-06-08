@@ -38,10 +38,15 @@ public class UI_AttachmentInventory : MonoBehaviour
         _inventoryCanvas = GetComponent<Canvas>();
         _debug = GetComponent<DebugableObject>();
         _inventoryCanvas.enabled= false;
+       
+    }
+
+    private void Start()
+    {
         _pointTogo = PlayerCameraPivots.instance.ViewFromInventory;
     }
 
-   
+
 
 
     private void LateUpdate()

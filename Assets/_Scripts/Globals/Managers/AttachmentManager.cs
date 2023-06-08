@@ -19,26 +19,25 @@ public class AttachmentManager : MonoSingleton<AttachmentManager>
     [SerializeField] KeyCode Equip = KeyCode.F, Save = KeyCode.G;
     #endregion
 
-    GunManager gunHandler;
+   
+
+    GunHandler _gunHandler;
   
     DebugableObject _debug;
 
+    Action _inventoryState;
+
     protected override void SingletonAwake()
     {
-        gunHandler = GetComponent<GunManager>();
-         _debug = GetComponent<DebugableObject>(); _debug.AddGizmoAction(DrawRaycast);
+        _gunHandler = GetComponent<GunHandler>();
+        _debug = GetComponent<DebugableObject>(); _debug.AddGizmoAction(DrawRaycast);
         _canvasAttachments = Instantiate(_canvasAttachments);
-    }
-
-    private void Start()
-    {
-        _canvasInventory = Instantiate(_canvasInventory);     
+        _canvasInventory = Instantiate(_canvasInventory);
         _inventoryState = OpenInventory;
     }
 
     private void Update() => AttachmentOnSight();
 
-   
 
     void AttachmentOnSight()
     {
@@ -52,7 +51,7 @@ public class AttachmentManager : MonoSingleton<AttachmentManager>
             {
                 _canvasAttachments.NewAttachment(x);
                 
-                if (Input.GetKey(Equip)) gunHandler.actualGun.attachmentHandler.AddAttachment(x);
+                if (Input.GetKey(Equip)) _gunHandler.actualGun.attachmentHandler.AddAttachment(x);
 
                 else if (Input.GetKey(Save)) Inventory_SaveAttachment(x);
             }
@@ -68,16 +67,16 @@ public class AttachmentManager : MonoSingleton<AttachmentManager>
     {
         if (Input.GetKeyDown(_inventoryKey)) _inventoryState?.Invoke();
     }
-    Action _inventoryState;
+  
     void OpenInventory()
     {
-        var result = _attachmentsInventory.Aggregate(FList.Create<Attachment>(), (x, y) =>
+        IEnumerable<Attachment> finalResult = _attachmentsInventory.Aggregate(FList.Create<Attachment>(), (x, y) =>
         {
             var result = y.Value.Aggregate(FList.Create<Attachment>(), (x, y) => x + FList.Create(y.Value));
             return x + result;
         });
 
-        _canvasInventory.SetInventoryUI(result, gunHandler.actualGun);
+        _canvasInventory.SetInventoryUI(finalResult, _gunHandler.actualGun);
 
         Cursor.lockState = CursorLockMode.None;
         Cursor.visible = true;
