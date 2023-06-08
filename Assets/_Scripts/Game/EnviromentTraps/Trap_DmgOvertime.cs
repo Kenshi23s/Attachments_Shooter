@@ -3,43 +3,55 @@ using System;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Rendering.Universal;
-
 using System.Collections;
 using System.Linq;
+using System.Diagnostics;
 
+[RequireComponent(typeof(BoxCollider))]
+[RequireComponent(typeof(DebugableObject))]
 public class Trap_DmgOvertime : MonoBehaviour
 {
    [SerializeField] DecalProjector _floorProjection;
 
-   [SerializeField]protected float _dmg;
+   [SerializeField] protected float _dmg;
 
+    [SerializeField] float radius;
+
+    DebugableObject _debug;
     #region Events
     public event Action<IDamagable> onEnter;
     public event Action<IDamagable> onStay;
     public event Action<IDamagable> onExit;
     #endregion
 
-    protected List<IDamagable> dmgList;
+    protected List<IDamagable> dmgList = new List<IDamagable>();
 
+    List<IDamagable> aux = new List<IDamagable>();
 
     public void Initialize()
     {
-       
+        BoxCollider x = GetComponent<BoxCollider>();
+        x.size = new Vector3(radius, x.size.y,radius);
     }
 
     private void Awake()
     {
-        
+        _debug= GetComponent<DebugableObject>();
+        GetComponent<BoxCollider>().isTrigger = true;
+        Initialize();
     }
     private void OnTriggerEnter(Collider other)
     {
-        if (other.gameObject.TryGetComponent(out IDamagable x))
+        if (other.gameObject.TryGetComponent(out IDamagable target))
         {
-            if (dmgList.Count >= 1) StartCoroutine(CoroutineMake());
-            dmgList.CheckAndAdd(x); onEnter?.Invoke(x);
+            bool hasAny = dmgList.Any();
+            dmgList.CheckAndAdd(target); onEnter?.Invoke(target);
+            if (!hasAny) StartCoroutine(CoroutineMake());
+
+          
         }                                
     }
-    List<IDamagable> aux;
+
     private void OnTriggerStay(Collider other)
     {
         if (other.gameObject.TryGetComponent(out IDamagable x))
@@ -49,8 +61,9 @@ public class Trap_DmgOvertime : MonoBehaviour
     IEnumerator CoroutineMake()
     {
         WaitForSeconds wait = new WaitForSeconds(1);
-        while (true)
+        while (dmgList.Any())
         {
+            _debug.Log("on Coroutine :D");
             yield return wait;
             foreach (var item in aux) onStay(item);
         }  
@@ -60,7 +73,13 @@ public class Trap_DmgOvertime : MonoBehaviour
     {
         if (other.gameObject.TryGetComponent(out IDamagable x))
         {
-            onExit?.Invoke(x); dmgList.CheckAndRemove(x); if (!dmgList.Any()) StopCoroutine(CoroutineMake());          
+            onExit?.Invoke(x); 
+            if (dmgList.Contains(x))
+            {
+                dmgList.Remove(x);
+                aux.Remove(x);
+            }
+            if (!dmgList.Any()) StopCoroutine(CoroutineMake());          
         }         
     }
 }

@@ -5,6 +5,8 @@ using System.Drawing;
 using System.Linq;
 using UnityEngine;
 using UnityEngine.UIElements;
+using static UnityEditor.Experimental.GraphView.GraphView;
+using static UnityEditor.PlayerSettings;
 using Random = UnityEngine.Random;
 
 namespace FacundoColomboMethods
@@ -27,9 +29,17 @@ namespace FacundoColomboMethods
         {
             if (Physics.Raycast(myPos,dir,out RaycastHit hit,Mathf.Infinity,layer))            
                 return hit.point;           
-            else            
-               return myPos;
-            
+            else
+                return myPos;
+        }
+
+        public static Tuple<float,Vector3> GetNormalAngleOfFloor(this Vector3 myPos,LayerMask layer)
+        {
+            if (Physics.Raycast(myPos, Vector3.down, out RaycastHit hit, Mathf.Infinity, layer))
+            {
+                return Tuple.Create<float, Vector3>(Vector3.Angle(hit.normal, Vector3.up),hit.normal); 
+            }
+            return Tuple.Create<float, Vector3>(0,Vector3.zero);
         }
 
         public static Vector3 GetOrientedVector(this Transform tr, Vector3 T)

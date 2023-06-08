@@ -28,6 +28,9 @@ public class AI_Movement : MonoBehaviour
 
     public event Action OnDestinationReached, OnDestinationChanged;
 
+    Vector3 _destination;
+    List<Vector3> _waypoints = new List<Vector3>();
+
     #region Flocking
     [SerializeField]
     public bool Flocking {get; private set;}
@@ -90,8 +93,7 @@ public class AI_Movement : MonoBehaviour
         }
     }
 
-    Vector3 _destination;
-    List<Vector3> _waypoints;
+   
 
     void MoveTowards(Vector3 target)
     {

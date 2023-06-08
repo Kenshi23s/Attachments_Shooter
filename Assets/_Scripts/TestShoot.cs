@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class TestShoot : MonoBehaviour
 {
-    Projectile_Acid sample;
+    [SerializeField] Projectile_Acid sample;
 
     private void Awake()
     {
@@ -13,7 +13,7 @@ public class TestShoot : MonoBehaviour
 
     private void Update()
     {
-        if (Input.GetKeyDown(KeyCode.P))
+        if (Input.GetKeyDown(KeyCode.L))
         {
           var z =  Instantiate(sample, Player_Movement.position+Vector3.up*30f, Quaternion.identity);
            

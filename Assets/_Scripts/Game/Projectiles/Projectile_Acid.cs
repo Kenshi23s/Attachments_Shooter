@@ -13,7 +13,7 @@ public class Projectile_Acid : MonoBehaviour
     Rigidbody _rb;
     GameObject owner;
 
-    LayerMask wallnfloor;
+    [SerializeField] LayerMask wallnfloor;
 
     int damage;
     float _acidRadius;
@@ -21,7 +21,7 @@ public class Projectile_Acid : MonoBehaviour
     private void Awake()
     {
         _rb = GetComponent<Rigidbody>();
-        _rb.useGravity = false;
+        _rb.useGravity = true;
         _debug = GetComponent<DebugableObject>(); _debug.AddGizmoAction(DrawVelocity);
       
     }
@@ -41,21 +41,28 @@ public class Projectile_Acid : MonoBehaviour
 
     private void OnCollisionEnter(Collision collision)
     {
+        _debug.Log("Colision con "+ collision.gameObject);
         if (collision.gameObject == owner) return;
 
         if (collision.gameObject.TryGetComponent(out IDamagable x))
         {
             x.TakeDamage(damage);
-            float angle = Vector3.Angle(transform.position.TryGetMeshCollision(Vector3.down,wallnfloor), Vector3.up);
-            if (angle < 30f) { _debug.Log("Hago el lago de acido"); MakeLagoon(); } 
-            Destroy(gameObject);
+            
         }
+        Tuple<float,Vector3> b = transform.position.GetNormalAngleOfFloor(wallnfloor);
+        if (b.Item1 < 70f) { _debug.Log("Hago el lago de acido"); MakeLagoon(b.Item2); } 
+        else 
+        {
+            _debug.Log("No hago el lago, el angulo de la normal es "+ b.Item1); ;
+        }
+        
+        Destroy(gameObject);
     }
   
-    void MakeLagoon()
+    void MakeLagoon(Vector3 forward)
     {
         Vector3 x = transform.position.TryGetMeshCollision(Vector3.down, wallnfloor);
-        Trap_DmgOvertime y =Instantiate(AcidLake,x,Quaternion.Euler(Vector3.up));
+        Trap_DmgOvertime y =Instantiate(AcidLake,x,Quaternion.Euler(forward));
         y.onStay += (x) => x.TakeDamage(2);      
     }
 
