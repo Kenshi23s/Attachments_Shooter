@@ -15,10 +15,20 @@ struct CustomLightingData{
 	float3 viewDirectionWS;
 	float4 shadowCoord;
 
+
 	float3 albedo;
+
+	float3 bakedGI;
 };
 
 #ifndef SHADERGRAPH_PREVIEW
+float3 CustomGlobalIllumination(CustomLightingData d) 
+{
+	float3 indirectDiffuse = d.albedo * bakedGI;
+
+	return indirectDiffuse;
+}
+
 float3 CustomLightHandling(CustomLightingData d, Light light) {
 
 	float3 radiance = light.shadowAttenuation;
@@ -35,6 +45,8 @@ float3 CalculateCustomLighting(CustomLightingData d)
 #else
 	Light mainLight = GetMainLight(d.shadowCoord, d.positionWS, 1);
 
+	MixRealtimeAndBakedGI(mainLight,d.normalWS,d.bakedGI);
+
 	float3 color = 0;
 
 	color += CustomLightHandling(d, mainLight);
@@ -43,15 +55,16 @@ float3 CalculateCustomLighting(CustomLightingData d)
 #endif
 }
 
-void CalculateCustomLighting_float(float3 Position, float3 Normal, float3 ViewDirection, float3 Albedo, out float3 Color) 
+void CalculateCustomLighting_float(float3 Position, float3 Normal, float3 ViewDirection, float3 Albedo, float AmbientOcclusion, out float3 Color) 
 {
 	CustomLightingData d;
 	d.viewDirectionWS = ViewDirection;
 	d.albedo = Albedo;
-	d.bakedGI = 0;
+	
 
 #ifdef SHADERGRAPH_PREVIEW
 	d.shadowCoord = 0;
+	d.bakedGI = 0;
 #else
 	float4 positionCS = TransformWorldToHClip(Position);
 #if SHADOWS_SCREEN
