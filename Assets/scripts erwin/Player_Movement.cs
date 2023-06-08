@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Diagnostics;
+using Unity.Mathematics;
 using UnityEngine;
 [RequireComponent(typeof(LifeComponent))]
 [RequireComponent(typeof(PausableObject))]
@@ -51,6 +52,7 @@ public class Player_Movement : MonoBehaviour
         _debug = GetComponent<DebugableObject>();
         _debug.AddGizmoAction(DebugVelocity);
         GetComponent<PausableObject>().onPause += () => StartCoroutine(WhilePaused()); 
+        transform.rotation= new Quaternion();
     }
     // Start is called before the first frame update
     void Start()
