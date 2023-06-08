@@ -1,10 +1,15 @@
 using FacundoColomboMethods;
+using System;
 using UnityEngine;
-
+using Random = UnityEngine.Random;
+using static Enemy_Worm;
 public class Worm_State_Flank : Worm_State
 {
-    public Worm_State_Flank(Enemy_Worm worm) : base(worm) {}
-
+    public Worm_State_Flank(Enemy_Worm worm) : base(worm) 
+    {
+        onFlankComplete = () => _worm.fsm.ChangeState(EWormStates.Attack);
+    }
+    Action onFlankComplete;
     float unitsAway;
     Vector3 pointToFlank = Vector3.zero;
 
@@ -26,9 +31,11 @@ public class Worm_State_Flank : Worm_State
         else        
             pointToFlank = dirToFlank.normalized * unitsAway;
 
-        _worm.AI_move.OnDestinationReached += OnExit;
+        _worm.AI_move.OnDestinationReached += onFlankComplete;
         _worm.AI_move.SetDestination(pointToFlank);
     }
+    
+    
 
     public override void OnExit()
     {

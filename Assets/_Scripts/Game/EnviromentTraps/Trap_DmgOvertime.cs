@@ -1,9 +1,11 @@
 using FacundoColomboMethods;
 using System;
 using System.Collections.Generic;
-using System.Linq;
 using UnityEngine;
 using UnityEngine.Rendering.Universal;
+
+using System.Collections;
+using System.Linq;
 
 public class Trap_DmgOvertime : MonoBehaviour
 {
@@ -24,27 +26,41 @@ public class Trap_DmgOvertime : MonoBehaviour
     {
        
     }
-   
 
+    private void Awake()
+    {
+        
+    }
     private void OnTriggerEnter(Collider other)
     {
         if (other.gameObject.TryGetComponent(out IDamagable x))
         {
+            if (dmgList.Count >= 1) StartCoroutine(CoroutineMake());
             dmgList.CheckAndAdd(x); onEnter?.Invoke(x);
         }                                
     }
-
+    List<IDamagable> aux;
     private void OnTriggerStay(Collider other)
     {
         if (other.gameObject.TryGetComponent(out IDamagable x))
-            if (dmgList.Contains(x)) onStay?.Invoke(x);      
+            if (dmgList.Contains(x)) aux.CheckAndAdd(x);
+    }
+
+    IEnumerator CoroutineMake()
+    {
+        WaitForSeconds wait = new WaitForSeconds(1);
+        while (true)
+        {
+            yield return wait;
+            foreach (var item in aux) onStay(item);
+        }  
     }
 
     private void OnTriggerExit(Collider other)
     {
         if (other.gameObject.TryGetComponent(out IDamagable x))
         {
-            onExit?.Invoke(x); dmgList.CheckAndRemove(x);
+            onExit?.Invoke(x); dmgList.CheckAndRemove(x); if (!dmgList.Any()) StopCoroutine(CoroutineMake());          
         }         
     }
 }

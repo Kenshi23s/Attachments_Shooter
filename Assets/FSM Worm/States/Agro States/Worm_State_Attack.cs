@@ -8,6 +8,12 @@ public class Worm_State_Attack : Worm_State
     public Worm_State_Attack(Enemy_Worm worm) : base(worm)
     {
         _attackFSM = new StateMachine<Worm_AttackState>();
+        _attackFSM.CreateState(Worm_AttackState.AbsorbDirt,new Worm_State_Reflect(worm));
+        _attackFSM.CreateState(Worm_AttackState.Pursuit, new Worm_State_Pursuit(worm));
+        _attackFSM.CreateState(Worm_AttackState.Melee, new Worm_State_Melee(worm));
+        _attackFSM.CreateState(Worm_AttackState.ShootAcid, new Worm_State_Shoot(worm));
+        _attackFSM.CreateState(Worm_AttackState.Flank, new Worm_State_Flank(worm));
+
     }
 
     public enum Worm_AttackState
@@ -16,7 +22,8 @@ public class Worm_State_Attack : Worm_State
         Melee,
         ShootAcid,
         AbsorbDirt,
-        ShootDirt
+        ShootDirt,
+        Flank
     }
 
     StateMachine<Worm_AttackState> _attackFSM;
@@ -25,8 +32,6 @@ public class Worm_State_Attack : Worm_State
     public override void OnEnter()
     {
         MakeDecision();
-
-
     }
 
   

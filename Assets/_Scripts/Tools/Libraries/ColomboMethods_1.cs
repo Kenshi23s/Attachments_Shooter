@@ -23,6 +23,15 @@ namespace FacundoColomboMethods
 
     public static class ColomboMethods
     {
+        public static Vector3 TryGetMeshCollision(this Vector3 myPos,Vector3 dir,LayerMask layer)
+        {
+            if (Physics.Raycast(myPos,dir,out RaycastHit hit,Mathf.Infinity,layer))            
+                return hit.point;           
+            else            
+               return myPos;
+            
+        }
+
         public static Vector3 GetOrientedVector(this Transform tr, Vector3 T)
         {
             return T.x * tr.right + T.y * tr.up + tr.forward * T.z;
