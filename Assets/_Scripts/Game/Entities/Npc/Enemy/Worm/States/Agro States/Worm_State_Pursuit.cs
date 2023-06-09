@@ -21,13 +21,13 @@ public class Worm_State_Pursuit : Worm_State
 
 
         // Hacer que, si el jugador esta visible, lo mire. Y si no que mire a la direccion en la que avanza y lo persiga al 
-        _worm.AI_move.SetDestination(Player_Movement.position);
+        //_worm.AI_move.SetDestination(Player_Movement.position);
 
 
     }
 
     public override void OnExit()
     {
-        _worm.anim.SetBool("Pursuit", true);
+        //_worm.anim.SetBool("Pursuit", true);
     }
 }

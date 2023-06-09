@@ -8,6 +8,7 @@ public class Worm_State_Attack : Worm_State
     public Worm_State_Attack(Enemy_Worm worm) : base(worm)
     {
         _attackFSM = new StateMachine<Worm_AttackState>();
+        _attackFSM.Initialize(worm.debug);
 
         _attackFSM.CreateState(Worm_AttackState.GrabDirt,new Worm_State_GrabDirt(worm));
         _attackFSM.CreateState(Worm_AttackState.Pursuit, new Worm_State_Pursuit(worm));
