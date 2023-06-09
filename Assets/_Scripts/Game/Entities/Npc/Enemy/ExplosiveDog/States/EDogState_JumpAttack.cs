@@ -2,8 +2,9 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using static E_ExplosiveDog;
 
-public class EDogState_JumpAttack : IState
+public class EDogState_JumpAttack : IState<EDogStates>
 {
 
     Action _explosion;
@@ -11,12 +12,12 @@ public class EDogState_JumpAttack : IState
     Physics_Movement _move;
 
     float unitsAbovePlayer=2.5f;
-    StateMachine<string> _fsm;
+    StateMachine<EDogStates> _fsm;
 
 
     Vector3 jumpWp = Vector3.zero;
 
-    public EDogState_JumpAttack(Action _explosion, Physics_Movement _move, float unitsAbovePlayer, StateMachine<string> _fsm)
+    public EDogState_JumpAttack(Action _explosion, Physics_Movement _move, float unitsAbovePlayer, StateMachine<EDogStates> _fsm)
     {
         this._explosion = _explosion;
         this._move = _move;     
@@ -59,7 +60,7 @@ public class EDogState_JumpAttack : IState
        
         if (Physics.Raycast(_move.transform.position,Vector3.down,1f))
         {
-            _fsm.ChangeState("Pursuit");
+            _fsm.ChangeState(EDogStates.PURSUIT);
         }
         else
         {
@@ -81,5 +82,7 @@ public class EDogState_JumpAttack : IState
         
     }
 
-    
+    public void SetStateMachine(StateMachine<EDogStates> fsm)
+    {
+    }
 }

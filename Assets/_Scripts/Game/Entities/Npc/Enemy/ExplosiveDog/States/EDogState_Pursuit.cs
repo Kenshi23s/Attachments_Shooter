@@ -2,15 +2,16 @@ using FacundoColomboMethods;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using static E_ExplosiveDog;
 
-public class EDogState_Pursuit : IState
+public class EDogState_Pursuit : IState<EDogStates>
 {
-    StateMachine<string> _fsm;
+    StateMachine<EDogStates> _fsm;
     AI_Movement _agent;
     float _pursuitSpeed;
     float _jumpRadius;
 
-    public EDogState_Pursuit(StateMachine<string> fsm, AI_Movement agent, float pursuitSpeed, float jumpRadius)
+    public EDogState_Pursuit(StateMachine<EDogStates> fsm, AI_Movement agent, float pursuitSpeed, float jumpRadius)
     {
         _fsm = fsm;
         _agent = agent;
@@ -48,7 +49,7 @@ public class EDogState_Pursuit : IState
         if (Vector3.Distance(_agent.transform.position, Player_Movement.position) <= _jumpRadius)      
         if (_agent.transform.position.InLineOffSight(Player_Movement.position,IA_Manager.instance.wall_Mask))
         {
-           _fsm.ChangeState("JumpAttack");
+           _fsm.ChangeState(EDogStates.JUMP_ATTACK);
         }      
     }
 
@@ -57,4 +58,8 @@ public class EDogState_Pursuit : IState
         _agent.CancelMovement();
     }
 
+
+    public void SetStateMachine(StateMachine<EDogStates> fsm)
+    {
+    }
 }

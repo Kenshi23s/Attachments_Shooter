@@ -5,7 +5,12 @@ using UnityEngine;
 [RequireComponent(typeof(DebugableObject))]
 public class E_ExplosiveDog : Enemy
 {
-    StateMachine<string> _fsm;
+    StateMachine<EDogStates> _fsm;
+
+    public enum EDogStates 
+    {
+        IDLE, PURSUIT, JUMP_ATTACK
+    }
 
     public AI_Movement agent { get; private set; }
 
@@ -29,7 +34,7 @@ public class E_ExplosiveDog : Enemy
     public override void ArtificialAwake()
     {
         debug = GetComponent<DebugableObject>();
-        _fsm = new StateMachine<string>(); _fsm.Initialize(debug);
+        _fsm = new StateMachine<EDogStates>(); _fsm.Initialize(debug);
         health = GetComponent<LifeComponent>(); health.OnKilled += Explosion;
 
         agent = GetComponent<AI_Movement>();
@@ -41,10 +46,10 @@ public class E_ExplosiveDog : Enemy
         //    .Where(x => x.TryGetComponent(out AI_Movement y))
         //    .Select(x=> x.GetComponent<AI_Movement>()));
 
-        _fsm.CreateState("Idle", new EDogState_Idle(agent, _fsm, health));
-        _fsm.CreateState("Pursuit", new EDogState_Pursuit(_fsm,agent, pursuitMaxSpeed, minJumpDistance));
-        _fsm.CreateState("JumpAttack", new EDogState_JumpAttack(Explosion, agent.Movement, unitsAbovePlayer, _fsm));
-        _fsm.ChangeState("Idle");
+        _fsm.CreateState(EDogStates.IDLE, new EDogState_Idle(agent, _fsm, health));
+        _fsm.CreateState(EDogStates.PURSUIT, new EDogState_Pursuit(_fsm,agent, pursuitMaxSpeed, minJumpDistance));
+        _fsm.CreateState(EDogStates.JUMP_ATTACK, new EDogState_JumpAttack(Explosion, agent.Movement, unitsAbovePlayer, _fsm));
+        _fsm.ChangeState(EDogStates.IDLE);
     }
 
     void Explosion()
