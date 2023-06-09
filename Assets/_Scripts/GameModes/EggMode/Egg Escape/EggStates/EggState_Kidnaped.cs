@@ -21,7 +21,7 @@ public class EggState_Kidnaped : EggState
         onGrab?.Invoke();
         _actualKidnapTime = _eggStats.kidnapedTime;
         _agent.SetMaxSpeed(_eggStats.kidnapSpeed);
-        _agent.ClearPath();
+        _agent.CancelMovement();
        
     }
         

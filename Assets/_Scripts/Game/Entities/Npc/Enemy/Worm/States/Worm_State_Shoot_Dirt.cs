@@ -1,8 +1,9 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using static Worm_State_Attack;
 
-public class Worm_State_Shoot_Dirt : Worm_State
+public class Worm_State_Shoot_Dirt : Worm_State<Worm_AttackState>
 {
     public Worm_State_Shoot_Dirt(Enemy_Worm worm) : base(worm) {}
 

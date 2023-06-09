@@ -3,7 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class AirTurretState_Shoot : IState
+public class AirTurretState_Shoot<T> : IState<T>
 {
 
     Enemy_AirTurret _turret;
@@ -92,5 +92,10 @@ public class AirTurretState_Shoot : IState
     public void GizmoShow()
     {
 
+    }
+
+    public void SetStateMachine(StateMachine<T> fsm)
+    {
+        
     }
 }

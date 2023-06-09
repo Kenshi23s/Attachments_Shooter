@@ -1,8 +1,9 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using static Enemy_Worm;
 
-public class Worm_State_Stunned : Worm_State
+public class Worm_State_Stunned : Worm_State<EWormStates>
 {
     public Worm_State_Stunned(Enemy_Worm worm) : base(worm) 
     {
@@ -24,7 +25,7 @@ public class Worm_State_Stunned : Worm_State
     public override void OnUpdate()
     {
         _stunTimeCount += Time.deltaTime;
-        if (_stunTimeCount >= _stunTime) _worm.fsm.ChangeState(Enemy_Worm.EWormStates.Attack);
+        if (_stunTimeCount >= _stunTime) _worm.fsm.ChangeState(EWormStates.Attack);
     }
 
     public override void OnExit()

@@ -3,8 +3,9 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
+using static Worm_State_Attack;
 
-public class Worm_State_GrabDirt : Worm_State
+public class Worm_State_GrabDirt : Worm_State<Worm_AttackState>
 {
     public Worm_State_GrabDirt(Enemy_Worm worm) : base(worm)
     {

@@ -8,9 +8,9 @@ public class StateMachine<T>
     public T actualStateKey { get; private set; }
  
 
-    public IState currentStateValue { get; private set; }
+    public IState<T> currentStateValue { get; private set; }
 
-    Dictionary<T, IState> _statesList = new Dictionary<T, IState>();
+    Dictionary<T, IState<T>> _statesList = new Dictionary<T, IState<T>>();
 
     DebugableObject _debug;
     public void Initialize(DebugableObject _debug)
@@ -18,12 +18,15 @@ public class StateMachine<T>
         this._debug = _debug;
         this._debug.AddGizmoAction(StateGizmos);
     }
-    public void CreateState(T name, IState state)
+    public void CreateState(T name, IState<T> state)
     {
         // si en mi diccionario no tengo esa llave 
         if (!_statesList.ContainsKey(name))
+        {
             //la creo
             _statesList.Add(name, state);
+            state.SetStateMachine(this);
+        }
     }
 
     public void Execute()

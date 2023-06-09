@@ -5,7 +5,7 @@ using UnityEngine;
 using FacundoColomboMethods;
 using System;
 
-public class EDogState_Idle : IState
+public class EDogState_Idle<T> : IState<T>
 {
     AI_Movement _agent;
     StateMachine<string> _fsm;
@@ -81,6 +81,8 @@ public class EDogState_Idle : IState
 
     }
 
-    
+    public void SetStateMachine(StateMachine<T> fsm)
+    {
 
+    }
 }

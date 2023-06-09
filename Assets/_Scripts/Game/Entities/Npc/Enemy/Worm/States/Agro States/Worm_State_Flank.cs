@@ -3,12 +3,15 @@ using System;
 using UnityEngine;
 using Random = UnityEngine.Random;
 using static Enemy_Worm;
-public class Worm_State_Flank : Worm_State
+using static Worm_State_Attack;
+
+public class Worm_State_Flank : Worm_State<Worm_AttackState>
 {
     public Worm_State_Flank(Enemy_Worm worm) : base(worm) 
     {
         onFlankComplete = () => _worm.fsm.ChangeState(EWormStates.Attack);
     }
+
     Action onFlankComplete;
     float unitsAway;
     Vector3 pointToFlank = Vector3.zero;

@@ -26,7 +26,7 @@ public class AI_Movement : MonoBehaviour
     public LayerMask ObstacleMask;
     Action _fixedUpdate;
 
-    public event Action OnDestinationReached, OnDestinationChanged;
+    public event Action OnDestinationReached, OnDestinationChanged, OnMovementCanceled;
 
     Vector3 _destination;
     List<Vector3> _waypoints = new List<Vector3>();
@@ -155,10 +155,16 @@ public class AI_Movement : MonoBehaviour
         if (Vector3.Distance(_waypoints[0], transform.position) < 2f) _waypoints.RemoveAt(0);
     }    
 
-    public void ClearPath()
+    void ClearPath()
     {
-        OnDestinationReached = null;
         _fixedUpdate = null;
+        _waypoints.Clear();
+    }
+
+    public void CancelMovement() 
+    {
+        ClearPath();
+        OnMovementCanceled?.Invoke();
     }
     #endregion
 

@@ -1,8 +1,9 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using static Worm_State_Attack;
 
-public class Worm_State_Melee : Worm_State
+public class Worm_State_Melee : Worm_State<Worm_AttackState>
 {
     public Worm_State_Melee(Enemy_Worm worm) : base(worm) {}
 

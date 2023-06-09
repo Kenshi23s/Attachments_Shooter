@@ -1,8 +1,9 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using static Enemy_Worm;
 
-public class Worm_State_Die : Worm_State
+public class Worm_State_Die : Worm_State<EWormStates>
 {
     public Worm_State_Die(Enemy_Worm worm) : base(worm)
     {

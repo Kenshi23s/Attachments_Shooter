@@ -3,12 +3,9 @@ using System.Collections.Generic;
 using UnityEngine;
 using static Enemy_Worm;
 
-public class Worm_State_Idle : Worm_State
+public class Worm_State_Idle : Worm_State<EWormStates>
 {
-    public Worm_State_Idle(Enemy_Worm worm) : base(worm)
-    {
-    }
-
+    public Worm_State_Idle(Enemy_Worm worm) : base(worm) {}
 
     public override void OnEnter()
     {

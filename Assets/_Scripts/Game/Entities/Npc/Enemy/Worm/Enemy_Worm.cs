@@ -25,8 +25,8 @@ public class Enemy_Worm : Enemy
     #region Sight Settings
     [Header("Sight Settings")]
     [SerializeField]
-    float _sightRadius;
-    float _loseSightRadius;
+    public float SightRadius;
+    public float LoseSightRadius;
     #endregion
 
     #region Attack Settings
@@ -34,9 +34,11 @@ public class Enemy_Worm : Enemy
 
     // El radio de estos ataques siempre deberia ser menor a los de sight radius
     [SerializeField, Min(0)]
-    float _meleeAttackRadius;
-    float _shootAcidRadius;
-    float _shootDirtRadius;
+    public float MeleeAttackRadius;
+    [SerializeField, Min(0)]
+    public float ShootAcidRadius;
+    [SerializeField, Min(0)]
+    public float ShootDirtRadius;
 
     [SerializeField, Min(0)] float _acidAttackFrequency, _dirtAttackFrequency;
 
@@ -133,12 +135,10 @@ public class Enemy_Worm : Enemy
     void DieChange() => fsm.ChangeState(EWormStates.Die);
 
 
-    Worm_AttackState ChooseBetweenAttacks() 
+    public Worm_AttackState ChooseBetweenAttacks() 
     {
         if (Random.Range(0, _acidAttackFrequency) >= Random.Range(0, _dirtAttackFrequency))
-        {
             return Worm_AttackState.ShootAcid;
-        }
 
         return Worm_AttackState.GrabDirt;
     }

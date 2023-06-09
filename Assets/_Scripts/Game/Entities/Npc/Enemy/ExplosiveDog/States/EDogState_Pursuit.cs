@@ -54,7 +54,7 @@ public class EDogState_Pursuit : IState
 
     public void OnExit()
     {
-        _agent.ClearPath();
+        _agent.CancelMovement();
     }
 
 }

@@ -2,17 +2,29 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public abstract class Worm_State : IState
+public abstract class Worm_State<T> : IState<T>
 {
 
     protected Enemy_Worm _worm;
-    
-    
+
+    protected StateMachine<T> _fsm;
 
     // Lo llama la state machine
     public Worm_State(Enemy_Worm worm) 
     {
         _worm = worm;
+    }
+
+    public void SetStateMachine(StateMachine<T> fsm) 
+    {
+        // Si ya tiene asignada una state machine 
+        if (fsm != null)
+        {
+            Debug.LogWarning($"[Custom Msg] - {this} ya pertenece a una maquina de estado.");
+            return;
+        }
+
+        _fsm = fsm;
     }
 
     public virtual void GizmoShow() { }    
@@ -22,4 +34,5 @@ public abstract class Worm_State : IState
     public virtual void OnExit() { }
     
     public virtual void OnUpdate() { }
+
 }
