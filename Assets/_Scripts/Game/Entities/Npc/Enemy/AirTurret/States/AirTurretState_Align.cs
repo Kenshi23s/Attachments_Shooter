@@ -2,8 +2,9 @@ using FacundoColomboMethods;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using static Enemy_AirTurret;
 
-public class AirTurretState_Align : IState
+public class AirTurretState_Align : IState<AirTurretState>
 {
     Enemy_AirTurret _myTurret;
     StateMachine<string> _turretFsm;
@@ -52,5 +53,9 @@ public class AirTurretState_Align : IState
     public void OnEnter() { }
 
     public void OnExit() { }
-   
+
+    public void SetStateMachine(StateMachine<AirTurretState> fsm)
+    {
+        throw new System.NotImplementedException();
+    }
 }

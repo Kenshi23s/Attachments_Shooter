@@ -1,8 +1,9 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using static Enemy_AirTurret;
 
-public class AirTurretState_Idle : IState
+public class AirTurretState_Idle : IState<AirTurretState>
 {
     Enemy_AirTurret _turret;
     Transform _pivotBase;
@@ -25,4 +26,9 @@ public class AirTurretState_Idle : IState
     public void OnEnter() { }
 
     public void OnExit() { }
+
+    public void SetStateMachine(StateMachine<AirTurretState> fsm)
+    {
+        throw new System.NotImplementedException();
+    }
 }

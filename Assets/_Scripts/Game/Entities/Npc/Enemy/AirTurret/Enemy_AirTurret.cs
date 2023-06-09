@@ -69,7 +69,7 @@ public class Enemy_AirTurret : Enemy, IDetector
     //lo tendria q tener el game manager
     public LayerMask wallMask;
     //[SerializeField]Transform[] _batteries;
-    StateMachine<string> _fsm;
+    StateMachine<AirTurretState> _fsm;
 
     public override void ArtificialAwake()
     {
@@ -80,18 +80,21 @@ public class Enemy_AirTurret : Enemy, IDetector
         debug.AddGizmoAction(DrawGizmo);
         SetTurretFSM();
     }
-
+    public enum AirTurretState
+    {
+        IDLE,ALIGN,SHOOT,REST
+    }
     void SetTurretFSM()
     {
 
-        _fsm = new StateMachine<string>();
+        _fsm = new StateMachine<AirTurretState>();
         _fsm.Initialize(debug);
-        _fsm.CreateState("Idle",  new AirTurretState_Idle(this,pivotBase));
-        _fsm.CreateState("Align", new AirTurretState_Align(this, _fsm));
-        _fsm.CreateState("Shoot", new AirTurretState_Shoot(this,cd_BetweenMisiles, cd_Volleys, misilesPerVolley, _fsm));
-        _fsm.CreateState("Rest",  new AirTurretState_Rest(this, _fsm));
+        _fsm.CreateState(AirTurretState.IDLE,  new AirTurretState_Idle(this,pivotBase));
+        _fsm.CreateState(AirTurretState.ALIGN, new AirTurretState_Align(this, _fsm));
+        _fsm.CreateState(AirTurretState.SHOOT, new AirTurretState_Shoot(this,cd_BetweenMisiles, cd_Volleys, misilesPerVolley, _fsm));
+        _fsm.CreateState(AirTurretState.REST,  new AirTurretState_Rest(this, _fsm));
         
-        _fsm.ChangeState("Idle");
+        _fsm.ChangeState(AirTurretState.IDLE);
        
     }
 

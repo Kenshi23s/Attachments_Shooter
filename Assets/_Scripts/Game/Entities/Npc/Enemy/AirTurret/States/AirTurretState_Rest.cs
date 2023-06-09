@@ -1,8 +1,8 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-
-public class AirTurretState_Rest : IState
+using static Enemy_AirTurret;
+public class AirTurretState_Rest : IState<AirTurretState>
 {
     Enemy_AirTurret _turret;
     StateMachine<string> _fsm;
@@ -23,7 +23,9 @@ public class AirTurretState_Rest : IState
     public void OnExit() { }   
 
     public void GizmoShow() { }
-    
-        
-    
+
+    public void SetStateMachine(StateMachine<AirTurretState> fsm)
+    {
+        throw new System.NotImplementedException();
+    }
 }
