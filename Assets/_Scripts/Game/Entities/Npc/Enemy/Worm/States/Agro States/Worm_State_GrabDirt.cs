@@ -4,9 +4,9 @@ using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 
-public class Worm_State_Reflect : Worm_State
+public class Worm_State_GrabDirt : Worm_State
 {
-    public Worm_State_Reflect(Enemy_Worm worm) : base(worm)
+    public Worm_State_GrabDirt(Enemy_Worm worm) : base(worm)
     {
     }
 

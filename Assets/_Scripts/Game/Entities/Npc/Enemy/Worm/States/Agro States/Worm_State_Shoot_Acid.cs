@@ -2,14 +2,12 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Worm_State_Shoot : Worm_State
+public class Worm_State_Shoot_Acid : Worm_State
 {
-    public Worm_State_Shoot(Enemy_Worm worm) : base(worm)
+    public Worm_State_Shoot_Acid(Enemy_Worm worm) : base(worm)
     {
        
-    }
-
-  
+    }  
 
     public override void OnEnter()
     {      
