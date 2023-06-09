@@ -2,6 +2,7 @@ using System;
 using UnityEngine;
 
 
+
 [RequireComponent(typeof(FOVAgent))]
 [RequireComponent(typeof(LifeComponent))]
 [RequireComponent(typeof(DebugableObject))]
@@ -78,12 +79,12 @@ public class EggEscapeModel : MonoBehaviour
         _agent = GetComponent<AI_Movement>();
         _fov   = GetComponent<FOVAgent>();
         _fsm   = new StateMachine<EggStates>();
-    
-        
+
+
         #endregion
 
         #region DataSet
-        EggStateData data;
+        EggState<EggStates>.EggStateData data;
         data._eggStats = _eggStats;
         data._fov = _fov;
         data._fsm = _fsm;
@@ -104,7 +105,7 @@ public class EggEscapeModel : MonoBehaviour
 
         #region Setting Finite State Machine
         _fsm.Initialize(_debug);
-        _fsm.CreateState(EggStates.Patrol,    new EggState_Patrol<EggStates>(data<>));
+        _fsm.CreateState(EggStates.Patrol,    new EggState_Patrol(data));
         _fsm.CreateState(EggStates.Escape,    new EggState_Escape(data));
         _fsm.CreateState(EggStates.Stunned,   new EggState_Stunned(data));
         _fsm.CreateState(EggStates.Kidnapped, new EggState_Kidnaped(data, OnGrab,OnRelease));
@@ -130,8 +131,8 @@ public class EggEscapeModel : MonoBehaviour
 
     public void Grab()
     {
-        if (_fsm.actualStateKey != States.Kidnapped)                
-            _fsm.ChangeState(States.Kidnapped);                           
+        if (_fsm.actualStateKey != EggStates.Kidnapped)                
+            _fsm.ChangeState(EggStates.Kidnapped);                           
     }
 
     void UpdateLinkRope()
@@ -142,9 +143,9 @@ public class EggEscapeModel : MonoBehaviour
     
     public void Stun()
     {
-        if (_fsm.actualStateKey != States.Kidnapped && _fsm.actualStateKey != States.Stunned)
+        if (_fsm.actualStateKey != EggStates.Kidnapped && _fsm.actualStateKey != EggStates.Stunned)
         {
-            _fsm.ChangeState(States.Stunned);
+            _fsm.ChangeState(EggStates.Stunned);
              myLife.canTakeDamage = false;
         }       
     }

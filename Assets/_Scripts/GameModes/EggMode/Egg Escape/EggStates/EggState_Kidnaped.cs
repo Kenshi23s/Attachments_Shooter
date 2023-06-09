@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using static EggEscapeModel;
 
-public class EggState_Kidnaped<T> : EggState<T>
+public class EggState_Kidnaped : EggState<EggStates>
 { 
     float _actualKidnapTime;
     Action onGrab;
@@ -42,7 +42,7 @@ public class EggState_Kidnaped<T> : EggState<T>
        
         
         if (_actualKidnapTime <= 0)
-            _fsm.ChangeState(States.Escape);
+            _fsm.ChangeState(EggStates.Escape);
     } 
   
    

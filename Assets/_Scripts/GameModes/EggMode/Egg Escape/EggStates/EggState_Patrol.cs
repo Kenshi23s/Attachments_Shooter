@@ -4,7 +4,7 @@ using UnityEngine;
 using UnityEngine.AI;
 using static EggEscapeModel;
 
-public class EggState_Patrol<T> : EggState<T>
+public class EggState_Patrol : EggState<EggStates>
 {
  
    

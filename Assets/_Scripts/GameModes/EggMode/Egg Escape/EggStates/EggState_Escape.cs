@@ -4,7 +4,7 @@ using UnityEngine.AI;
 using FacundoColomboMethods;
 using System.Linq;
 
-public class EggState_Escape<T> : EggState<T>
+public class EggState_Escape : EggState<EggStates>
 {
     public EggState_Escape(EggStateData data) : base(data) { }
 

@@ -1,7 +1,7 @@
 using UnityEngine;
 using static EggEscapeModel;
 
-public class EggState_Stunned<T> : EggState<EggStates>
+public class EggState_Stunned : EggState<EggStates>
 {
     float _actualTimeStunned;
 

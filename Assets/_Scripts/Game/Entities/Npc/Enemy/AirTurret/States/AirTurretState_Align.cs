@@ -7,9 +7,9 @@ using static Enemy_AirTurret;
 public class AirTurretState_Align : IState<AirTurretState>
 {
     Enemy_AirTurret _myTurret;
-    StateMachine<string> _turretFsm;
+    StateMachine<AirTurretState> _turretFsm;
 
-    public AirTurretState_Align(Enemy_AirTurret myTurret, StateMachine<string> turretFsm)
+    public AirTurretState_Align(Enemy_AirTurret myTurret, StateMachine<AirTurretState> turretFsm)
     {
         _myTurret = myTurret;
         _turretFsm = turretFsm;
@@ -26,12 +26,12 @@ public class AirTurretState_Align : IState<AirTurretState>
             {
                 if (_myTurret.AlignBase(_myTurret.target.position) && _myTurret.AlignCanon(true))
                 {
-                    _turretFsm.ChangeState("Shoot");
+                    _turretFsm.ChangeState(AirTurretState.SHOOT);
                 }
             }                 
             return;
         }
-        _turretFsm.ChangeState("Rest");
+        _turretFsm.ChangeState(AirTurretState.REST);
     }
 
     public void GizmoShow()

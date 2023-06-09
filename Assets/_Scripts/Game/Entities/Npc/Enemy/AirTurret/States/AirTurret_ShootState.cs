@@ -2,8 +2,8 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-
-public class AirTurretState_Shoot<T> : IState<T>
+using static Enemy_AirTurret;
+public class AirTurretState_Shoot : IState<AirTurretState>
 {
 
     Enemy_AirTurret _turret;
@@ -14,13 +14,13 @@ public class AirTurretState_Shoot<T> : IState<T>
 
     float misilesPerVolley, misilesLeft;
 
-    StateMachine<string> _turretFsm;
+    StateMachine<AirTurretState> _turretFsm;
 
     Action _updateEvent;
 
     Transform misileTarget;
 
-    public AirTurretState_Shoot(Enemy_AirTurret _turret, float _misileCD, float _volleyCD, float _misilesPerVolley, StateMachine<string> _turretFsm)
+    public AirTurretState_Shoot(Enemy_AirTurret _turret, float _misileCD, float _volleyCD, float _misilesPerVolley, StateMachine<AirTurretState> _turretFsm)
     {
         this._turret = _turret;
         this._misileCD = _misileCD;
@@ -75,7 +75,7 @@ public class AirTurretState_Shoot<T> : IState<T>
     void VolleyCD()
     {
         _actualVolleyCD -= Time.deltaTime;
-        if (_turret.target == null) _turretFsm.ChangeState("Rest");      
+        if (_turret.target == null) _turretFsm.ChangeState(AirTurretState.REST);      
           
         if (_actualVolleyCD >= 0) return;
 
@@ -84,7 +84,7 @@ public class AirTurretState_Shoot<T> : IState<T>
         misilesLeft = misilesPerVolley;
 
         _updateEvent = null;
-        _turretFsm.ChangeState("Align");
+        _turretFsm.ChangeState(AirTurretState.SHOOT);
 
 
     }
@@ -94,8 +94,10 @@ public class AirTurretState_Shoot<T> : IState<T>
 
     }
 
-    public void SetStateMachine(StateMachine<T> fsm)
+   
+
+    public void SetStateMachine(StateMachine<AirTurretState> fsm)
     {
-        
+        throw new NotImplementedException();
     }
 }
