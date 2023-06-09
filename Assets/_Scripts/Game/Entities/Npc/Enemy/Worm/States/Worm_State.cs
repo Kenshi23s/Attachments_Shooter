@@ -18,7 +18,7 @@ public abstract class Worm_State<T> : IState<T>
     public void SetStateMachine(StateMachine<T> fsm) 
     {
         // Si ya tiene asignada una state machine 
-        if (fsm != null)
+        if (_fsm != null)
         {
             Debug.LogWarning($"[Custom Msg] - {this} ya pertenece a una maquina de estado.");
             return;
