@@ -19,7 +19,7 @@ GameObject:
   - component: {fileID: 7995179844713157494}
   - component: {fileID: 6040398420493665900}
   m_Layer: 0
-  m_Name: Caniche Boludo
+  m_Name: Caniche Inteligente
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -53,7 +53,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 360ca867e48780448a1401b7fc47e037, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  canDebug: 1
+  canDebug: 0
   gizmoDraw:
     m_PersistentCalls:
       m_Calls: []
@@ -70,7 +70,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _viewRadius: 30
-  viewAngle: 90
+  viewAngle: 180
 --- !u!54 &7995179844713157497
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -164,9 +164,8 @@ MonoBehaviour:
   pursuitMaxSpeed: 15
   minJumpDistance: 10
   unitsAbovePlayer: 10
-  unitsBehindPlayer: 10
-  _explosionDamage: 0
-  _explosionRadius: 0
+  _explosionDamage: 50
+  _explosionRadius: 10
 --- !u!65 &6040398420493665900
 BoxCollider:
   m_ObjectHideFlags: 0

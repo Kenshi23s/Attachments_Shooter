@@ -11,6 +11,23 @@ public class HitableObject : MonoBehaviour,IDamagable,IHealable
     float damageMultiplier;
 
 
+    void Awake()
+    {
+
+        if (transform.root.TryGetComponent(out LifeComponent x))
+        {
+          
+            SetOwner(x);
+        }
+        else
+        {
+            Debug.LogError("No hay padre con life component, me destruyo");
+            Destroy(this.gameObject);
+
+        }
+       
+    }
+
     public void SetOwner(LifeComponent owner) => _owner = owner;
 
     public void AddDamageOverTime(int TotalDamageToDeal, float TimeAmount)
