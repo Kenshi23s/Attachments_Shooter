@@ -2,7 +2,8 @@ using System;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
-using static EggState;
+using static EggEscapeModel;
+
 public class Egg_Incubator : InteractableObject
 {
     [Header("EggIncubator")]
@@ -56,7 +57,7 @@ public class Egg_Incubator : InteractableObject
         if (_eggs.Count > 0)     
          foreach (var item in _eggs)
          {
-             if (item.actualState == States.Kidnapped)
+             if (item.actualState == EggStates.Kidnapped)
              {
                  canInsert.Invoke();
                  return;
@@ -77,7 +78,7 @@ public class Egg_Incubator : InteractableObject
                 _eggs.Add(egg);
             }
                  
-            if (egg.actualState == States.Kidnapped)
+            if (egg.actualState == EggStates.Kidnapped)
             {
 
                 canInsert?.Invoke();

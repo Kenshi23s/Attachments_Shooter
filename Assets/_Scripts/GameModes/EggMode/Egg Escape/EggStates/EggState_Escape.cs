@@ -4,7 +4,7 @@ using UnityEngine.AI;
 using FacundoColomboMethods;
 using System.Linq;
 
-public class EggState_Escape : EggState
+public class EggState_Escape<T> : EggState<T>
 {
     public EggState_Escape(EggStateData data) : base(data) { }
 
@@ -28,7 +28,7 @@ public class EggState_Escape : EggState
         {
             if (!_fov.IN_FOV(_eggStats.gameMode.playerPos))
             {
-                _fsm.ChangeState(States.Patrol);
+                _fsm.ChangeState(EggStates.Patrol);
                 return;
             }
             OnEnter();

@@ -1,6 +1,5 @@
 using System;
 using UnityEngine;
-using static EggState;
 
 
 [RequireComponent(typeof(FOVAgent))]
@@ -9,6 +8,13 @@ using static EggState;
 [RequireComponent(typeof(AI_Movement))]
 public class EggEscapeModel : MonoBehaviour
 {
+    public enum EggStates
+    {
+        Patrol,
+        Escape,
+        Stunned,
+        Kidnapped
+    }
     [System.Serializable]
     public struct EggStats
     {
@@ -38,8 +44,8 @@ public class EggEscapeModel : MonoBehaviour
     FOVAgent _fov;
     AI_Movement _agent;
 
-    StateMachine<States> _fsm;
-    public States actualState => _fsm.actualStateKey;
+    StateMachine<EggStates> _fsm;
+    public EggStates actualState => _fsm.actualStateKey;
 
     EggStats _eggStats;
 
@@ -71,7 +77,7 @@ public class EggEscapeModel : MonoBehaviour
         DebugableObject _debug= GetComponent<DebugableObject>();
         _agent = GetComponent<AI_Movement>();
         _fov   = GetComponent<FOVAgent>();
-        _fsm   = new StateMachine<States>();
+        _fsm   = new StateMachine<EggStates>();
     
         
         #endregion
@@ -98,14 +104,14 @@ public class EggEscapeModel : MonoBehaviour
 
         #region Setting Finite State Machine
         _fsm.Initialize(_debug);
-        _fsm.CreateState(States.Patrol,    new EggState_Patrol(data));
-        _fsm.CreateState(States.Escape,    new EggState_Escape(data));
-        _fsm.CreateState(States.Stunned,   new EggState_Stunned(data));
-        _fsm.CreateState(States.Kidnapped, new EggState_Kidnaped(data, OnGrab,OnRelease));
+        _fsm.CreateState(EggStates.Patrol,    new EggState_Patrol<EggStates>(data<>));
+        _fsm.CreateState(EggStates.Escape,    new EggState_Escape(data));
+        _fsm.CreateState(EggStates.Stunned,   new EggState_Stunned(data));
+        _fsm.CreateState(EggStates.Kidnapped, new EggState_Kidnaped(data, OnGrab,OnRelease));
         //_fsm.CreateState(EggStates.Kidnapped, /*new EggState_Escape(_eggStats, fov, agent, _fsm))*/null);
         #endregion
 
-        _fsm.ChangeState(States.Patrol);
+        _fsm.ChangeState(EggStates.Patrol);
 
     }
     public void SetLife()

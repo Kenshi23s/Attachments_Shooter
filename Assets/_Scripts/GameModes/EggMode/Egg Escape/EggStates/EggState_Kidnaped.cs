@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using static EggEscapeModel;
 
-public class EggState_Kidnaped : EggState
+public class EggState_Kidnaped<T> : EggState<T>
 { 
     float _actualKidnapTime;
     Action onGrab;

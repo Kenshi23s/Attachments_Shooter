@@ -1,6 +1,7 @@
 using UnityEngine;
+using static EggEscapeModel;
 
-public class EggState_Stunned : EggState
+public class EggState_Stunned<T> : EggState<EggStates>
 {
     float _actualTimeStunned;
 
@@ -18,9 +19,9 @@ public class EggState_Stunned : EggState
         if (_actualTimeStunned <= 0)
         {
             if (_fov.IN_FOV(_eggStats.gameMode.playerPos))
-                _fsm.ChangeState(States.Escape);
+                _fsm.ChangeState(EggStates.Escape);
             else
-                _fsm.ChangeState(States.Patrol);
+                _fsm.ChangeState(EggStates.Patrol);
         }
 
     }     

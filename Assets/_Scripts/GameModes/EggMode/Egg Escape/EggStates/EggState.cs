@@ -4,22 +4,16 @@ using UnityEngine;
 using static EggEscapeModel;
 using UnityEngine.AI;
 
-public abstract class EggState : IState
+public abstract class EggState<T> : IState<T>
 {
-    public enum States
-    {
-        Patrol,
-        Escape,
-        Stunned,
-        Kidnapped
-    }
+    
 
     public struct EggStateData
     {
         public EggStats _eggStats;
         public FOVAgent _fov;
         public AI_Movement _agent;
-        public StateMachine<States> _fsm;
+        public StateMachine<EggStates> _fsm;
         public Physics_Movement manual_Movement;
     }
 
@@ -41,14 +35,19 @@ public abstract class EggState : IState
     public EggStats _eggStats;
     public FOVAgent _fov;
     public AI_Movement _agent;
-    public StateMachine<States> _fsm;
+    public StateMachine<EggStates> _fsm;
     
-    public abstract void OnEnter();
-    public abstract void OnExit();
-    public abstract void OnUpdate();
+    public virtual void OnEnter() { }
+    public virtual void OnExit() { }
+    public virtual void OnUpdate() { }
 
     public virtual void GizmoShow()
     {
 
+    }
+
+    public void SetStateMachine(StateMachine<T> fsm)
+    {
+        
     }
 }

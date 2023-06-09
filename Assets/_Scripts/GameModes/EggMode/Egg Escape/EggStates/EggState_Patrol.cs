@@ -4,7 +4,7 @@ using UnityEngine;
 using UnityEngine.AI;
 using static EggEscapeModel;
 
-public class EggState_Patrol : EggState
+public class EggState_Patrol<T> : EggState<T>
 {
  
    
@@ -26,6 +26,7 @@ public class EggState_Patrol : EggState
         _agent.SetDestination(_actualWaypoint.position);
     } 
 
+
     public override void OnUpdate()
     {
         _eggStats.debug.Log(_actualWaypoint.position.ToString()) ;
@@ -37,7 +38,7 @@ public class EggState_Patrol : EggState
         }
 
         if (_fov.IN_FOV(_eggStats.gameMode.playerPos))
-            _fsm.ChangeState(States.Escape);
+            _fsm.ChangeState(EggStates.Escape);
     }
 
 
