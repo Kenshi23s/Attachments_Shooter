@@ -25,6 +25,8 @@ namespace FacundoColomboMethods
 
     public static class ColomboMethods
     {
+
+       
         public static Vector3 TryGetMeshCollision(this Vector3 myPos,Vector3 dir,LayerMask layer)
         {
             if (Physics.Raycast(myPos,dir,out RaycastHit hit,Mathf.Infinity,layer))            

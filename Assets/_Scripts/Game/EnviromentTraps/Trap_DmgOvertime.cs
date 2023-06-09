@@ -5,7 +5,6 @@ using UnityEngine;
 using UnityEngine.Rendering.Universal;
 using System.Collections;
 using System.Linq;
-using System.Diagnostics;
 
 [RequireComponent(typeof(BoxCollider))]
 [RequireComponent(typeof(DebugableObject))]
@@ -36,7 +35,7 @@ public class Trap_DmgOvertime : MonoBehaviour
 
     private void Awake()
     {
-        _debug= GetComponent<DebugableObject>();
+        _debug = GetComponent<DebugableObject>();
         GetComponent<BoxCollider>().isTrigger = true;
         Initialize();
     }
@@ -46,9 +45,7 @@ public class Trap_DmgOvertime : MonoBehaviour
         {
             bool hasAny = dmgList.Any();
             dmgList.CheckAndAdd(target); onEnter?.Invoke(target);
-            if (!hasAny) StartCoroutine(CoroutineMake());
-
-          
+            if (!hasAny) StartCoroutine(CoroutineMake());        
         }                                
     }
 

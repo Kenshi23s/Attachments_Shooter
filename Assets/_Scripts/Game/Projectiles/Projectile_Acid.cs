@@ -1,7 +1,5 @@
 using FacundoColomboMethods;
 using System;
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 [RequireComponent(typeof(Rigidbody))]
@@ -26,10 +24,8 @@ public class Projectile_Acid : MonoBehaviour
       
     }
 
-    void DrawVelocity()
-    {
-        DrawArrow.ForGizmo(transform.position,_rb.velocity,Color.green);
-    }
+    void DrawVelocity() => DrawArrow.ForGizmo(transform.position, _rb.velocity, Color.green);
+ 
 
     void Initialize(Tuple<GameObject, int,Vector3> x)
     {
@@ -62,8 +58,11 @@ public class Projectile_Acid : MonoBehaviour
     void MakeLagoon(Vector3 forward)
     {
         Vector3 x = transform.position.TryGetMeshCollision(Vector3.down, wallnfloor);
-        Trap_DmgOvertime y =Instantiate(AcidLake,x,Quaternion.Euler(forward));
-        y.onStay += (x) => x.TakeDamage(2);      
+        Trap_DmgOvertime y = Instantiate(AcidLake,x,Quaternion.Euler(forward));
+        y.onStay += (x) =>
+        {
+            x.TakeDamage(2); Debug.Log("el acido hace daño");
+        };      
     }
 
 }
