@@ -40,13 +40,13 @@ public class StateMachine<T>
     {
         if (_statesList.ContainsKey(name))
         {
-            var aux = currentStateValue;
+            var previousState = currentStateValue;
             if (currentStateValue != null)
                 currentStateValue.OnExit();
 
             actualStateKey = name;
             currentStateValue = _statesList[name];
-            _debug.Log($"changed state : {aux} ===> {currentStateValue}");
+            _debug.Log($"changed state : {previousState} ===> {currentStateValue}");
             currentStateValue.OnEnter();
         }
         else

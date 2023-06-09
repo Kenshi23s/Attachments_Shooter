@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 1313838263}
-  m_IndirectSpecularColor: {r: 0.47038215, g: 0.60993564, b: 1.4149343, a: 1}
+  m_IndirectSpecularColor: {r: 0.47041556, g: 0.60993993, b: 1.4149153, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -14636,6 +14636,50 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 1017622548, guid: 9922ef841aaee2f45a0b5bedd4b0a70d, type: 3}
+      propertyPath: _acidDamage
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 1017622548, guid: 9922ef841aaee2f45a0b5bedd4b0a70d, type: 3}
+      propertyPath: _dirtDamage
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 1017622548, guid: 9922ef841aaee2f45a0b5bedd4b0a70d, type: 3}
+      propertyPath: _meleeDamage
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 1017622548, guid: 9922ef841aaee2f45a0b5bedd4b0a70d, type: 3}
+      propertyPath: _sightRadius
+      value: 15
+      objectReference: {fileID: 0}
+    - target: {fileID: 1017622548, guid: 9922ef841aaee2f45a0b5bedd4b0a70d, type: 3}
+      propertyPath: _meleeKnockback
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 1017622548, guid: 9922ef841aaee2f45a0b5bedd4b0a70d, type: 3}
+      propertyPath: _loseSightRadius
+      value: 20
+      objectReference: {fileID: 0}
+    - target: {fileID: 1017622548, guid: 9922ef841aaee2f45a0b5bedd4b0a70d, type: 3}
+      propertyPath: _shootAcidRadius
+      value: 4
+      objectReference: {fileID: 0}
+    - target: {fileID: 1017622548, guid: 9922ef841aaee2f45a0b5bedd4b0a70d, type: 3}
+      propertyPath: _shootDirtRadius
+      value: 8
+      objectReference: {fileID: 0}
+    - target: {fileID: 1017622548, guid: 9922ef841aaee2f45a0b5bedd4b0a70d, type: 3}
+      propertyPath: _meleeAttackRadius
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 1017622548, guid: 9922ef841aaee2f45a0b5bedd4b0a70d, type: 3}
+      propertyPath: _acidAttackFrequency
+      value: 4
+      objectReference: {fileID: 0}
+    - target: {fileID: 1017622548, guid: 9922ef841aaee2f45a0b5bedd4b0a70d, type: 3}
+      propertyPath: _dirtAttackFrequency
+      value: 2
+      objectReference: {fileID: 0}
     - target: {fileID: 1017622551, guid: 9922ef841aaee2f45a0b5bedd4b0a70d, type: 3}
       propertyPath: _maxForce
       value: 28.2
@@ -34663,7 +34707,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2080685933}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 103.4, y: 50.63214, z: 254.77376}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -34967,15 +35011,15 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8568796443268590855, guid: 4e0b8e6078937b342881ef0454eba315, type: 3}
       propertyPath: m_LocalPosition.x
-      value: -10.336456
+      value: -11.826
       objectReference: {fileID: 0}
     - target: {fileID: 8568796443268590855, guid: 4e0b8e6078937b342881ef0454eba315, type: 3}
       propertyPath: m_LocalPosition.y
-      value: -31.742605
+      value: 8.304
       objectReference: {fileID: 0}
     - target: {fileID: 8568796443268590855, guid: 4e0b8e6078937b342881ef0454eba315, type: 3}
       propertyPath: m_LocalPosition.z
-      value: 112.48674
+      value: 115.649
       objectReference: {fileID: 0}
     - target: {fileID: 8568796443268590855, guid: 4e0b8e6078937b342881ef0454eba315, type: 3}
       propertyPath: m_LocalRotation.w

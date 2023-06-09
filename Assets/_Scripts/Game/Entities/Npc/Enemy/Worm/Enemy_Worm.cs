@@ -25,28 +25,42 @@ public class Enemy_Worm : Enemy
     #region Sight Settings
     [Header("Sight Settings")]
     [SerializeField]
-    float _sightRadius, _loseSightRadius;
+    float _sightRadius;
+    float _loseSightRadius;
     #endregion
 
     #region Attack Settings
     [Header("Attack Settings")]
 
-    // El rango de estos ataques siempre deberia ser menor a los de sight radius
-    [SerializeField]
-    float _meleeAttackRadius, _shootAcidRadius, _shootDirtRadius;
+    // El radio de estos ataques siempre deberia ser menor a los de sight radius
+    [SerializeField, Min(0)]
+    float _meleeAttackRadius;
+    float _shootAcidRadius;
+    float _shootDirtRadius;
+
     [SerializeField, Min(0)] float _acidAttackFrequency, _dirtAttackFrequency;
 
     #region Melee
-    [SerializeField] int _meleeDamage;
-    [SerializeField] float _meleeKnockback;
+    [Header("Melee")]
+
+    [SerializeField, Min(0)] int _meleeDamage;
+    [SerializeField, Min(0)] float _meleeKnockback;
+    [SerializeField, Min(0)] float _meleeCooldown;
     #endregion
 
     #region Acid 
+    [Header("Acid")]
+
     [SerializeField, Min(0)] int _acidDamage;
+    [SerializeField, Min(0)] float _acidCooldown;
     #endregion
 
     #region Dirt
-    [SerializeField] int _dirtDamage;
+    [Header("Dirt")]
+
+    [SerializeField, Min(0)] int _dirtDamage;
+    [SerializeField, Min(0)] float _dirtKnockback;
+    [SerializeField, Min(0)] float _dirtCooldown;
     #endregion
 
     #endregion
@@ -111,6 +125,11 @@ public class Enemy_Worm : Enemy
         fsm.ChangeState(EWormStates.Idle);
     }
 
+    private void Update()
+    {
+        fsm.Execute();
+    }
+
     void DieChange() => fsm.ChangeState(EWormStates.Die);
 
 
@@ -124,11 +143,17 @@ public class Enemy_Worm : Enemy
         return Worm_AttackState.GrabDirt;
     }
 
+    // Se llama por animacion
     public void ShootAcid()
     {
-
+        // Instanciar proyectil de acido
     }
 
+    // Se llama por animacion
+    public void ShootDirt() 
+    {
+        // Instanciar proyectil de tierra
+    }
     
 
     public void AssignTarget(Transform newtarget) => target = newtarget != this ? newtarget : target;
