@@ -4,8 +4,9 @@ public interface IDamagable
     DamageData TakeDamage(int dmgToDeal);
     DamageData TakeDamage(int dmgToDeal,Vector3 hitPoint);
     void AddDamageOverTime(int TotalDamageToDeal, float TimeAmount);
-}
+    void AddKnockBack(Vector3 dir, float force);
 
+}
 public struct DamageData
 {
     public int damageDealt;
