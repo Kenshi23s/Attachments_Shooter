@@ -253,9 +253,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1f13e8ae7c8efb14a92d78a008ecb0fc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  AI_move: {fileID: 0}
   anim: {fileID: 0}
-  hitboxPos: {fileID: 0}
   SightRadius: 0
   LoseSightRadius: 0
   MeleeAttackRadius: 0
@@ -278,6 +276,7 @@ MonoBehaviour:
   _pursuitSpeed: 4
   _searchSpeed: 3
   _shootPivot: {fileID: 0}
+  hitboxPos: {fileID: 0}
   target: {fileID: 0}
 --- !u!95 &2040917920711900312
 Animator:
@@ -668,6 +667,10 @@ PrefabInstance:
       propertyPath: m_Materials.Array.data[0]
       value: 
       objectReference: {fileID: 2100000, guid: c4a3b92f8468fec4298ef72eb0e28f6c, type: 2}
+    - target: {fileID: 5866666021909216657, guid: ed10319fcb7b7dc49a23b151a3bd682d, type: 3}
+      propertyPath: m_Controller
+      value: 
+      objectReference: {fileID: 9100000, guid: f9ba473b9b2d606489c5242fd9a64e38, type: 2}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: ed10319fcb7b7dc49a23b151a3bd682d, type: 3}
 --- !u!1 &1826360732252140850 stripped

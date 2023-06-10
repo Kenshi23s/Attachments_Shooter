@@ -37,13 +37,12 @@ public class LifeComponent : MonoBehaviour, IDamagable, IHealable
     }
     bool _showdamageNumber = true;
 
- 
-
-
+    
     [SerializeField] public bool canTakeDamage = true;
     [SerializeField] public bool canBeHealed = true;
 
     #region Events
+    public event Action<Vector3, float> onKnockBack;
     public event Action<int, int> OnHealthChange;
     public event Action OnHeal;
 
@@ -172,6 +171,10 @@ public class LifeComponent : MonoBehaviour, IDamagable, IHealable
     }
 
     
+    public void AddKnockBack(Vector3 dir, float force)
+    {
+        onKnockBack?.Invoke(dir, force);
+    }
 }
 
 

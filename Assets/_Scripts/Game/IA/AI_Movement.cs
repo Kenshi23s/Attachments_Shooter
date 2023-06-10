@@ -102,7 +102,8 @@ public class AI_Movement : MonoBehaviour
         if (Flocking) actualForce += _flockingTargets.Flocking(_flockingParameters);
         actualForce += ObstacleAvoidance(transform);
         actualForce = ProjectAlongSlope(actualForce);
-        Movement.AddForce(actualForce);
+        
+        Movement.AddForce(Velocity.CalculateSteering(actualForce, Movement.maxSpeed));
     }
 
     public Vector3 ProjectAlongSlope(Vector3 force) 
@@ -144,15 +145,8 @@ public class AI_Movement : MonoBehaviour
 
         _debug.Log("Se mueve hacia el siguiente nodo, me faltan " + _waypoints.Count);
 
-        Vector3 actualForce = Vector3.zero;
+        MoveTowards(_waypoints[0]);
 
-        actualForce +=  _waypoints[0]-transform.position;
-        actualForce.Normalize();
-        actualForce += IA_Manager.instance.flockingTargets.Flocking(_flockingParameters); 
-        actualForce += ObstacleAvoidance(transform);
-        actualForce = ProjectAlongSlope(actualForce);
-
-        Movement.AddForce(Velocity.CalculateSteering(actualForce, Movement.steeringForce));
         if (Vector3.Distance(_waypoints[0], transform.position) < 2f) _waypoints.RemoveAt(0);
     }
 
@@ -179,6 +173,7 @@ public class AI_Movement : MonoBehaviour
 
         if (Physics.SphereCast(transform.position, 1.5f, transform.forward, out RaycastHit hit, dist, ObstacleMask))
         {
+            _debug.Log("ESTOY HACIENDO OBSTACLE AVOIDANCE!");
             Vector3 obstacle = hit.transform.position;
             Vector3 dirToObject = obstacle - transform.position;
             float angleInBetween = Vector3.SignedAngle(transform.forward, dirToObject, Vector3.up);
