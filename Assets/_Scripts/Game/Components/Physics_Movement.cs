@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using UnityEngine;
 
@@ -20,17 +21,43 @@ public class Physics_Movement : MonoBehaviour
 
     [SerializeField,Range(1,100)]
     float _maxForce;
-    public float maxForce => _maxForce;
+    public float maxForce
+    {
+        get => _maxForce;
+        set
+        {
+            float aux = _maxForce;
+            _maxForce =  Mathf.Clamp(value, 0, maxSpeed);
+            TryDebug($"STEERING FORCE cambio de {aux} a {_maxForce}");
+        }
+    } 
 
     [SerializeField,Range(1,100)]
     float _maxSpeed;
-    public float maxSpeed => _maxSpeed;
+    public float maxSpeed 
+    {
+        get => _maxSpeed;
 
-    [SerializeField, Range(0.1f, 50)]
+        set
+        {
+            _maxSpeed = Mathf.Max(0, value);
+            TryDebug($"MAXSPEED cambio de {this._maxSpeed} a {_maxSpeed}");
+            maxForce = maxForce;
+        }
+    }
+
+    [SerializeField, Range(0f, 200)]
     float _steeringForce;
-    public float steeringForce => _steeringForce;
-
-
+    public float steeringForce
+    {
+        get => _steeringForce;
+        set 
+        {
+            float aux = _steeringForce;
+            _steeringForce = MathF.Max(0, value);
+            TryDebug($"STEERING FORCE cambio de {aux} a {_steeringForce}");
+        }
+    }
 
     private void Awake()
     {
@@ -55,23 +82,17 @@ public class Physics_Movement : MonoBehaviour
 
    public void AddImpulse(Vector3 force) => _rb.AddForce(force, ForceMode.Impulse);
    
-        //sin clampearlo para hacerlo de forma manual
-        //velocity += Impulse
+     
         
-   
-
-    public void SetMaxSpeed(float _maxSpeed)
+    void TryDebug(string msg)
     {
+        if (_debug != null) { _debug.Log(msg); }
         _debug.Log($"MAXSPEED cambio de {this._maxSpeed} a {_maxSpeed}");
-        this._maxSpeed = _maxSpeed;    
     }
 
-    public void SetMaxForce(float _maxForce)
-    {
-        _maxForce = Mathf.Clamp(_maxForce, 1, _maxSpeed);
-        _debug.Log($"MAXFORCE cambio de {this._maxForce} a {_maxForce}");
-        this._maxForce = _maxForce;
-    }
+ 
+
+   
 
     IEnumerator OnPause()
     {

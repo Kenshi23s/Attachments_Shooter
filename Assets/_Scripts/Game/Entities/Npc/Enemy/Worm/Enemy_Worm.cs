@@ -1,7 +1,8 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-   
+using Random = UnityEngine.Random;
 using Worm_AttackState = Worm_State_Attack.Worm_AttackState;
 
 
@@ -18,12 +19,11 @@ public class Enemy_Worm : Enemy
        Search
     }
 
-    public StateMachine<EWormStates> fsm;
+    [NonSerialized]
     public AI_Movement AI_move;
+    public StateMachine<EWormStates> fsm;   
     public Animator anim;
-    [SerializeField]
-    Transform hitboxPos;
-    HitBox hitbox;
+   
 
     #region Sight Settings
     [Header("Sight Settings")]
@@ -108,19 +108,27 @@ public class Enemy_Worm : Enemy
     [SerializeField]
     Transform _shootPivot;
 
+    [SerializeField]
+    Transform hitboxPos;
+    HitBox hitbox;
+
     public Transform target;
 
     public override void ArtificialAwake()
     {
-        hitbox = Instantiate(hitbox, hitboxPos.position,Quaternion.identity,hitboxPos);
-        hitbox.SetOwner(this.gameObject);
-        hitbox.DeactivateHitBox();
-
         AI_move = GetComponent<AI_Movement>();
-        fsm = new StateMachine<EWormStates>();
-        fsm.Initialize(debug);
-
         anim = GetComponent<Animator>();
+        #region CreateHitbox
+        //hitbox = Instantiate(hitbox, hitboxPos.position,Quaternion.identity,hitboxPos);
+        //hitbox.SetOwner(this.gameObject);
+        //hitbox.DeactivateHitBox();
+        #endregion
+
+        #region Initialize FSM
+        
+
+        fsm = new StateMachine<EWormStates>();
+        fsm.Initialize(debug); 
 
         health.OnKilled += DieChange;
         health.OnTakeDamage += AddStunCharge;
@@ -130,14 +138,17 @@ public class Enemy_Worm : Enemy
         fsm.CreateState(EWormStates.Attack, new Worm_State_Attack(this));
         fsm.CreateState(EWormStates.Stunned, new Worm_State_Stunned(this));
         fsm.CreateState(EWormStates.Die, new Worm_State_Die(this));
-
         fsm.ChangeState(EWormStates.Idle);
+        #endregion
+
     }
 
     private void Update()
     {
         fsm.Execute();
     }
+
+   
 
     void DieChange() => fsm.ChangeState(EWormStates.Die);
 
@@ -180,6 +191,8 @@ public class Enemy_Worm : Enemy
         debug.Log("Mori");
         Destroy(gameObject);
     }
+
+
     
 
 }

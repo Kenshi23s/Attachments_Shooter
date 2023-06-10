@@ -34,6 +34,11 @@ public class StateMachine<T>
         currentStateValue.OnUpdate();
     }
 
+    //public void FixedExecute()
+    //{
+    //    currentStateValue.OnUpdate();
+    //}
+
     public void Debug(string msg)
     {
         _debug.Log("Estado "+ currentStateValue +" :"+ msg);

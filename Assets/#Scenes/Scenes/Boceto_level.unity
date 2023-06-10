@@ -12053,6 +12053,37 @@ Transform:
   m_CorrespondingSourceObject: {fileID: -8679921383154817045, guid: 1b0244a0ed3841f4da5b0ca55159a604, type: 3}
   m_PrefabInstance: {fileID: 1134087636}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &873459524
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 873459525}
+  m_Layer: 0
+  m_Name: ShootPos
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &873459525
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 873459524}
+  m_LocalRotation: {x: 0, y: -0.7071068, z: 0, w: 0.7071068}
+  m_LocalPosition: {x: -79.1, y: -24.8, z: 0.5}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 1565683011}
+  m_RootOrder: 8
+  m_LocalEulerAnglesHint: {x: 0, y: -90, z: 0}
 --- !u!1001 &875162529
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -14110,6 +14141,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 1017622548, guid: 9922ef841aaee2f45a0b5bedd4b0a70d, type: 3}
+      propertyPath: hitboxPos
+      value: 
+      objectReference: {fileID: 1528881536}
     - target: {fileID: 1017622551, guid: 9922ef841aaee2f45a0b5bedd4b0a70d, type: 3}
       propertyPath: _steeringForce
       value: 50
@@ -25230,6 +25265,37 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 3804110559565851123, guid: 6a14d836f9090f242acbbf96575a4b02, type: 3}
   m_PrefabInstance: {fileID: 1524615126}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &1528881535
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1528881536}
+  m_Layer: 0
+  m_Name: MeleeAttackSpawnPos
+  m_TagString: Untagged
+  m_Icon: {fileID: 5132851093641282708, guid: 0000000000000000d000000000000000, type: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1528881536
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1528881535}
+  m_LocalRotation: {x: -0.000000028987408, y: -0.70710677, z: -0.000000013497807, w: 0.70710677}
+  m_LocalPosition: {x: -147.00044, y: -59.00002, z: -0.000076293945}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 1565683011}
+  m_RootOrder: 9
+  m_LocalEulerAnglesHint: {x: 0, y: -90, z: 0}
 --- !u!1001 &1532305921
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -26597,6 +26663,11 @@ MonoBehaviour:
   m_SelectedFaces: 
   m_SelectedEdges: []
   m_SelectedVertices: 
+--- !u!4 &1565683011 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 7980706049087460942, guid: 9922ef841aaee2f45a0b5bedd4b0a70d, type: 3}
+  m_PrefabInstance: {fileID: 1017622546}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1567393032
 GameObject:
   m_ObjectHideFlags: 0

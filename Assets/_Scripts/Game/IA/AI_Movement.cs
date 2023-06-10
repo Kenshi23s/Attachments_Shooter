@@ -34,7 +34,7 @@ public class AI_Movement : MonoBehaviour
     #region Flocking
     [SerializeField]
     public bool Flocking {get; private set;}
-    FlockingParameters _flockingParameters= new FlockingParameters();
+    FlockingParameters _flockingParameters = new FlockingParameters();
     [SerializeField]
     IEnumerable<AI_Movement> _flockingTargets = default;
     #endregion
@@ -58,7 +58,7 @@ public class AI_Movement : MonoBehaviour
 
     private void FixedUpdate() => _fixedUpdate?.Invoke();
 
-    public void SetMaxSpeed(float newSpeed) =>  Movement.SetMaxSpeed(newSpeed);
+    public void SetMaxSpeed(float newSpeed) =>  Movement.maxSpeed = newSpeed;
       
     #region Pathfinding Methods
     /// <summary>
@@ -146,14 +146,16 @@ public class AI_Movement : MonoBehaviour
 
         Vector3 actualForce = Vector3.zero;
 
-        actualForce += _waypoints[0];
+        actualForce +=  _waypoints[0]-transform.position;
+        actualForce.Normalize();
         actualForce += IA_Manager.instance.flockingTargets.Flocking(_flockingParameters); 
         actualForce += ObstacleAvoidance(transform);
         actualForce = ProjectAlongSlope(actualForce);
 
         Movement.AddForce(Velocity.CalculateSteering(actualForce, Movement.steeringForce));
         if (Vector3.Distance(_waypoints[0], transform.position) < 2f) _waypoints.RemoveAt(0);
-    }    
+    }
+
 
     void ClearPath()
     {
@@ -191,7 +193,5 @@ public class AI_Movement : MonoBehaviour
 
     #endregion
 
-    #region MovementTypes
-
-    #endregion
+    
 }
