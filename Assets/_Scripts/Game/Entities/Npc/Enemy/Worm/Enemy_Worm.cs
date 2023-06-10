@@ -21,6 +21,9 @@ public class Enemy_Worm : Enemy
     public StateMachine<EWormStates> fsm;
     public AI_Movement AI_move;
     public Animator anim;
+    [SerializeField]
+    Transform hitboxPos;
+    HitBox hitbox;
 
     #region Sight Settings
     [Header("Sight Settings")]
@@ -109,6 +112,10 @@ public class Enemy_Worm : Enemy
 
     public override void ArtificialAwake()
     {
+        hitbox = Instantiate(hitbox, hitboxPos.position,Quaternion.identity,hitboxPos);
+        hitbox.SetOwner(this.gameObject);
+        hitbox.DeactivateHitBox();
+
         AI_move = GetComponent<AI_Movement>();
         fsm = new StateMachine<EWormStates>();
         fsm.Initialize(debug);
@@ -155,6 +162,16 @@ public class Enemy_Worm : Enemy
         // Instanciar proyectil de tierra
     }
     
+
+    void SpawnHitBox()
+    {
+       hitbox.ActivateHitbox();
+    }
+
+    void DespawnHitBox()
+    {
+        hitbox.DeactivateHitBox();
+    }
 
     public void AssignTarget(Transform newtarget) => target = newtarget != this ? newtarget : target;
 

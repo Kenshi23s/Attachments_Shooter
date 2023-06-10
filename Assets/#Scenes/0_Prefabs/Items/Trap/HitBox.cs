@@ -3,7 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 [RequireComponent(typeof(BoxCollider))]
-public class HitBoxSpawn : MonoBehaviour
+public class HitBox : MonoBehaviour
 {
     public GameObject owner { get; private set; }
     HashSet<IDamagable> alreadydmged = new HashSet<IDamagable>();
@@ -44,5 +44,6 @@ public class HitBoxSpawn : MonoBehaviour
 
     public void SetSize(Vector3 newSize) => size = Vector3.Max(newSize, Vector3.zero);
     public void SetDamage(int newDamage) => damage = Mathf.Min(newDamage, 1);
+    public void SetOwner(GameObject newOwner) => owner =newOwner;
 
 }

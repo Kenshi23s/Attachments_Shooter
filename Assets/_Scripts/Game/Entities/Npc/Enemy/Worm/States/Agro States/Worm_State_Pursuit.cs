@@ -21,30 +21,40 @@ public class Worm_State_Pursuit : Worm_State<Worm_AttackState>
         bool inDirtRange = _worm.AI_move.FOV.IN_FOV(Player_Movement.position, _worm.ShootDirtRadius);
         bool inMeleeRange = _worm.AI_move.FOV.IN_FOV(Player_Movement.position, _worm.MeleeAttackRadius);
 
-        // MELEE
-        if (inMeleeRange)
-        {
-            _fsm.ChangeState(Worm_AttackState.Melee);
-            return;
-        }
+         Worm_AttackState key =
+          inMeleeRange ? Worm_AttackState.Melee
+         : inDirtRange ? Worm_AttackState.GrabDirt
+         : inAcidRange ? Worm_AttackState.ShootAcid
+         : default;
 
-        // Deberiamos tener una frecuencia/ratio para las chances de que el gusano haga uno u otro ataque.
-        // Si esta lo suficientemente cerca, hace melee
-        // RANGED
-        if (inDirtRange)
-        {
-            _fsm.ChangeState(Worm_AttackState.GrabDirt);
-            return;
-        }
+        if (key != default) _fsm.ChangeState(key);
+        else _worm.AI_move.SetDestination(Player_Movement.position);
 
-        if (inAcidRange)
-        {
-            _fsm.ChangeState(Worm_AttackState.ShootAcid);
-            return;
-        }
+        #region Coment
+        //// MELEE
+        //if (inMeleeRange)
+        //{
+        //    _fsm.ChangeState(Worm_AttackState.Melee);
+        //    return;
+        //}
+
+        //// Deberiamos tener una frecuencia/ratio para las chances de que el gusano haga uno u otro ataque.
+        //// Si esta lo suficientemente cerca, hace melee
+        //// RANGED
+        //if (inDirtRange)
+        //{
+        //    _fsm.ChangeState(Worm_AttackState.GrabDirt);
+        //    return;
+        //}
+
+        //if (inAcidRange)
+        //{
+        //    _fsm.ChangeState(Worm_AttackState.ShootAcid);
+        //    return;
+        //}
+        #endregion
 
 
-        _worm.AI_move.SetDestination(Player_Movement.position);
     }
 
     public override void OnExit()
