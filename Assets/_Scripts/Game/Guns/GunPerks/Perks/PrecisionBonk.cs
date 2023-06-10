@@ -31,7 +31,7 @@ public class PrecisionBonk : Perk
         
         if (damageApplied)
         {
-            myGun.damageHandler.DecraseDamage((int)(-myGun.damageHandler.actualDamage * precisionHits));
+            myGun.damageHandler.DecraseDamage((int)(-myGun.damageHandler.currentDamage * precisionHits));
             damageApplied= false;
         }
         precisionHits = 1;
@@ -41,7 +41,7 @@ public class PrecisionBonk : Perk
     {
         if (myGun._actualAmmo == 1)
         {
-            myGun.damageHandler.IncreaseDamage(myGun.damageHandler.actualDamage * precisionHits);
+            myGun.damageHandler.IncreaseDamage(myGun.damageHandler.currentDamage * precisionHits);
             damageApplied = true;
         }
     }

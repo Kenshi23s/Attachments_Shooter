@@ -56,7 +56,7 @@ public abstract class BaseBulltet : MonoBehaviour
 
     protected void Hit(IDamagable target)
     {        
-        DamageData dmgData = target.TakeDamage(myGun.damageHandler.actualDamage);
+        DamageData dmgData = target.TakeDamage(myGun.damageHandler.currentDamage);
 
         HitData hit = new HitData(transform.position, dmgData, myGun);
 

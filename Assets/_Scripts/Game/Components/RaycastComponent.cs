@@ -21,17 +21,26 @@ public class RaycastComponent : MonoBehaviour
 
     public void ShootRaycast(Vector3 from, Action<HitData> action)
     {
+        // Primero disparar raycast desde la camara
         if (Physics.Raycast(cam.transform.position, cam.transform.forward, out RaycastHit testHit, 500f, _shootableLayers))
         {
+            gun._debug.Log("RAYCAST FROM CAM HIT: " + testHit.transform.gameObject);
+
             Vector3 dir = testHit.point - from;
-            if (Physics.Raycast(from, dir, out RaycastHit actualhit, dir.magnitude, _shootableLayers))
+
+            // Disparar raycast desde el arma hacia la posicion que golpeo el raycast de la camara
+            if (Physics.Raycast(from, dir, out RaycastHit actualhit, dir.magnitude + 1, _shootableLayers))
             {
                 if (CheckDamagable(actualhit, out HitData hitData))
                     action?.Invoke(hitData);
 
                 if (actualhit.transform.TryGetComponent(out IHitFeedback x))
                     x.FeedbackHit(actualhit.point, actualhit.normal);
+
+                gun._debug.Log("RAYCAST FROM GUN HIT: " + actualhit.transform.gameObject);
             }
+
+
         }
     }
     //chequea si lo que con lo que choco es damagable
@@ -40,7 +49,17 @@ public class RaycastComponent : MonoBehaviour
         hitData = default;
         if (hit.transform.TryGetComponent(out IDamagable damagable))
         {
-            hitData.dmgData = damagable.TakeDamage(gun.damageHandler.actualDamage,hit.point);
+            // 100 es el maximo de rango.
+            float rangeMultiplier =  1 - hit.distance / gun.stats.GetStat(StatsHandler.StatNames.Range);
+            gun._debug.Log("Range multiplier: " + rangeMultiplier);
+            gun._debug.Log("CURRENT DAMAGE: " + gun.damageHandler.currentDamage);
+            gun._debug.Log("BEFORE CAST: " + gun.damageHandler.currentDamage * rangeMultiplier);
+            gun._debug.Log("AFTER CAST: " + (int) (gun.damageHandler.currentDamage * rangeMultiplier));
+            int finalDamage = Mathf.Max(1, (int) (gun.damageHandler.currentDamage * rangeMultiplier));
+            gun._debug.Log("Final damage: " + finalDamage);
+
+
+            hitData.dmgData = damagable.TakeDamage(finalDamage, hit.point);
             hitData.dmgData.victim = damagable;
             hitData._impactPos = hit.point;
             hitData.gunUsed = gun;

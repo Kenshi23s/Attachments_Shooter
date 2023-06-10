@@ -114,7 +114,6 @@ public abstract class Gun : MonoBehaviour
         _pausableObject.onPause += () => StartCoroutine(RememberTrigger());
 
         OptionalInitialize();
-
     }
 
     protected virtual void OptionalInitialize() { }
