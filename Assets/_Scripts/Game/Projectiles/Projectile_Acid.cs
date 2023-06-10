@@ -62,7 +62,7 @@ public class Projectile_Acid : MonoBehaviour
         y.onStay += (x) =>
         {
             x.TakeDamage(2); Debug.Log("el acido hace daño");
-        };      
+        };
+        Destroy(y, 6f);
     }
-
 }
