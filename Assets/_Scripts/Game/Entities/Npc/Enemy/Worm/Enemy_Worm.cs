@@ -14,17 +14,18 @@ public class Enemy_Worm : Enemy
 {
     public enum EWormStates
     {
-       Idle,
-       Attack,
-       Die,
-       Stunned, 
-       Search
+        Idle,
+        Attack,
+        Die,
+        Stunned,
+        Search
     }
 
     [NonSerialized]
     public AI_Movement AI_move;
-    public StateMachine<EWormStates> fsm;   
+    public StateMachine<EWormStates> fsm;
     public Animator anim;
+
    
 
     #region Sight Settings
@@ -109,11 +110,16 @@ public class Enemy_Worm : Enemy
 
     [SerializeField]
     Transform _shootPivot;
+    [SerializeField]
+    Projectile_Acid sampleAcid;
+    public GameObject dirtBlock;
 
     [SerializeField]
     Transform hitboxPos;
     [SerializeField]
     HitBox hitbox;
+
+    
 
     public Transform target;
 
@@ -166,16 +172,25 @@ public class Enemy_Worm : Enemy
     // Se llama por animacion
     public void ShootAcid()
     {
-        // Instanciar proyectil de acido
+        var x = Instantiate(sampleAcid,_shootPivot.position,Quaternion.identity);
+        x.Initialize(Tuple.Create(this.gameObject, _acidDamage, target.position - _shootPivot.position));
     }
 
+    GameObject auxDirt;
     // Se llama por animacion
     public void GrabDirt() 
     {
-        // Instanciar proyectil de tierra
+        auxDirt = Instantiate(dirtBlock,_shootPivot.position,Quaternion.identity);
+        auxDirt.transform.parent = _shootPivot;
+
+
     }
     public void ShootDirt()
     {
+        if (auxDirt == null) return;
+       
+        auxDirt.transform.parent= null;
+       
         // lanzar el proyectil que ya tiene en la boca
     }
 

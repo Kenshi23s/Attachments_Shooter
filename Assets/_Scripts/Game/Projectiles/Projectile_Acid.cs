@@ -27,7 +27,7 @@ public class Projectile_Acid : MonoBehaviour
     void DrawVelocity() => DrawArrow.ForGizmo(transform.position, _rb.velocity, Color.green);
  
 
-    void Initialize(Tuple<GameObject, int,Vector3> x)
+    public void Initialize(Tuple<GameObject, int,Vector3> x)
     {
         owner = x.Item1;
         damage = x.Item2;
