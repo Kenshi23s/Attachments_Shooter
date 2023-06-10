@@ -9,14 +9,14 @@ public class Worm_State_Attack : Worm_State<EWormStates>
     public Worm_State_Attack(Enemy_Worm worm) : base(worm)
     {
         _attackFSM = new StateMachine<Worm_AttackState>();
-        _attackFSM.Initialize(worm.debug);
+        _attackFSM.Initialize(worm._debug);
 
-        _attackFSM.CreateState(Worm_AttackState.Pursuit, new Worm_State_Pursuit(worm));
-        _attackFSM.CreateState(Worm_AttackState.Melee, new Worm_State_Melee(worm));
+        _attackFSM.CreateState(Worm_AttackState.Pursuit,   new Worm_State_Pursuit(worm));
+        _attackFSM.CreateState(Worm_AttackState.Melee,     new Worm_State_Melee(worm));
         _attackFSM.CreateState(Worm_AttackState.ShootAcid, new Worm_State_Shoot_Acid(worm));
-        _attackFSM.CreateState(Worm_AttackState.GrabDirt,new Worm_State_GrabDirt(worm));
+        _attackFSM.CreateState(Worm_AttackState.GrabDirt,  new Worm_State_GrabDirt(worm));
         _attackFSM.CreateState(Worm_AttackState.ShootDirt, new Worm_State_Shoot_Dirt(worm));
-        _attackFSM.CreateState(Worm_AttackState.Flank, new Worm_State_Flank(worm));
+        _attackFSM.CreateState(Worm_AttackState.Flank,     new Worm_State_Flank(worm));
     }
 
     public enum Worm_AttackState
@@ -32,12 +32,8 @@ public class Worm_State_Attack : Worm_State<EWormStates>
     StateMachine<Worm_AttackState> _attackFSM;
 
     float _shootRange,_meleeRange;
-    public override void OnEnter()
-    {
-        MakeDecision();
-    }
 
-  
+    public override void OnEnter() => MakeDecision();
 
     void MakeDecision()
     {
@@ -66,17 +62,11 @@ public class Worm_State_Attack : Worm_State<EWormStates>
 
     
 
-    public override void OnUpdate()
-    {
-        _attackFSM.Execute();
-    }
+    public override void OnUpdate() => _attackFSM.Execute();
 
+    public override void OnExit() => _attackFSM.AnulateStates();
 
-    public override void OnExit()
-    {
-       
-        _attackFSM.AnulateStates();
-    }
-
+    public override void GizmoShow() => _attackFSM.StateGizmos();
+    
 
 }

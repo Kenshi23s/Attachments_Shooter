@@ -1,6 +1,5 @@
 using System;
 using UnityEngine;
-using static TickEventsManager;
 [RequireComponent(typeof(DebugableObject))]
 public class LifeComponent : MonoBehaviour, IDamagable, IHealable
 {
@@ -14,6 +13,8 @@ public class LifeComponent : MonoBehaviour, IDamagable, IHealable
 
     [SerializeField, Range(0.1f, 2)]
     float _dmgMultiplier = 1f;
+
+    public int dmgResist = 1;
 
     public bool ShowdamageNumber
     {
@@ -101,7 +102,7 @@ public class LifeComponent : MonoBehaviour, IDamagable, IHealable
         DamageData data = new DamageData();
         if (!canTakeDamage) return data;
 
-         dmgDealt = (int)(Mathf.Abs(dmgDealt) * _dmgMultiplier);
+         dmgDealt = (int)(Mathf.Abs(dmgDealt) * _dmgMultiplier) / dmgResist;
         _life -= dmgDealt; OnTakeDamage?.Invoke(dmgDealt);
         _debug.Log($" recibio {dmgDealt} de daño ");
 

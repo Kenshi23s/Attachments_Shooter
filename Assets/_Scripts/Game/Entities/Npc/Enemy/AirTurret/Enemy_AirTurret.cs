@@ -76,8 +76,8 @@ public class Enemy_AirTurret : Enemy, IDetector
         
         _misileStats.owner = this;
         GetComponent<LifeComponent>().OnKilled += () => Destroy(gameObject);
-        debug = GetComponent<DebugableObject>();
-        debug.AddGizmoAction(DrawGizmo);
+        _debug = GetComponent<DebugableObject>();
+        _debug.AddGizmoAction(DrawGizmo);
         SetTurretFSM();
     }
     public enum AirTurretState
@@ -88,7 +88,7 @@ public class Enemy_AirTurret : Enemy, IDetector
     {
 
         _fsm = new StateMachine<AirTurretState>();
-        _fsm.Initialize(debug);
+        _fsm.Initialize(_debug);
         _fsm.CreateState(AirTurretState.IDLE,  new AirTurretState_Idle(this,pivotBase));
         _fsm.CreateState(AirTurretState.ALIGN, new AirTurretState_Align(this, _fsm));
         _fsm.CreateState(AirTurretState.SHOOT, new AirTurretState_Shoot(this,cd_BetweenMisiles, cd_Volleys, misilesPerVolley, _fsm));

@@ -4,11 +4,11 @@ using UnityEngine;
 [RequireComponent(typeof(DebugableObject))]
 public abstract class Enemy : MonoBehaviour
 {
-    [NonSerialized] public DebugableObject debug;
+    [NonSerialized] public DebugableObject _debug;
     [NonSerialized] public LifeComponent health;
     private void Awake()
     {
-        debug = GetComponent<DebugableObject>();
+        _debug = GetComponent<DebugableObject>();
         health= GetComponent<LifeComponent>();
         ArtificialAwake();
     }

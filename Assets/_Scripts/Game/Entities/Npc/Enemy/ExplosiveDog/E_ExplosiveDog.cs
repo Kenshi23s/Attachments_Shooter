@@ -33,8 +33,8 @@ public class E_ExplosiveDog : Enemy
 
     public override void ArtificialAwake()
     {
-        debug = GetComponent<DebugableObject>();
-        _fsm = new StateMachine<EDogStates>(); _fsm.Initialize(debug);
+        _debug = GetComponent<DebugableObject>();
+        _fsm = new StateMachine<EDogStates>(); _fsm.Initialize(_debug);
         health = GetComponent<LifeComponent>(); health.OnKilled += Explosion;
 
         agent = GetComponent<AI_Movement>();
@@ -61,7 +61,7 @@ public class E_ExplosiveDog : Enemy
         {
             item.TakeDamage(_explosionDamage);
         }
-        debug.Log("Explosion!");
+        _debug.Log("Explosion!");
         Destroy(gameObject);
         
     }

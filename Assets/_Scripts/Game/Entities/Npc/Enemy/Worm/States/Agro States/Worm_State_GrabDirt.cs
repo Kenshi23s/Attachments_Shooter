@@ -14,12 +14,14 @@ public class Worm_State_GrabDirt : Worm_State<Worm_AttackState>
 
     float dmgRadius;
     int dmgCount,requiredDmg4explosion, damage;
-
+    int auxDmgResist;
 
     public override void OnEnter()
     {
         dmgCount = 0;
         _worm.health.OnTakeDamage += AddCount;
+        auxDmgResist = _worm.health.dmgResist;
+        _worm.health.dmgResist = 2;
 
     }
 
@@ -42,5 +44,11 @@ public class Worm_State_GrabDirt : Worm_State<Worm_AttackState>
     public override void OnExit()
     {
         _worm.health.OnTakeDamage -= AddCount;
+        _worm.health.dmgResist = auxDmgResist;
+    }
+
+    public override void GizmoShow()
+    {
+        Gizmos.DrawWireSphere(_worm.transform.position, dmgRadius);
     }
 }

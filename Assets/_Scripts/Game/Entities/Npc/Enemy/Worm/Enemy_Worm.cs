@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using UnityEditor;
 using UnityEngine;
 using Random = UnityEngine.Random;
 using Worm_AttackState = Worm_State_Attack.Worm_AttackState;
@@ -111,6 +112,7 @@ public class Enemy_Worm : Enemy
 
     [SerializeField]
     Transform hitboxPos;
+    [SerializeField]
     HitBox hitbox;
 
     public Transform target;
@@ -119,17 +121,16 @@ public class Enemy_Worm : Enemy
     {
         AI_move = GetComponent<AI_Movement>();
         anim = GetComponent<Animator>();
-        #region CreateHitbox
-        //hitbox = Instantiate(hitbox, hitboxPos.position,Quaternion.identity,hitboxPos);
-        //hitbox.SetOwner(this.gameObject);
-        //hitbox.DeactivateHitBox();
+        #region CreateHitbox       
+        hitbox.SetOwner(this.gameObject);
+        hitbox.DeactivateHitBox();
         #endregion
 
         #region Initialize FSM
-        
+
 
         fsm = new StateMachine<EWormStates>();
-        fsm.Initialize(debug); 
+        fsm.Initialize(_debug); 
 
         health.OnKilled += DieChange;
         health.OnTakeDamage += AddStunCharge;
@@ -169,11 +170,15 @@ public class Enemy_Worm : Enemy
     }
 
     // Se llama por animacion
-    public void ShootDirt() 
+    public void GrabDirt() 
     {
         // Instanciar proyectil de tierra
     }
-    
+    public void ShootDirt()
+    {
+        // lanzar el proyectil que ya tiene en la boca
+    }
+
 
     void SpawnHitBox()
     {
@@ -189,12 +194,15 @@ public class Enemy_Worm : Enemy
 
     public void Destroy()
     {
-        debug.Log("Mori");
+        _debug.Log("Mori");
         Destroy(gameObject);
     }
 
+    private void OnDrawGizmos()
+    {
+      
+    }
 
-    
 
 }
 

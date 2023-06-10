@@ -22,4 +22,9 @@ public class Worm_State_Melee : Worm_State<Worm_AttackState>
     {
 
     }
+
+    public override void GizmoShow()
+    {
+        Gizmos.DrawWireSphere(_worm.transform.position, _worm.MeleeAttackRadius);     
+    }
 }
