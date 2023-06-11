@@ -8,7 +8,7 @@ using Worm_AttackState = Worm_State_Attack.Worm_AttackState;
 
 
 [RequireComponent(typeof(AI_Movement))]
-[RequireComponent(typeof(Animator))]
+//[RequireComponent(typeof(Animator))]
 [SelectionBase]
 public class Enemy_Worm : Enemy
 {

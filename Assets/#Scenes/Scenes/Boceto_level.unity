@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 1313838263}
-  m_IndirectSpecularColor: {r: 0.47038215, g: 0.60993564, b: 1.4149343, a: 1}
+  m_IndirectSpecularColor: {r: 0, g: 1.0436835, b: 1.5668211, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -14168,53 +14168,13 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
-    - target: {fileID: 1017622548, guid: 9922ef841aaee2f45a0b5bedd4b0a70d, type: 3}
-      propertyPath: SightRadius
-      value: 70
-      objectReference: {fileID: 0}
-    - target: {fileID: 1017622548, guid: 9922ef841aaee2f45a0b5bedd4b0a70d, type: 3}
-      propertyPath: _meleeDamage
-      value: 10
-      objectReference: {fileID: 0}
-    - target: {fileID: 1017622548, guid: 9922ef841aaee2f45a0b5bedd4b0a70d, type: 3}
-      propertyPath: _meleeCooldown
-      value: 1.5
-      objectReference: {fileID: 0}
-    - target: {fileID: 1017622548, guid: 9922ef841aaee2f45a0b5bedd4b0a70d, type: 3}
-      propertyPath: LoseSightRadius
-      value: 100
-      objectReference: {fileID: 0}
-    - target: {fileID: 1017622548, guid: 9922ef841aaee2f45a0b5bedd4b0a70d, type: 3}
-      propertyPath: ShootAcidRadius
-      value: 2.25
-      objectReference: {fileID: 0}
-    - target: {fileID: 1017622548, guid: 9922ef841aaee2f45a0b5bedd4b0a70d, type: 3}
-      propertyPath: ShootDirtRadius
-      value: 10
-      objectReference: {fileID: 0}
-    - target: {fileID: 1017622548, guid: 9922ef841aaee2f45a0b5bedd4b0a70d, type: 3}
-      propertyPath: _meleeKnockback
-      value: 3
-      objectReference: {fileID: 0}
-    - target: {fileID: 1017622548, guid: 9922ef841aaee2f45a0b5bedd4b0a70d, type: 3}
-      propertyPath: MeleeAttackRadius
-      value: 5.38
-      objectReference: {fileID: 0}
-    - target: {fileID: 1017622548, guid: 9922ef841aaee2f45a0b5bedd4b0a70d, type: 3}
-      propertyPath: _acidAttackFrequency
-      value: 2.84
-      objectReference: {fileID: 0}
-    - target: {fileID: 1017622548, guid: 9922ef841aaee2f45a0b5bedd4b0a70d, type: 3}
-      propertyPath: _dirtAttackFrequency
-      value: 3.08
-      objectReference: {fileID: 0}
     - target: {fileID: 1017622549, guid: 9922ef841aaee2f45a0b5bedd4b0a70d, type: 3}
       propertyPath: _life
-      value: 10000
+      value: 100
       objectReference: {fileID: 0}
     - target: {fileID: 1017622549, guid: 9922ef841aaee2f45a0b5bedd4b0a70d, type: 3}
       propertyPath: _maxLife
-      value: 10000
+      value: 100
       objectReference: {fileID: 0}
     - target: {fileID: 1166351612932050623, guid: 9922ef841aaee2f45a0b5bedd4b0a70d, type: 3}
       propertyPath: m_Name
@@ -33940,7 +33900,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8568796443268590855, guid: 4e0b8e6078937b342881ef0454eba315, type: 3}
       propertyPath: m_LocalPosition.x
-      value: -5.1462364
+      value: 213.7
       objectReference: {fileID: 0}
     - target: {fileID: 8568796443268590855, guid: 4e0b8e6078937b342881ef0454eba315, type: 3}
       propertyPath: m_LocalPosition.y
@@ -33948,23 +33908,23 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8568796443268590855, guid: 4e0b8e6078937b342881ef0454eba315, type: 3}
       propertyPath: m_LocalPosition.z
-      value: 132.5865
+      value: 184.1
       objectReference: {fileID: 0}
     - target: {fileID: 8568796443268590855, guid: 4e0b8e6078937b342881ef0454eba315, type: 3}
       propertyPath: m_LocalRotation.w
-      value: 0.5444613
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 8568796443268590855, guid: 4e0b8e6078937b342881ef0454eba315, type: 3}
       propertyPath: m_LocalRotation.x
-      value: 0.056872893
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8568796443268590855, guid: 4e0b8e6078937b342881ef0454eba315, type: 3}
       propertyPath: m_LocalRotation.y
-      value: -0.83221215
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8568796443268590855, guid: 4e0b8e6078937b342881ef0454eba315, type: 3}
       propertyPath: m_LocalRotation.z
-      value: 0.088035695
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8568796443268590855, guid: 4e0b8e6078937b342881ef0454eba315, type: 3}
       propertyPath: m_LocalEulerAnglesHint.x
