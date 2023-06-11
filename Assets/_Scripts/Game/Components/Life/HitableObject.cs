@@ -8,7 +8,7 @@ public class HitableObject : MonoBehaviour,IDamagable,IHealable
     [SerializeField,Tooltip("Marcar TRUE en caso de que sea punto critico")] 
     bool isCritSpot;
     [SerializeField, Range(0.1f,2f)] 
-    float damageMultiplier;
+    float damageMultiplier = 1;
 
 
     void Awake()
