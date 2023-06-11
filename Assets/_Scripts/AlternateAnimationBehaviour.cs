@@ -19,6 +19,15 @@ public class AlternateAnimationBehaviour : StateMachineBehaviour
     private float _baseAnimationTime;
     private int _currentAnimation;
 
+    [SerializeField]
+    string _parameterName;
+
+    [SerializeField, Min(0), Tooltip(
+        "Si el historial de animacion es 1. La ultima animacion no tendra chances de repetirse. " +
+        "Si es 2, las ultimas 2 animaciones no tendran chances de repetirse")]
+
+    int _randomHistory = 1;
+
     HRandomElementSelector<int> _altSelector;
 
     private void Awake()
@@ -29,7 +38,7 @@ public class AlternateAnimationBehaviour : StateMachineBehaviour
         for (int i = 0; i < altAnimations.Length; i++) 
             altAnimations[i] = i + 1;
 
-        _altSelector = new HRandomElementSelector<int>(altAnimations, 1);
+        _altSelector = new HRandomElementSelector<int>(altAnimations, _randomHistory);
     }
 
     // OnStateEnter is called when a transition starts and the state machine starts to evaluate this state
@@ -50,7 +59,7 @@ public class AlternateAnimationBehaviour : StateMachineBehaviour
                 _isAlternating = true;
                 _currentAnimation = _altSelector.SelectRandomElement();
 
-                animator.SetFloat("IdleBlend", _currentAnimation);
+                animator.SetFloat(_parameterName, _currentAnimation);
             }
         }
         else if (stateInfo.normalizedTime % 1 > 0.98f)
@@ -58,7 +67,7 @@ public class AlternateAnimationBehaviour : StateMachineBehaviour
             ResetIdle();
         }
 
-        animator.SetFloat("IdleBlend", _currentAnimation, 0.2f, Time.deltaTime);
+        animator.SetFloat(_parameterName, _currentAnimation, 0.2f, Time.deltaTime);
     }
 
     private void ResetIdle()
