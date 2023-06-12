@@ -1,5 +1,7 @@
 using System;
 using UnityEngine;
+using FacundoColomboMethods;
+using static StatsHandler;
 [RequireComponent(typeof(DebugableObject))]
 public class RaycastComponent : MonoBehaviour
 {
@@ -22,14 +24,25 @@ public class RaycastComponent : MonoBehaviour
     public void ShootRaycast(Vector3 from, Action<HitData> action)
     {
         // Primero disparar raycast desde la camara
-        if (Physics.Raycast(cam.transform.position, cam.transform.forward, out RaycastHit testHit, 500f, _shootableLayers))
+
+        Vector3 dir = cam.transform.forward;
+        if (!Input.GetKey(KeyCode.Mouse1))
+        {
+            int multipplier = 45;
+            float aux = multipplier - gun.stats.GetStat(StatNames.Spread) * multipplier / 100;
+            gun._debug.Log("mouse apretado");
+            dir = cam.transform.forward.RandomDirFrom(aux); 
+        }
+       
+       
+        if (Physics.Raycast(cam.transform.position, dir, out RaycastHit testHit, 500f, _shootableLayers))
         {
             gun._debug.Log("RAYCAST FROM CAM HIT: " + testHit.transform.gameObject);
 
-            Vector3 dir = testHit.point - from;
+            Vector3 dir2 = testHit.point - from;
 
             // Disparar raycast desde el arma hacia la posicion que golpeo el raycast de la camara
-            if (Physics.Raycast(from, dir, out RaycastHit actualhit, dir.magnitude + 1, _shootableLayers))
+            if (Physics.Raycast(from, dir2, out RaycastHit actualhit, dir2.magnitude + 1, _shootableLayers))
             {
                 if (CheckDamagable(actualhit, out HitData hitData))
                     action?.Invoke(hitData);
@@ -50,7 +63,7 @@ public class RaycastComponent : MonoBehaviour
         if (hit.transform.TryGetComponent(out IDamagable damagable))
         {
             // 100 es el maximo de rango.
-            float rangeMultiplier =  1 - hit.distance / gun.stats.GetStat(StatsHandler.StatNames.Range);
+            float rangeMultiplier =  1 - hit.distance / gun.stats.GetStat(StatNames.Range);
             #region coment
             //gun._debug.Log("Range multiplier: " + rangeMultiplier);
             //gun._debug.Log("CURRENT DAMAGE: " + gun.damageHandler.currentDamage);

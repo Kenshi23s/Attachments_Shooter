@@ -29,15 +29,20 @@ public class GunHandler : MonoBehaviour
   
     
  
-    private void Awake() => myGuns = ColomboMethods.GetChildrenComponents<Gun>(this.transform).ToList();
+    private void Awake()
+    {
+        myGuns = ColomboMethods.GetChildrenComponents<Gun>(this.transform).ToList();
+        if (actualGun == null) _actualGun = myGuns[UnityEngine.Random.Range(0, myGuns.Count)];
+        actualGun.onShoot += onActualGunShoot;
+    }  
    
     //start para comunicacion
     void Start()
     {
-        if (actualGun == null) _actualGun = myGuns[UnityEngine.Random.Range(0, myGuns.Count)];
+       
 
         OnSightChange();
-        actualGun.onShoot += onActualGunShoot;
+    
         Debug.LogWarning("Armas en full auto, asegurarse q tengan el RateofFire != 0 ");
     }
 

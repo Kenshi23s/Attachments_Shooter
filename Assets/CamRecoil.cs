@@ -13,7 +13,7 @@ public class CamRecoil : MonoBehaviour
 
     public float snapines, returnSpeed;
 
-   public GunHandler _gunHandler;
+    public GunHandler _gunHandler;
 
     StatsHandler _gunstats => _gunHandler.actualGun.stats;
     private void Awake()
@@ -23,12 +23,15 @@ public class CamRecoil : MonoBehaviour
 
     private void Start()
     {
-        _gunHandler.onActualGunShoot += Recoil;
+        _gunHandler.actualGun.onShoot += Recoil;
+        Debug.Log(_gunHandler);
+      
     }
 
     // Update is called once per frame
     void Update()
     {
+       
         //la rotacion que quiero tener, siempre intenta volver a el medio
         targetRotation = Vector3.Lerp(targetRotation,Vector3.zero,returnSpeed*Time.deltaTime);
         //mi rotacion actual,intenta ir a mi rotacion target
@@ -40,6 +43,7 @@ public class CamRecoil : MonoBehaviour
     public void Recoil()
     {
         //se llama en onShoot, aumenta la rotacion(tendria que ser las stats del arma y no esto O la stats del arma + estos valores)
+        Debug.Log("a");
         float recoilY = Mathf.Min(-VerticalRecoil + _gunstats.GetStat(StatNames.VerticalRecoil), 0); 
 
         float recoilx_minus = Mathf.Min(-HorizontalRecoil + _gunstats.GetStat(StatNames.HorizontalRecoil), 0); 

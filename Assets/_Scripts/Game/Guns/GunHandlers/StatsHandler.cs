@@ -21,7 +21,8 @@ public class StatsHandler : MonoBehaviour
         BulletRadius,
         BulletSpeed,
         VerticalRecoil,
-        HorizontalRecoil
+        HorizontalRecoil,
+        Spread
 
     }
     //quien deberia hacer el cambio de estadistica, el arma o el accesorio?(lo hace el arma, a partir de que el accesorio pase sus stats)
