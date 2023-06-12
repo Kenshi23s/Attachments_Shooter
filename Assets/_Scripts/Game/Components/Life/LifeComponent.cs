@@ -176,6 +176,10 @@ public class LifeComponent : MonoBehaviour, IDamagable, IHealable
     {
         onKnockBack?.Invoke(dir, force);
     }
+    private void OnValidate()
+    {
+        _life = maxLife;
+    }
 }
 
 

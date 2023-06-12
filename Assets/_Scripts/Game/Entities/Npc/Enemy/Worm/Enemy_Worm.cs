@@ -173,7 +173,7 @@ public class Enemy_Worm : Enemy
     public void ShootAcid()
     {
         var x = Instantiate(sampleAcid,_shootPivot.position,Quaternion.identity);
-        x.Initialize(Tuple.Create(this.gameObject, _acidDamage, target.position - _shootPivot.position));
+        x.Initialize(Tuple.Create(gameObject, _acidDamage, target.position - _shootPivot.position));
     }
 
     GameObject auxDirt;
@@ -183,13 +183,13 @@ public class Enemy_Worm : Enemy
         auxDirt = Instantiate(dirtBlock,_shootPivot.position,Quaternion.identity);
         auxDirt.transform.parent = _shootPivot;
 
-
     }
     public void ShootDirt()
     {
         if (auxDirt == null) return;
        
         auxDirt.transform.parent= null;
+        
        
         // lanzar el proyectil que ya tiene en la boca
     }

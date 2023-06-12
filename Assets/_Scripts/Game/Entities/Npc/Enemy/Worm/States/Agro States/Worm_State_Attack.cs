@@ -40,9 +40,11 @@ public class Worm_State_Attack : Worm_State<EWormStates>
         // Si se perdio de vista al jugador, pasar al idle
         if (!_worm.AI_move.FOV.IN_FOV(Player_Movement.position, _worm.LoseSightRadius))
         {
+
             _worm.fsm.ChangeState(EWormStates.Idle); 
             return;
         }
+        _worm.anim.SetBool("Attacking", true);
 
         #region Select State
 
@@ -64,7 +66,11 @@ public class Worm_State_Attack : Worm_State<EWormStates>
 
     public override void OnUpdate() => _attackFSM.Execute();
 
-    public override void OnExit() => _attackFSM.AnulateStates();
+    public override void OnExit() 
+    {
+        _worm.anim.SetBool("Attacking", true);
+        _attackFSM.AnulateStates();
+    } 
 
     public override void GizmoShow() => _attackFSM.StateGizmos();
     
