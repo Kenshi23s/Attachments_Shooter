@@ -43,7 +43,7 @@ public class LifeComponent : MonoBehaviour, IDamagable, IHealable
     [SerializeField] public bool canBeHealed = true;
 
     #region Events
-    public event Action<Vector3, float> onKnockBack;
+    public event Action<Vector3> onKnockBack;
     public event Action<int, int> OnHealthChange;
     public event Action OnHeal;
 
@@ -172,13 +172,21 @@ public class LifeComponent : MonoBehaviour, IDamagable, IHealable
     }
 
     
-    public void AddKnockBack(Vector3 dir, float force)
-    {
-        onKnockBack?.Invoke(dir, force);
-    }
+   
     private void OnValidate()
     {
+        _maxLife = Mathf.Max(0, maxLife);
         _life = maxLife;
+    }
+
+    public void AddKnockBack(Vector3 force)
+    {
+        onKnockBack?.Invoke(force);
+    }
+
+    public Vector3 Position()
+    {
+        return transform.position;
     }
 }
 

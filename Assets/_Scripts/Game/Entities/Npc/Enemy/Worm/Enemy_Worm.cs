@@ -21,12 +21,12 @@ public class Enemy_Worm : Enemy
         Search
     }
 
-    [NonSerialized]
-    public AI_Movement AI_move;
-    public StateMachine<EWormStates> fsm;
-    public Animator anim;
 
-   
+    [NonSerialized] public AI_Movement AI_move;
+    [NonSerialized] public Animator anim;
+    public StateMachine<EWormStates> fsm;
+
+
 
     #region Sight Settings
     [Header("Sight Settings")]
@@ -107,15 +107,20 @@ public class Enemy_Worm : Enemy
     float _pursuitSpeed, _searchSpeed;
     #endregion
 
-
+    [Header("Pivots")]
     [SerializeField]
     Transform _shootPivot;
-    [SerializeField]
-    Projectile_Acid sampleAcid;
-    public GameObject dirtBlock;
 
     [SerializeField]
     Transform hitboxPos;
+    
+    [SerializeField,Header("Samples")]
+    Projectile_Acid sampleAcid;
+
+    [SerializeField]
+    Projectile_Rock dirtBlock;
+
+   
     [SerializeField]
     HitBox hitbox;
 
@@ -176,7 +181,7 @@ public class Enemy_Worm : Enemy
         x.Initialize(Tuple.Create(gameObject, _acidDamage, target.position - _shootPivot.position));
     }
 
-    GameObject auxDirt;
+    Projectile_Rock auxDirt;
     // Se llama por animacion
     public void GrabDirt() 
     {
@@ -188,7 +193,7 @@ public class Enemy_Worm : Enemy
     {
         if (auxDirt == null) return;
        
-        auxDirt.transform.parent= null;
+        auxDirt.transform.parent = null;
         
        
         // lanzar el proyectil que ya tiene en la boca

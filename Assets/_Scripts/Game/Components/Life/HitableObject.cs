@@ -50,6 +50,15 @@ public class HitableObject : MonoBehaviour,IDamagable,IHealable
         return TakeDamage(dmgToDeal, hitPoint);
     }
 
-    public void AddKnockBack(Vector3 dir, float force) => _owner.AddKnockBack(dir, force);
-  
+    public void AddKnockBack(Vector3 dir, float force) => _owner.AddKnockBack(dir * force);
+
+    public void AddKnockBack(Vector3 force)
+    {
+        _owner.AddKnockBack(force);
+    }
+
+    public Vector3 Position()
+    {
+        return transform.position;
+    }
 }

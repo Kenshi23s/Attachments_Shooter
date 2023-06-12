@@ -16,7 +16,11 @@ public class Worm_State_Shoot_Acid : Worm_State<Worm_AttackState>
         _worm.anim.SetFloat("Speed", 0);
     }
 
-    public override void OnUpdate() => _worm.transform.forward = Player_Movement.position - _worm.transform.position;
+    public override void OnUpdate()
+    {
+        Vector3 dir = Player_Movement.position - _worm.transform.position;
+        _worm.transform.forward = new Vector3(dir.x, 0, dir.z);
+    }
   
 
     public override void OnExit() => _worm.anim.SetFloat("Speed", 0);
