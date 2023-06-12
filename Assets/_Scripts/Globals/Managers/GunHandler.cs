@@ -14,6 +14,7 @@ public class GunHandler : MonoBehaviour
    
     event Action<HitData> onActualGunHit;
 
+    public event Action onActualGunShoot;
     int actualGunCount;
 
     //event Action OnSwapWeapons;
@@ -36,6 +37,7 @@ public class GunHandler : MonoBehaviour
         if (actualGun == null) _actualGun = myGuns[UnityEngine.Random.Range(0, myGuns.Count)];
 
         OnSightChange();
+        actualGun.onShoot += onActualGunShoot;
         Debug.LogWarning("Armas en full auto, asegurarse q tengan el RateofFire != 0 ");
     }
 
@@ -91,6 +93,7 @@ public class GunHandler : MonoBehaviour
         foreach (Gun gun in myGuns) if (actualGun != gun) gun.Stow();
 
         actualGun.Draw();
+      
     }
 
     bool AddGun(Gun newGun)

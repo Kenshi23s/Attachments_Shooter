@@ -51,10 +51,12 @@ public class RaycastComponent : MonoBehaviour
         {
             // 100 es el maximo de rango.
             float rangeMultiplier =  1 - hit.distance / gun.stats.GetStat(StatsHandler.StatNames.Range);
-            gun._debug.Log("Range multiplier: " + rangeMultiplier);
-            gun._debug.Log("CURRENT DAMAGE: " + gun.damageHandler.currentDamage);
-            gun._debug.Log("BEFORE CAST: " + gun.damageHandler.currentDamage * rangeMultiplier);
-            gun._debug.Log("AFTER CAST: " + (int) (gun.damageHandler.currentDamage * rangeMultiplier));
+            #region coment
+            //gun._debug.Log("Range multiplier: " + rangeMultiplier);
+            //gun._debug.Log("CURRENT DAMAGE: " + gun.damageHandler.currentDamage);
+            //gun._debug.Log("BEFORE CAST: " + gun.damageHandler.currentDamage * rangeMultiplier);
+            //gun._debug.Log("AFTER CAST: " + (int) (gun.damageHandler.currentDamage * rangeMultiplier));
+            #endregion
             int finalDamage = Mathf.Max(1, (int) (gun.damageHandler.currentDamage * rangeMultiplier));
             gun._debug.Log("Final damage: " + finalDamage);
 
