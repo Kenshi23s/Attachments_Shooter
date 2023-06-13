@@ -5,15 +5,16 @@ using System.Linq;
 using UnityEngine;
 using static Worm_State_Attack;
 
-public class Worm_State_GrabDirt : Worm_State<Worm_AttackState>
+public class Worm_State_Grab_Dirt : Worm_State<Worm_AttackState>
 {
-    public Worm_State_GrabDirt(Enemy_Worm worm) : base(worm)
+    public Worm_State_Grab_Dirt(Enemy_Worm worm) : base(worm)
     {
+        _worm.OnGrabDirtAnimationFinished += () => _fsm.ChangeState(Worm_AttackState.ShootDirt);
     }
 
 
     float dmgRadius;
-    int dmgCount,requiredDmg4explosion, damage;
+    int dmgCount, requiredDmg4explosion = 25, explosionDamage = 25;
     int auxDmgResist;
 
     public override void OnEnter()
@@ -23,24 +24,25 @@ public class Worm_State_GrabDirt : Worm_State<Worm_AttackState>
         auxDmgResist = _worm.health.dmgResist;
         _worm.health.dmgResist = 2;
 
+        _worm.anim.SetTrigger("GrabDirt");
     }
 
     void AddCount(int value)
     {
         dmgCount += value;
-        if (dmgCount>= requiredDmg4explosion)
+        if (dmgCount >= requiredDmg4explosion)
         {
             dmgCount = 0;
-            Explosion();
+            DefensiveExplosion();
         }
     }
 
-    void Explosion()
+    void DefensiveExplosion()
     {
         IEnumerable<IDamagable> col = _worm.transform.position.GetItemsOFTypeAround<IDamagable>(dmgRadius).Where(x => x.GetType() != typeof(Enemy));
         foreach (var item in col) 
         { 
-            item.TakeDamage(damage);
+            item.TakeDamage(explosionDamage);
             Vector3 dir = item.Position() - _worm.transform.position;
             item.AddKnockBack(dir * 10f);
         }

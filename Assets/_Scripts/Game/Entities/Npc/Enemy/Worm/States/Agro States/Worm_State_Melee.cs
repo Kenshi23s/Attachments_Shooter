@@ -5,7 +5,10 @@ using static Worm_State_Attack;
 
 public class Worm_State_Melee : Worm_State<Worm_AttackState>
 {
-    public Worm_State_Melee(Enemy_Worm worm) : base(worm) {}
+    public Worm_State_Melee(Enemy_Worm worm) : base(worm) 
+    {
+        _worm.OnMeleeAnimationFinished += () => _fsm.ChangeState(Worm_AttackState.Flank);
+    }
 
     public override void OnEnter()
     {
@@ -13,14 +16,11 @@ public class Worm_State_Melee : Worm_State<Worm_AttackState>
     }
 
     public override void OnUpdate()
-    {
-        // Chequear cuando se termina la animacion de melee y pasar a flank
-        
+    {        
     }
 
     public override void OnExit()
     {
-
     }
 
     public override void GizmoShow()

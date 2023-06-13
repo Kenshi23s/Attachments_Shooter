@@ -486,15 +486,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1f13e8ae7c8efb14a92d78a008ecb0fc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  anim: {fileID: 0}
-  SightRadius: 70
-  LoseSightRadius: 100
-  MeleeAttackRadius: 5.38
-  ShootAcidRadius: 20
-  ShootDirtRadius: 0
-  _acidAttackFrequency: 1000
-  _dirtAttackFrequency: 0
-  _meleeDamage: 10
+  SightRadius: 15
+  LoseSightRadius: 20
+  MeleeAttackRadius: 3
+  ShootAcidRadius: 10
+  ShootDirtRadius: 12
+  _acidAttackFrequency: 1
+  _dirtAttackFrequency: 1
+  _meleeDamage: 20
   _meleeKnockback: 3
   _meleeCooldown: 1.5
   _acidDamage: 2
@@ -509,9 +508,9 @@ MonoBehaviour:
   _pursuitSpeed: 4
   _searchSpeed: 3
   _shootPivot: {fileID: 873459525}
+  hitboxPos: {fileID: 1528881536}
   sampleAcid: {fileID: 0}
   dirtBlock: {fileID: 0}
-  hitboxPos: {fileID: 1528881536}
   hitbox: {fileID: 5265065097224190554, guid: 6321f27f340f8a54cacfe9b94e7c417c, type: 3}
   target: {fileID: 0}
 --- !u!95 &2040917920711900312

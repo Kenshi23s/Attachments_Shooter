@@ -7,9 +7,9 @@ public class Worm_State_Shoot_Acid : Worm_State<Worm_AttackState>
 {
     public Worm_State_Shoot_Acid(Enemy_Worm worm) : base(worm)
     {
-       
-    } 
-    
+        _worm.OnShootAcidAnimationFinished += () => _fsm.ChangeState(Worm_AttackState.Flank);
+    }
+
 
     public override void OnEnter()
     {      

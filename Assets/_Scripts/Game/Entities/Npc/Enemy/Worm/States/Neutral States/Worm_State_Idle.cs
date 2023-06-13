@@ -9,13 +9,13 @@ public class Worm_State_Idle : Worm_State<EWormStates>
 
     public override void OnEnter()
     {
-        _worm.anim.SetFloat("Speed",0);
+        _worm.anim.SetBool("Moving", false);
         _worm.health.OnTakeDamage += Change;
     }
 
     public override void OnUpdate()
     {
-        if (_worm.AI_move.FOV.IN_FOV(Player_Movement.position))       
+        if (_worm.AI_move.FOV.IN_FOV(Player_Movement.position, _worm.SightRadius))       
             Change();     
     }
 

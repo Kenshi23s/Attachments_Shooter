@@ -14,7 +14,7 @@ public class Worm_State_Attack : Worm_State<EWormStates>
         _attackFSM.CreateState(Worm_AttackState.Pursuit,   new Worm_State_Pursuit(worm));
         _attackFSM.CreateState(Worm_AttackState.Melee,     new Worm_State_Melee(worm));
         _attackFSM.CreateState(Worm_AttackState.ShootAcid, new Worm_State_Shoot_Acid(worm));
-        _attackFSM.CreateState(Worm_AttackState.GrabDirt,  new Worm_State_GrabDirt(worm));
+        _attackFSM.CreateState(Worm_AttackState.GrabDirt,  new Worm_State_Grab_Dirt(worm));
         _attackFSM.CreateState(Worm_AttackState.ShootDirt, new Worm_State_Shoot_Dirt(worm));
         _attackFSM.CreateState(Worm_AttackState.Flank,     new Worm_State_Flank(worm));
     }
@@ -31,45 +31,47 @@ public class Worm_State_Attack : Worm_State<EWormStates>
 
     StateMachine<Worm_AttackState> _attackFSM;
 
-    float _shootRange,_meleeRange;
-
-    public override void OnEnter() => MakeDecision();
+    public override void OnEnter()
+    {
+        _worm.anim.SetBool("Attacking", true);
+        MakeDecision();
+    }
 
     void MakeDecision()
     {
-        // Si se perdio de vista al jugador, pasar al idle
-        if (!_worm.AI_move.FOV.IN_FOV(Player_Movement.position, _worm.LoseSightRadius))
-        {
+        // NOTA: Esto se podria optimizar si se sabe que rango es mas chico. En ese caso primero se chequearia por 
+        // el rango mas chico, y recien despues por los mas grandes.
+        bool inAcidRange = _worm.AI_move.FOV.IN_FOV(Player_Movement.position, _worm.ShootAcidRadius);
+        bool inDirtRange = _worm.AI_move.FOV.IN_FOV(Player_Movement.position, _worm.ShootDirtRadius);
+        bool inMeleeRange = _worm.AI_move.FOV.IN_FOV(Player_Movement.position, _worm.MeleeAttackRadius);
 
-            _worm.fsm.ChangeState(EWormStates.Idle); 
-            return;
-        }
-        _worm.anim.SetBool("Attacking", true);
-
-        #region Select State
-
-        Worm_AttackState  key = Worm_AttackState.Pursuit;
-        float dist = Vector3.Distance(Player_Movement.position, _worm.transform.position);
-        
-        if (dist < _shootRange)
-            key = Worm_AttackState.ShootAcid;
-
-        if (dist < _meleeRange)
-            key = Worm_AttackState.Melee;
-
-        #endregion
+        Worm_AttackState key =
+          inMeleeRange ? Worm_AttackState.Melee
+        : inDirtRange ? Worm_AttackState.GrabDirt
+        : inAcidRange ? Worm_AttackState.ShootAcid
+        : Worm_AttackState.Pursuit;
 
         _attackFSM.ChangeState(key);
     }
 
-    
 
-    public override void OnUpdate() => _attackFSM.Execute();
+
+    public override void OnUpdate()
+    {
+        // Si se perdio de vista al jugador, pasar al idle
+        if (!_worm.AI_move.FOV.IN_FOV(Player_Movement.position, _worm.LoseSightRadius))
+        {
+            _worm.fsm.ChangeState(EWormStates.Idle);
+            return;
+        }
+
+        _attackFSM.Execute();
+    }
 
     public override void OnExit() 
     {
-        _worm.anim.SetBool("Attacking", true);
         _attackFSM.AnulateStates();
+        _worm.anim.SetBool("Attacking", false);
     } 
 
     public override void GizmoShow() => _attackFSM.StateGizmos();

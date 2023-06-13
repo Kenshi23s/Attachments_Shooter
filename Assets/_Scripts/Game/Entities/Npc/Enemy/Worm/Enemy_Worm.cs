@@ -124,16 +124,21 @@ public class Enemy_Worm : Enemy
     [SerializeField]
     HitBox hitbox;
 
-    
-
     public Transform target;
+
+    public event Action
+        OnGrabDirtAnimationFinished = delegate { },
+        OnShootDirtAnimationFinished = delegate { },
+        OnShootAcidAnimationFinished = delegate { },
+        OnMeleeAnimationFinished = delegate { };
 
     public override void ArtificialAwake()
     {
         AI_move = GetComponent<AI_Movement>();
         anim = GetComponent<Animator>();
+
         #region CreateHitbox       
-        hitbox.SetOwner(this.gameObject);
+        hitbox.SetOwner(gameObject);
         hitbox.DeactivateHitBox();
         #endregion
 
@@ -146,11 +151,14 @@ public class Enemy_Worm : Enemy
         health.OnKilled += DieChange;
         health.OnTakeDamage += AddStunCharge;
 
+        // Creacion de estados
         fsm.CreateState(EWormStates.Idle, new Worm_State_Idle(this));
         fsm.CreateState(EWormStates.Search, new Worm_State_Search(this));
         fsm.CreateState(EWormStates.Attack, new Worm_State_Attack(this));
         fsm.CreateState(EWormStates.Stunned, new Worm_State_Stunned(this));
         fsm.CreateState(EWormStates.Die, new Worm_State_Die(this));
+
+        // Estado Inicial
         fsm.ChangeState(EWormStates.Idle);
         #endregion
 
@@ -161,10 +169,7 @@ public class Enemy_Worm : Enemy
         fsm.Execute();
     }
 
-   
-
     void DieChange() => fsm.ChangeState(EWormStates.Die);
-
 
     public Worm_AttackState ChooseBetweenAttacks() 
     {
@@ -177,7 +182,7 @@ public class Enemy_Worm : Enemy
     // Se llama por animacion
     public void ShootAcid()
     {
-        var x = Instantiate(sampleAcid,_shootPivot.position,Quaternion.identity);
+        var x = Instantiate(sampleAcid, _shootPivot.position, Quaternion.identity);
         x.Initialize(Tuple.Create(gameObject, _acidDamage, target.position - _shootPivot.position));
     }
 
@@ -185,7 +190,7 @@ public class Enemy_Worm : Enemy
     // Se llama por animacion
     public void GrabDirt() 
     {
-        auxDirt = Instantiate(dirtBlock,_shootPivot.position,Quaternion.identity);
+        auxDirt = Instantiate(dirtBlock, _shootPivot.position, Quaternion.identity);
         auxDirt.transform.parent = _shootPivot;
 
     }
@@ -218,11 +223,11 @@ public class Enemy_Worm : Enemy
         Destroy(gameObject);
     }
 
-    private void OnDrawGizmos()
-    {
-      
-    }
 
+    public void GrabDirtAnimationFinished() => OnGrabDirtAnimationFinished();
+    public void ShootDirtAnimationFinished() => OnShootDirtAnimationFinished();
+    public void ShootAcidAnimationFinished() => OnShootAcidAnimationFinished();
+    public void MeleeAnimationFinished() => OnMeleeAnimationFinished();
 
 }
 

@@ -9,7 +9,7 @@ public class Worm_State_Pursuit : Worm_State<Worm_AttackState>
 
     public override void OnEnter()
     {
-        _worm.anim.SetBool("Pursuit", true);
+        _worm.anim.SetBool("Moving", true);
         _worm.AI_move.Movement.RemoveForces();
     }
 
@@ -27,39 +27,15 @@ public class Worm_State_Pursuit : Worm_State<Worm_AttackState>
          : inAcidRange ? Worm_AttackState.ShootAcid
          : default;
 
-        if (key != default) _fsm.ChangeState(key);
-        else _worm.AI_move.SetDestination(Player_Movement.position);
-
-        #region Coment
-        //// MELEE
-        //if (inMeleeRange)
-        //{
-        //    _fsm.ChangeState(Worm_AttackState.Melee);
-        //    return;
-        //}
-
-        //// Deberiamos tener una frecuencia/ratio para las chances de que el gusano haga uno u otro ataque.
-        //// Si esta lo suficientemente cerca, hace melee
-        //// RANGED
-        //if (inDirtRange)
-        //{
-        //    _fsm.ChangeState(Worm_AttackState.GrabDirt);
-        //    return;
-        //}
-
-        //if (inAcidRange)
-        //{
-        //    _fsm.ChangeState(Worm_AttackState.ShootAcid);
-        //    return;
-        //}
-        #endregion
-
-
+        if (key != default)
+            _fsm.ChangeState(key);
+        else 
+            _worm.AI_move.SetDestination(Player_Movement.position);
     }
 
     public override void OnExit()
     {
+        _worm.anim.SetBool("Moving", false);
         _worm.AI_move.CancelMovement();
-        _worm.anim.SetBool("Pursuit", true);
     }
 }
