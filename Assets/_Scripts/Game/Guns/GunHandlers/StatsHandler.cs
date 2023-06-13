@@ -3,6 +3,7 @@ using UnityEngine;
 using AYellowpaper.SerializedCollections;
 using System;
 using static Attachment;
+using static UnityEditor.Progress;
 
 [DisallowMultipleComponent]
 public class StatsHandler : MonoBehaviour
@@ -11,15 +12,9 @@ public class StatsHandler : MonoBehaviour
     
     public enum StatNames
     {
-        AimZoom,
+       
         Range,
-        Handling,      
-        Stability,
-        ReloadSpeed,
-        MaxMagazine,
-        AmooPerShoot,
-        BulletRadius,
-        BulletSpeed,
+        Handling,                
         VerticalRecoil,
         HorizontalRecoil,
         Spread
@@ -29,7 +24,7 @@ public class StatsHandler : MonoBehaviour
     //el arma deberia tener referencia de todos sus accesorios o no es de gran importancia?
     //(si, deberia para saber donde posicionarlos)
 
-    public int GetStat(StatNames key)
+    public float GetStat(StatNames key)
     {
         return _myGunStats[key];
     }
@@ -68,7 +63,8 @@ public class StatsHandler : MonoBehaviour
         {
             if (_myGunStats.ContainsKey(actualKey))
             {
-                _myGunStats[actualKey] = Mathf.Clamp(_myGunStats[actualKey] + (NewStats[actualKey].value * x), 0, 100);          
+                _myGunStats[actualKey] = Mathf.Clamp(_myGunStats[actualKey] + (NewStats[actualKey].value * x), 0, 100);
+              
             }
         }        
     }

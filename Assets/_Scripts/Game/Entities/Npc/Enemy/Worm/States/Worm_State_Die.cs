@@ -14,11 +14,8 @@ public class Worm_State_Die : Worm_State<EWormStates>
     {
         _worm.anim.SetTrigger("Die");
         IEnumerable<Collider> col = FList.Create(_worm.GetComponent<Collider>()) + _worm.GetComponentsInChildren<Collider>();
-        _worm.health.canTakeDamage= false;
-        foreach (var item in col)
-        {
-            item.isTrigger = true;
-        }
+        _worm.health.canTakeDamage = false;
+       
     } 
 
     public override void OnUpdate()
