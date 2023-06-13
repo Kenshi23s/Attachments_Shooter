@@ -24,8 +24,5 @@ public class Worm_State_Die : Worm_State<EWormStates>
         foreach (var item in col) item.enabled = false;
     }
 
-    public override void OnUpdate()
-    {
-            
-    }
+    
 }

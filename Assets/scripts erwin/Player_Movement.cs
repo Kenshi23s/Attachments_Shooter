@@ -50,6 +50,7 @@ public class Player_Movement : MonoBehaviour
     private void Awake()
     {
         lifehandler = GetComponent<LifeComponent>();
+        lifehandler.onKnockBack += (x) => { rb.AddForce(x, ForceMode.VelocityChange); };
         _debug = GetComponent<DebugableObject>();
         _debug.AddGizmoAction(DebugVelocity);
         GetComponent<PausableObject>().onPause += () => StartCoroutine(WhilePaused()); 

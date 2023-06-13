@@ -1,3 +1,4 @@
+using UnityEngine;
 using static Worm_State_Attack;
 
 public class Worm_State_Pursuit : Worm_State<Worm_AttackState>
@@ -28,7 +29,17 @@ public class Worm_State_Pursuit : Worm_State<Worm_AttackState>
          : default;
 
         if (key != default)
+        {
             _fsm.ChangeState(key);
+            Vector3 dir = Player_Movement.position-_worm.transform.position;
+            if (Physics.Raycast(_worm.transform.position, dir,out RaycastHit hit))
+            {
+                
+                _worm.AssignTarget(hit.transform);
+            }
+           
+        }
+           
         else 
             _worm.AI_move.SetDestination(Player_Movement.position);
     }

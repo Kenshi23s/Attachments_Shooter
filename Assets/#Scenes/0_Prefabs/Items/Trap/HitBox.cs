@@ -11,21 +11,27 @@ public class HitBox : MonoBehaviour
     BoxCollider hitbox;
 
     public event Action<HitData> onHit;
+    public event Action<IDamagable> EnemyHit;
 
     public int damage { get; private set; }
 
     public Vector3 size { get; private set; }
 
-    private void Awake() => hitbox = GetComponent<BoxCollider>();
+    private void Awake()
+    {
+       
+        hitbox = GetComponent<BoxCollider>();
+        hitbox.isTrigger = true;
+    }  
   
 
-    public void ActivateHitbox() => gameObject.SetActive(true);
+    public void ActivateHitbox() => hitbox.enabled=true;
        
 
     public void DeactivateHitBox()
     {
         alreadydmged.Clear();
-        gameObject.SetActive(false);
+        hitbox.enabled = false;
     }
 
     private void OnTriggerEnter(Collider other)
@@ -33,11 +39,15 @@ public class HitBox : MonoBehaviour
         if (other!=owner&&other.TryGetComponent(out IDamagable target))       
         if (!alreadydmged.Contains(target))
         {
-                DamageData data = target.TakeDamage(damage); alreadydmged.Add(target);
-                HitData hit = new HitData();
-                hit._impactPos = other.ClosestPoint(other.transform.position);
-                hit.dmgData = data;
-                onHit?.Invoke(hit);
+                //DamageData data = target.TakeDamage(damage);
+                //HitData hit = new HitData();
+                //Debug.Log("BOX HIT!");
+                //hit._impactPos = other.ClosestPoint(other.transform.position);
+                //hit.dmgData = data;
+                //onHit?.Invoke(hit);
+                EnemyHit?.Invoke(target);
+                alreadydmged.Add(target);
+
         }
         
     }
