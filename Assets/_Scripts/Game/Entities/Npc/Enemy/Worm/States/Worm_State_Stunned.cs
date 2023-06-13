@@ -18,18 +18,19 @@ public class Worm_State_Stunned : Worm_State<EWormStates>
         // Reiniciar timer de tiempo
         _stunTimeCount = 0;
 
-        // Setear animator a stunned
-        _worm.anim.SetBool("Stunned", true);
+        // Llamar a la animacion de stun
+        _worm.anim.SetTrigger("Stun");
     }
 
     public override void OnUpdate()
     {
         _stunTimeCount += Time.deltaTime;
-        if (_stunTimeCount >= _stunTime) _worm.fsm.ChangeState(EWormStates.Attack);
+
+        if (_stunTimeCount >= _stunTime) 
+            _worm.fsm.ChangeState(EWormStates.Attack);
     }
 
     public override void OnExit()
     {
-        _worm.anim.SetBool("Stunned", false);
     }
 }
