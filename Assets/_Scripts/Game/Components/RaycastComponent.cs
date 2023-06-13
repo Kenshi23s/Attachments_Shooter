@@ -2,9 +2,12 @@ using System;
 using UnityEngine;
 using FacundoColomboMethods;
 using static StatsHandler;
+using System.Collections;
+
 [RequireComponent(typeof(DebugableObject))]
 public class RaycastComponent : MonoBehaviour
 {
+   [SerializeField] TrailRenderer trailSample;
     Gun gun;
     [SerializeField]
     LayerMask _shootableLayers;
@@ -28,13 +31,14 @@ public class RaycastComponent : MonoBehaviour
         Vector3 dir = cam.transform.forward;
         if (!Input.GetKey(KeyCode.Mouse1))
         {
-            int multipplier = 45;
-            float aux = multipplier - gun.stats.GetStat(StatNames.Spread) * multipplier / 100;
+            int multiplier = 45;
+            float aux = multiplier - gun.stats.GetStat(StatNames.Spread) * multiplier / 100;
             gun._debug.Log("mouse apretado");
             dir = cam.transform.forward.RandomDirFrom(aux); 
         }
-       
-       
+
+        var z = Instantiate(trailSample, from, Quaternion.identity);
+        Vector3 dirTrail=Vector3.zero;
         if (Physics.Raycast(cam.transform.position, dir, out RaycastHit testHit, 500f, _shootableLayers))
         {
             gun._debug.Log("RAYCAST FROM CAM HIT: " + testHit.transform.gameObject);
@@ -44,6 +48,10 @@ public class RaycastComponent : MonoBehaviour
             // Disparar raycast desde el arma hacia la posicion que golpeo el raycast de la camara
             if (Physics.Raycast(from, dir2, out RaycastHit actualhit, dir2.magnitude + 1, _shootableLayers))
             {
+
+                dirTrail = actualhit.point;
+
+
                 if (CheckDamagable(actualhit, out HitData hitData))
                     action?.Invoke(hitData);
 
@@ -51,10 +59,36 @@ public class RaycastComponent : MonoBehaviour
                     x.FeedbackHit(actualhit.point, actualhit.normal);
 
                 gun._debug.Log("RAYCAST FROM GUN HIT: " + actualhit.transform.gameObject);
+             
             }
 
 
         }
+        if (dirTrail==Vector3.zero) dirTrail = cam.transform.forward * 100;
+
+        StartCoroutine(SpawnTrail(z, dirTrail));
+      
+
+    }
+
+
+    IEnumerator SpawnTrail(TrailRenderer trail,Vector3 impactPos)
+    {
+        Vector3 startPos = trail.transform.position;
+        float dist = Vector3.Distance(startPos, impactPos);
+        float time = 0f;
+  
+        while (time < 1) 
+        {
+           
+            trail.transform.position = Vector3.Lerp(startPos, impactPos, time);
+
+           
+            time += (Time.deltaTime / trail.time) * (dist / Vector3.Distance(trail.transform.position,impactPos));
+            yield return null;
+        }
+        trail.transform.position = impactPos;
+        Destroy(trail.gameObject);
     }
     //chequea si lo que con lo que choco es damagable
     bool CheckDamagable(RaycastHit hit, out HitData hitData)

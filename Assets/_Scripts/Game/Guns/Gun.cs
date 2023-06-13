@@ -124,7 +124,7 @@ public abstract class Gun : MonoBehaviour
     //y que en algun frame la animacion de recarga llame a este metodo
     public void Reload()
     {
-        _actualAmmo = (int)stats.statDictionary[StatNames.MaxMagazine];
+        //_actualAmmo = (int)stats.statDictionary[StatNames.MaxMagazine];
         onReload?.Invoke();
     }
 

@@ -5,8 +5,6 @@ using System.Drawing;
 using System.Linq;
 using UnityEngine;
 using UnityEngine.UIElements;
-using static UnityEditor.Experimental.GraphView.GraphView;
-using static UnityEditor.PlayerSettings;
 using Random = UnityEngine.Random;
 
 namespace FacundoColomboMethods
