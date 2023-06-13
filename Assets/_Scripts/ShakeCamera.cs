@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -25,7 +26,7 @@ public class ShakeCamera : MonoBehaviour
     [Header("Apuntado"), Space(1)]
     public Vector3 aimPos;
    
-    bool aiming;
+    public static bool aiming =false;
     Vector3 actualAimPos;
 
     [Header("Referencias"), Space(1)]
@@ -35,6 +36,9 @@ public class ShakeCamera : MonoBehaviour
     [SerializeField] Rigidbody rb;
 
     [SerializeField] GunHandler myGunHandler;
+
+    public static event Action OnAim;
+    public static event Action OnAimEnd;
     private void Awake()
     {
         
@@ -71,13 +75,17 @@ public class ShakeCamera : MonoBehaviour
 
         if (Input.GetKey(KeyCode.Mouse1))
         {
+            aiming = true;
             float handling = myGunHandler.actualGun.stats.GetStat(StatNames.Handling);
-            actualAimPos = Vector3.Lerp(actualAimPos,aimPos - GunHandler.sightPosition,(soft + handling )* Time.deltaTime);
+            actualAimPos = Vector3.Lerp(actualAimPos,aimPos - GunHandler.sightPosition,soft+(soft * handling/100)* Time.deltaTime);
 
             hands.transform.localPosition = actualAimPos + temp1;
+            OnAim?.Invoke();
+
         } 
         else
         {
+            OnAimEnd?.Invoke();
             hands.transform.localPosition = temp2;
             actualAimPos = Vector3.zero;
         }
