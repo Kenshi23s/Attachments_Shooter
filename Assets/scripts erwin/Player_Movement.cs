@@ -13,6 +13,7 @@ public class Player_Movement : MonoBehaviour
 
     public static Vector3 velocity { get; private set; }
     public static Vector3 position { get; private set; }
+    public static Transform StaticPlayer;
 
     Rigidbody rb;
 
@@ -53,6 +54,8 @@ public class Player_Movement : MonoBehaviour
         _debug.AddGizmoAction(DebugVelocity);
         GetComponent<PausableObject>().onPause += () => StartCoroutine(WhilePaused()); 
         transform.rotation= new Quaternion();
+
+        StaticPlayer = Player;
     }
     // Start is called before the first frame update
     void Start()

@@ -3,7 +3,6 @@ using UnityEngine;
 using AYellowpaper.SerializedCollections;
 using System;
 using static Attachment;
-using static UnityEditor.Progress;
 
 [DisallowMultipleComponent]
 public class StatsHandler : MonoBehaviour

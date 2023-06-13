@@ -12,7 +12,6 @@ public class Worm_State_Shoot_Dirt : Worm_State<Worm_AttackState>
 
     public override void OnEnter()
     {
-        _worm.anim.SetTrigger("ShootDirt");
     }
 
     public override void OnUpdate()

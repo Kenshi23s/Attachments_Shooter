@@ -22,6 +22,9 @@ public class AI_Movement : MonoBehaviour
 
     [Header("Flocking Forces")]
 
+    public float DestinationArriveDistance = 0.1f;
+    public float NodeArriveDistance = 1f;
+
     public LayerMask WhatIsGround;
     public LayerMask ObstacleMask;
     Action _fixedUpdate;
@@ -52,7 +55,7 @@ public class AI_Movement : MonoBehaviour
 
     public void SetTargets(IEnumerable<AI_Movement> targets)
     {
-        _debug.Log("Targets para flocking Seteados");
+        //_debug.Log("Targets para flocking Seteados");
         _flockingTargets = targets;
     }
 
@@ -78,7 +81,7 @@ public class AI_Movement : MonoBehaviour
             {
                 _debug.Log("Veo el destino, voy directo.");
                 MoveTowards(target);
-                if (Vector3.Distance(target, transform.position) < 2f) { 
+                if (Vector3.Distance(target, transform.position) < DestinationArriveDistance) { 
                     OnDestinationReached?.Invoke();
                     ClearPath();
                 }
@@ -86,24 +89,74 @@ public class AI_Movement : MonoBehaviour
         }
         else
         {
-            _debug.Log( "No veo el destino, calculo el camino.");
+            _debug.Log("No veo el destino, calculo el camino.");
 
             _waypoints = GetPath(target);
             _fixedUpdate = PlayPath;
         }
     }
 
-   
+    Transform _lookAtTarget;
 
-    void MoveTowards(Vector3 target)
+    public void SetDestinationButLookAt(Vector3 destination, Transform lookAtTarget)
+    {
+        _lookAtTarget = lookAtTarget;
+
+        if (_waypoints.Any() && destination != _destination) OnDestinationChanged?.Invoke();
+
+        _destination = destination;
+
+        if (transform.position.InLineOffSight(destination, IA_Manager.instance.wall_Mask))
+        {
+            _fixedUpdate = () =>
+            {
+                if (_lookAtTarget == null)
+                {
+                    OnMovementCanceled?.Invoke();
+                    ClearPath();
+                    return;
+                }
+
+                //_debug.Log("Veo el destino, voy directo.");
+                MoveTowardsButLookAt(destination, _lookAtTarget.transform.position);
+                if (Vector3.Distance(destination, transform.position) < DestinationArriveDistance)
+                {
+                    OnDestinationReached?.Invoke();
+                    ClearPath();
+                }
+            };
+        }
+        else
+        {
+            _debug.Log("No veo el destino, calculo el camino.");
+
+            _waypoints = GetPath(destination);
+            _fixedUpdate = PlayPathButLookAtTarget;
+        }
+    }
+
+    public void MoveTowardsButLookAt(Vector3 destination, Vector3 lookAtTarget) 
     {
         Vector3 actualForce = Vector3.zero;
-        actualForce += Movement.Seek(target);
+        actualForce += Movement.Seek(destination);
+        if (Flocking) actualForce += _flockingTargets.Flocking(_flockingParameters);
+        actualForce += ObstacleAvoidance(transform);
+        actualForce = ProjectAlongSlope(actualForce);
+
+        Movement.AddForce(Velocity.CalculateSteering(actualForce, Movement.maxSpeed));
+        Movement.LookAt(lookAtTarget);
+    }
+
+    void MoveTowards(Vector3 destination)
+    {
+        Vector3 actualForce = Vector3.zero;
+        actualForce += Movement.Seek(destination);
         if (Flocking) actualForce += _flockingTargets.Flocking(_flockingParameters);
         actualForce += ObstacleAvoidance(transform);
         actualForce = ProjectAlongSlope(actualForce);
         
         Movement.AddForce(Velocity.CalculateSteering(actualForce, Movement.maxSpeed));
+        Movement.LookTowardsVelocity();
     }
 
     public Vector3 ProjectAlongSlope(Vector3 force) 
@@ -147,7 +200,33 @@ public class AI_Movement : MonoBehaviour
 
         MoveTowards(_waypoints[0]);
 
-        if (Vector3.Distance(_waypoints[0], transform.position) < 2f) _waypoints.RemoveAt(0);
+        if (Vector3.Distance(_waypoints[0], transform.position) < NodeArriveDistance) 
+            _waypoints.RemoveAt(0);
+    }
+
+    void PlayPathButLookAtTarget() 
+    {
+
+        if (!_waypoints.Any())
+        {
+            OnDestinationReached?.Invoke();
+            ClearPath();
+            return;
+        }
+
+        if (_lookAtTarget == null)
+        {
+            OnMovementCanceled?.Invoke();
+            ClearPath();
+            return;
+        }
+
+        _debug.Log("Se mueve hacia el siguiente nodo, me faltan " + _waypoints.Count);
+
+        MoveTowardsButLookAt(_waypoints[0], _lookAtTarget.transform.position);
+
+        if (Vector3.Distance(_waypoints[0], transform.position) < NodeArriveDistance) 
+            _waypoints.RemoveAt(0);
     }
 
 
@@ -173,7 +252,7 @@ public class AI_Movement : MonoBehaviour
 
         if (Physics.SphereCast(transform.position, 1.5f, transform.forward, out RaycastHit hit, dist, ObstacleMask))
         {
-            _debug.Log("ESTOY HACIENDO OBSTACLE AVOIDANCE!");
+            //_debug.Log("ESTOY HACIENDO OBSTACLE AVOIDANCE!");
             Vector3 obstacle = hit.transform.position;
             Vector3 dirToObject = obstacle - transform.position;
             float angleInBetween = Vector3.SignedAngle(transform.forward, dirToObject, Vector3.up);

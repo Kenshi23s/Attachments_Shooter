@@ -96,7 +96,7 @@ public class Enemy_Worm : Enemy
     #region Flank Settings
     [Header("Flank Settings")]
 
-    [SerializeField] float _flankDistance;
+    public float FlankDistance;
     [SerializeField] float _flankSpeed;
     #endregion
 
@@ -223,6 +223,20 @@ public class Enemy_Worm : Enemy
         Destroy(gameObject);
     }
 
+
+    private void OnDrawGizmos()
+    {
+        Gizmos.color = Color.green;
+        Gizmos.DrawWireSphere(transform.position, SightRadius);
+        Gizmos.color = Color.blue;
+        Gizmos.DrawWireSphere(transform.position, LoseSightRadius);
+        Gizmos.color = Color.red;
+        Gizmos.DrawWireSphere(transform.position, MeleeAttackRadius);
+        Gizmos.color = Color.cyan;
+        Gizmos.DrawWireSphere(transform.position, ShootAcidRadius);
+        Gizmos.color = Color.magenta;
+        Gizmos.DrawWireSphere(transform.position, ShootDirtRadius);
+    }
 
     public void GrabDirtAnimationFinished() => OnGrabDirtAnimationFinished();
     public void ShootDirtAnimationFinished() => OnShootDirtAnimationFinished();

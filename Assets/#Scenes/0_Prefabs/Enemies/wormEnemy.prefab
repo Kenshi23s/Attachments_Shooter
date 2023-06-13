@@ -450,6 +450,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8acd364f316a31a499706c4da6c3dad3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  DestinationArriveDistance: 2
+  NodeArriveDistance: 1
   WhatIsGround:
     serializedVersion: 2
     m_Bits: 4096
@@ -486,11 +488,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1f13e8ae7c8efb14a92d78a008ecb0fc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  SightRadius: 15
-  LoseSightRadius: 20
-  MeleeAttackRadius: 3
-  ShootAcidRadius: 10
-  ShootDirtRadius: 12
+  SightRadius: 40
+  LoseSightRadius: 50
+  MeleeAttackRadius: 7
+  ShootAcidRadius: 35
+  ShootDirtRadius: 35
   _acidAttackFrequency: 1
   _dirtAttackFrequency: 1
   _meleeDamage: 20
@@ -503,7 +505,7 @@ MonoBehaviour:
   _dirtCooldown: 2
   _dmgNeeded4stun: 2
   StunTime: 2
-  _flankDistance: 5
+  FlankDistance: 5
   _flankSpeed: 3
   _pursuitSpeed: 4
   _searchSpeed: 3
@@ -1484,6 +1486,41 @@ PrefabInstance:
     m_RemovedComponents:
     - {fileID: 5866666021909216657, guid: ed10319fcb7b7dc49a23b151a3bd682d, type: 3}
   m_SourcePrefab: {fileID: 100100000, guid: ed10319fcb7b7dc49a23b151a3bd682d, type: 3}
+--- !u!4 &982619033168474779 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 3530737273715008066, guid: ed10319fcb7b7dc49a23b151a3bd682d, type: 3}
+  m_PrefabInstance: {fileID: 4421765270268858585}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1 &1826360732252140850 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 2595706697592120811, guid: ed10319fcb7b7dc49a23b151a3bd682d, type: 3}
+  m_PrefabInstance: {fileID: 4421765270268858585}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &1085129498449725014
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1826360732252140850}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2c622bd6c1b94d74d86a17b67eb68a33, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  TailBones:
+  - {fileID: 3861370729241837913}
+  - {fileID: 2084864740511070890}
+  - {fileID: 8322866075193989328}
+  - {fileID: 7279592674804075902}
+  - {fileID: 3566653003455229604}
+  - {fileID: 7358492075378909926}
+  - {fileID: 2555168298109812684}
+  - {fileID: 982619033168474779}
+  frequency: 1.8
+  maxAngle: 20
+  phase: 0
+  speed: 5
 --- !u!4 &2084864740511070890 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 2428470967688686195, guid: ed10319fcb7b7dc49a23b151a3bd682d, type: 3}

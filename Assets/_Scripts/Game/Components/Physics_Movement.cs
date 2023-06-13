@@ -77,10 +77,21 @@ public class Physics_Movement : MonoBehaviour
         _velocity = Vector3.ClampMagnitude(_rb.velocity + force * Time.fixedDeltaTime, _maxSpeed);
 
         _rb.velocity = _velocity;
-        _rb.rotation = Quaternion.LookRotation(_rb.velocity,Vector3.up);
     }
 
-   public void AddImpulse(Vector3 force) => _rb.AddForce(force, ForceMode.Impulse);
+    public void LookTowardsVelocity() 
+    {
+        _rb.rotation = Quaternion.LookRotation(new Vector3(_rb.velocity.x, 0, _rb.velocity.z), Vector3.up);
+    }
+
+    public void LookAt(Vector3 position) 
+    {
+        Vector3 forward = position - _rb.position;
+        forward.y = 0;
+        _rb.rotation = Quaternion.LookRotation(forward, Vector3.up);
+    }
+
+    public void AddImpulse(Vector3 force) => _rb.AddForce(force, ForceMode.Impulse);
    
      
         
