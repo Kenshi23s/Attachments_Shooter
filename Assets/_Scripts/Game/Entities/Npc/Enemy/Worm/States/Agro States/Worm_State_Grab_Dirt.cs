@@ -1,4 +1,5 @@
 using FacundoColomboMethods;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
@@ -14,7 +15,7 @@ public class Worm_State_Grab_Dirt : Worm_State<Worm_AttackState>
 
 
     float dmgRadius;
-    int dmgCount, requiredDmg4explosion = 25, explosionDamage = 25;
+    int dmgCount, requiredDmg4explosion = 3, explosionDamage = 25;
     int auxDmgResist;
 
     public override void OnEnter()
@@ -25,7 +26,10 @@ public class Worm_State_Grab_Dirt : Worm_State<Worm_AttackState>
         _worm.health.dmgResist = 2;
 
         _worm.anim.SetTrigger("GrabDirt");
+        
+        _worm.StartCoroutine(_worm.GrabDirt());
     }
+
 
     void AddCount(int value)
     {
@@ -46,6 +50,11 @@ public class Worm_State_Grab_Dirt : Worm_State<Worm_AttackState>
             Vector3 dir = item.Position() - _worm.transform.position;
             item.AddKnockBack(dir * 10f);
         }
+    }
+    public override void OnUpdate()
+    {
+      _worm.transform.forward= (Player_Movement.position-_worm.transform.position).normalized;
+
     }
 
     public override void OnExit()

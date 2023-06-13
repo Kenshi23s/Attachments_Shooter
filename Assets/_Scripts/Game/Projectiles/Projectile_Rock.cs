@@ -70,6 +70,7 @@ public class Projectile_Rock : MonoBehaviour,IDamagable
     private void OnTriggerEnter(Collider other)
     {
         onExplosion?.Invoke(transform.position.GetItemsOFTypeAround<Collider>(_radius).Where(x => x != this));
+        onExplosion = null;
     }
 
     private void OnDrawGizmos()

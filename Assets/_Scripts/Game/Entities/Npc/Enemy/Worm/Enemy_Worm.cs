@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEditor;
 using UnityEngine;
 using Random = UnityEngine.Random;
@@ -54,6 +55,8 @@ public class Enemy_Worm : Enemy
     [SerializeField, Min(0)] int _meleeDamage;
     [SerializeField, Min(0)] float _meleeKnockback;
     [SerializeField, Min(0)] float _meleeCooldown;
+    [SerializeField, Min(0)] float _meleeStartTime=0.4f;
+    [SerializeField, Min(0)] float _meleeEndTime=0.4f;
     #endregion
 
     #region Acid 
@@ -66,9 +69,13 @@ public class Enemy_Worm : Enemy
     #region Dirt
     [Header("Dirt")]
 
-    [SerializeField, Min(0)] int _dirtDamage;
-    [SerializeField, Min(0)] float _dirtKnockback;
+    [SerializeField, Min(0)] int _dirtDamage=20;
+    [SerializeField, Min(0)] float _dirtKnockback=30f;
     [SerializeField, Min(0)] float _dirtCooldown;
+    [SerializeField, Min(0)] float _dirtRadius=10f;
+    [SerializeField, Min(0)] float _dirtGrabTime;
+    [SerializeField, Min(0)] float _dirtShootTime;
+    [SerializeField, Min(0)] float _dirtLaunchForce;
     #endregion
 
     #endregion
@@ -137,10 +144,7 @@ public class Enemy_Worm : Enemy
         AI_move = GetComponent<AI_Movement>();
         anim = GetComponent<Animator>();
 
-        #region CreateHitbox       
-        hitbox.SetOwner(gameObject);
-        hitbox.DeactivateHitBox();
-        #endregion
+       
 
         #region Initialize FSM
 
@@ -162,6 +166,21 @@ public class Enemy_Worm : Enemy
         fsm.ChangeState(EWormStates.Idle);
         #endregion
 
+    } 
+    private void Start()
+    {
+        #region CreateHitbox       
+        hitbox.SetOwner(gameObject);
+        hitbox.DeactivateHitBox();
+        hitbox.EnemyHit += (x) =>
+        {
+            _debug.Log("le pegue con el melee");
+            x.TakeDamage(_meleeDamage);
+            Vector3 dir = x.Position() - transform.position;
+            x.AddKnockBack(Vector3.down + dir.normalized * _meleeKnockback);
+
+        };
+        #endregion
     }
 
     private void Update()
@@ -186,36 +205,55 @@ public class Enemy_Worm : Enemy
         x.Initialize(Tuple.Create(gameObject, _acidDamage, target.position - _shootPivot.position));
     }
 
-    Projectile_Rock auxDirt;
-    // Se llama por animacion
-    public void GrabDirt() 
+   
+    
+    public IEnumerator GrabDirt() 
     {
-        auxDirt = Instantiate(dirtBlock, _shootPivot.position, Quaternion.identity);
-        auxDirt.transform.parent = _shootPivot;
+        //grab
+        yield return new WaitForSeconds(_dirtGrabTime);
+        Projectile_Rock auxDirt = Instantiate(dirtBlock, _shootPivot.position, Quaternion.identity);
+        auxDirt.Iniitialize(gameObject, _dirtRadius);
+        auxDirt.transform.SetParent(_shootPivot);
 
-    }
-    public void ShootDirt()
-    {
-        if (auxDirt == null) return;
-       
+
+        //shoot
+        yield return new WaitForSeconds(_dirtShootTime);
+
         auxDirt.transform.parent = null;
-        
-       
-        // lanzar el proyectil que ya tiene en la boca
+        auxDirt.onExplosion += (col) =>
+        {
+            foreach (var x in col)
+            {
+                if (x.TryGetComponent(out IDamagable y))
+                {
+                    y.TakeDamage(_dirtDamage);
+                    Vector3 dir = x.transform.position - auxDirt.transform.position;
+                    y.AddKnockBack(dir.normalized * _dirtKnockback);
+                }
+            }
+        };
+        Vector3 dir = Player_Movement.position - _shootPivot.position;
+        auxDirt.LaunchProjectile(dir.normalized * _dirtLaunchForce);
+
     }
 
-
-    void SpawnHitBox()
+    public IEnumerator SpawnHitBox()
     {
-       hitbox.ActivateHitbox();
-    }
-
-    void DespawnHitBox()
-    {
+        _debug.Log("Spawneo la hitBox");
+        yield return new WaitForSeconds(_meleeStartTime);
+        hitbox.ActivateHitbox();
+        yield return new WaitForSeconds(_meleeEndTime);
         hitbox.DeactivateHitBox();
     }
 
-    public void AssignTarget(Transform newtarget) => target = newtarget != this ? newtarget : target;
+  
+
+    public void AssignTarget(Transform newtarget)
+    {
+        Debug.Log(newtarget);
+        target = newtarget != this ? newtarget : target;
+        Debug.Log("Asigno a "+target.ToString()+" como mi target");
+    }
 
     public void Destroy()
     {

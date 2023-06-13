@@ -50,7 +50,7 @@ public class Worm_State_Attack : Worm_State<EWormStates>
         : inDirtRange ? Worm_AttackState.GrabDirt
         : inAcidRange ? Worm_AttackState.ShootAcid
         : Worm_AttackState.Pursuit;
-
+       
         _attackFSM.ChangeState(key);
     }
 
@@ -70,6 +70,7 @@ public class Worm_State_Attack : Worm_State<EWormStates>
 
     public override void OnExit() 
     {
+     
         _attackFSM.AnulateStates();
         _worm.anim.SetBool("Attacking", false);
     } 

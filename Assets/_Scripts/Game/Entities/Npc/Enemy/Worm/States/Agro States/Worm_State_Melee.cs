@@ -13,14 +13,8 @@ public class Worm_State_Melee : Worm_State<Worm_AttackState>
     public override void OnEnter()
     {
         _worm.anim.SetTrigger("Melee");
-    }
+        _worm.StartCoroutine(_worm.SpawnHitBox());
 
-    public override void OnUpdate()
-    {        
-    }
-
-    public override void OnExit()
-    {
     }
 
     public override void GizmoShow()
