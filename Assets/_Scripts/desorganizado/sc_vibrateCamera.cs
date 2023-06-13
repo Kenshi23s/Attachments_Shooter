@@ -32,7 +32,7 @@ public class sc_vibrateCamera : MonoBehaviour
     {
 
         //probable que se rompa
-        transform.localPosition = Vector3.Lerp(transform.localPosition, point + origin, Mathf.Clamp(soft * Time.deltaTime));
+        transform.localPosition = Vector3.Lerp(transform.localPosition, point + origin, Mathf.Clamp(soft * Time.deltaTime,0f,1f));
 
         //Contar hasta cambiar el point
         Count += Time.deltaTime;
