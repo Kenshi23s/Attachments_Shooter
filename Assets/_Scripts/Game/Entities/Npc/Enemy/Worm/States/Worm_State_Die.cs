@@ -13,10 +13,18 @@ public class Worm_State_Die : Worm_State<EWormStates>
     public override void OnEnter()
     {
         _worm.anim.SetTrigger("Die");
-        IEnumerable<Collider> col = FList.Create(_worm.GetComponent<Collider>()) + _worm.GetComponentsInChildren<Collider>();
-        _worm.health.canTakeDamage = false;
-       
+        _worm.StartCoroutine(Coroutine());
     } 
+
+    IEnumerator Coroutine()
+    {
+        _worm.health.canTakeDamage = false;
+        IEnumerable<Collider> col = FList.Create(_worm.GetComponent<Collider>()) + _worm.GetComponentsInChildren<Collider>();
+        yield return null;
+        foreach (var item in col) item.enabled = false;
+
+
+    }
 
     public override void OnUpdate()
     {
