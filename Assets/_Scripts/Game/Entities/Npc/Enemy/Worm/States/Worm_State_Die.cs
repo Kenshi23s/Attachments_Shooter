@@ -22,8 +22,6 @@ public class Worm_State_Die : Worm_State<EWormStates>
         IEnumerable<Collider> col = FList.Create(_worm.GetComponent<Collider>()) + _worm.GetComponentsInChildren<Collider>();
         yield return null;
         foreach (var item in col) item.enabled = false;
-
-
     }
 
     public override void OnUpdate()
