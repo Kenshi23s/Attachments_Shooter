@@ -38,7 +38,12 @@ public class Worm_State_GrabDirt : Worm_State<Worm_AttackState>
     void Explosion()
     {
         IEnumerable<IDamagable> col = _worm.transform.position.GetItemsOFTypeAround<IDamagable>(dmgRadius).Where(x => x.GetType() != typeof(Enemy));
-        foreach (var item in col) item.TakeDamage(damage);
+        foreach (var item in col) 
+        { 
+            item.TakeDamage(damage);
+            Vector3 dir = item.Position() - _worm.transform.position;
+            item.AddKnockBack(dir * 10f);
+        }
     }
 
     public override void OnExit()

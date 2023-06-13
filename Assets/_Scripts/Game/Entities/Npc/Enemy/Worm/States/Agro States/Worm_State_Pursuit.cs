@@ -22,7 +22,7 @@ public class Worm_State_Pursuit : Worm_State<Worm_AttackState>
         bool inMeleeRange = _worm.AI_move.FOV.IN_FOV(Player_Movement.position, _worm.MeleeAttackRadius);
 
          Worm_AttackState key =
-          inMeleeRange ? Worm_AttackState.Melee
+           inMeleeRange ? Worm_AttackState.Melee
          : inDirtRange ? Worm_AttackState.GrabDirt
          : inAcidRange ? Worm_AttackState.ShootAcid
          : default;

@@ -13,10 +13,11 @@ public class Worm_State_Die : Worm_State<EWormStates>
     public override void OnEnter()
     {
         _worm.anim.SetTrigger("Die");
-
-        if (_worm.anim.isOptimizable)
+        IEnumerable<Collider> col = FList.Create(_worm.GetComponent<Collider>()) + _worm.GetComponentsInChildren<Collider>();
+        _worm.health.canTakeDamage= false;
+        foreach (var item in col)
         {
-            Debug.Log("andru no sabe riggear");
+            item.isTrigger = true;
         }
     } 
 
