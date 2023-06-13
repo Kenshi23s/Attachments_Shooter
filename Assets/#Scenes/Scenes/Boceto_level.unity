@@ -2066,6 +2066,22 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 8067779020548387651, guid: 1b351c6b4ebde93478196f52e8defa53, type: 3}
+      propertyPath: Attachment_stats._serializedList.Array.size
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 8067779020548387651, guid: 1b351c6b4ebde93478196f52e8defa53, type: 3}
+      propertyPath: Attachment_stats._serializedList.Array.data[1].Key
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8067779020548387651, guid: 1b351c6b4ebde93478196f52e8defa53, type: 3}
+      propertyPath: Attachment_stats._serializedList.Array.data[0].Value._value
+      value: 39
+      objectReference: {fileID: 0}
+    - target: {fileID: 8067779020548387651, guid: 1b351c6b4ebde93478196f52e8defa53, type: 3}
+      propertyPath: Attachment_stats._serializedList.Array.data[1].Value._value
+      value: 59
+      objectReference: {fileID: 0}
     - target: {fileID: 8067779020548387677, guid: 1b351c6b4ebde93478196f52e8defa53, type: 3}
       propertyPath: m_Name
       value: Laser 3
@@ -7433,6 +7449,22 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 1877431652}
     m_Modifications:
+    - target: {fileID: 37321876217687643, guid: 3323c54bade2a744e85360c3909c16fe, type: 3}
+      propertyPath: Attachment_stats._serializedList.Array.size
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 37321876217687643, guid: 3323c54bade2a744e85360c3909c16fe, type: 3}
+      propertyPath: Attachment_stats._serializedList.Array.data[0].Key
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 37321876217687643, guid: 3323c54bade2a744e85360c3909c16fe, type: 3}
+      propertyPath: Attachment_stats._serializedList.Array.data[0].Value._value
+      value: 38
+      objectReference: {fileID: 0}
+    - target: {fileID: 37321876217687643, guid: 3323c54bade2a744e85360c3909c16fe, type: 3}
+      propertyPath: Attachment_stats._serializedList.Array.data[1].Value._value
+      value: -39
+      objectReference: {fileID: 0}
     - target: {fileID: 2052278849705528592, guid: 3323c54bade2a744e85360c3909c16fe, type: 3}
       propertyPath: m_Name
       value: Laser 2
@@ -14180,6 +14212,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: wormEnemy
       objectReference: {fileID: 0}
+    - target: {fileID: 1166351612932050623, guid: 9922ef841aaee2f45a0b5bedd4b0a70d, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 1973814894628475909, guid: 9922ef841aaee2f45a0b5bedd4b0a70d, type: 3}
       propertyPath: m_RootOrder
       value: 3
@@ -20690,7 +20726,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1245236327}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 1.070013, y: 22.21, z: 132.2}
+  m_LocalPosition: {x: 1.070013, y: 18.68, z: 132.2}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -31629,6 +31665,38 @@ PrefabInstance:
     - target: {fileID: 7993079114820009348, guid: c9c137274b6e03044916e36493135ced, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7993079114820009349, guid: c9c137274b6e03044916e36493135ced, type: 3}
+      propertyPath: Attachment_stats._serializedList.Array.size
+      value: 4
+      objectReference: {fileID: 0}
+    - target: {fileID: 7993079114820009349, guid: c9c137274b6e03044916e36493135ced, type: 3}
+      propertyPath: Attachment_stats._serializedList.Array.data[1].Key
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 7993079114820009349, guid: c9c137274b6e03044916e36493135ced, type: 3}
+      propertyPath: Attachment_stats._serializedList.Array.data[2].Key
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 7993079114820009349, guid: c9c137274b6e03044916e36493135ced, type: 3}
+      propertyPath: Attachment_stats._serializedList.Array.data[3].Key
+      value: 4
+      objectReference: {fileID: 0}
+    - target: {fileID: 7993079114820009349, guid: c9c137274b6e03044916e36493135ced, type: 3}
+      propertyPath: Attachment_stats._serializedList.Array.data[0].Value._value
+      value: 100
+      objectReference: {fileID: 0}
+    - target: {fileID: 7993079114820009349, guid: c9c137274b6e03044916e36493135ced, type: 3}
+      propertyPath: Attachment_stats._serializedList.Array.data[1].Value._value
+      value: -1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7993079114820009349, guid: c9c137274b6e03044916e36493135ced, type: 3}
+      propertyPath: Attachment_stats._serializedList.Array.data[2].Value._value
+      value: 46
+      objectReference: {fileID: 0}
+    - target: {fileID: 7993079114820009349, guid: c9c137274b6e03044916e36493135ced, type: 3}
+      propertyPath: Attachment_stats._serializedList.Array.data[3].Value._value
+      value: -51
       objectReference: {fileID: 0}
     - target: {fileID: 7993079114820009351, guid: c9c137274b6e03044916e36493135ced, type: 3}
       propertyPath: m_Name
