@@ -4455,6 +4455,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c3d32a7f4a5e01c459b2fe1c272c978b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  vibrate: {fileID: 392123936}
 --- !u!114 &8568796443268590854
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -4647,6 +4648,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   myGuns: []
   _actualGun: {fileID: 4105379968965890215}
+  hitmarker: {fileID: 0}
 --- !u!1 &8568796444031059858
 GameObject:
   m_ObjectHideFlags: 0
@@ -4723,6 +4725,7 @@ GameObject:
   - component: {fileID: 8568796444215729709}
   - component: {fileID: 8568796444215729708}
   - component: {fileID: 4777580876267569269}
+  - component: {fileID: 392123936}
   m_Layer: 8
   m_Name: CameraShake
   m_TagString: Untagged
@@ -4784,6 +4787,23 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4c397f19295381e47bdd3801f1c64751, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &392123936
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8568796444215729698}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a44f03f86505f7d4ead0aab727b5dc9d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  frequency: 0.01
+  intensity: 3
+  magnitud: 0.765
+  stability: 26.4
+  soft: 3.31
 --- !u!1 &8706886172884868932
 GameObject:
   m_ObjectHideFlags: 0
