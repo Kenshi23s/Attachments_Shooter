@@ -145,7 +145,7 @@ public static class Pathfinding_Algorithm
 
     }
 
-    public static List<Vector3> CalculateAStar(Tuple<Node,Node> nodes)
+    public static List<Node> CalculateAStar(Tuple<Node,Node> nodes)
     {
         //el vecino del nodo
 
@@ -166,17 +166,17 @@ public static class Pathfinding_Algorithm
 
             if (current == nodes.Item2)
             {
-                List<Vector3> path = new List<Vector3>();
-                path.Add(nodes.Item1.transform.position);
+                List<Node> path = new List<Node>();
+                path.Add(nodes.Item1);
 
                 while (current != nodes.Item1)
                 {
-                    path.Add(current.transform.position);
+                    path.Add(current);
                     current = cameFrom[current];
                 }
 
                
-                path.Add(nodes.Item2.transform.position);
+                path.Add(nodes.Item2);
               
                 return path;
             }
@@ -204,25 +204,43 @@ public static class Pathfinding_Algorithm
             }
         }
 
-        return new List<Vector3>();
+        return new List<Node>();
     }
 
     public static List<Vector3> CalculateThetaStar(this Tuple<Node, Node> nodes, LayerMask wallMask,Vector3 endpos=default)
     {
-        List<Vector3> _pathList = CalculateAStar(nodes);
+        List<Node> pathList = CalculateAStar(nodes);
 
-        if (endpos != Vector3.zero) _pathList.Add(endpos);
+        //if (endpos != Vector3.zero) _pathList.Add(endpos);
         
         int current = 0;
 
-        while (current + 2 < _pathList.Count)
+        while (current + 2 < pathList.Count)
         {      
-            if (InLineOffSight(_pathList[current], _pathList[current + 2], wallMask))
-                _pathList.RemoveAt(current + 1);                              
+            if (InLineOffSight(pathList[current].transform.position, pathList[current + 2].transform.position, wallMask))
+                pathList.RemoveAt(current + 1);                              
             else
                 current++;
-        }       
-        return _pathList;
+        }
+
+        // Conseguir las posiciones en el piso
+        List<Vector3> groundedPositions = pathList.Select(node => node.groundPosition).ToList();
+
+        if (endpos != Vector3.zero)
+            return groundedPositions;
+
+        // Si la posicion final se puede pegar al piso, hacerle theta star agregarla
+
+        if (Physics.Raycast(endpos, Vector3.down, out RaycastHit hitInfo, 5f, wallMask))
+        {
+            if (pathList.Count > 1)
+                if (InLineOffSight(pathList[pathList.Count - 2].transform.position, endpos, wallMask))
+                    pathList.RemoveAt(pathList.Count - 1);
+
+            groundedPositions.Add(hitInfo.point);
+        }
+
+        return groundedPositions;
     }
 
     public static bool InLineOffSight(Vector3 InitialPos, Vector3 finalPos, LayerMask maskWall)

@@ -12,6 +12,7 @@ public class Node : MonoBehaviour
     public List<Node> Neighbors = new List<Node>();
     [SerializeField] public int cost = 0;
 
+    public Vector3 groundPosition;
 
     public void AddCost(int value) =>  cost += value * 1; 
     public void SubstractCost(int value) => cost = Mathf.Clamp(cost-(value * 1),0,int.MaxValue); 
@@ -19,6 +20,11 @@ public class Node : MonoBehaviour
    
     public void IntializeNode()
     {
+        if (Physics.Raycast(transform.position, Vector3.down, out RaycastHit hitInfo, 5f, IA_Manager.instance.wall_Mask))
+            groundPosition = hitInfo.point;
+        else
+            groundPosition = transform.position;
+        
    
         LayerMask wallMask = IA_Manager.instance.wall_Mask;
 
@@ -43,10 +49,6 @@ public class Node : MonoBehaviour
          Gizmos.color = Color.blue;
          Gizmos.DrawLine(node.transform.position, transform.position);       
        }
-            
-          
-        
-           
         //Gizmos.DrawWireSphere(transform.position, AgentsManager.instance.nodeInteractradius);
     }
   
