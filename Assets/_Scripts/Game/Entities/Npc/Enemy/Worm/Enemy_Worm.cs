@@ -1,3 +1,4 @@
+using AYellowpaper.SerializedCollections;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -27,7 +28,8 @@ public class Enemy_Worm : Enemy
     [NonSerialized] public Animator anim;
     public StateMachine<EWormStates> fsm;
 
-
+    [SerializedDictionary]
+    public SerializedDictionary<EWormStates, float> tailSpeedMultiplier = new SerializedDictionary<EWormStates, float>();
 
     #region Sight Settings
     [Header("Sight Settings")]
