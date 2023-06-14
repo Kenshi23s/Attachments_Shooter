@@ -29,7 +29,7 @@ public class E_ExplosiveDog : Enemy
 
     [Header("Explosion")]
     [SerializeField]int _explosionDamage;
-    [SerializeField]float _explosionRadius;
+    [SerializeField]float _explosionRadius,triggerRadius;
 
     public override void ArtificialAwake()
     {
@@ -48,7 +48,7 @@ public class E_ExplosiveDog : Enemy
 
         _fsm.CreateState(EDogStates.IDLE, new EDogState_Idle(agent, _fsm, health));
         _fsm.CreateState(EDogStates.PURSUIT, new EDogState_Pursuit(_fsm,agent, pursuitMaxSpeed, minJumpDistance));
-        _fsm.CreateState(EDogStates.JUMP_ATTACK, new EDogState_JumpAttack(Explosion, agent.Movement, unitsAbovePlayer, _fsm));
+        _fsm.CreateState(EDogStates.JUMP_ATTACK, new EDogState_JumpAttack(triggerRadius, Explosion, agent.Movement, unitsAbovePlayer, _fsm));
         _fsm.ChangeState(EDogStates.IDLE);
     }
 

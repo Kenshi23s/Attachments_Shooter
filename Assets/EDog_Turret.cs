@@ -6,7 +6,7 @@ using FacundoColomboMethods;
 public class EDog_Turret : MonoBehaviour
 {
     [SerializeField]E_ExplosiveDog owner;
-    [SerializeField]Transform shootPos;
+
 
     [SerializeField]float rateOfFire, triggerDistance;
     [SerializeField]int ammo;
@@ -44,16 +44,16 @@ public class EDog_Turret : MonoBehaviour
 
     private void Update()
     {
-        Vector3 dir = Player_Movement.position -transform.position;
-        transform.forward = new Vector3(dir.x,0,dir.z);
+        //Vector3 dir = Player_Movement.position -transform.position;
+        //transform.forward = new Vector3(dir.x,0,dir.z);
     }
 
     void Shoot()
     {
         
-        Vector3 dir = shootPos.forward.RandomDirFrom(45f);
+        Vector3 dir = transform.forward.RandomDirFrom(45f);
         Vector3 impactPos = Vector3.zero;
-        if (Physics.Raycast(shootPos.position, dir, out RaycastHit hit))
+        if (Physics.Raycast(transform.position, dir, out RaycastHit hit))
         {
             impactPos = hit.point;
             if (hit.transform.TryGetComponent(out IDamagable x))           
@@ -67,7 +67,7 @@ public class EDog_Turret : MonoBehaviour
         else       
             impactPos = dir * 100;
         
-        var aux = Instantiate(trail, shootPos.position, Quaternion.identity);
+        var aux = Instantiate(trail, transform.position, Quaternion.identity);
         StartCoroutine(SpawnTrail(aux, impactPos));
 
 
