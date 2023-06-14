@@ -69,16 +69,18 @@ public class Enemy_Worm : Enemy
     #region Dirt
     [Header("Dirt")]
 
-    [SerializeField, Min(0)] int _dirtDamage=20;
-    [SerializeField, Min(0)] float _dirtKnockback=30f;
+    [SerializeField, Min(0)] int _dirtDamage = 20;
+    [SerializeField, Min(0)] float _dirtKnockback = 30f;
     [SerializeField, Min(0)] float _dirtCooldown;
-    [SerializeField, Min(0)] float _dirtRadius=10f;
+    [SerializeField, Min(0)] float _dirtRadius = 10f;
     [SerializeField, Min(0)] float _dirtGrabTime;
     [SerializeField, Min(0)] float _dirtShootTime;
     [SerializeField, Min(0)] float _dirtLaunchForce;
     #endregion
 
     #endregion
+
+    public float DefenseKnockback = 10f;
 
     #region Stun Settings
     [Header("Stun Settings")]
@@ -119,32 +121,34 @@ public class Enemy_Worm : Enemy
     Transform _shootPivot;
 
     [SerializeField]
-    Transform hitboxPos;
+    Transform _hitboxPos;
     
     [SerializeField,Header("Samples")]
-    Projectile_Acid sampleAcid;
+    Projectile_Acid _sampleAcid;
 
     [SerializeField]
-    Projectile_Rock dirtBlock;
+    Projectile_Rock _prefabDirt;
+    Projectile_Rock _dirtProjectile;
 
-   
     [SerializeField]
-    HitBox hitbox;
+    HitBox _meleeHitbox;
 
     public Transform target;
 
-    public event Action
-        OnGrabDirtAnimationFinished = delegate { },
-        OnShootDirtAnimationFinished = delegate { },
-        OnShootAcidAnimationFinished = delegate { },
-        OnMeleeAnimationFinished = delegate { };
+    public Dictionary<string, float> AnimationLengths = new Dictionary<string, float>();
 
     public override void ArtificialAwake()
     {
         AI_move = GetComponent<AI_Movement>();
         anim = GetComponent<Animator>();
 
-       
+        AnimationClip[] clips = anim.runtimeAnimatorController.animationClips;
+
+        foreach (AnimationClip clip in clips)
+        {
+            AnimationLengths.Add(clip.name, clip.length);
+            Debug.Log("ANIMATION NAME: " + clip.name + " - ANIMATION LENGTH: " + clip.length);
+        }
 
         #region Initialize FSM
 
@@ -170,9 +174,9 @@ public class Enemy_Worm : Enemy
     private void Start()
     {
         #region CreateHitbox       
-        hitbox.SetOwner(gameObject);
-        hitbox.DeactivateHitBox();
-        hitbox.EnemyHit += (x) =>
+        _meleeHitbox.SetOwner(gameObject);
+        _meleeHitbox.DeactivateHitBox();
+        _meleeHitbox.EnemyHit += (x) =>
         {
             _debug.Log("le pegue con el melee");
             x.TakeDamage(_meleeDamage);
@@ -201,52 +205,50 @@ public class Enemy_Worm : Enemy
     // Se llama por animacion
     public void ShootAcid()
     {
-        var x = Instantiate(sampleAcid, _shootPivot.position, Quaternion.identity);
+        var x = Instantiate(_sampleAcid, _shootPivot.position, Quaternion.identity);
         x.Initialize(Tuple.Create(gameObject, _acidDamage, target.position - _shootPivot.position));
     }
-
-   
     
     public IEnumerator GrabDirt() 
     {
         //grab
         yield return new WaitForSeconds(_dirtGrabTime);
-        Projectile_Rock auxDirt = Instantiate(dirtBlock, _shootPivot.position, Quaternion.identity);
-        auxDirt.Iniitialize(gameObject, _dirtRadius);
-        auxDirt.transform.SetParent(_shootPivot);
+        _dirtProjectile = Instantiate(_prefabDirt, _shootPivot.position, Quaternion.identity);
+        _dirtProjectile.Iniitialize(gameObject, _dirtRadius);
+        _dirtProjectile.transform.SetParent(_shootPivot);
+    }
 
-
+    public IEnumerator ShootDirt() 
+    {
         //shoot
         yield return new WaitForSeconds(_dirtShootTime);
 
-        auxDirt.transform.parent = null;
-        auxDirt.onExplosion += (col) =>
+        _dirtProjectile.transform.parent = null;
+        _dirtProjectile.onExplosion += (col) =>
         {
             foreach (var x in col)
             {
                 if (x.TryGetComponent(out IDamagable y))
                 {
                     y.TakeDamage(_dirtDamage);
-                    Vector3 dir = x.transform.position - auxDirt.transform.position;
+                    Vector3 dir = x.transform.position - _dirtProjectile.transform.position;
                     y.AddKnockBack(dir.normalized * _dirtKnockback);
                 }
             }
         };
-        Vector3 dir = Player_Movement.position - _shootPivot.position;
-        auxDirt.LaunchProjectile(dir.normalized * _dirtLaunchForce);
 
+        Vector3 dir = Player_Movement.position - _shootPivot.position;
+        _dirtProjectile.LaunchProjectile(dir.normalized * _dirtLaunchForce);
     }
 
-    public IEnumerator SpawnHitBox()
+    public IEnumerator SpawnMeleeHitbox()
     {
         _debug.Log("Spawneo la hitBox");
         yield return new WaitForSeconds(_meleeStartTime);
-        hitbox.ActivateHitbox();
+        _meleeHitbox.ActivateHitbox();
         yield return new WaitForSeconds(_meleeEndTime);
-        hitbox.DeactivateHitBox();
+        _meleeHitbox.DeactivateHitBox();
     }
-
-  
 
     public void AssignTarget(Transform newtarget)
     {
@@ -275,11 +277,5 @@ public class Enemy_Worm : Enemy
         Gizmos.color = Color.magenta;
         Gizmos.DrawWireSphere(transform.position, ShootDirtRadius);
     }
-
-    public void GrabDirtAnimationFinished() => OnGrabDirtAnimationFinished();
-    public void ShootDirtAnimationFinished() => OnShootDirtAnimationFinished();
-    public void ShootAcidAnimationFinished() => OnShootAcidAnimationFinished();
-    public void MeleeAnimationFinished() => OnMeleeAnimationFinished();
-
 }
 

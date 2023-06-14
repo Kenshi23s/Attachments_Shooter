@@ -1,36 +1,5 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
---- !u!1 &83859619
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 83859620}
-  m_Layer: 0
-  m_Name: GameObject
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &83859620
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 83859619}
-  m_LocalRotation: {x: 0.20022298, y: 0, z: 0, w: 0.9797504}
-  m_LocalPosition: {x: -0, y: 2.656, z: 1.6930069}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 1973814894628475909}
-  m_RootOrder: 1
-  m_LocalEulerAnglesHint: {x: 23.1, y: 0, z: 0}
 --- !u!1 &593282817
 GameObject:
   m_ObjectHideFlags: 0
@@ -360,7 +329,6 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 4240136199596259122}
-  - {fileID: 83859620}
   - {fileID: 3073285955520178851}
   m_Father: {fileID: 0}
   m_RootOrder: 0
@@ -498,11 +466,18 @@ MonoBehaviour:
   _meleeDamage: 20
   _meleeKnockback: 3
   _meleeCooldown: 1.5
+  _meleeStartTime: 0.4
+  _meleeEndTime: 0.4
   _acidDamage: 2
   _acidCooldown: 4
-  _dirtDamage: 2
-  _dirtKnockback: 2
+  _dirtDamage: 20
+  _dirtKnockback: 10
   _dirtCooldown: 2
+  _dirtRadius: 10
+  _dirtGrabTime: 0.5
+  _dirtShootTime: 0.1
+  _dirtLaunchForce: 40
+  DefenseKnockback: 10
   _dmgNeeded4stun: 2
   StunTime: 2
   FlankDistance: 5
@@ -510,10 +485,10 @@ MonoBehaviour:
   _pursuitSpeed: 4
   _searchSpeed: 3
   _shootPivot: {fileID: 873459525}
-  hitboxPos: {fileID: 1528881536}
-  sampleAcid: {fileID: 0}
-  dirtBlock: {fileID: 0}
-  hitbox: {fileID: 5265065097224190554, guid: 6321f27f340f8a54cacfe9b94e7c417c, type: 3}
+  _hitboxPos: {fileID: 1528881536}
+  _sampleAcid: {fileID: 631853073743861168, guid: 812695c194149f04cbe5e7bb7e1649e2, type: 3}
+  _prefabDirt: {fileID: 4753759379389838396, guid: c9bdaa3634d4fb248bbff58e5776a691, type: 3}
+  _meleeHitbox: {fileID: 5265065097223801330}
   target: {fileID: 0}
 --- !u!95 &2040917920711900312
 Animator:
@@ -992,7 +967,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 1973814894628475909}
-  m_RootOrder: 2
+  m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!136 &7314727085068032787
 CapsuleCollider:
@@ -1187,6 +1162,17 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 6321f27f340f8a54cacfe9b94e7c417c, type: 3}
+--- !u!114 &5265065097223801330 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 5265065097224190554, guid: 6321f27f340f8a54cacfe9b94e7c417c, type: 3}
+  m_PrefabInstance: {fileID: 1045416}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2ad225fd568ae7d4790abb2eb9712ade, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!4 &5265065097223801333 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 5265065097224190557, guid: 6321f27f340f8a54cacfe9b94e7c417c, type: 3}

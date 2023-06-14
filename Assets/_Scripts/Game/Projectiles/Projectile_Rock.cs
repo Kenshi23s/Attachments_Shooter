@@ -30,6 +30,7 @@ public class Projectile_Rock : MonoBehaviour,IDamagable
 
     public void LaunchProjectile(Vector3 force)
     {
+        _rb.useGravity = true;
         _rb.AddForce(force,ForceMode.Impulse);
         transform.forward = force.normalized;
     }
