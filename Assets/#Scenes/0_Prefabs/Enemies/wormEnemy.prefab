@@ -308,7 +308,6 @@ GameObject:
   - component: {fileID: 1017622550}
   - component: {fileID: 1017622549}
   - component: {fileID: 1017622548}
-  - component: {fileID: 2040917920711900312}
   m_Layer: 0
   m_Name: wormEnemy
   m_TagString: Untagged
@@ -418,7 +417,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8acd364f316a31a499706c4da6c3dad3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  DestinationArriveDistance: 2
+  DestinationArriveDistance: 1
   NodeArriveDistance: 1
   WhatIsGround:
     serializedVersion: 2
@@ -456,18 +455,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1f13e8ae7c8efb14a92d78a008ecb0fc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  tailSpeedMultiplier:
-    _serializedList:
-    - Key: 0
-      Value: 0
-    - Key: 1
-      Value: 0
-    - Key: 2
-      Value: 0
-    - Key: 3
-      Value: 0
-    - Key: 4
-      Value: 0
   SightRadius: 40
   LoseSightRadius: 50
   MeleeAttackRadius: 7
@@ -475,13 +462,17 @@ MonoBehaviour:
   ShootDirtRadius: 35
   _acidAttackFrequency: 1
   _dirtAttackFrequency: 1
+  _meleeHitbox: {fileID: 5265065097223801330}
   _meleeDamage: 20
   _meleeKnockback: 3
   _meleeCooldown: 1.5
   _meleeStartTime: 0.4
   _meleeEndTime: 0.4
+  _prefabAcid: {fileID: 631853073743861168, guid: 812695c194149f04cbe5e7bb7e1649e2, type: 3}
+  _acidShootTime: 0.25
   _acidDamage: 2
   _acidCooldown: 4
+  _prefabDirt: {fileID: 4753759379389838396, guid: c9bdaa3634d4fb248bbff58e5776a691, type: 3}
   _dirtDamage: 20
   _dirtKnockback: 10
   _dirtCooldown: 2
@@ -498,30 +489,7 @@ MonoBehaviour:
   _searchSpeed: 3
   _shootPivot: {fileID: 873459525}
   _hitboxPos: {fileID: 1528881536}
-  _sampleAcid: {fileID: 631853073743861168, guid: 812695c194149f04cbe5e7bb7e1649e2, type: 3}
-  _prefabDirt: {fileID: 4753759379389838396, guid: c9bdaa3634d4fb248bbff58e5776a691, type: 3}
-  _meleeHitbox: {fileID: 5265065097223801330}
   target: {fileID: 0}
---- !u!95 &2040917920711900312
-Animator:
-  serializedVersion: 4
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1166351612932050623}
-  m_Enabled: 1
-  m_Avatar: {fileID: 9000000, guid: ed10319fcb7b7dc49a23b151a3bd682d, type: 3}
-  m_Controller: {fileID: 9100000, guid: f9ba473b9b2d606489c5242fd9a64e38, type: 2}
-  m_CullingMode: 0
-  m_UpdateMode: 0
-  m_ApplyRootMotion: 0
-  m_LinearVelocityBlending: 0
-  m_StabilizeFeet: 0
-  m_WarningMessage: 
-  m_HasTransformHierarchy: 1
-  m_AllowConstantClipSamplingOptimization: 1
-  m_KeepAnimatorControllerStateOnDisable: 0
 --- !u!1 &1697618494527445096
 GameObject:
   m_ObjectHideFlags: 0
@@ -1653,8 +1621,7 @@ PrefabInstance:
       propertyPath: m_LocalRotation.z
       value: 0.003920956
       objectReference: {fileID: 0}
-    m_RemovedComponents:
-    - {fileID: 5866666021909216657, guid: ed10319fcb7b7dc49a23b151a3bd682d, type: 3}
+    m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: ed10319fcb7b7dc49a23b151a3bd682d, type: 3}
 --- !u!4 &982619033168474779 stripped
 Transform:
@@ -1687,10 +1654,15 @@ MonoBehaviour:
   - {fileID: 7358492075378909926}
   - {fileID: 2555168298109812684}
   - {fileID: 982619033168474779}
-  frequency: 1.8
-  maxAngle: 20
-  phase: 0
-  speed: 5
+  _frequency: 1.8
+  _maxAngle: 20
+  _phase: 0
+  _speed: 5
+  SpeedMultiplier: 1
+  _sidewaysMovement: 1
+  _verticalMovement: 0
+  _preview: 0
+  wormTailSO: {fileID: 11400000, guid: cfad6fb23406e134ebd1d22b23d6b0d4, type: 2}
 --- !u!4 &2084864740511070890 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 2428470967688686195, guid: ed10319fcb7b7dc49a23b151a3bd682d, type: 3}

@@ -14,6 +14,7 @@ public class Worm_State_Grab_Dirt : Worm_State<Worm_AttackState>
     public Worm_State_Grab_Dirt(Enemy_Worm worm) : base(worm)
     {
         _animationDuration = _worm.AnimationLengths["GrabDirt"];
+        
     }
 
 
@@ -23,6 +24,8 @@ public class Worm_State_Grab_Dirt : Worm_State<Worm_AttackState>
 
     public override void OnEnter()
     {
+        _worm.OnStun += _worm.CancelGrabDirt;
+
         _timeSinceEnter = 0;
 
         dmgCount = 0;
@@ -44,11 +47,12 @@ public class Worm_State_Grab_Dirt : Worm_State<Worm_AttackState>
             return;
         }
 
-        _worm.transform.forward = (Player_Movement.position -_worm.transform.position).normalized;        
+        _worm.transform.forward = (Player_Movement.position - _worm.transform.position).normalized;
     }
 
     public override void OnExit()
     {
+        _worm.OnStun -= _worm.CancelGrabDirt;
         _worm.health.OnTakeDamage -= AddCount;
         _worm.health.dmgResist = auxDmgResist;
     }

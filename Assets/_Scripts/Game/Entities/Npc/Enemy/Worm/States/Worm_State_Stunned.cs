@@ -17,7 +17,6 @@ public class Worm_State_Stunned : Worm_State<EWormStates>
     {
         // Reiniciar timer de tiempo
         _stunTimeCount = 0;
-
         // Llamar a la animacion de stun
         _worm.anim.SetTrigger("Stun");
     }

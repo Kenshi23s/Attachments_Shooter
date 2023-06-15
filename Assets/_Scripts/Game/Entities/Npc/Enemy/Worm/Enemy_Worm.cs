@@ -28,8 +28,9 @@ public class Enemy_Worm : Enemy
     [NonSerialized] public Animator anim;
     public StateMachine<EWormStates> fsm;
 
-    [SerializedDictionary]
-    public SerializedDictionary<EWormStates, float> tailSpeedMultiplier = new SerializedDictionary<EWormStates, float>();
+    // Esto al final no seria necesario
+    //[SerializedDictionary]
+    //public SerializedDictionary<EWormStates, float> tailSpeedMultiplier = new SerializedDictionary<EWormStates, float>();
 
     #region Sight Settings
     [Header("Sight Settings")]
@@ -53,23 +54,31 @@ public class Enemy_Worm : Enemy
 
     #region Melee
     [Header("Melee")]
-
+    [SerializeField] HitBox _meleeHitbox;
     [SerializeField, Min(0)] int _meleeDamage;
     [SerializeField, Min(0)] float _meleeKnockback;
     [SerializeField, Min(0)] float _meleeCooldown;
-    [SerializeField, Min(0)] float _meleeStartTime=0.4f;
-    [SerializeField, Min(0)] float _meleeEndTime=0.4f;
+    [SerializeField, Min(0)] float _meleeStartTime = 0.4f;
+    [SerializeField, Min(0)] float _meleeEndTime = 0.4f;
     #endregion
 
     #region Acid 
     [Header("Acid")]
 
+    [SerializeField] Projectile_Acid _prefabAcid;
+    Projectile_Acid _acidProjectile;
+
+    [SerializeField, Min(0)] float _acidShootTime;
     [SerializeField, Min(0)] int _acidDamage;
     [SerializeField, Min(0)] float _acidCooldown;
     #endregion
 
     #region Dirt
     [Header("Dirt")]
+
+
+    [SerializeField] Projectile_Rock _prefabDirt;
+    Projectile_Rock _dirtProjectile;
 
     [SerializeField, Min(0)] int _dirtDamage = 20;
     [SerializeField, Min(0)] float _dirtKnockback = 30f;
@@ -95,10 +104,16 @@ public class Enemy_Worm : Enemy
 
     public float StunTime;
 
-    void AddStunCharge(int dmgTaken) => _stunDmgCount += dmgTaken;
+    void AddStunCharge(int dmgTaken) {
+        _stunDmgCount += dmgTaken;
+
+        if (CanBeStunned)
+            StunWorm();
+    }
 
     public void StunWorm()
     {
+        OnStun?.Invoke();
         _stunDmgCount = 0;
         fsm.ChangeState(EWormStates.Stunned);
     }
@@ -125,15 +140,7 @@ public class Enemy_Worm : Enemy
     [SerializeField]
     Transform _hitboxPos;
     
-    [SerializeField,Header("Samples")]
-    Projectile_Acid _sampleAcid;
-
-    [SerializeField]
-    Projectile_Rock _prefabDirt;
-    Projectile_Rock _dirtProjectile;
-
-    [SerializeField]
-    HitBox _meleeHitbox;
+    public event Action OnStun;
 
     public Transform target;
 
@@ -142,18 +149,16 @@ public class Enemy_Worm : Enemy
     public override void ArtificialAwake()
     {
         AI_move = GetComponent<AI_Movement>();
-        anim = GetComponent<Animator>();
+        anim = GetComponentInChildren<Animator>();
 
         AnimationClip[] clips = anim.runtimeAnimatorController.animationClips;
 
         foreach (AnimationClip clip in clips)
         {
             AnimationLengths.Add(clip.name, clip.length);
-            Debug.Log("ANIMATION NAME: " + clip.name + " - ANIMATION LENGTH: " + clip.length);
         }
 
         #region Initialize FSM
-
 
         fsm = new StateMachine<EWormStates>();
         fsm.Initialize(_debug); 
@@ -205,12 +210,25 @@ public class Enemy_Worm : Enemy
     }
 
     // Se llama por animacion
-    public void ShootAcid()
+    public IEnumerator ShootAcid()
     {
-        var x = Instantiate(_sampleAcid, _shootPivot.position, Quaternion.identity);
+        yield return new WaitForSeconds(_acidShootTime);
+        var x = Instantiate(_prefabAcid, _shootPivot.position, Quaternion.identity);
         x.Initialize(Tuple.Create(gameObject, _acidDamage, target.position - _shootPivot.position));
     }
     
+    public void CancelShootAcid()
+    {
+        StopCoroutine(ShootAcid());
+
+        if (_acidProjectile != null)
+        {
+            // NOTA: Mas adelante esto regresaria a una pool
+            Destroy(_acidProjectile);
+            _acidProjectile = null;
+        }
+    }
+
     public IEnumerator GrabDirt() 
     {
         //grab
@@ -218,6 +236,18 @@ public class Enemy_Worm : Enemy
         _dirtProjectile = Instantiate(_prefabDirt, _shootPivot.position, Quaternion.identity);
         _dirtProjectile.Iniitialize(gameObject, _dirtRadius);
         _dirtProjectile.transform.SetParent(_shootPivot);
+    }
+
+    public void CancelGrabDirt() 
+    {
+        StopCoroutine(GrabDirt());
+        
+        if (_dirtProjectile != null)
+        {
+            // NOTA: Mas adelante esto regresaria a una pool
+            Destroy(_dirtProjectile);
+            _dirtProjectile = null;
+        }
     }
 
     public IEnumerator ShootDirt() 
@@ -241,6 +271,19 @@ public class Enemy_Worm : Enemy
 
         Vector3 dir = Player_Movement.position - _shootPivot.position;
         _dirtProjectile.LaunchProjectile(dir.normalized * _dirtLaunchForce);
+        _dirtProjectile = null;
+    }
+
+    public void CancelShootDirt() 
+    {
+        StopCoroutine(ShootDirt());
+
+        if (_dirtProjectile != null)
+        {
+            // NOTA: Mas adelante esto regresaria a una pool
+            Destroy(_dirtProjectile);
+            _dirtProjectile = null;
+        }
     }
 
     public IEnumerator SpawnMeleeHitbox()
@@ -249,6 +292,12 @@ public class Enemy_Worm : Enemy
         yield return new WaitForSeconds(_meleeStartTime);
         _meleeHitbox.ActivateHitbox();
         yield return new WaitForSeconds(_meleeEndTime);
+        _meleeHitbox.DeactivateHitBox();
+    }
+
+    public void CancelMelee() 
+    {
+        StopCoroutine(SpawnMeleeHitbox());
         _meleeHitbox.DeactivateHitBox();
     }
 
