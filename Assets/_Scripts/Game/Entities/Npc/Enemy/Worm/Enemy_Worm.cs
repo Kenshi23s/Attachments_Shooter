@@ -255,15 +255,16 @@ public class Enemy_Worm : Enemy
         //shoot
         yield return new WaitForSeconds(_dirtShootTime);
 
-        _dirtProjectile.transform.parent = null;
-        _dirtProjectile.onExplosion += (col) =>
+        Projectile_Rock aux = _dirtProjectile;
+        aux.transform.parent = null;
+        aux.onExplosion += (col) =>
         {
             foreach (var x in col)
             {
                 if (x.TryGetComponent(out IDamagable y))
                 {
                     y.TakeDamage(_dirtDamage);
-                    Vector3 dir = x.transform.position - _dirtProjectile.transform.position;
+                    Vector3 dir = x.transform.position - aux.transform.position;
                     y.AddKnockBack(dir.normalized * _dirtKnockback);
                 }
             }

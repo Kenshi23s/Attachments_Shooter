@@ -28,7 +28,7 @@ public class Node : MonoBehaviour
    
         LayerMask wallMask = IA_Manager.instance.wall_Mask;
 
-        Neighbors = IA_Manager.instance.nodes.GetWhichAreOnSight(transform.position, wallMask, RaycastType.Sphere, 2f)
+        Neighbors = IA_Manager.instance.nodes.GetWhichAreOnSight(transform.position, wallMask, RaycastType.Sphere, 1f)
                     .Where(x=> x!=this).ToList();
 
         GetComponent<DebugableObject>().AddGizmoAction(NodeGizmo);
