@@ -68,20 +68,27 @@ public class AI_Movement : MonoBehaviour
     /// Se mueve hasta esa ubicacion usando Theta* (aplicando flocking y obstacle avoidance)
     /// Si la ubicacion esta a la vista no calcula el camino y va directo
     /// </summary>
-    /// <param name="target"></param>
-    public void SetDestination(Vector3 target)
+    /// <param name="destination"></param>
+    public void SetDestination(Vector3 destination)
     {
-        if (_waypoints.Any() && target != _destination) OnDestinationChanged?.Invoke();
+        if (_waypoints.Any() && destination != _destination) OnDestinationChanged?.Invoke();
 
-        _destination = target;        
+        _destination = destination;        
 
-        if (transform.position.InLineOffSight(target,IA_Manager.instance.wall_Mask))
+        if (transform.position.InLineOffSight(destination,IA_Manager.instance.wall_Mask))
         {
+            // Conseguir la posicion en el piso
+            if (Physics.Raycast(destination, Vector3.down, out RaycastHit hitInfo, 10f, IA_Manager.instance.wall_Mask))
+            {
+                destination = hitInfo.point;
+                _destination = destination;
+            }
+
             _fixedUpdate = () => 
             {
                 _debug.Log("Veo el destino, voy directo.");
-                MoveTowards(target);
-                if (Vector3.Distance(target, transform.position) < DestinationArriveDistance) { 
+                MoveTowards(destination);
+                if (Vector3.Distance(destination, transform.position) < DestinationArriveDistance) { 
                     OnDestinationReached?.Invoke();
                     ClearPath();
                 }
@@ -91,7 +98,7 @@ public class AI_Movement : MonoBehaviour
         {
             _debug.Log("No veo el destino, calculo el camino.");
 
-            _waypoints = GetPath(target);
+            _waypoints = GetPath(destination);
             _fixedUpdate = PlayPath;
         }
     }
@@ -108,6 +115,13 @@ public class AI_Movement : MonoBehaviour
 
         if (transform.position.InLineOffSight(destination, IA_Manager.instance.wall_Mask))
         {
+            // Conseguir la posicion en el piso
+            if (Physics.Raycast(destination, Vector3.down, out RaycastHit hitInfo, 10f, IA_Manager.instance.wall_Mask)) 
+            {
+                destination = hitInfo.point;
+                _destination = destination;
+            }
+
             _fixedUpdate = () =>
             {
                 if (_lookAtTarget == null)
@@ -137,13 +151,8 @@ public class AI_Movement : MonoBehaviour
 
     public void MoveTowardsButLookAt(Vector3 destination, Vector3 lookAtTarget) 
     {
-        Vector3 actualForce = Vector3.zero;
-        actualForce += Movement.Seek(destination);
-        if (Flocking) actualForce += _flockingTargets.Flocking(_flockingParameters);
-        actualForce += ObstacleAvoidance(transform);
-        actualForce = ProjectAlongSlope(actualForce);
+        MoveTowards(destination);
 
-        Movement.AddForce(Velocity.CalculateSteering(actualForce, Movement.maxSpeed));
         Movement.LookAt(lookAtTarget);
     }
 
