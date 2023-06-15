@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 using UnityEngine.Events;
 using static EggEscapeModel;
@@ -14,6 +15,7 @@ public class Egg_Incubator : InteractableObject
 
     Action canInsert;
 
+   [SerializeField] Transform pointInsideIncubator;
 
     List<EggEscapeModel> _eggs = new List<EggEscapeModel>();
     protected override void Awake()
@@ -23,8 +25,14 @@ public class Egg_Incubator : InteractableObject
         UnityAction action = () =>
         {
             ModesManager.instance.gameMode.AddPoints(1);
+           var x = Instantiate(_eggs[0], pointInsideIncubator.position,Quaternion.identity);
             Destroy(_eggs[0].gameObject);
-            Destroy(this.gameObject);
+
+            x.transform.parent = pointInsideIncubator;
+
+            IEnumerable<Component> y = x.GetComponents<Component>().Concat(x.GetComponentsInChildren<Component>()); 
+
+            foreach (Component item in y.Where(x => x.GetType() != typeof(Transform))) Destroy(item);        
         };
 
         InteractData._OnInteract.AddListener(action);

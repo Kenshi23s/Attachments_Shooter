@@ -1,9 +1,12 @@
 using System;
 using FacundoColomboMethods;
 using System.Collections.Generic;
+using System.Collections;
 using UnityEngine;
 using System.Linq;
 using static Attachment;
+using UnityEngine.UI;
+
 [RequireComponent(typeof(AttachmentManager))]
 public class GunHandler : MonoBehaviour
 {
@@ -16,7 +19,7 @@ public class GunHandler : MonoBehaviour
 
     public event Action onActualGunShoot;
     int actualGunCount;
-
+    [SerializeField]Image hitmarker;
     //event Action OnSwapWeapons;
 
     //awake para inicializacion
@@ -29,13 +32,41 @@ public class GunHandler : MonoBehaviour
   
     
  
+
     private void Awake()
     {
-        myGuns = ColomboMethods.GetChildrenComponents<Gun>(this.transform).ToList();
+        myGuns = ColomboMethods.GetChildrenComponents<Gun>(transform).ToList();
         if (actualGun == null) _actualGun = myGuns[UnityEngine.Random.Range(0, myGuns.Count)];
         actualGun.onShoot += onActualGunShoot;
-    }  
-   
+        if (hitmarker!=null)
+        {
+            actualGun.onHit += (x) => Hitmarker();
+            hitmarker.color = hitmarker.color.SetAlpha(0);
+        }
+       
+    }
+
+    void Hitmarker()
+    {
+        StopCoroutine(HitmarkerUpdate());
+        StartCoroutine(HitmarkerUpdate());
+    }
+
+    IEnumerator HitmarkerUpdate()
+    {
+        float currentAlpha = 1f;
+        hitmarker.color = hitmarker.color.SetAlpha(currentAlpha);
+
+        while (currentAlpha>0)
+        {
+            Debug.Log("hit");
+            yield return null;
+            currentAlpha-=Time.deltaTime;
+            hitmarker.color = hitmarker.color.SetAlpha(currentAlpha);
+        }
+        hitmarker.color = hitmarker.color.SetAlpha(0);
+
+    }
     //start para comunicacion
     void Start()
     {

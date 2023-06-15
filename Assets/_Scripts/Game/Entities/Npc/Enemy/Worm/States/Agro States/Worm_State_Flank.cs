@@ -15,11 +15,10 @@ public class Worm_State_Flank : Worm_State<Worm_AttackState>
     }
 
     Vector3[] flankPositions = {
-        new Vector3(-1, 0,  0),
         new Vector3(-1, 0, -1),
         new Vector3( 0, 0, -1),
-        new Vector3( 1, 0, -1),
-        new Vector3( 1, 0, 0)};
+        new Vector3( 1, 0, -1)
+    };
 
     Vector3 _flankPos;
     public override void OnEnter()

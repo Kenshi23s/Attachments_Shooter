@@ -1,7 +1,6 @@
 
 using System;
 using System.Collections.Generic;
-using System.Drawing;
 using System.Linq;
 using UnityEngine;
 using UnityEngine.UIElements;
@@ -24,7 +23,10 @@ namespace FacundoColomboMethods
     public static class ColomboMethods
     {
 
-       
+       public static Color SetAlpha(this Color color,float newAlpha)
+       {
+            return new Color(color.r, color.g, color.b, newAlpha);
+       }
         public static Vector3 TryGetMeshCollision(this Vector3 myPos,Vector3 dir,LayerMask layer)
         {
             if (Physics.Raycast(myPos,dir,out RaycastHit hit,Mathf.Infinity,layer))            

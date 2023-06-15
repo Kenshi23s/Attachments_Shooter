@@ -52,8 +52,8 @@ public class RaycastComponent : MonoBehaviour
                 dirTrail = actualhit.point;
 
 
-                if (CheckDamagable(actualhit, out HitData hitData))
-                    action?.Invoke(hitData);
+                CheckDamagable(actualhit, action);
+                  
 
                 if (actualhit.transform.TryGetComponent(out IHitFeedback x))
                     x.FeedbackHit(actualhit.point, actualhit.normal);
@@ -91,11 +91,12 @@ public class RaycastComponent : MonoBehaviour
         Destroy(trail.gameObject);
     }
     //chequea si lo que con lo que choco es damagable
-    bool CheckDamagable(RaycastHit hit, out HitData hitData)
+    void CheckDamagable(RaycastHit hit,Action<HitData> action)
     {
-        hitData = default;
+        
         if (hit.transform.TryGetComponent(out IDamagable damagable))
         {
+            HitData hitData = new HitData();
             // 100 es el maximo de rango.
             float rangeMultiplier =  1 - hit.distance / gun.stats.GetStat(StatNames.Range);
             #region coment
@@ -112,9 +113,9 @@ public class RaycastComponent : MonoBehaviour
             hitData.dmgData.victim = damagable;
             hitData._impactPos = hit.point;
             hitData.gunUsed = gun;
-           
+            action?.Invoke(hitData);
         }
-        return !hitData.Equals(default);
+       
     }
 
     void DrawRaycast()

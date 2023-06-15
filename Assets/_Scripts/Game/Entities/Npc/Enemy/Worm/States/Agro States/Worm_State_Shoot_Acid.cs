@@ -16,6 +16,9 @@ public class Worm_State_Shoot_Acid : Worm_State<Worm_AttackState>
     {      
         _worm.anim.SetTrigger("ShootAcid");
         _worm.anim.SetFloat("Speed", 0);
+
+        _worm.OnStun += _worm.CancelShootAcid;
+        _worm.StartCoroutine(_worm.ShootAcid());
     }
 
     public override void OnUpdate()
@@ -30,8 +33,11 @@ public class Worm_State_Shoot_Acid : Worm_State<Worm_AttackState>
         Vector3 dir = Player_Movement.position - _worm.transform.position;
         _worm.transform.forward = new Vector3(dir.x, 0, dir.z);
     }
-  
 
-    public override void OnExit() => _worm.anim.SetFloat("Speed", 0);
+
+    public override void OnExit() { 
+        _worm.OnStun -= _worm.CancelShootAcid;
+        _worm.anim.SetFloat("Speed", 0);
+    }
     
 }

@@ -226,12 +226,14 @@ public static class Pathfinding_Algorithm
         // Conseguir las posiciones en el piso
         List<Vector3> groundedPositions = pathList.Select(node => node.groundPosition).ToList();
 
-        if (endpos != Vector3.zero)
+        // Chequear si la posicion final es la default.
+        // Para saber esto en realidad se podria hacer una sobrecarga del metodo
+        if (endpos == Vector3.zero)
             return groundedPositions;
 
-        // Si la posicion final se puede pegar al piso, hacerle theta star agregarla
+        // Si la posicion final se puede pegar al piso, hacerle theta star y agregarla
 
-        if (Physics.Raycast(endpos, Vector3.down, out RaycastHit hitInfo, 5f, wallMask))
+        if (Physics.Raycast(endpos, Vector3.down, out RaycastHit hitInfo, 10f, wallMask))
         {
             if (pathList.Count > 1)
                 if (InLineOffSight(pathList[pathList.Count - 2].transform.position, endpos, wallMask))
