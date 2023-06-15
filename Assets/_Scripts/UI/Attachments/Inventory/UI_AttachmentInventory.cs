@@ -62,7 +62,7 @@ public class UI_AttachmentInventory : MonoBehaviour
         // por si no tengo un arma equipada actualmente(?) lo dejo por las dudas
         IEnumerable<Attachment> gunAttachments = displayGun != null ? displayGun.attachmentHandler.activeAttachments.Values : default;
 
-        var noDefault = gunAttachments.Where(x => !displayGun.attachmentHandler.IsDefaultAttachment(x));
+        var noDefault = gunAttachments.Where(x => displayGun.attachmentHandler.IsDefaultAttachment(x));
 
         var result =  CreateButtons(AttachmentsSaved) + CreateButtons(noDefault);
 
