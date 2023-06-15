@@ -63,6 +63,8 @@ public class WormTail : MonoBehaviour
             Transform bone = TailBones[i];
             wormTailSO.boneData[i] = new BoneData(bone.localRotation, Vector3.Distance(rootPos, bone.position));
         }
+
+        wormTailSO.SetDirty();
     }
 
     // Update is called once per frame
@@ -80,7 +82,6 @@ public class WormTail : MonoBehaviour
 
             Quaternion rotation = _boneData[i].originalRotation;
             // A partir del angulo, generar una rotacion
-
             if (_sidewaysMovement)
                 rotation *= Quaternion.AngleAxis(angle, Vector3.up);
             if (_verticalMovement)

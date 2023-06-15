@@ -55,6 +55,7 @@ public class AttachmentHandler : MonoBehaviour
         // este metodo lo uso para chequear desde donde tiene q salir mi bala
         Action onMuzzleChange = () =>
         {
+            if (activeAttachments.ContainsKey(AttachmentType.Muzzle))
             if (activeAttachments[AttachmentType.Muzzle].TryGetComponent<Muzzle>(out var a))
             {
                 _shootPos = a.shootPos;
@@ -188,9 +189,16 @@ public class AttachmentHandler : MonoBehaviour
         {
             _activeAttachments.Remove(key);
             SaveAttachment(toRemove);
+            if (_DefaultAttachMent.TryGetValue(key, out var _default)) 
+            if (_default!= toRemove)
+            {
+                    AddAttachment(_default);
+                    return;
+            }
+          
         }     
 
-        if (_DefaultAttachMent.TryGetValue(key,out var _default)) AddAttachment(_default);
+     
 
         if (_onAttachmentChange.TryGetValue(key,out var x)) x?.Invoke();
 
@@ -198,6 +206,9 @@ public class AttachmentHandler : MonoBehaviour
 
     void SaveAttachment(Attachment x)
     {
-        x.Dettach(); AttachmentManager.instance.Inventory_SaveAttachment(x);
+        x.Dettach();  AttachmentManager.instance.Inventory_SaveAttachment(x);
+
+
+
     }
 }

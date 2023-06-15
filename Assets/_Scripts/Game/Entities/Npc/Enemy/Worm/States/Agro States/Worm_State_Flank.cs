@@ -27,24 +27,23 @@ public class Worm_State_Flank : Worm_State<Worm_AttackState>
         Vector3 randomPos = flankPositions[Random.Range(0, flankPositions.Length)];
 
         // Conseguir posicion en espacio de mundo
-        Vector3 dir = Player_Movement.position - _worm.transform.position;
-        dir.y = 0;
-        Vector3 flankPosDirFromPlayer = Quaternion.FromToRotation(Vector3.forward, randomPos) * dir.normalized;
-        Vector3 flankPosition = Player_Movement.position - Vector3.up * 0.5f + flankPosDirFromPlayer * _worm.FlankDistance;
+        Vector3 dirToPlayer = Player_Movement.position - _worm.transform.position;
+        dirToPlayer.y = 0;
+        Vector3 flankPosDirFromPlayer = Quaternion.FromToRotation(Vector3.forward, randomPos) * dirToPlayer.normalized; 
+        Vector3 flankPosition = Player_Movement.position + flankPosDirFromPlayer * _worm.FlankDistance;
 
         // Conseguir direccion a esa posicion
-        Vector3 flankDir = flankPosition - _worm.transform.position;
-        int layer = IA_Manager.instance.wall_Mask.LayerBitmaskToInt();
+        //Vector3 flankDir = flankPosition - _worm.transform.position;
 
         // Chequear si hay alguna pared obstruyendo el camino
-        if (Physics.Raycast(_worm.transform.position + Vector3.up, flankDir, out RaycastHit hit, flankDir.magnitude + 0.5f, layer))
-        {
-            flankPosition = _worm.transform.position + flankDir.normalized * (hit.distance - 0.5f);           
-        }
+        //if (Physics.Raycast(_worm.transform.position + Vector3.up, flankDir, out RaycastHit hit, flankDir.magnitude + 0.5f, IA_Manager.instance.wall_Mask))
+        //{
+        //    flankPosition = _worm.transform.position + flankDir.normalized * (hit.distance - 0.5f);           
+        //}
 
-        _flankPos = flankPosition;
         _worm.AI_move.OnDestinationReached += FlankComplete;
         _worm.AI_move.SetDestinationButLookAt(flankPosition, Player_Movement.StaticPlayer);
+        _flankPos = _worm.AI_move.Destination;
     }
 
     void FlankComplete() {
