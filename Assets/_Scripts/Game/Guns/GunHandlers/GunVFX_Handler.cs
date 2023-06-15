@@ -1,5 +1,5 @@
 using UnityEngine;
-
+[DisallowMultipleComponent]
 public class GunVFX_Handler : MonoBehaviour
 {
     [Header("Particle")]

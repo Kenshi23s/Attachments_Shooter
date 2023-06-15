@@ -79,6 +79,7 @@ GameObject:
   - component: {fileID: 5846903351772916055}
   - component: {fileID: 889179298060599021}
   - component: {fileID: 5232814601321832882}
+  - component: {fileID: -1427819871239493054}
   m_Layer: 8
   m_Name: BurstPistol
   m_TagString: Untagged
@@ -147,7 +148,9 @@ MonoBehaviour:
     - Key: 0
       Value: {fileID: 2165113967237311115}
   _DefaultAttachMent:
-    _serializedList: []
+    _serializedList:
+    - Key: 0
+      Value: {fileID: 2296197202727447013}
   _defaultShootPos: {fileID: 2868271148861137540}
 --- !u!114 &5846903351772916052
 MonoBehaviour:
@@ -189,7 +192,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f568bb757496d754dac6a67d5c5213fc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  trailSample: {fileID: 0}
+  trailSample: {fileID: 2610780281482316935, guid: 2fc77cda861fb874cbd5f7075f680aa3, type: 3}
   _shootableLayers:
     serializedVersion: 2
     m_Bits: 5137
@@ -237,6 +240,21 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4c397f19295381e47bdd3801f1c64751, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &-1427819871239493054
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2868271147788517937}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2e0a2bf8e927e9d49b31dc531f210074, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _muzzleFlash: {fileID: 4022033184952919502, guid: 7e801a1a731c9b9499fc27b7464bb10c, type: 3}
+  Shot_clip: {fileID: 8300000, guid: 70a84d30f2778804a997ea9280455aa3, type: 3}
+  HitMarker_clip: {fileID: 8300000, guid: 177f57ebe8f5cbd4f96f81b0794092dc, type: 3}
 --- !u!1 &2868271148861137541
 GameObject:
   m_ObjectHideFlags: 0
@@ -526,8 +544,31 @@ PrefabInstance:
       propertyPath: m_Name
       value: cannon_1
       objectReference: {fileID: 0}
+    - target: {fileID: 4227555323560522202, guid: 94bd130e9d74d014da0cd78708fc2231, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: -0.0006
+      objectReference: {fileID: 0}
+    - target: {fileID: 4227555323560522202, guid: 94bd130e9d74d014da0cd78708fc2231, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0.0082
+      objectReference: {fileID: 0}
+    - target: {fileID: 4227555323560522202, guid: 94bd130e9d74d014da0cd78708fc2231, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0.2524
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 94bd130e9d74d014da0cd78708fc2231, type: 3}
+--- !u!114 &2296197202727447013 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 3971741591271090256, guid: 94bd130e9d74d014da0cd78708fc2231, type: 3}
+  m_PrefabInstance: {fileID: 2937418842194510261}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5ad9b4ac187382745ab3ad97d4501771, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!4 &3184581388767340925 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 356392646216198344, guid: 94bd130e9d74d014da0cd78708fc2231, type: 3}
