@@ -7,7 +7,7 @@ public class E_ExplosiveDog : Enemy
 {
     StateMachine<EDogStates> _fsm;
 
-    public enum EDogStates 
+    public enum EDogStates
     {
         IDLE, PURSUIT, JUMP_ATTACK
     }
@@ -19,20 +19,25 @@ public class E_ExplosiveDog : Enemy
     #endregion
     [Header("Pursuit")]
 
-    [SerializeField]float pursuitMaxSpeed;
-    [SerializeField]float minJumpDistance;
+    [SerializeField] float pursuitMaxSpeed;
+    [SerializeField] float minJumpDistance;
 
     [Header("JumpAttack")]
-    [SerializeField,Tooltip("unidades arriba del player en el salto")] 
+    [SerializeField, Tooltip("unidades arriba del player en el salto")]
     float unitsAbovePlayer;
 
 
     [Header("Explosion")]
-    [SerializeField]int _explosionDamage;
-    [SerializeField]float _explosionRadius,triggerRadius;
+    [SerializeField] int _explosionDamage;
+    [SerializeField] float _explosionRadius, triggerRadius;
+
+    [Header("ShaderBlink")]
+    [SerializeField] GameObject blinkObject;
+    Material blinkMat;
 
     public override void ArtificialAwake()
     {
+        blinkMat = blinkObject.GetComponent<Renderer>().material;
         _debug = GetComponent<DebugableObject>();
         _fsm = new StateMachine<EDogStates>(); _fsm.Initialize(_debug);
         health = GetComponent<LifeComponent>(); health.OnKilled += Explosion;
@@ -46,8 +51,9 @@ public class E_ExplosiveDog : Enemy
         //    .Where(x => x.TryGetComponent(out AI_Movement y))
         //    .Select(x=> x.GetComponent<AI_Movement>()));
 
-        _fsm.CreateState(EDogStates.IDLE, new EDogState_Idle(agent, _fsm, health));
-        _fsm.CreateState(EDogStates.PURSUIT, new EDogState_Pursuit(_fsm,agent, pursuitMaxSpeed, minJumpDistance));
+        _fsm.CreateState(EDogStates.IDLE, new EDogState_Idle(()=> blinkMat.SetInt("_Blink",0), agent, _fsm, health));
+        _fsm.CreateState(EDogStates.PURSUIT, new EDogState_Pursuit(() => blinkMat.SetInt("_Blink", 1), _fsm,agent, pursuitMaxSpeed, minJumpDistance));
+
         _fsm.CreateState(EDogStates.JUMP_ATTACK, new EDogState_JumpAttack(triggerRadius, Explosion, agent.Movement, unitsAbovePlayer, _fsm));
         _fsm.ChangeState(EDogStates.IDLE);
     }

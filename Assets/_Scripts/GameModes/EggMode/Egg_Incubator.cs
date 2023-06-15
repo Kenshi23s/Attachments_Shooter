@@ -26,14 +26,13 @@ public class Egg_Incubator : InteractableObject
         {
             ModesManager.instance.gameMode.AddPoints(1);
            var x = Instantiate(_eggs[0], pointInsideIncubator.position,Quaternion.identity);
-            foreach (Component item in x.GetComponents<Component>().Where(x=>x!=transform))           
-                Destroy(item);
+            Destroy(_eggs[0].gameObject);
 
             x.transform.parent = pointInsideIncubator;
 
+            IEnumerable<Component> y = x.GetComponents<Component>().Concat(x.GetComponentsInChildren<Component>()); 
 
-            Destroy(_eggs[0].gameObject);
-           
+            foreach (Component item in y.Where(x => x.GetType() != typeof(Transform))) Destroy(item);        
         };
 
         InteractData._OnInteract.AddListener(action);

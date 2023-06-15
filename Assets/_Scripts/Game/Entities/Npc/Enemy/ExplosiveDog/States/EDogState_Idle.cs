@@ -13,9 +13,10 @@ public class EDogState_Idle : IState<EDogStates>
     StateMachine<EDogStates> _fsm;
     LifeComponent myLifeComponent;
     Action<int> callBackChange;
-
-    public EDogState_Idle(AI_Movement agent, StateMachine<EDogStates> fsm,LifeComponent myLifeComponent)
+    Action stopBlink;
+    public EDogState_Idle(Action stopBlink, AI_Movement agent, StateMachine<EDogStates> fsm,LifeComponent myLifeComponent)
     {
+        this.stopBlink = stopBlink;
         _agent = agent;
         _fsm = fsm;
         this.myLifeComponent = myLifeComponent;
@@ -27,6 +28,7 @@ public class EDogState_Idle : IState<EDogStates>
 
     public void OnEnter()
     {
+        stopBlink?.Invoke();
         myLifeComponent.OnTakeDamage += callBackChange;
         GameManager.instance.HelpStartCoroutine(StayIdle);
        

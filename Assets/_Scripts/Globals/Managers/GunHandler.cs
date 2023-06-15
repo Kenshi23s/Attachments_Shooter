@@ -38,8 +38,12 @@ public class GunHandler : MonoBehaviour
         myGuns = ColomboMethods.GetChildrenComponents<Gun>(transform).ToList();
         if (actualGun == null) _actualGun = myGuns[UnityEngine.Random.Range(0, myGuns.Count)];
         actualGun.onShoot += onActualGunShoot;
-        actualGun.onHit+= (x) => Hitmarker();
-        hitmarker.color = hitmarker.color.SetAlpha(0);
+        if (hitmarker!=null)
+        {
+            actualGun.onHit += (x) => Hitmarker();
+            hitmarker.color = hitmarker.color.SetAlpha(0);
+        }
+       
     }
 
     void Hitmarker()
