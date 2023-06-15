@@ -38,7 +38,7 @@ public class E_ExplosiveDog : Enemy
     public override void ArtificialAwake()
     {
         blinkMat = blinkObject.GetComponent<Renderer>().material;
-        _debug = GetComponent<DebugableObject>();
+        _debug = GetComponent<DebugableObject>(); _debug.AddGizmoAction(GizmosDraw);
         _fsm = new StateMachine<EDogStates>(); _fsm.Initialize(_debug);
         health = GetComponent<LifeComponent>(); health.OnKilled += Explosion;
 
@@ -83,6 +83,11 @@ public class E_ExplosiveDog : Enemy
     {
         _fsm.Execute();
     }
+    private void GizmosDraw()
+    {
+        Gizmos.color = Color.green;
+        Gizmos.DrawWireSphere(transform.position, triggerRadius);
+    }
 
-  
+
 }

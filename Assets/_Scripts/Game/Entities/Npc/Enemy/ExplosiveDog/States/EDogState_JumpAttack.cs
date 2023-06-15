@@ -65,27 +65,16 @@ public class EDogState_JumpAttack : IState<EDogStates>
         //jumpForce = Mathf.Sqrt(-2 * Physics.gravity.y * jumpHeight);
         if (!_move.isFalling) return;
        
-        if (Physics.Raycast(_move.transform.position,Vector3.down,1f))
-        {
-            _fsm.ChangeState(EDogStates.PURSUIT);
-        }
-        else
-        {
+        if (Physics.Raycast(_move.transform.position,Vector3.down,1f))       
+            _fsm.ChangeState(EDogStates.PURSUIT);      
+        else        
             _fsm.Debug("No choque con nada");
-        }
+        
     }
 
     public void GizmoShow()
     {
-        //if (count >= jumpWp.Length) return;
-        
-        //Gizmos.color = Color.blue;
-        //Gizmos.DrawLine(_move.transform.position, jumpWp[count]);
-        //Gizmos.DrawLine(jumpWp[0], jumpWp[1]);
-        //for (int i = 0; i < jumpWp.Length; i++)
-        //{
-        //    Gizmos.DrawWireSphere(jumpWp[i], 0.5f);
-        //}
+     
         
     }
 
