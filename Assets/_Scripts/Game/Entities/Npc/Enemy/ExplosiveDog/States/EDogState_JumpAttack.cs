@@ -16,7 +16,10 @@ public class EDogState_JumpAttack : IState<EDogStates>
 
 
     Vector3 jumpWp = Vector3.zero;
-    
+
+    public event Action onEnter;
+    public event Action onExit;
+
 
     public EDogState_JumpAttack(float triggerRadius,Action _explosion, Physics_Movement _move, float unitsAbovePlayer, StateMachine<EDogStates> _fsm)
     {
@@ -31,13 +34,15 @@ public class EDogState_JumpAttack : IState<EDogStates>
     {
         jumpWp = Player_Movement.position + Vector3.up * unitsAbovePlayer;
         state = Jump;
+        onEnter?.Invoke();
         //_move._rb.constraints = RigidbodyConstraints.None;
-               
+
     }
 
     public void OnExit()
-    {        
+    {
         //_move._rb.constraints = RigidbodyConstraints.FreezePositionY;
+        onExit?.Invoke();
         state = null;
         _move.RemoveForces();
     }

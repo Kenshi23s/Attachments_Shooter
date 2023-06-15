@@ -1,4 +1,5 @@
 using FacundoColomboMethods;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -10,9 +11,10 @@ public class EDogState_Pursuit : IState<EDogStates>
     AI_Movement _agent;
     float _pursuitSpeed;
     float _jumpRadius;
-
-    public EDogState_Pursuit(StateMachine<EDogStates> fsm, AI_Movement agent, float pursuitSpeed, float jumpRadius)
+    Action blinkOn;
+    public EDogState_Pursuit(Action blinkOn,StateMachine<EDogStates> fsm, AI_Movement agent, float pursuitSpeed, float jumpRadius)
     {
+        this.blinkOn = blinkOn;
         _fsm = fsm;
         _agent = agent;
         _pursuitSpeed = pursuitSpeed;
