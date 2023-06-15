@@ -126,6 +126,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8acd364f316a31a499706c4da6c3dad3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  DestinationArriveDistance: 0.1
+  NodeArriveDistance: 1
   WhatIsGround:
     serializedVersion: 2
     m_Bits: 0
@@ -147,6 +149,7 @@ MonoBehaviour:
   _life: 100
   _maxLife: 100
   _dmgMultiplier: 1
+  dmgResist: 1
   canTakeDamage: 1
   canBeHealed: 1
 --- !u!114 &7995179844713157494
@@ -166,6 +169,9 @@ MonoBehaviour:
   unitsAbovePlayer: 10
   _explosionDamage: 50
   _explosionRadius: 10
+  triggerRadius: 0
+  blinkObject: {fileID: 1839322396081177634}
+  explosionVFX: {fileID: 6825352748812371489, guid: 4c5aa794ca6db604aad35f4f261a378a, type: 3}
 --- !u!65 &6040398420493665900
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -230,12 +236,21 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: -4123292429646024344, guid: c1059a63bc75a4347b1b3f28d0b0be3e, type: 3}
+      propertyPath: m_Name
+      value: Eyes
+      objectReference: {fileID: 0}
     - target: {fileID: 919132149155446097, guid: c1059a63bc75a4347b1b3f28d0b0be3e, type: 3}
       propertyPath: m_Name
       value: caniche_explosivo
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: c1059a63bc75a4347b1b3f28d0b0be3e, type: 3}
+--- !u!1 &1839322396081177634 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: -4123292429646024344, guid: c1059a63bc75a4347b1b3f28d0b0be3e, type: 3}
+  m_PrefabInstance: {fileID: 6863919696760206666}
+  m_PrefabAsset: {fileID: 0}
 --- !u!4 &6398264756440896161 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: -8679921383154817045, guid: c1059a63bc75a4347b1b3f28d0b0be3e, type: 3}
