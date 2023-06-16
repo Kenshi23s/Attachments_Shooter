@@ -24,21 +24,23 @@ public class Egg_Incubator : InteractableObject
         //"casteo" de funcion a unity action
         UnityAction action = () =>
         {
+            if (_eggs[0] == null) return;
+           
             ModesManager.instance.gameMode.AddPoints(1);
           
-            Destroy(_eggs[0].gameObject);
-            //var x = Instantiate(_eggs[0], pointInsideIncubator.position,Quaternion.identity);
-
-            //x.transform.parent = pointInsideIncubator;
-
-       
          
+            var x = Instantiate(_eggs[0].view, pointInsideIncubator.position,Quaternion.identity);        
+            x.transform.parent = pointInsideIncubator;
+
+
+
             //IEnumerable<Component> y = x.GetComponents<Component>().Concat(x.GetComponentsInChildren<Component>());
             //var z = y
             //.Where(x => x.GetType() != typeof(Transform))
             //.Where(x => x.GetType() != typeof(MeshRenderer))
             //.Where(x => x.GetType() != typeof(MeshFilter));
             //foreach (Behaviour item in z) item.enabled = false;   
+            Destroy(_eggs[0].gameObject,0.01f);
         };
 
         InteractData._OnInteract.AddListener(action);

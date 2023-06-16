@@ -48,6 +48,8 @@ public class EggEscapeModel : MonoBehaviour
     FOVAgent _fov;
     AI_Movement _agent;
 
+    public GameObject view;
+
     StateMachine<EggStates> _fsm;
     public EggStates actualState => _fsm.actualStateKey;
 

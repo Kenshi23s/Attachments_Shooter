@@ -11196,11 +11196,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5675563997646097487, guid: 08198de36c3c0b14088e28135dfad86b, type: 3}
       propertyPath: m_AnchorMax.y
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 5675563997787557259, guid: 08198de36c3c0b14088e28135dfad86b, type: 3}
       propertyPath: m_AnchorMax.y
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 8057132550997207641, guid: 08198de36c3c0b14088e28135dfad86b, type: 3}
       propertyPath: can_InteractText
@@ -11260,7 +11260,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8057132550997207646, guid: 08198de36c3c0b14088e28135dfad86b, type: 3}
       propertyPath: m_IsActive
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 08198de36c3c0b14088e28135dfad86b, type: 3}
@@ -30769,10 +30769,14 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   points: 0
-  pointsToWin: 5
+  pointsToWin: 3
   model: {fileID: 4518308652061995905, guid: 2648dfb2a7e94e046a756d5ba76dddf1, type: 3}
   _egg_interactRadius: 10
   eggsEscaping: []
+  eggMaterials:
+  - {fileID: 2100000, guid: b3a086feb7a72074db576f487d1fdc78, type: 2}
+  - {fileID: 2100000, guid: 7469396a7263b3e4ba927bf8c9140643, type: 2}
+  - {fileID: 2100000, guid: d476e1d3774423847b8f71d58ecf57c4, type: 2}
   Incubators: {fileID: 983200729}
   _waypoints:
   - {fileID: 1609677412}
@@ -31956,11 +31960,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5675563997646097487, guid: 08198de36c3c0b14088e28135dfad86b, type: 3}
       propertyPath: m_AnchorMax.y
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 5675563997787557259, guid: 08198de36c3c0b14088e28135dfad86b, type: 3}
       propertyPath: m_AnchorMax.y
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 8057132550997207641, guid: 08198de36c3c0b14088e28135dfad86b, type: 3}
       propertyPath: can_InteractText
@@ -32020,7 +32024,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8057132550997207646, guid: 08198de36c3c0b14088e28135dfad86b, type: 3}
       propertyPath: m_IsActive
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 08198de36c3c0b14088e28135dfad86b, type: 3}
