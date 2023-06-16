@@ -14,7 +14,7 @@ public class Projectile_Acid : MonoBehaviour
     [SerializeField] LayerMask wallnfloor;
 
     int damage;
-    float _acidRadius;
+    
 
     private void Awake()
     {
@@ -27,34 +27,37 @@ public class Projectile_Acid : MonoBehaviour
     void DrawVelocity() => DrawArrow.ForGizmo(transform.position, _rb.velocity, Color.green);
  
 
-    public void Initialize(Tuple<GameObject, int,Vector3> x)
+    public void Initialize(GameObject _owner,int _damage,Vector3 force)
     {
-        owner = x.Item1;
-        damage = x.Item2;
-        _rb.AddForce(x.Item3, ForceMode.VelocityChange);
-
+        owner = _owner;
+        damage = _damage;
+        _rb.AddForce(force, ForceMode.VelocityChange);
     }
+
 
     private void OnCollisionEnter(Collision collision)
     {
-        _debug.Log("Colision con "+ collision.gameObject);
+        _debug.Log("Colision con " + collision.gameObject);
         if (collision.gameObject == owner) return;
 
         if (collision.gameObject.TryGetComponent(out IDamagable x))
         {
             x.TakeDamage(damage);
-            
+
         }
-        Tuple<float,Vector3> b = transform.position.GetNormalAngleOfFloor(wallnfloor);
-        if (b.Item1 < 70f) { _debug.Log("Hago el lago de acido"); MakeLagoon(b.Item2); } 
-        else 
+        Tuple<float, Vector3> b = transform.position.GetNormalAngleOfFloor(wallnfloor);
+        if (b.Item1 < 70f) { _debug.Log("Hago el lago de acido"); MakeLagoon(b.Item2); }
+        else
         {
-            _debug.Log("No hago el lago, el angulo de la normal es "+ b.Item1); ;
+            _debug.Log("No hago el lago, el angulo de la normal es " + b.Item1); ;
         }
-        
         Destroy(gameObject);
     }
-  
+    private void OnTriggerEnter(Collider other)
+    {
+        
+    }
+
     void MakeLagoon(Vector3 forward)
     {
         Vector3 x = transform.position.TryGetMeshCollision(Vector3.down, wallnfloor);

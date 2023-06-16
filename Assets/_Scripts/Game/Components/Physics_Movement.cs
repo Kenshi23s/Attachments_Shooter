@@ -88,7 +88,9 @@ public class Physics_Movement : MonoBehaviour
     {
         Vector3 forward = position - _rb.position;
         forward.y = 0;
-        _rb.rotation = Quaternion.LookRotation(forward, Vector3.up);
+
+        transform.forward = Vector3.Lerp(transform.forward, forward, forward.magnitude * Time.deltaTime);
+        _rb.rotation = Quaternion.LookRotation(Vector3.Lerp(transform.forward,forward, forward.magnitude*Time.deltaTime), Vector3.up);
     }
 
     public void AddImpulse(Vector3 force) => _rb.AddForce(force, ForceMode.Impulse);

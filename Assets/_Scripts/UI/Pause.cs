@@ -11,20 +11,20 @@ public class Pause : MonoBehaviour
     private void Start()
     {
         player.lifehandler.OnKilled += PauseMethod;
-        Time.timeScale = 1;
+      
     }
 
     public void PauseMethod()
     {
-        Cursor.lockState = CursorLockMode.None;
         Cursor.visible = true;
-        Time.timeScale = 0;
+        Cursor.lockState = CursorLockMode.None;
+        ScreenManager.PauseGame();
         HUD_Restart.SetActive(true);
     }
 
     public void Restart()
     {
         SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
-        Time.timeScale = 1;
+        ScreenManager.ResumeGame();
     }
 }
