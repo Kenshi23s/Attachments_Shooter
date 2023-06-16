@@ -6,10 +6,7 @@ using static EggEscapeModel;
 public class EggGameChaseMode : GameModeBaseClass
 {
     [Header("EggGameMode")]
-    [SerializeField] EggEscapeModel model;
-
-
- 
+    [SerializeField] EggEscapeModel model; 
 
     public float interactRadius => _egg_interactRadius;
     [SerializeField] float _egg_interactRadius;
@@ -17,6 +14,8 @@ public class EggGameChaseMode : GameModeBaseClass
     [SerializeField, Tooltip("huevos en el mapa, solo lectura")]
     EggEscapeModel[] eggsEscaping;
 
+    [SerializeField]
+    Material[] eggMaterials;
     [SerializeField] Transform Incubators;
 
     public Transform[] waypoints => _waypoints;
@@ -36,10 +35,14 @@ public class EggGameChaseMode : GameModeBaseClass
         // preguntarle a algun profe o compañero si esto esta bien
         eggsEscaping = new EggEscapeModel[Incubators.childCount];
 
+
         for (int i = 0; i < eggsEscaping.Length; i++)
         {
             eggsEscaping[i]= Instantiate(model);
             eggsEscaping[i].Initialize(eggStats, _waypoints[Random.Range(0, waypoints.Length-1)].position);
+            eggsEscaping[i].GetComponentInChildren<Renderer>().material = eggMaterials[i];//tendria que ser random, pero como justo coinciden
+                                                                                          //cantidad de materiales y huevos...
+
           
         }
     }

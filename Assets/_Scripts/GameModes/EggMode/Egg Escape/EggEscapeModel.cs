@@ -28,16 +28,19 @@ public class EggEscapeModel : MonoBehaviour
         // preguntarle a algun profe como podria dejar una variable por codigo
         // como get pero modificarla por inspector
         // (sin nesecidad de una variable como auxiliar)
-        [Header("Stats")]
+        [Header("StunnedStats")]
         public int requiredDmg4stun;
         public float stunTime;
 
+        [Header("Kidnapped Stats")]
         public float kidnapedTime;
-        public float kidnapFollowRadius;
+        public float kidnapFollowRadius, kidnapSpeed;
 
-        [Header("Speeds")]
-        [Range(0.1f,25)] public float kidnapSpeed, patrolSpeed, escapeSpeed;
-      
+        [Header("Patrol")]
+        [Range(0.1f,25)] public float patrolSpeed;
+        [Header("Escape")]
+        [Range(0.1f, 25)] public float escapeSpeed;
+
 
     }
 

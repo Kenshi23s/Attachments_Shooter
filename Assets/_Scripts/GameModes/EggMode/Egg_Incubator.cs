@@ -25,14 +25,20 @@ public class Egg_Incubator : InteractableObject
         UnityAction action = () =>
         {
             ModesManager.instance.gameMode.AddPoints(1);
-           var x = Instantiate(_eggs[0], pointInsideIncubator.position,Quaternion.identity);
+          
             Destroy(_eggs[0].gameObject);
+            //var x = Instantiate(_eggs[0], pointInsideIncubator.position,Quaternion.identity);
 
-            x.transform.parent = pointInsideIncubator;
+            //x.transform.parent = pointInsideIncubator;
 
-            IEnumerable<Component> y = x.GetComponents<Component>().Concat(x.GetComponentsInChildren<Component>()); 
-
-            foreach (Component item in y.Where(x => x.GetType() != typeof(Transform))) Destroy(item);        
+       
+         
+            //IEnumerable<Component> y = x.GetComponents<Component>().Concat(x.GetComponentsInChildren<Component>());
+            //var z = y
+            //.Where(x => x.GetType() != typeof(Transform))
+            //.Where(x => x.GetType() != typeof(MeshRenderer))
+            //.Where(x => x.GetType() != typeof(MeshFilter));
+            //foreach (Behaviour item in z) item.enabled = false;   
         };
 
         InteractData._OnInteract.AddListener(action);

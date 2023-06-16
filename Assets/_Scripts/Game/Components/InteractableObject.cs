@@ -93,7 +93,7 @@ public class InteractableObject : MonoBehaviour
         {
             //ejecuto los eventos
             _cycleInteract = false;
-            InteractData._OnInteract?.Invoke();                   
+            InteractData._OnInteract.Invoke();                  
         }
 
         //prende el slider
