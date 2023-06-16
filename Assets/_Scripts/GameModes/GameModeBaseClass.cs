@@ -9,9 +9,10 @@ public abstract class GameModeBaseClass : MonoBehaviour
     [SerializeField]
     protected int pointsToWin=5;
 
+    public event Action<int> onPointsChange;
+    public event Action OnModeEnd;
     protected DebugableObject _debug;
 
-    public static int actualPoints;
 
     protected abstract void ModeFinish();
 
@@ -22,13 +23,18 @@ public abstract class GameModeBaseClass : MonoBehaviour
         _debug = GetComponent<DebugableObject>();      
     }
 
-    public static event Action<int> onPointsChange;
-    public static event Action OnModeEnd;
+
+ 
     public void AddPoints(int value)
     {    
         points = Mathf.Clamp(points, points + Mathf.Abs(value), pointsToWin);
-        actualPoints = points;
-        if (points >= pointsToWin) ModeFinish();
+        onPointsChange?.Invoke(points);
+
+
+        if (points >= pointsToWin) 
+        {
+            ModeFinish(); OnModeEnd?.Invoke();
+        } 
     }
 
 }
