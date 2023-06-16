@@ -18,8 +18,15 @@ public class EDog_Turret : MonoBehaviour
     private void Awake()
     {
         owner = GetComponentInParent<E_ExplosiveDog>();
-       
+       owner.pauseHandler.onPause+=()=>StartCoroutine(OnPause())
 ;   }
+
+    IEnumerator OnPause()
+    {
+        StopAllCoroutines();
+        yield return new WaitUntil(ScreenManager.IsPaused);
+        Start();
+    }
 
     private void Start()
     {
@@ -43,12 +50,6 @@ public class EDog_Turret : MonoBehaviour
 
         }
       
-    }
-
-    private void Update()
-    {
-        
-       
     }
 
     void Shoot()

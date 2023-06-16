@@ -109,7 +109,10 @@ public class Physics_Movement : MonoBehaviour
     {
         Vector3 actualVelocity = _rb.velocity;
         _rb.velocity = Vector3.zero;
+        var x = _rb.useGravity;
+        _rb.useGravity = false;
         yield return new WaitWhile(ScreenManager.IsPaused);
+        _rb.useGravity = x;
         _rb.velocity = actualVelocity;
     }
  

@@ -11,6 +11,7 @@ using Worm_AttackState = Worm_State_Attack.Worm_AttackState;
 
 [RequireComponent(typeof(AI_Movement))]
 //[RequireComponent(typeof(Animator))]
+[RequireComponent(typeof(PausableObject))]
 [SelectionBase]
 public class Enemy_Worm : Enemy
 {
@@ -23,7 +24,7 @@ public class Enemy_Worm : Enemy
         Search
     }
 
-
+    [NonSerialized] public PausableObject pauseHandlder;
     [NonSerialized] public AI_Movement AI_move;
     [NonSerialized] public Animator anim;
     public StateMachine<EWormStates> fsm;
@@ -148,6 +149,8 @@ public class Enemy_Worm : Enemy
 
     public override void ArtificialAwake()
     {
+        pauseHandlder = GetComponent<PausableObject>();
+
         AI_move = GetComponent<AI_Movement>();
         anim = GetComponentInChildren<Animator>();
 
@@ -178,6 +181,16 @@ public class Enemy_Worm : Enemy
         #endregion
 
     } 
+
+    IEnumerator PauseWorm()
+    {
+        var x = anim.speed;     
+        anim.speed= 0;
+        enabled = false;
+        yield return new WaitWhile(ScreenManager.IsPaused);
+        enabled= true;
+        anim.speed= x;
+    }
     private void Start()
     {
         #region CreateHitbox       

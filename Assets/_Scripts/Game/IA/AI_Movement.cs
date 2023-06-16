@@ -7,6 +7,7 @@ using UnityEngine;
 [RequireComponent(typeof(FOVAgent))]
 [RequireComponent(typeof(DebugableObject))]
 [RequireComponent(typeof(Physics_Movement))]
+[RequireComponent(typeof(PausableObject))]
 
 #endregion
 
@@ -48,6 +49,9 @@ public class AI_Movement : MonoBehaviour
         Movement = GetComponent<Physics_Movement>();
         _debug = GetComponent<DebugableObject>();    
 
+         var x = GetComponent<PausableObject>();
+         x.onPause  += () => enabled = false;
+         x.onResume += () => enabled = true;
         _flockingParameters.myTransform = transform;
         _flockingParameters.maxForce = Movement.maxForce;
         _flockingParameters.viewRadius= FOV.viewRadius;
