@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+
 using static Enemy_Worm;
 
 public class Worm_State_Die : Worm_State<EWormStates>
@@ -12,17 +13,19 @@ public class Worm_State_Die : Worm_State<EWormStates>
 
     public override void OnEnter()
     {
+        _worm.AI_move.CancelMovement();
         _worm.anim.SetTrigger("Die");
-        _worm.StartCoroutine(Coroutine());
-    } 
+        _worm.CanBeStunned = false;
 
-    IEnumerator Coroutine()
-    {
         _worm.health.canTakeDamage = false;
-        IEnumerable<Collider> col = FList.Create(_worm.GetComponent<Collider>()) + _worm.GetComponentsInChildren<Collider>();
-        yield return null;
-        foreach (var item in col) item.enabled = false;
+        _worm.AI_move.Movement._rb.isKinematic = true;
+        foreach (var col in _worm.GetComponentsInChildren<Collider>())
+        {
+            col.enabled = false;
+        }
+
     }
+
 
     
 }

@@ -15,6 +15,8 @@ public class Worm_State_Stunned : Worm_State<EWormStates>
 
     public override void OnEnter()
     {
+        _worm.AI_move.CancelMovement();
+
         // Reiniciar timer de tiempo
         _stunTimeCount = 0;
         // Llamar a la animacion de stun

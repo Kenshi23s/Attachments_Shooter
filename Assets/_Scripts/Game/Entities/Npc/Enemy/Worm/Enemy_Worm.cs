@@ -100,14 +100,14 @@ public class Enemy_Worm : Enemy
     int _dmgNeeded4stun;
     int _stunDmgCount;
 
-    public bool CanBeStunned => _stunDmgCount >= _dmgNeeded4stun;
+    public bool CanBeStunned = true;
 
     public float StunTime;
 
     void AddStunCharge(int dmgTaken) {
         _stunDmgCount += dmgTaken;
 
-        if (CanBeStunned)
+        if (CanBeStunned && _stunDmgCount >= _dmgNeeded4stun)
             StunWorm();
     }
 
