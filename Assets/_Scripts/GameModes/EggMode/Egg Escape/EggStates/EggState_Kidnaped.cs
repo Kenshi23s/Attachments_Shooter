@@ -29,10 +29,10 @@ public class EggState_Kidnaped : EggState<EggStates>
     public override void OnUpdate()
     {
         _actualKidnapTime -= Time.deltaTime;
-        if (Vector3.Distance(_eggStats.gameMode.playerPos,_manual_Movement.transform.position)>5f)
+        if (Vector3.Distance(_eggStats.gameMode.playerPos,_manual_Movement.transform.position) > _eggStats.kidnapFollowRadius)
         {
-            Vector3 force = _manual_Movement.Seek(_eggStats.gameMode.playerPos);
-            _manual_Movement.AddForce(force);
+            _agent.SetDestination(_eggStats.gameMode.playerPos);
+           
         }
         else
         {

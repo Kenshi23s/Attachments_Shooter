@@ -26795,7 +26795,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   AvailableGameModes:
   - {fileID: 1672964883}
-  gameMode: {fileID: 0}
   actualGameMode: 0
 --- !u!4 &1053858582
 Transform:
@@ -41469,9 +41468,9 @@ MonoBehaviour:
     requiredDmg4stun: 100
     stunTime: 10
     kidnapedTime: 25
-    kidnapFollowRadius: 12
-    kidnapSpeed: 12.2
-    patrolSpeed: 5
+    kidnapFollowRadius: 8
+    kidnapSpeed: 30
+    patrolSpeed: 8.8
     escapeSpeed: 10
 --- !u!4 &1672964884
 Transform:
