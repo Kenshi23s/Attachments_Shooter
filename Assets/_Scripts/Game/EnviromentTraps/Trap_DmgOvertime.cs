@@ -46,15 +46,12 @@ public class Trap_DmgOvertime : MonoBehaviour
         {
             bool hasAny = dmgList.Any();
             dmgList.CheckAndAdd(target); onEnter?.Invoke(target);
+            aux.CheckAndAdd(target);
             if (!hasAny) StartCoroutine(CoroutineMake());        
         }                                
     }
 
-    private void OnTriggerStay(Collider other)
-    {
-        if (other.gameObject.TryGetComponent(out IDamagable x))
-            if (dmgList.Contains(x)) aux.CheckAndAdd(x);
-    }
+  
 
     IEnumerator CoroutineMake()
     {

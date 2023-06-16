@@ -79,7 +79,7 @@ namespace FacundoColomboMethods
 
         public static int LayerMaskToLayerNumber(this LayerMask x) => Mathf.RoundToInt(Mathf.Log(x, 2));
 
-        public static void CheckAndRemove<T>(this List<T> col,T item)
+        public static void CheckAndAdd<T>(this List<T> col,T item)
         {
             if (!col.Contains(item))
             {
@@ -87,7 +87,7 @@ namespace FacundoColomboMethods
             }
         }
 
-        public static void CheckAndAdd<T>(this List<T> col, T item)
+        public static void CheckAndRemove<T>(this List<T> col, T item)
         {
             if (col.Contains(item)) col.Remove(item);
         }
