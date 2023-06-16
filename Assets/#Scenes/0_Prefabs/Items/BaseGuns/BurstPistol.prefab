@@ -188,8 +188,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: af94041fe746635409a90c56fa5d5afa, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _baseDamage: 10000
-  _currentDamage: 100000
+  _baseDamage: 30
+  _currentDamage: 30
 --- !u!114 &5846903351772916048
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -548,6 +548,10 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 356392646216198344, guid: 94bd130e9d74d014da0cd78708fc2231, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3971741591271090256, guid: 94bd130e9d74d014da0cd78708fc2231, type: 3}
+      propertyPath: Attachment_stats._serializedList.Array.size
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4164632021795825408, guid: 94bd130e9d74d014da0cd78708fc2231, type: 3}

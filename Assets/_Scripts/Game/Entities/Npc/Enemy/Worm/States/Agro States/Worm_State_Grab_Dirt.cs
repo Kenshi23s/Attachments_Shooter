@@ -25,6 +25,7 @@ public class Worm_State_Grab_Dirt : Worm_State<Worm_AttackState>
     public override void OnEnter()
     {
         _worm.OnStun += _worm.CancelGrabDirt;
+        _worm.health.OnKilled += _worm.CancelGrabDirt;
 
         _timeSinceEnter = 0;
 
@@ -53,6 +54,8 @@ public class Worm_State_Grab_Dirt : Worm_State<Worm_AttackState>
     public override void OnExit()
     {
         _worm.OnStun -= _worm.CancelGrabDirt;
+        _worm.health.OnKilled -= _worm.CancelGrabDirt;
+
         _worm.health.OnTakeDamage -= AddCount;
         _worm.health.dmgResist = auxDmgResist;
     }
