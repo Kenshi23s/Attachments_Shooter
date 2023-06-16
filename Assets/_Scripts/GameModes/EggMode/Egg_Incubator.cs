@@ -40,7 +40,7 @@ public class Egg_Incubator : InteractableObject
             //.Where(x => x.GetType() != typeof(MeshRenderer))
             //.Where(x => x.GetType() != typeof(MeshFilter));
             //foreach (Behaviour item in z) item.enabled = false;   
-            Destroy(_eggs[0].gameObject,0.01f);
+            Destroy(_eggs[0].gameObject);
         };
 
         InteractData._OnInteract.AddListener(action);
