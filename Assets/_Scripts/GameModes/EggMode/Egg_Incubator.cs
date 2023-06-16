@@ -26,7 +26,7 @@ public class Egg_Incubator : InteractableObject
         {
             if (_eggs[0] == null) return;
            
-            ModesManager.instance.gameMode.AddPoints(1);
+            ModesManager.instance.actualMode.AddPoints(1);
           
          
             var x = Instantiate(_eggs[0].view, pointInsideIncubator.position,Quaternion.identity);        
