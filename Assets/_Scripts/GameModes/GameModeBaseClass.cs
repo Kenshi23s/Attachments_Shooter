@@ -5,9 +5,10 @@ public abstract class GameModeBaseClass : MonoBehaviour
 {
     [Header("GameModeBaseClass")]    
     [SerializeField]
-    public int points;
+    public int points=0;
     [SerializeField]
     protected int pointsToWin=5;
+    public int maxPoints => pointsToWin;
 
     public event Action<int> onPointsChange;
     public event Action OnModeEnd;
