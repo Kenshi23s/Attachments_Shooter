@@ -482,6 +482,7 @@ MonoBehaviour:
   _dirtLaunchForce: 40
   DefenseKnockback: 10
   _dmgNeeded4stun: 200
+  CanBeStunned: 1
   StunTime: 2
   FlankDistance: 5
   _flankSpeed: 3
@@ -1654,13 +1655,16 @@ MonoBehaviour:
   - {fileID: 7358492075378909926}
   - {fileID: 2555168298109812684}
   - {fileID: 982619033168474779}
-  _frequency: 1.8
-  _maxAngle: 20
-  _phase: 0
-  _speed: 5
-  SpeedMultiplier: 1
   _sidewaysMovement: 1
-  _verticalMovement: 0
+  _sidewaysFrequency: 1
+  _maxSidewaysAngle: 15
+  _sidewaysPhase: 0
+  _sidewaysSpeed: 1
+  _verticalMovement: 1
+  _verticalFrequency: 1
+  _maxVerticalAngle: 1
+  _verticalPhase: 0
+  _verticalSpeed: 0.4
   _preview: 0
   wormTailSO: {fileID: 11400000, guid: cfad6fb23406e134ebd1d22b23d6b0d4, type: 2}
 --- !u!4 &2084864740511070890 stripped
