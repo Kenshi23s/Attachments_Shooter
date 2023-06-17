@@ -48,15 +48,16 @@ public class RaycastComponent : MonoBehaviour
             // Disparar raycast desde el arma hacia la posicion que golpeo el raycast de la camara
             if (Physics.Raycast(from, dir2, out RaycastHit actualhit, dir2.magnitude + 1, _shootableLayers))
             {
-
-                dirTrail = actualhit.point;
-
-
                 CheckDamagable(actualhit, action);
                   
 
-                if (actualhit.transform.TryGetComponent(out IHitFeedback x))
+                if (actualhit.transform.TryGetComponent(out IHitFeedback x) && !actualhit.collider.isTrigger)
+                {
                     x.FeedbackHit(actualhit.point, actualhit.normal);
+                    
+                }
+                dirTrail = actualhit.point;
+
 
                 gun._debug.Log("RAYCAST FROM GUN HIT: " + actualhit.transform.gameObject);
              
