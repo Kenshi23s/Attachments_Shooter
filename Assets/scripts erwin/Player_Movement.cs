@@ -144,6 +144,7 @@ public class Player_Movement : MonoBehaviour
         rb.useGravity = false;
         var col = GetComponent<Collider>();
        var mat = GetComponent<Collider>().material;
+        col.material = null;
         yield return new WaitWhile(ScreenManager.IsPaused);
 
         col.material = mat;
