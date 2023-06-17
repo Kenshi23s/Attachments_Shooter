@@ -47,8 +47,8 @@ public abstract class Attachment : MonoBehaviour
 
     public Gun owner { get; private set; }
 
-    protected event Action onAttach;
-    protected event Action onDettach;
+    public event Action onAttach;
+    public event Action onDettach;
 
     Vector3 OriginPivot = Vector3.zero; 
     BoxCollider b_collider;
