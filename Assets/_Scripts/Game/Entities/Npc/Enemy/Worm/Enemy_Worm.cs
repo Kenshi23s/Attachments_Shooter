@@ -72,6 +72,7 @@ public class Enemy_Worm : Enemy
     [SerializeField, Min(0)] float _acidShootTime;
     [SerializeField, Min(0)] int _acidDamage;
     [SerializeField, Min(0)] float _acidCooldown;
+    [SerializeField, Min(0)] float _acidForce;
     #endregion
 
     #region Dirt
@@ -150,7 +151,7 @@ public class Enemy_Worm : Enemy
     public override void ArtificialAwake()
     {
         pauseHandlder = GetComponent<PausableObject>();
-
+        pauseHandlder.onPause += () => StartCoroutine(PauseWorm());
         AI_move = GetComponent<AI_Movement>();
         anim = GetComponentInChildren<Animator>();
 
@@ -227,7 +228,9 @@ public class Enemy_Worm : Enemy
     {
         yield return new WaitForSeconds(_acidShootTime);
         var x = Instantiate(_prefabAcid, _shootPivot.position, Quaternion.identity);
-        x.Initialize(Tuple.Create(gameObject, _acidDamage, target.position - _shootPivot.position));
+        Vector3 dir = Player_Movement.position - _shootPivot.position;
+        Vector3 force = (Vector3.up + new Vector3(dir.x, 0, dir.z)).normalized * (_acidForce+dir.magnitude);
+        x.Initialize(gameObject, _acidDamage, force);
     }
     
     public void CancelShootAcid()

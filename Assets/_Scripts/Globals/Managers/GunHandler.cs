@@ -50,6 +50,7 @@ public class GunHandler : MonoBehaviour
     {
         StopCoroutine(HitmarkerUpdate());
         StartCoroutine(HitmarkerUpdate());
+
     }
 
     IEnumerator HitmarkerUpdate()

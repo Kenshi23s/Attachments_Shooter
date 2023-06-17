@@ -4885,6 +4885,7 @@ GameObject:
   - component: {fileID: 6461231469032744931}
   - component: {fileID: 6461231469032744929}
   - component: {fileID: 6461231469032744928}
+  - component: {fileID: -8548186924937196706}
   m_Layer: 0
   m_Name: vfx_ImpactOnDirt
   m_TagString: Untagged
@@ -9596,6 +9597,19 @@ ParticleSystemRenderer:
   m_MeshWeighting2: 1
   m_MeshWeighting3: 1
   m_MaskInteraction: 0
+--- !u!114 &-8548186924937196706
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6461231469032744956}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6ba3ee55cb2f4554da43aa79a82e98b4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _totalDuration: 10
 --- !u!1 &6461231469397050368
 GameObject:
   m_ObjectHideFlags: 0
