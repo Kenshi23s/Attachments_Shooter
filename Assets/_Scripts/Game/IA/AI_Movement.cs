@@ -79,10 +79,10 @@ public class AI_Movement : MonoBehaviour
 
         _destination = destination;        
 
-        if (transform.position.InLineOffSight(destination,IA_Manager.instance.wall_Mask))
+        if (transform.position.InLineOffSight(destination,AI_Manager.instance.wall_Mask))
         {
             // Conseguir la posicion en el piso
-            if (Physics.Raycast(destination, Vector3.down, out RaycastHit hitInfo, 10f, IA_Manager.instance.wall_Mask))
+            if (Physics.Raycast(destination, Vector3.down, out RaycastHit hitInfo, 10f, AI_Manager.instance.wall_Mask))
             {
                 destination = hitInfo.point;
                 _destination = destination;
@@ -117,10 +117,10 @@ public class AI_Movement : MonoBehaviour
 
         _destination = destination;
 
-        if (transform.position.InLineOffSight(destination, IA_Manager.instance.wall_Mask))
+        if (transform.position.InLineOffSight(destination, AI_Manager.instance.wall_Mask))
         {
             // Conseguir la posicion en el piso
-            if (Physics.Raycast(destination, Vector3.down, out RaycastHit hitInfo, 10f, IA_Manager.instance.wall_Mask)) 
+            if (Physics.Raycast(destination, Vector3.down, out RaycastHit hitInfo, 10f, AI_Manager.instance.wall_Mask)) 
             {
                 destination = hitInfo.point;
                 _destination = destination;
@@ -189,7 +189,7 @@ public class AI_Movement : MonoBehaviour
     /// <returns></returns>
     List<Vector3> GetPath(Vector3 target)
     {
-        IA_Manager I = IA_Manager.instance;
+        AI_Manager I = AI_Manager.instance;
         
         Tuple<Node, Node> keyNodes = Tuple.Create(I.GetNearestNode(transform.position), I.GetNearestNode(target));
         

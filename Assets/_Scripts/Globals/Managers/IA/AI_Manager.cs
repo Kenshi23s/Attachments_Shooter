@@ -4,7 +4,7 @@ using UnityEngine;
 using FacundoColomboMethods;
 using System.Linq;
 
-public class IA_Manager : MonoSingleton<IA_Manager>
+public class AI_Manager : MonoSingleton<AI_Manager>
 {
     [SerializeField]
     LayerMask _obstacle, _walls;

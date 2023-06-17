@@ -16,26 +16,26 @@ public class FOVAgent : MonoBehaviour
     {
         GetComponent<DebugableObject>().AddGizmoAction(FovGizmos);
     }
-    public bool IN_FOV(Vector3 obj)
+    public bool IN_FOV(Vector3 target)
     {
-        Vector3 dir = obj - transform.position;
+        Vector3 dir = target - transform.position;
 
         if (dir.magnitude <= _viewRadius)
         {
             if (Vector3.Angle(transform.forward, dir) <= viewAngle / 2)                     
-                return ColomboMethods.InLineOffSight(transform.position, obj,LayerMask.GetMask());      
+                return ColomboMethods.InLineOffSight(transform.position, target, AI_Manager.instance.wall_Mask);      
         }
         return false;
     }
 
-    public bool IN_FOV(Vector3 obj, float viewRadius)
+    public bool IN_FOV(Vector3 target, float viewRadius)
     {
-        Vector3 dir = obj - transform.position;
+        Vector3 dir = target - transform.position;
 
         if (dir.magnitude <= viewRadius)
         {
             if (Vector3.Angle(transform.forward, dir) <= viewAngle / 2)
-                return ColomboMethods.InLineOffSight(transform.position, obj, LayerMask.GetMask());
+                return ColomboMethods.InLineOffSight(transform.position, target, AI_Manager.instance.wall_Mask);
         }
 
         return false;
