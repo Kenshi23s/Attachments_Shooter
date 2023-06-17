@@ -14,12 +14,13 @@ public class EggGameChaseMode : GameModeBaseClass
     [SerializeField] float _egg_interactRadius;
 
     [SerializeField, Tooltip("huevos en el mapa, solo lectura")]
-    EggEscapeModel[] eggsEscaping;
+    public EggEscapeModel[] eggsEscaping { get; private set; }
 
     [SerializeField]
     Material[] eggMaterials;
-    [SerializeField] Transform Incubators;
+    [SerializeField] Transform IncubatorFather;
 
+    public Egg_Incubator[] incubators { get; private set; }
     public Transform[] waypoints => _waypoints;
     [SerializeField] Transform[] _waypoints;
 
@@ -33,9 +34,10 @@ public class EggGameChaseMode : GameModeBaseClass
 
     public override void InitializeMode()
     {     
-        eggStats.gameMode = this; 
+        eggStats.gameMode = this;
         // preguntarle a algun profe o compañero si esto esta bien
-        eggsEscaping = new EggEscapeModel[Incubators.childCount];
+        incubators = IncubatorFather.GetComponentsInChildren<Egg_Incubator>();
+        eggsEscaping = new EggEscapeModel[incubators.Length];
         for (int i = 0; i < eggsEscaping.Length; i++)
         {
             eggsEscaping[i]= Instantiate(model);
