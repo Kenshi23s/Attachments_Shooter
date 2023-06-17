@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 public static class LinqExtension
@@ -28,16 +29,22 @@ public static class LinqExtension
         float maximum = float.MinValue;
         T returnItem = default;
         foreach (var item in col)
-        {
+        {         
             float newValue = GetValue(item);
-            if (newValue> maximum)
+            if (newValue > maximum)
             {
                 maximum = newValue;
                 returnItem = item;
             }
-
         }
         return returnItem;
-
+    }
+    public static IEnumerable<T> NotOfType<T,K>(this IEnumerable<T> col)
+    {
+        foreach (var item in col)
+        {
+            if (!(item.GetType()==typeof(K)))           
+                yield return item;            
+        }
     }
 }
