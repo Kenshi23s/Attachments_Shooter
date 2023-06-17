@@ -1,27 +1,43 @@
 using FacundoColomboMethods;
 using System;
+using System.Collections;
 using UnityEngine;
 
 [RequireComponent(typeof(Rigidbody))]
 [RequireComponent(typeof(DebugableObject))]
+[RequireComponent(typeof(PausableObject))]
 public class Projectile_Acid : MonoBehaviour
 {
     [SerializeField] Trap_DmgOvertime AcidLake;
     DebugableObject _debug;
     Rigidbody _rb;
     GameObject owner;
+  
 
     [SerializeField] LayerMask wallnfloor;
 
     int damage;
     
 
+
     private void Awake()
     {
         _rb = GetComponent<Rigidbody>();
         _rb.useGravity = true;
         _debug = GetComponent<DebugableObject>(); _debug.AddGizmoAction(DrawVelocity);
-      
+        GetComponent<PausableObject>().onPause += () => StartCoroutine(Pause());
+    }
+
+    IEnumerator Pause()
+    {
+        var x = _rb.velocity;
+        _rb.velocity = Vector3.zero;
+        var z = _rb.useGravity;
+        _rb.useGravity = false;
+     
+        yield return new WaitUntil(ScreenManager.IsPaused);
+        _rb.useGravity = z;
+        _rb.velocity = x;
     }
 
     void DrawVelocity() => DrawArrow.ForGizmo(transform.position, _rb.velocity, Color.green);

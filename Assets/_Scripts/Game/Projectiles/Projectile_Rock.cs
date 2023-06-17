@@ -4,7 +4,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
-
+[RequireComponent(typeof(PausableObject))]
 [RequireComponent(typeof(Rigidbody))]
 public class Projectile_Rock : MonoBehaviour,IDamagable
 {
@@ -20,6 +20,17 @@ public class Projectile_Rock : MonoBehaviour,IDamagable
     private void Awake()
     {
         _rb = GetComponent<Rigidbody>();
+        GetComponent<PausableObject>().onPause += () => StartCoroutine(Pause());
+    }
+    IEnumerator Pause()
+    {
+        var x = _rb.velocity;
+        _rb.velocity = Vector3.zero;
+        var y = _rb.useGravity;
+        _rb.useGravity = false;
+        yield return new WaitUntil(ScreenManager.IsPaused);
+        _rb.velocity = x;
+        _rb.useGravity = y;
     }
     public void Iniitialize(GameObject owner, float _explosionRadius)
     {
