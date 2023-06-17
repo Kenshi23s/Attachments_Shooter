@@ -81,7 +81,8 @@ public class Physics_Movement : MonoBehaviour
 
     public void LookTowardsVelocity() 
     {
-        _rb.rotation = Quaternion.LookRotation(new Vector3(_rb.velocity.x, 0, _rb.velocity.z), Vector3.up);
+
+        _rb.rotation = Quaternion.LookRotation(Vector3.RotateTowards(transform.forward, new Vector3(_velocity.x, 0, _velocity.z), 180f * Mathf.Deg2Rad * Time.deltaTime, 0), Vector3.up);
     }
 
     public void LookAt(Vector3 position) 
@@ -89,8 +90,7 @@ public class Physics_Movement : MonoBehaviour
         Vector3 forward = position - _rb.position;
         forward.y = 0;
 
-        transform.forward = Vector3.Lerp(transform.forward, forward, forward.magnitude * Time.deltaTime);
-        _rb.rotation = Quaternion.LookRotation(Vector3.Lerp(transform.forward,forward, forward.magnitude*Time.deltaTime), Vector3.up);
+        _rb.rotation = Quaternion.LookRotation(Vector3.RotateTowards(transform.forward, forward, 180f * Mathf.Deg2Rad * Time.deltaTime, 0), Vector3.up);
     }
 
     public void AddImpulse(Vector3 force) => _rb.AddForce(force, ForceMode.Impulse);
