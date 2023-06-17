@@ -113,9 +113,7 @@ public class WormTail : MonoBehaviour
                 rotation *= Quaternion.AngleAxis(angle, Vector3.right);
             }
 
-            Debug.Log("PREV ROTATION: " + TailBones[i].localRotation);
             TailBones[i].localRotation = rotation;
-            Debug.Log("POST ROTATION: " + TailBones[i].localRotation);
         }
     }
 

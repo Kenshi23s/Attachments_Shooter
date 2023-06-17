@@ -57,8 +57,8 @@ public class Enemy_Worm : Enemy
     [Header("Melee")]
     [SerializeField] HitBox _meleeHitbox;
     [SerializeField, Min(0)] int _meleeDamage;
-    [SerializeField, Min(0)] float _meleeKnockback;
-    [SerializeField, Min(0)] float _meleeCooldown;
+    [SerializeField, Min(0)] float _meleeKnockback = 2f;
+    [SerializeField, Min(0)] float _meleeCooldown = 2f;
     [SerializeField, Min(0)] float _meleeStartTime = 0.4f;
     [SerializeField, Min(0)] float _meleeEndTime = 0.4f;
     #endregion
@@ -103,6 +103,7 @@ public class Enemy_Worm : Enemy
     int _stunDmgCount;
 
     public bool CanBeStunned = true;
+    public bool CanMelee = true;
 
     public float StunTime;
 
@@ -184,7 +185,14 @@ public class Enemy_Worm : Enemy
         fsm.ChangeState(EWormStates.Idle);
         #endregion
 
-    } 
+    }
+
+    public IEnumerator MeleeCooldown() 
+    {
+        CanMelee = false;
+        yield return new WaitForSeconds(_meleeCooldown);
+        CanMelee = true;
+    }
 
     IEnumerator PauseWorm()
     {
@@ -217,14 +225,6 @@ public class Enemy_Worm : Enemy
     }
 
     void DieChange() => fsm.ChangeState(EWormStates.Die);
-
-    public Worm_AttackState ChooseBetweenAttacks() 
-    {
-        if (Random.Range(0, _acidAttackFrequency) >= Random.Range(0, _dirtAttackFrequency))
-            return Worm_AttackState.ShootAcid;
-
-        return Worm_AttackState.GrabDirt;
-    }
 
     // Se llama por animacion
     public IEnumerator ShootAcid()

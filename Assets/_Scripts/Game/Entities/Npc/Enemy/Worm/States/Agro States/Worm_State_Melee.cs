@@ -33,6 +33,7 @@ public class Worm_State_Melee : Worm_State<Worm_AttackState>
     {
         _worm.OnStun -= _worm.CancelMelee;
         _worm.health.OnKilled -= _worm.CancelMelee;
+        _worm.StartCoroutine(_worm.MeleeCooldown());
     }
 
     public override void GizmoShow()
