@@ -9,22 +9,24 @@ public class InteractableComponent : MonoBehaviour, IInteractable
     //UIManager _ui;
     [SerializeField] float interactDistance;
     public float interactTimeNeeded, currentInteractTime;
-    float checkInteractTime;
+    float _checkInteractTime;
     [SerializeField] Collider _interactableCollider;
 
     public UnityEvent onFocus,onUnFocus,OnInteract,onTryingToInteract,OnInteractAbort;
 
+    public event Func<bool> interactConditions = () => true;
 
-
+    DebugableObject _debug;
     private void Start()
     {
         InteractablesManager.instance.AddInteractableObject(this);
 
         //_interactableCollider=GetComponent<Collider>();
-        var debug = GetComponent<DebugableObject>();     
-        OnInteract.AddListener(() => debug.Log("Interactuan conmigo"));
-        onFocus.AddListener(() => debug.Log("Me focusean"));
-        onUnFocus.AddListener(() => debug.Log("Me dejaron de focusear conmigo"));
+        _debug = GetComponent<DebugableObject>();     
+        OnInteract.AddListener(() => _debug.Log("Interactuan conmigo"));
+        onFocus.AddListener(() => _debug.Log("Me focusean"));
+        onUnFocus.AddListener(() => _debug.Log("Me dejaron de focusear conmigo"));
+        _debug.AddGizmoAction(DrawRadius);
     }
 
     private void OnDestroy()
@@ -44,7 +46,13 @@ public class InteractableComponent : MonoBehaviour, IInteractable
     
     public void Interact()
     {
-        checkInteractTime = currentInteractTime += Time.deltaTime;
+        if (!interactConditions.Invoke())
+        {
+            _debug.Log("Las condiciones dieron falso, no se puede interactuar");
+            return;
+        }
+      
+        _checkInteractTime = currentInteractTime += Time.deltaTime;
         
         onTryingToInteract?.Invoke();
         if (currentInteractTime>=interactTimeNeeded)
@@ -58,14 +66,14 @@ public class InteractableComponent : MonoBehaviour, IInteractable
 
     private void LateUpdate()
     {
-        if (checkInteractTime <= currentInteractTime && currentInteractTime != 0)
+        if (_checkInteractTime <= currentInteractTime && currentInteractTime != 0)
         {
-            currentInteractTime = Mathf.Clamp(checkInteractTime, 0, interactTimeNeeded);
+            currentInteractTime = Mathf.Clamp(_checkInteractTime, 0, interactTimeNeeded);
             OnInteractAbort?.Invoke();
         }
            
 
-        checkInteractTime -= Time.deltaTime;    
+        _checkInteractTime -= Time.deltaTime;    
     }
 
     public void Focus() => onFocus?.Invoke();
@@ -95,4 +103,9 @@ public class InteractableComponent : MonoBehaviour, IInteractable
         Destroy(gameObject);
     }
    
+    void DrawRadius()
+    {
+        Gizmos.color = Color.green;
+        Gizmos.DrawWireSphere(transform.position,interactDistance);
+    }
 }

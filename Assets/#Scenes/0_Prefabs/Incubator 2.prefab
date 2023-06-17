@@ -30,7 +30,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 8615013027077086807}
-  m_RootOrder: 3
+  m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!65 &1808202397
 BoxCollider:
@@ -55,6 +55,8 @@ GameObject:
   m_Component:
   - component: {fileID: 3835621656046225231}
   - component: {fileID: 657480155540473240}
+  - component: {fileID: 580460240}
+  - component: {fileID: 580460241}
   m_Layer: 0
   m_Name: Collision Collider
   m_TagString: Untagged
@@ -75,7 +77,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 8615013027077086807}
-  m_RootOrder: 4
+  m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!65 &657480155540473240
 BoxCollider:
@@ -90,6 +92,35 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 0.6, y: 1, z: 0.6}
   m_Center: {x: 0, y: 0, z: 0}
+--- !u!114 &580460240
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 819650039475397150}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a86af0ecba957cb4aa516987e75c070f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _vfxPrefab: {fileID: -3972655145039689112, guid: 347023f0940c79b4c91c3f190a8eca81, type: 3}
+--- !u!114 &580460241
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 819650039475397150}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 360ca867e48780448a1401b7fc47e037, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  canDebug: 0
+  gizmoDraw:
+    m_PersistentCalls:
+      m_Calls: []
 --- !u!1 &1312738920291732045
 GameObject:
   m_ObjectHideFlags: 0
@@ -279,13 +310,13 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 3264954223732271830}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0.165, y: 0.1424, z: -0.0159}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: -2, y: -35, z: -7.9506}
+  m_LocalScale: {x: 499.99994, y: 499.99994, z: 499.99994}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 8615013027077086807}
-  m_RootOrder: 1
+  m_Father: {fileID: 2415595769690472564}
+  m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &3672620060364504266
 GameObject:
@@ -465,6 +496,7 @@ Transform:
   - {fileID: 6381151451786019337}
   - {fileID: 7615745246588923095}
   - {fileID: 96292083655017726}
+  - {fileID: 2915125890079364210}
   m_Father: {fileID: 4160223039743567472}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -566,7 +598,7 @@ GameObject:
   - component: {fileID: 8615013027077086815}
   - component: {fileID: 8615013027077086801}
   - component: {fileID: 802736112}
-  m_Layer: 9
+  m_Layer: 0
   m_Name: Incubator 2
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -586,7 +618,6 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 4160223039743567472}
-  - {fileID: 2915125890079364210}
   - {fileID: 2287118040017329050}
   - {fileID: 1808202396}
   - {fileID: 3835621656046225231}
@@ -645,8 +676,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b402a4dd79eec98439a0a54d90b71391, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  interactDistance: 3
-  interactTimeNeeded: 10
+  interactDistance: 10
+  interactTimeNeeded: 2
   currentInteractTime: 0
   _interactableCollider: {fileID: 1808202397}
   onFocus:
@@ -660,34 +691,10 @@ MonoBehaviour:
       m_Calls: []
   onTryingToInteract:
     m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 8615013027077086803}
-        m_TargetAssemblyTypeName: Egg_Incubator, Assembly-CSharp
-        m_MethodName: UpdateSlider
-        m_Mode: 1
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
+      m_Calls: []
   OnInteractAbort:
     m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 8615013027077086803}
-        m_TargetAssemblyTypeName: Egg_Incubator, Assembly-CSharp
-        m_MethodName: UpdateSlider
-        m_Mode: 1
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
+      m_Calls: []
 --- !u!65 &8615013027077086801
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -721,6 +728,18 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 8615013027077086807}
     m_Modifications:
+    - target: {fileID: 568432481713764284, guid: f93c2063fb30f454cad689c89cc29d25, type: 3}
+      propertyPath: m_Value
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 568432482505564109, guid: f93c2063fb30f454cad689c89cc29d25, type: 3}
+      propertyPath: m_Enabled
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 568432482505564109, guid: f93c2063fb30f454cad689c89cc29d25, type: 3}
+      propertyPath: m_RaycastTarget
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 568432482505564110, guid: f93c2063fb30f454cad689c89cc29d25, type: 3}
       propertyPath: m_AnchorMax.x
       value: 0
@@ -755,7 +774,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 568432482840720978, guid: f93c2063fb30f454cad689c89cc29d25, type: 3}
       propertyPath: m_RootOrder
-      value: 2
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 568432482840720978, guid: f93c2063fb30f454cad689c89cc29d25, type: 3}
       propertyPath: m_AnchorMax.x
@@ -844,6 +863,10 @@ PrefabInstance:
     - target: {fileID: 568432482840720979, guid: f93c2063fb30f454cad689c89cc29d25, type: 3}
       propertyPath: m_Name
       value: TextAndFiller
+      objectReference: {fileID: 0}
+    - target: {fileID: 568432483181533445, guid: f93c2063fb30f454cad689c89cc29d25, type: 3}
+      propertyPath: m_Color.a
+      value: 0.16862746
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: f93c2063fb30f454cad689c89cc29d25, type: 3}

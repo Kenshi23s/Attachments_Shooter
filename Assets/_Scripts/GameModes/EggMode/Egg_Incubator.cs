@@ -1,6 +1,4 @@
-using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 using System.Linq;
 using UnityEngine;
 using UnityEngine.Events;
@@ -16,13 +14,14 @@ public class Egg_Incubator : MonoBehaviour
     [SerializeField] TextAndFiller IncubatorText;
     [SerializeField] Transform pointInsideIncubator;
     DebugableObject _debug;
-    InteractableComponent interactComponent;
+    InteractableComponent _interactComponent;
+    List<EggEscapeModel> _eggs = new List<EggEscapeModel>();
     private void Awake()
     {
         _debug= GetComponent<DebugableObject>();
-        interactComponent = GetComponent<InteractableComponent>();
+        _interactComponent = GetComponent<InteractableComponent>();
        
-        interactComponent.OnInteract.AddListener(IncubateEgg);
+        _interactComponent.OnInteract.AddListener(IncubateEgg);
 
         UnityAction focus = () =>
         {
@@ -30,19 +29,21 @@ public class Egg_Incubator : MonoBehaviour
             string text = CheckEggs() ? can_InteractText : canT_InteractText;
             IncubatorText.SetText(text);
         };
-        interactComponent.onFocus.AddListener(focus);
+        _interactComponent.onFocus.AddListener(focus);
        
-        interactComponent.onUnFocus.AddListener(() => IncubatorText.gameObject.SetActive(false));
+        _interactComponent.onUnFocus.AddListener(() => IncubatorText.gameObject.SetActive(false));
 
-       
+        _interactComponent.onTryingToInteract.AddListener(UpdateSlider);
+
+        _interactComponent.OnInteractAbort.AddListener(UpdateSlider);
     }
 
 
-    List<EggEscapeModel> _eggs = new List<EggEscapeModel>();
+ 
     
     public void UpdateSlider()
-    {
-        IncubatorText.SetSliderValue(interactComponent.currentInteractTime/interactComponent.interactTimeNeeded);
+    {      
+        IncubatorText.SetSliderValue(_interactComponent.currentInteractTime / _interactComponent.interactTimeNeeded);      
     }
     void IncubateEgg()
     {
