@@ -109,7 +109,7 @@ public class InteractablesManager : MonoSingleton<InteractablesManager>
             }
         }
 
-        if (_currentInteractable != null && Input.GetKeyDown(KeyCode.E)) // Example key to trigger interaction
+        if (_currentInteractable != null && Input.GetKey(KeyCode.E)) // Example key to trigger interaction
         {
             _currentInteractable.Interact();
         }

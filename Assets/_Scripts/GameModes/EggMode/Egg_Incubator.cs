@@ -1,11 +1,13 @@
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using UnityEngine;
 using UnityEngine.Events;
 using static EggEscapeModel;
 
 [RequireComponent(typeof(InteractableComponent))]
+[RequireComponent(typeof(DebugableObject))]
 public class Egg_Incubator : MonoBehaviour
 {
     [Header("EggIncubator")]
@@ -13,158 +15,84 @@ public class Egg_Incubator : MonoBehaviour
     [SerializeField] string canT_InteractText;
     [SerializeField] TextAndFiller IncubatorText;
     [SerializeField] Transform pointInsideIncubator;
-
+    DebugableObject _debug;
     InteractableComponent interactComponent;
     private void Awake()
     {
-        
+        _debug= GetComponent<DebugableObject>();
         interactComponent = GetComponent<InteractableComponent>();
-        UnityAction interact = () =>
-        {
-               if (_eggs[0] == null) return;
-
-               ModesManager.instance.actualMode.AddPoints(1);
-
-
-               var x = Instantiate(_eggs[0].view, pointInsideIncubator.position, Quaternion.identity);
-               x.transform.parent = pointInsideIncubator;
-
-
-
-               //IEnumerable<Component> y = x.GetComponents<Component>().Concat(x.GetComponentsInChildren<Component>());
-               //var z = y
-               //.Where(x => x.GetType() != typeof(Transform))
-               //.Where(x => x.GetType() != typeof(MeshRenderer))
-               //.Where(x => x.GetType() != typeof(MeshFilter));
-               //foreach (Behaviour item in z) item.enabled = false;   
-               Destroy(_eggs[0].gameObject);
-        };
-        interactComponent.OnInteract.AddListener(interact);
+       
+        interactComponent.OnInteract.AddListener(IncubateEgg);
 
         UnityAction focus = () =>
         {
             IncubatorText.gameObject.SetActive(true);
-            IncubatorText.SetText(canT_InteractText);
+            string text = CheckEggs() ? can_InteractText : canT_InteractText;
+            IncubatorText.SetText(text);
         };
-        interactComponent.onFocus.AddListener(interact);
-        UnityAction unFocus = () =>
-        {
-            IncubatorText.gameObject.SetActive(false);
-         
-        };
-        interactComponent.onUnFocus.AddListener(interact);
+        interactComponent.onFocus.AddListener(focus);
+       
+        interactComponent.onUnFocus.AddListener(() => IncubatorText.gameObject.SetActive(false));
+
+       
     }
 
+
     List<EggEscapeModel> _eggs = new List<EggEscapeModel>();
-    //protected override void Awake()
-    //{
-    //    base.Awake();
-    //    //"casteo" de funcion a unity action
-    //    UnityAction action = () =>
-    //    {
-    //        if (_eggs[0] == null) return;
+    
+    public void UpdateSlider()
+    {
+        IncubatorText.SetSliderValue(interactComponent.currentInteractTime/interactComponent.interactTimeNeeded);
+    }
+    void IncubateEgg()
+    {
+        if (_eggs[0] == null) return;
 
-    //        ModesManager.instance.actualMode.AddPoints(1);
-
-
-    //        var x = Instantiate(_eggs[0].view, pointInsideIncubator.position,Quaternion.identity);        
-    //        x.transform.parent = pointInsideIncubator;
+        ModesManager.instance.actualMode.AddPoints(1);
 
 
+        var x = Instantiate(_eggs[0].view, pointInsideIncubator.position, Quaternion.identity);
+        x.transform.parent = pointInsideIncubator;
+ 
+        Destroy(_eggs[0].gameObject);
+    }
+    bool CheckEggs()
+    {
+        return _eggs.Where(x => x.actualState == EggStates.Kidnapped).Any();
+    }
 
-    //        //IEnumerable<Component> y = x.GetComponents<Component>().Concat(x.GetComponentsInChildren<Component>());
-    //        //var z = y
-    //        //.Where(x => x.GetType() != typeof(Transform))
-    //        //.Where(x => x.GetType() != typeof(MeshRenderer))
-    //        //.Where(x => x.GetType() != typeof(MeshFilter));
-    //        //foreach (Behaviour item in z) item.enabled = false;   
-    //        Destroy(_eggs[0].gameObject);
-    //    };
+    #region Triggers
+    protected  void OnTriggerEnter(Collider other)
+    {
+       
+        if (other.gameObject.TryGetComponent(out EggEscapeModel egg))
+        {
+            if (!_eggs.Contains(egg))
+            {
+                _debug.Log("Egg Add");
+                _eggs.Add(egg);
+            }       
 
-    //    InteractData._OnInteract.AddListener(action);
-
-    //    canInsert = () =>
-    //    {
-    //        InteractData._promptText = can_InteractText;
-    //        InteractData.canInteract = true;
-    //        DataChange();
-    //        _debug.Log("Can Interact");
-    //    };
-
-
-    //    cantInsert = () =>
-    //    {
-    //        InteractData._promptText = canT_InteractText;
-    //        InteractData.canInteract = false;
-    //        DataChange();
-    //        _debug.Log("CanT Interact");
-
-    //    };
-
-    //    cantInsert.Invoke();
-
-    //}
+            string text = CheckEggs() ? can_InteractText : canT_InteractText;
+            IncubatorText.SetText(text);
+            
 
 
-    //void CheckEggs()
-    //{
-    //    if (_eggs.Count > 0)     
-    //     foreach (var item in _eggs)
-    //     {
-    //         if (item.actualState == EggStates.Kidnapped)
-    //         {
-    //             canInsert.Invoke();
-    //             return;
-    //         }
-    //     }
+        }
+    }
 
-    //}
+  
+    protected  void OnTriggerExit(Collider other)
+    {     
+        if (other.gameObject.TryGetComponent(out EggEscapeModel egg))
+        {
+            if (_eggs.Contains(egg))
+                _eggs.Remove(egg);
 
-    //#region Triggers
-    //protected override void OnTriggerEnter(Collider other)
-    //{
-    //    base.OnTriggerEnter(other);
-    //    if (other.gameObject.TryGetComponent(out EggEscapeModel egg))
-    //    {
-    //        if (!_eggs.Contains(egg))
-    //        {
-    //            _debug.Log("egg");
-    //            _eggs.Add(egg);
-    //        }
+            string text = CheckEggs() ? can_InteractText : canT_InteractText;
+            IncubatorText.SetText(text);
 
-    //        if (egg.actualState == EggStates.Kidnapped)
-    //        {
-
-    //            canInsert?.Invoke();
-    //        }
-    //        else
-    //        {
-    //            _debug.Log(egg.actualState.ToString());
-    //            cantInsert?.Invoke();
-    //        }
-
-
-    //    }
-    //}
-
-    //private void OnTriggerStay(Collider other)
-    //{
-    //    if (other.gameObject.TryGetComponent(out Player_Movement player))
-    //    {
-    //        CheckEggs();
-    //    }
-
-    //}
-
-    //protected override void OnTriggerExit(Collider other)
-    //{
-    //    base.OnTriggerExit(other);
-
-    //    if (other.gameObject.TryGetComponent(out EggEscapeModel egg))
-    //    {
-    //        if (_eggs.Contains(egg))            
-    //            _eggs.Remove(egg);         
-    //    }
-    //}
-    //#endregion
+        }
+    }
+    #endregion
 }
