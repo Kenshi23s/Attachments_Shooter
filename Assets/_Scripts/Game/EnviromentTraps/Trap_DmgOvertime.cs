@@ -58,6 +58,7 @@ public class Trap_DmgOvertime : MonoBehaviour
         WaitForSeconds wait = new WaitForSeconds(1);
         while (dmgList.Any())
         {
+            yield return new WaitUntil(ScreenManager.IsPaused);
             _debug.Log("on Coroutine :D");
             yield return wait;
             foreach (var item in aux) onStay(item);

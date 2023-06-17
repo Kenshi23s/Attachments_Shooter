@@ -9,7 +9,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 2165113967237311115}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Muzzle_Pivot
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -40,7 +40,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 81900002928240184}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Handler_Pivot
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -80,7 +80,7 @@ GameObject:
   - component: {fileID: 889179298060599021}
   - component: {fileID: 5232814601321832882}
   - component: {fileID: -1427819871239493054}
-  m_Layer: 8
+  m_Layer: 6
   m_Name: BurstPistol
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -274,7 +274,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 2868271148861137540}
-  m_Layer: 8
+  m_Layer: 6
   m_Name: shootpos
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -305,7 +305,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 5326311287930302329}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Sight_Pivot
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -336,7 +336,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 5837568057718177996}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Stock_Pivot
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -367,7 +367,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 5846903351632011546}
-  m_Layer: 8
+  m_Layer: 6
   m_Name: LaserPivot
   m_TagString: Untagged
   m_Icon: {fileID: 2974397684917235467, guid: 0000000000000000d000000000000000, type: 0}
@@ -398,7 +398,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 2758121616146713901}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: AttachmentPivot
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -480,6 +480,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: basegun1
       objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: 823e1eb5ae1b0874fafc18da27202e40, type: 3}
+      propertyPath: m_Layer
+      value: 6
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 823e1eb5ae1b0874fafc18da27202e40, type: 3}
 --- !u!4 &55305783975723770 stripped
@@ -558,6 +562,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: cannon_1
       objectReference: {fileID: 0}
+    - target: {fileID: 4164632021795825408, guid: 94bd130e9d74d014da0cd78708fc2231, type: 3}
+      propertyPath: m_Layer
+      value: 6
+      objectReference: {fileID: 0}
     - target: {fileID: 4227555323560522202, guid: 94bd130e9d74d014da0cd78708fc2231, type: 3}
       propertyPath: m_LocalPosition.x
       value: -0.0006
@@ -569,6 +577,14 @@ PrefabInstance:
     - target: {fileID: 4227555323560522202, guid: 94bd130e9d74d014da0cd78708fc2231, type: 3}
       propertyPath: m_LocalPosition.z
       value: 0.2524
+      objectReference: {fileID: 0}
+    - target: {fileID: 4227555323560522203, guid: 94bd130e9d74d014da0cd78708fc2231, type: 3}
+      propertyPath: m_Layer
+      value: 6
+      objectReference: {fileID: 0}
+    - target: {fileID: 6525066220084020866, guid: 94bd130e9d74d014da0cd78708fc2231, type: 3}
+      propertyPath: m_Layer
+      value: 6
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 94bd130e9d74d014da0cd78708fc2231, type: 3}
@@ -599,6 +615,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: mango1
       objectReference: {fileID: 0}
+    - target: {fileID: 12199606260895614, guid: 1a46b81beac04c5418786bdd6254b2f4, type: 3}
+      propertyPath: m_Layer
+      value: 6
+      objectReference: {fileID: 0}
     - target: {fileID: 4156097002027706785, guid: 1a46b81beac04c5418786bdd6254b2f4, type: 3}
       propertyPath: m_Materials.Array.data[0]
       value: 
@@ -615,6 +635,10 @@ PrefabInstance:
       propertyPath: m_Materials.Array.data[0]
       value: 
       objectReference: {fileID: 2100000, guid: 85ab1f55b571b8745b4575499261c0e5, type: 2}
+    - target: {fileID: 6177188071042266452, guid: 1a46b81beac04c5418786bdd6254b2f4, type: 3}
+      propertyPath: m_Layer
+      value: 6
+      objectReference: {fileID: 0}
     - target: {fileID: 6464033994886504811, guid: 1a46b81beac04c5418786bdd6254b2f4, type: 3}
       propertyPath: m_Materials.Array.data[0]
       value: 

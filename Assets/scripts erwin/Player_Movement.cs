@@ -139,12 +139,16 @@ public class Player_Movement : MonoBehaviour
     {
         Vector3 auxVelocity = rb.velocity;
         rb.velocity = Vector3.zero;
-        rb.useGravity= false;
-        
+
+        var z = rb.useGravity;
+        rb.useGravity = false;
+        var col = GetComponent<Collider>();
+       var mat = GetComponent<Collider>().material;
         yield return new WaitWhile(ScreenManager.IsPaused);
 
+        col.material = mat;
         rb.velocity = auxVelocity;
-        rb.useGravity= true;
+        rb.useGravity= z;
     }
     private void LateUpdate()
     {
