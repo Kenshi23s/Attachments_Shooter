@@ -44,7 +44,6 @@ public class InteractableComponent : MonoBehaviour, IInteractable
     
     public void Interact()
     {
-        Debug.Log("interact");
         checkInteractTime = currentInteractTime += Time.deltaTime;
         
         onTryingToInteract?.Invoke();
@@ -81,11 +80,14 @@ public class InteractableComponent : MonoBehaviour, IInteractable
         // Chequear si esta cerca
         if (!ViewHelper.IsNear(cam.position, _interactableCollider.transform.position, interactDistance)) return false;
 
-        // Chequear si esta en el campo de vision
-        if (!ViewHelper.IsInFOV(cam.position, cam.forward, _interactableCollider.transform.position, viewAngle, out priority)) return false;
-
         // Chequear si esta en vista
-        return ViewHelper.IsColliderInLineOfSight(cam.position, _interactableCollider.transform.position, InteractablesManager.instance._sightBlock, _interactableCollider);
+        if (ViewHelper.IsColliderInLineOfSight(cam.position, cam.forward, InteractablesManager.instance._sightBlock, _interactableCollider, out Vector3 hitPos))
+        {
+            // Chequear si esta en el campo de vision
+            if (ViewHelper.IsInFOV(cam.position, cam.forward, hitPos, viewAngle, out priority)) return true;
+        }
+
+        return false;
     }
 
     public void Destroy()

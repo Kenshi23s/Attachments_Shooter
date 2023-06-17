@@ -24,16 +24,18 @@ public static class ViewHelper
     }
 
     //Revisa si hay linea de vision directa entre el objeto A y el B. Pero chequea si se golpeo el target collider
-    public static bool IsColliderInLineOfSight(Vector3 origin, Vector3 target, LayerMask obstacleLayer, Collider targetCollider) 
+    public static bool IsColliderInLineOfSight(Vector3 origin, Vector3 dir, LayerMask obstacleLayer, Collider targetCollider, out Vector3 hitPos) 
     {
-        Vector3 dir = target - origin; //Toma el vector entre el punto A y el B
-        Ray ray = new Ray(origin, dir);
 
-        if (!Physics.Raycast(ray, dir.magnitude, obstacleLayer)) //Tira un raycast desde el objeto A hacia el B
+        targetCollider.Raycast(new Ray(origin, dir), out RaycastHit hitInfo, float.MaxValue);
+        // Si no hay ningun obstaculo en el medio
+        if (!Physics.Raycast(origin, dir, out RaycastHit obstacleHitInfo, hitInfo.distance, obstacleLayer))
         {
-            return targetCollider.Raycast(ray, out _, float.PositiveInfinity); ;
+            hitPos = hitInfo.point;
+            return true;
         }
 
+        hitPos = obstacleHitInfo.point;
         return false;
     }
 
