@@ -23,7 +23,7 @@ public class InteractableComponent : MonoBehaviour, IInteractable
     {
         InteractablesManager.instance.AddInteractableObject(this);
 
-        _interactableCollider=GetComponent<Collider>();
+        //_interactableCollider=GetComponent<Collider>();
         var debug = GetComponent<DebugableObject>();     
         OnInteract.AddListener(() => debug.Log("Interactuan conmigo"));
         onFocus.AddListener(() => debug.Log("Me focusean"));
@@ -45,12 +45,11 @@ public class InteractableComponent : MonoBehaviour, IInteractable
     {
         
         OnInteract?.Invoke();
-        //_ui.interactText.text = _isOpen ? "E to close door" : "E to open door";
+        
     }
 
     public void Focus()
     {
-        Debug.Log("focus");
         onFocus?.Invoke();
     }
 
