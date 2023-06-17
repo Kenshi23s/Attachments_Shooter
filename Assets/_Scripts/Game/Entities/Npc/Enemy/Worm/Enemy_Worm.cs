@@ -159,7 +159,10 @@ public class Enemy_Worm : Enemy
 
         foreach (AnimationClip clip in clips)
         {
-            AnimationLengths.Add(clip.name, clip.length);
+            if (!AnimationLengths.ContainsKey(clip.name))
+            {
+                AnimationLengths.Add(clip.name, clip.length);
+            }
         }
 
         #region Initialize FSM
