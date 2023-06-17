@@ -105,5 +105,11 @@ public class Player_UI : MonoBehaviour
         //mat = _blitBlood.blitPass.blitMaterial;
         //mat.SetFloat("_Life", lastLifecheck);
     }
+    
+    private void OnApplicationQuit()
+    {
+        mat = _blitBlood.blitPass.blitMaterial;
+        mat.SetFloat("_Life", 1);
+    }
 
 }

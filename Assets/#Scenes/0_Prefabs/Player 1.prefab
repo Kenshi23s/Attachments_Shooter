@@ -3245,7 +3245,7 @@ MonoBehaviour:
   _damage: {r: 1, g: 0, b: 0, a: 1}
   _heal: {r: 0, g: 1, b: 0, a: 1}
   _blitBlood: {fileID: 385626960270167318, guid: 4a8e21d5c33334b11b34a596161b9360, type: 2}
-  lastLifecheck: 1
+  lastLifecheck: 0.287
 --- !u!114 &3654896284712484960
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3477,6 +3477,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c3d32a7f4a5e01c459b2fe1c272c978b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  InteractFov: 0
   vibrate: {fileID: 6750984308105810704}
 --- !u!114 &8568796443268590854
 MonoBehaviour:
