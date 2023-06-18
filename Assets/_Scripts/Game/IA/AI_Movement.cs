@@ -102,8 +102,10 @@ public class AI_Movement : MonoBehaviour
         {
             _debug.Log("No veo el destino, calculo el camino.");
 
-            _waypoints = GetPath(destination);
-            _fixedUpdate = PlayPath;
+            if (TryGetPath(destination, out _waypoints))
+            {
+                _fixedUpdate = PlayPathButLookAtTarget;
+            }
         }
     }
 
@@ -148,8 +150,12 @@ public class AI_Movement : MonoBehaviour
         {
             _debug.Log("No veo el destino, calculo el camino.");
 
-            _waypoints = GetPath(destination);
-            _fixedUpdate = PlayPathButLookAtTarget;
+            if (TryGetPath(destination,out _waypoints))
+            {
+                _fixedUpdate = PlayPathButLookAtTarget;
+            }
+            
+            
         }
     }
 
@@ -187,13 +193,19 @@ public class AI_Movement : MonoBehaviour
     /// </summary>
     /// <param name="target"></param>
     /// <returns></returns>
-    List<Vector3> GetPath(Vector3 target)
+    bool TryGetPath(Vector3 target,out List<Vector3> path)
     {
+        path = new List<Vector3>();
         AI_Manager I = AI_Manager.instance;
         
         Tuple<Node, Node> keyNodes = Tuple.Create(I.GetNearestNode(transform.position), I.GetNearestNode(target));
-        
-        return keyNodes.CalculateThetaStar(I.wall_Mask, target);   
+
+        if (keyNodes.Item1!=null && keyNodes.Item2 !=null)
+        {
+            path = keyNodes.CalculateThetaStar(I.wall_Mask, target);
+            return path.Any();
+        }
+        return false;
     }
 
     /// <summary>
