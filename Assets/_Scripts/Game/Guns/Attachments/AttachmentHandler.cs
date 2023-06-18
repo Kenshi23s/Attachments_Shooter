@@ -39,9 +39,12 @@ public class AttachmentHandler : MonoBehaviour
 
 
     public Transform _shootPos { get; private set; }
-   
+    public Transform aimPos { get; private set; }
+
     [SerializeField, Tooltip("La posicion default de salida de bala en caso de no tener cañon")]
     Transform _defaultShootPos;
+    [SerializeField, Tooltip("La posicion default de la mira")]
+    Transform _defaultAimPos;
 
     /// <summary>
     /// este metodo inicializa la clase, requiere q pases un "GunFather"
@@ -65,7 +68,22 @@ public class AttachmentHandler : MonoBehaviour
             _gun._debug.Log($"no tengo muzzle, vuelvo a mi shootpos default");
             _shootPos = _defaultShootPos;                       
         };
-        AddOnChangeEvent(AttachmentType.Muzzle, onMuzzleChange);           
+        AddOnChangeEvent(AttachmentType.Muzzle, onMuzzleChange);
+
+        aimPos = _defaultAimPos;
+        Action onSightChange = () =>
+        {
+            if (activeAttachments.ContainsKey(AttachmentType.Sight))
+                if (activeAttachments[AttachmentType.Sight].TryGetComponent<Sight>(out var a))
+                {
+                    aimPos = a.sightPoint;
+                    _gun._debug.Log($"cambio mi aimpos a la de {a.gameObject.name}");
+                    return;
+                }
+            _gun._debug.Log($"no tengo sight, vuelvo a mi aimpos default");
+            aimPos = _defaultAimPos;
+        };
+        AddOnChangeEvent(AttachmentType.Sight, onSightChange);
     }
 
     private void Start() => SetDefaultAttachments();
