@@ -207,6 +207,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _additionalFOV: 5
   _scopeRenderer: {fileID: 6220711580480116933}
+  myRenderTexture: {fileID: 0}
+  textureAimWidth: 0
+  textureAimHeight: 0
+  HipfireWidth: 0
+  HipfireHeight: 0
 --- !u!1 &4890296052347002353
 GameObject:
   m_ObjectHideFlags: 0
@@ -368,7 +373,7 @@ BoxCollider:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5055336461523588806}
   m_Material: {fileID: 0}
-  m_IsTrigger: 0
+  m_IsTrigger: 1
   m_Enabled: 1
   serializedVersion: 2
   m_Size: {x: 0.13678996, y: 0.18461981, z: 0.45074528}
@@ -395,6 +400,7 @@ MonoBehaviour:
       Value:
         _value: 0
   _sightDot: {fileID: 0}
+  zoomMultiplier: 0
   sightPoint: {fileID: 3725675996528958703}
 --- !u!114 &8617172088389036185
 MonoBehaviour:
