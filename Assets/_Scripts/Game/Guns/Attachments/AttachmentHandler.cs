@@ -29,11 +29,11 @@ public class AttachmentHandler : MonoBehaviour
     [SerializeField,SerializedDictionary("Attachment Type","Attachment Prefab"),
         Tooltip("se define un accesorio default en caso de sacar alguno, no es necesario para algunas armas probablemente")]
     #endregion
-    SerializedDictionary<AttachmentType, Attachment> _DefaultAttachMent = new SerializedDictionary<AttachmentType, Attachment>();
+    SerializedDictionary<AttachmentType, Attachment> _DefaultAttachment = new SerializedDictionary<AttachmentType, Attachment>();
 
     // lo uso para crear eventos para cuando quiero cambiar algun tipo de accesorio
     #region Diccionario Eventos
-    public Dictionary<AttachmentType, Action> onAttachmentCgange => _onAttachmentChange;
+    public Dictionary<AttachmentType, Action> onAttachmentChange => _onAttachmentChange;
     private Dictionary<AttachmentType, Action> _onAttachmentChange = new Dictionary<AttachmentType, Action>();
     #endregion
 
@@ -97,13 +97,13 @@ public class AttachmentHandler : MonoBehaviour
         foreach (AttachmentType key in Enum.GetValues(typeof(AttachmentType)))
         {
             //pregunta si tiene un accesorio default de ese tipo y si tengo una posicion para el
-            if (_DefaultAttachMent.ContainsKey(key) && _attachmentPos.ContainsKey(key))
+            if (_DefaultAttachment.ContainsKey(key) && _attachmentPos.ContainsKey(key))
             {
                 //pregunto si el value no es null
-                if (_DefaultAttachMent[key] != null && _attachmentPos[key] != null)
+                if (_DefaultAttachment[key] != null && _attachmentPos[key] != null)
                 {
                     //añado
-                    AddAttachment(_DefaultAttachMent[key]);
+                    AddAttachment(_DefaultAttachment[key]);
                     if (_onAttachmentChange.TryGetValue(key, out var action)) action?.Invoke();
                     
                 }
@@ -112,7 +112,7 @@ public class AttachmentHandler : MonoBehaviour
         }
     }
 
-    public bool IsDefaultAttachment(Attachment x) => _DefaultAttachMent.ContainsValue(x);
+    public bool IsDefaultAttachment(Attachment x) => _DefaultAttachment.ContainsValue(x);
 
     #region Events
     //añado cosas al diccionario de eventos(no podes hacer un diccionario de eventos en si, tiene q ser de actions)
@@ -208,7 +208,7 @@ public class AttachmentHandler : MonoBehaviour
         {
             _activeAttachments.Remove(key);
             SaveAttachment(toRemove);
-            if (_DefaultAttachMent.TryGetValue(key, out var _default)) 
+            if (_DefaultAttachment.TryGetValue(key, out var _default)) 
             if (_default!= toRemove)
             {
                     AddAttachment(_default);

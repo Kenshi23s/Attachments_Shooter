@@ -17,11 +17,9 @@ public static class LinqExtension
             {
                 minimum = newValue;
                 returnItem = item;
-            }
-           
+            }           
         }
-        return returnItem;
-       
+        return returnItem;     
     }
 
     public static T Maximum<T>(this IEnumerable<T> col, Func<T,float> GetValue)
