@@ -7,7 +7,7 @@ public class VFX_Sign : MonoBehaviour
     [SerializeField] float length=5f;
 
     int count;
-    private void Start()
+    private void CreateSign()
     {
         sign = Instantiate(GameManager.instance.sampleLineSign, transform);
         sign.transform.parent = transform;
@@ -22,10 +22,9 @@ public class VFX_Sign : MonoBehaviour
 
     public void ActivateSign()
     {
-        Start();
-        if (sign==null)
+        if (sign == null)
         {
-            Start();
+            CreateSign();
         }
        
         sign.gameObject.SetActive(true);
