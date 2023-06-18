@@ -33,7 +33,7 @@ public abstract class Attachment : MonoBehaviour
     #endregion
 
     [SerializeField] Transform pivotPos;
-    [SerializeField] protected AttachmentType _myType;
+    protected AttachmentType _myType;
     public AttachmentType myType => _myType;
     //protected AttachmentStats _stats;
 
