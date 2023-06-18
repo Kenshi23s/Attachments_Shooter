@@ -34,14 +34,17 @@ public class ShakeCamera : MonoBehaviour
     public Camera cam;
     [SerializeField] Player_Movement playerMov;
     [SerializeField] Rigidbody rb;
-
+    
     [SerializeField] GunHandler myGunHandler;
 
-    public static event Action OnAim;
-    public static event Action OnAimEnd;
+    public event Action OnCamUpdate;
+
+
+    [SerializeField]
+    float aimFov, hipFov,Speed,returnSpeed;
     private void Awake()
     {
-        
+      
        
     }
 
@@ -75,27 +78,44 @@ public class ShakeCamera : MonoBehaviour
 
         if (Input.GetKey(KeyCode.Mouse1))
         {
-            Vector3 targetAimPos = -cam.transform.InverseTransformPoint(myGunHandler.SightPosition);
-            targetAimPos.z = 0;
-
-            aiming = true;
+            AimMotion();
             float handling = myGunHandler.actualGun.stats.GetStat(StatNames.Handling);
-            actualAimPos = Vector3.Lerp(actualAimPos, hands.transform.localPosition + targetAimPos, soft+(soft * handling/100)* Time.deltaTime);
+            LerpCamera(aimFov, soft + (soft * handling / 100)*Time.deltaTime, aimFov >= cam.fieldOfView);
 
-            hands.transform.localPosition = actualAimPos;
-            OnAim?.Invoke();
 
         } 
         else
         {
-            aiming = false;
-            OnAimEnd?.Invoke();
+            LerpCamera(hipFov, returnSpeed*Time.deltaTime, hipFov <= cam.fieldOfView);
+            aiming = false;   
             hands.transform.localPosition = handsShake;
             actualAimPos = Vector3.zero;
         }
         cam.transform.localPosition = camShake;
+
+       
     }
 
+    void AimMotion()
+    {
+        Vector3 targetAimPos = -cam.transform.InverseTransformPoint(myGunHandler.SightPosition);
+        targetAimPos.z = 0;
+        aiming = true;
+        float handling = myGunHandler.actualGun.stats.GetStat(StatNames.Handling);
+        actualAimPos = Vector3.Lerp(actualAimPos, hands.transform.localPosition + targetAimPos, soft + (soft * handling / 100) * Time.deltaTime);
+        hands.transform.localPosition = actualAimPos;
+        
+    }
+
+    void LerpCamera(float lerpTo,float lerpSpeed,bool conditionToStop)
+    {
+        if (!conditionToStop)
+            cam.fieldOfView = Mathf.Lerp(cam.fieldOfView, lerpTo, lerpSpeed);
+        else
+            cam.fieldOfView = lerpTo;
+    }
+     
+  
 
     public Vector3 FootStepMotion(float frequency, float amplitude)
     {
@@ -103,5 +123,9 @@ public class ShakeCamera : MonoBehaviour
         pos.y += Mathf.Sin(Time.time * frequency) * amplitude*1.2f;
         pos.x += Mathf.Cos(Time.time * frequency/2) * amplitude * 2;
         return pos;
+    }
+    private void OnValidate()
+    {
+        hipFov = cam.fieldOfView;
     }
 }
