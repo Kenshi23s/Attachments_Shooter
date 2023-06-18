@@ -3916,23 +3916,26 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _walkFrequency: 14
-  _walkAmplitude: 0.03
-  _minWalk: 3
+  _walkAmplitude: 0.05
+  _minWalkSpeed: 3
   _runFrequency: 25
-  _runAmplitude: 0.06
-  _minRun: 12
-  soft: 0.284
-  handsInfluence: 0.7
+  _runAmplitude: 0.1
+  _minRunSpeed: 12
+  _soft: 0.5
+  _handsAmplitudeScale: 0.5
+  _horizontalFrequencyScale: 0.5
+  _verticalFrequencyScale: 1
   aimTransform: {fileID: 9120681748301058055}
+  _aimMultiplier: 0.1
+  _aimFOV: 50
+  _hipFOV: 80
+  _aimSpeed: 8
+  _returnSpeed: 8
   hands: {fileID: 8568796444031059869}
   cam: {fileID: 8568796442919035190}
   playerMov: {fileID: 8568796443268590854}
   rb: {fileID: 8568796443268590849}
   myGunHandler: {fileID: 375377512}
-  aimFov: 60
-  hipFov: 80
-  Speed: 3
-  returnSpeed: 10
 --- !u!114 &4777580876267569269
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -4273,8 +4276,31 @@ PrefabInstance:
       propertyPath: m_Name
       value: BurstPistol (1)
       objectReference: {fileID: 0}
+    - target: {fileID: 5846903351772916011, guid: 6a12480e9990c5940a6962d8971dfa1a, type: 3}
+      propertyPath: _DefaultAttachment._serializedList.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5846903351772916011, guid: 6a12480e9990c5940a6962d8971dfa1a, type: 3}
+      propertyPath: _DefaultAttachment._serializedList.Array.data[0].Key
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5846903351772916011, guid: 6a12480e9990c5940a6962d8971dfa1a, type: 3}
+      propertyPath: _DefaultAttachment._serializedList.Array.data[0].Value
+      value: 
+      objectReference: {fileID: 339373045343361361}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 6a12480e9990c5940a6962d8971dfa1a, type: 3}
+--- !u!114 &339373045343361361 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 2296197202727447013, guid: 6a12480e9990c5940a6962d8971dfa1a, type: 3}
+  m_PrefabInstance: {fileID: 1974840308912369844}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5ad9b4ac187382745ab3ad97d4501771, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!4 &4370232877342257796 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 2868271147788517936, guid: 6a12480e9990c5940a6962d8971dfa1a, type: 3}

@@ -205,6 +205,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b69ab177ae5843549ba05905749e8202, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _additionalFOV: 5
+  _scopeRenderer: {fileID: 6220711580480116933}
 --- !u!1 &4890296052347002353
 GameObject:
   m_ObjectHideFlags: 0
@@ -384,7 +386,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   pivotPos: {fileID: 0}
-  _myType: 2
   Attachment_stats:
     _serializedList:
     - Key: 2
