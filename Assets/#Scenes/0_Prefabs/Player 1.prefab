@@ -3929,6 +3929,10 @@ MonoBehaviour:
   playerMov: {fileID: 8568796443268590854}
   rb: {fileID: 8568796443268590849}
   myGunHandler: {fileID: 375377512}
+  aimFov: 60
+  hipFov: 80
+  Speed: 3
+  returnSpeed: 10
 --- !u!114 &4777580876267569269
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -4227,7 +4231,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2868271147788517936, guid: 6a12480e9990c5940a6962d8971dfa1a, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 0
+      value: 0.264
       objectReference: {fileID: 0}
     - target: {fileID: 2868271147788517936, guid: 6a12480e9990c5940a6962d8971dfa1a, type: 3}
       propertyPath: m_LocalPosition.y
@@ -4235,7 +4239,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2868271147788517936, guid: 6a12480e9990c5940a6962d8971dfa1a, type: 3}
       propertyPath: m_LocalPosition.z
-      value: 0.1492
+      value: 0.149
       objectReference: {fileID: 0}
     - target: {fileID: 2868271147788517936, guid: 6a12480e9990c5940a6962d8971dfa1a, type: 3}
       propertyPath: m_LocalRotation.w
