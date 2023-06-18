@@ -143,7 +143,9 @@ public class EggEscapeModel : MonoBehaviour
     void UpdateLinkRope()
     {     
         _playerLinking.SetPosition(0, transform.position);
-        _playerLinking.SetPosition(1, _eggStats.gameMode.playerPos);      
+        
+        _playerLinking.SetPosition(1, Vector3.Slerp(transform.position, _eggStats.gameMode.playerPos,0.5f));
+        _playerLinking.SetPosition(2, _eggStats.gameMode.playerPos);      
     }
     
     public void Stun()
