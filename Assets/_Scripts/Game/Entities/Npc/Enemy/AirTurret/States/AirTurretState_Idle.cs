@@ -29,6 +29,6 @@ public class AirTurretState_Idle : IState<AirTurretState>
 
     public void SetStateMachine(StateMachine<AirTurretState> fsm)
     {
-        throw new System.NotImplementedException();
+        
     }
 }

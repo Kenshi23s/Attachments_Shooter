@@ -1,6 +1,8 @@
 using System;
+using System.Collections;
 using UnityEngine;
 [RequireComponent(typeof(DebugableObject))]
+[RequireComponent(typeof(PausableObject))]
 public class LifeComponent : MonoBehaviour, IDamagable, IHealable
 {
     DebugableObject _debug;
@@ -53,7 +55,14 @@ public class LifeComponent : MonoBehaviour, IDamagable, IHealable
     #endregion
 
 
-
+    IEnumerator OnPause()
+    {
+        var x = canTakeDamage;
+        var z = canBeHealed;
+        canTakeDamage = canBeHealed = false;
+        yield return new WaitUntil(ScreenManager.IsPaused);
+        canBeHealed = z; canTakeDamage = x;
+    }
     private void Awake()
     {
         
@@ -70,7 +79,7 @@ public class LifeComponent : MonoBehaviour, IDamagable, IHealable
 
     }
 
-    void ShowDamageNumber(int x)
+    public void ShowDamageNumber(int x)
     {
         
         FloatingTextManager.instance.PopUpText(x.ToString(), hitPos != Vector3.zero? hitPos : transform.position);

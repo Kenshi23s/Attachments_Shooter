@@ -48,14 +48,14 @@ public class CamRecoil : MonoBehaviour
     public void Recoil()
     {
         //se llama en onShoot, aumenta la rotacion(tendria que ser las stats del arma y no esto O la stats del arma + estos valores)
-      
         
-     
-        float recoilY = -Mathf.Max(VerticalRecoil * _gunstats.GetStat(StatNames.VerticalRecoil)/100, 0);
- 
-        float recoilx_minus = Mathf.Min(-HorizontalRecoil + _gunstats.GetStat(StatNames.HorizontalRecoil), 0); 
+        float recoilY = VerticalRecoil * (1-_gunstats.GetStat(StatNames.VerticalRecoil)/100);
+
+        recoilY = -recoilY;
+
+        float recoilx_minus = HorizontalRecoil * (1-_gunstats.GetStat(StatNames.HorizontalRecoil) / 100);
       
-        float recoilX = Random.Range(recoilx_minus, recoilx_minus * -1);
+        float recoilX = Random.Range(-recoilx_minus, recoilx_minus);
        
 
         targetRotation += new Vector3(recoilY , recoilX, 0);

@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEditor;
+using UnityEngine.Animations;
 
 [System.Serializable]
 public struct BoneData
@@ -18,16 +19,23 @@ public struct BoneData
 public class WormTail : MonoBehaviour
 {
     [SerializeField] Transform[] TailBones = new Transform[0];
-    [SerializeField] float _frequency = 1.8f;
-    [SerializeField] float _maxAngle = 20f;
-    [SerializeField] float _phase;
-    [SerializeField] float _speed = 5f;
-    public float SpeedMultiplier = 1f;
 
+    [Header("Sideways Movement")]
     [SerializeField] bool _sidewaysMovement = true;
-    [SerializeField] bool _verticalMovement = false;
+    [SerializeField] float _sidewaysFrequency = 1.8f;
+    [SerializeField] float _maxSidewaysAngle = 20f;
+    [SerializeField, NotKeyable] float _sidewaysPhase;
+    [SerializeField] float _sidewaysSpeed = 1f;
 
-    [SerializeField] bool _preview = false;
+    [Header("Vertical Movement")]
+    [SerializeField] bool _verticalMovement = false;
+    [SerializeField] float _verticalFrequency = 1.8f;
+    [SerializeField] float _maxVerticalAngle = 20f;
+    [SerializeField, NotKeyable] float _verticalPhase;
+    [SerializeField] float _verticalSpeed = 0f;
+
+
+    [SerializeField, NotKeyable] bool _preview = false;
 
     [SerializeField] WormTailSO wormTailSO;
 
@@ -72,29 +80,46 @@ public class WormTail : MonoBehaviour
     {
         _boneData = wormTailSO.boneData;
         // Conseguir/actualizar el desfase de la sine wave
-        _phase += Time.deltaTime * _speed * SpeedMultiplier;
         for (int i = 0; i < TailBones.Length; i++)
         {
-            // Conseguir el desfase del hueso individual
-            float bonePhase = _boneData[i].distanceFromRoot + _phase;
-            // Conseguir el angulo a rotar
-            float angle = _maxAngle * Mathf.Sin(bonePhase * _frequency);
-
+            float bonePhase;
+            float angle;
             Quaternion rotation = _boneData[i].originalRotation;
-            // A partir del angulo, generar una rotacion
-            if (_sidewaysMovement)
+
+            if (_sidewaysMovement) 
+            {
+                _sidewaysPhase += Time.deltaTime * _sidewaysSpeed;
+
+                // Conseguir el desfase del hueso individual
+                bonePhase = _boneData[i].distanceFromRoot + _sidewaysPhase;
+                // Conseguir el angulo a rotar
+                angle = _maxSidewaysAngle * Mathf.Sin(bonePhase * _sidewaysFrequency);
+
+                // A partir del angulo, generar una rotacion
                 rotation *= Quaternion.AngleAxis(angle, Vector3.up);
-            if (_verticalMovement)
+            }
+
+
+            if (_verticalMovement) 
+            {
+                _verticalPhase += Time.deltaTime * _verticalSpeed;
+
+                // Conseguir el desfase del hueso individual
+                bonePhase = _boneData[i].distanceFromRoot + _verticalPhase;
+                // Conseguir el angulo a rotar
+                angle = _maxVerticalAngle * Mathf.Sin(bonePhase * _verticalFrequency);
+
+                // A partir del angulo, generar una rotacion
                 rotation *= Quaternion.AngleAxis(angle, Vector3.right);
+            }
 
             TailBones[i].localRotation = rotation;
         }
     }
 
+
     void OnDrawGizmos()
     {
-        // Your gizmo drawing thing goes here if required...
-
 #if UNITY_EDITOR
         // Ensure continuous Update calls.
         if (_preview && !Application.IsPlaying(gameObject))

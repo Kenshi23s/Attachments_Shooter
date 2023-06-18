@@ -46,15 +46,13 @@ public class Worm_State_Attack : Worm_State<EWormStates>
         bool inMeleeRange = _worm.AI_move.FOV.IN_FOV(Player_Movement.position, _worm.MeleeAttackRadius);
 
         Worm_AttackState key =
-          inMeleeRange ? Worm_AttackState.Melee
+          _worm.CanMelee && inMeleeRange ? Worm_AttackState.Melee
         : inDirtRange ? Worm_AttackState.GrabDirt
         : inAcidRange ? Worm_AttackState.ShootAcid
         : Worm_AttackState.Pursuit;
        
         _attackFSM.ChangeState(key);
     }
-
-
 
     public override void OnUpdate()
     {
@@ -67,6 +65,8 @@ public class Worm_State_Attack : Worm_State<EWormStates>
 
         _attackFSM.Execute();
     }
+
+    
 
     public override void OnExit() 
     {

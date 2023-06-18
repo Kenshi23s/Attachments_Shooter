@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 9081240854855298981}
   - component: {fileID: 2158065783076944284}
   - component: {fileID: 4450219849481006937}
-  m_Layer: 8
+  m_Layer: 6
   m_Name: artic2_dedo2_low001
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -94,7 +94,7 @@ GameObject:
   - component: {fileID: 362595321331298512}
   - component: {fileID: 6526927593038552750}
   - component: {fileID: 4433678099768257175}
-  m_Layer: 8
+  m_Layer: 6
   m_Name: artic1_pulgar_low001
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -167,6 +167,115 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
+--- !u!1 &140362336485792326
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 4568827508649930120}
+  - component: {fileID: 120710038773720381}
+  - component: {fileID: 1182787149835751960}
+  m_Layer: 8
+  m_Name: GunCamera
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 0
+--- !u!4 &4568827508649930120
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 140362336485792326}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 8568796442919035185}
+  m_RootOrder: 2
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!20 &120710038773720381
+Camera:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 140362336485792326}
+  m_Enabled: 1
+  serializedVersion: 2
+  m_ClearFlags: 1
+  m_BackGroundColor: {r: 0.19215687, g: 0.3019608, b: 0.4745098, a: 0}
+  m_projectionMatrixMode: 1
+  m_GateFitMode: 2
+  m_FOVAxisMode: 0
+  m_SensorSize: {x: 36, y: 24}
+  m_LensShift: {x: 0, y: 0}
+  m_FocalLength: 50
+  m_NormalizedViewPortRect:
+    serializedVersion: 2
+    x: 0
+    y: 0
+    width: 1
+    height: 1
+  near clip plane: 0.01
+  far clip plane: 4000
+  field of view: 40
+  orthographic: 0
+  orthographic size: 5
+  m_Depth: -1
+  m_CullingMask:
+    serializedVersion: 2
+    m_Bits: 2112
+  m_RenderingPath: -1
+  m_TargetTexture: {fileID: 0}
+  m_TargetDisplay: 0
+  m_TargetEye: 3
+  m_HDR: 1
+  m_AllowMSAA: 1
+  m_AllowDynamicResolution: 0
+  m_ForceIntoRT: 0
+  m_OcclusionCulling: 1
+  m_StereoConvergence: 10
+  m_StereoSeparation: 0.022
+--- !u!114 &1182787149835751960
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 140362336485792326}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a79441f348de89743a2939f4d699eac1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_RenderShadows: 1
+  m_RequiresDepthTextureOption: 2
+  m_RequiresOpaqueTextureOption: 2
+  m_CameraType: 1
+  m_Cameras: []
+  m_RendererIndex: -1
+  m_VolumeLayerMask:
+    serializedVersion: 2
+    m_Bits: 55
+  m_VolumeTrigger: {fileID: 0}
+  m_VolumeFrameworkUpdateModeOption: 2
+  m_RenderPostProcessing: 1
+  m_Antialiasing: 2
+  m_AntialiasingQuality: 2
+  m_StopNaN: 0
+  m_Dithering: 0
+  m_ClearDepth: 1
+  m_AllowXRRendering: 1
+  m_RequiresDepthTexture: 0
+  m_RequiresColorTexture: 0
+  m_Version: 2
 --- !u!1 &458922505711667386
 GameObject:
   m_ObjectHideFlags: 0
@@ -178,7 +287,7 @@ GameObject:
   - component: {fileID: 1086806969446302099}
   - component: {fileID: 6226647676990523619}
   - component: {fileID: 4949718567529029197}
-  m_Layer: 8
+  m_Layer: 6
   m_Name: nudillo2_low001
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -262,7 +371,7 @@ GameObject:
   - component: {fileID: 3707358810044534852}
   - component: {fileID: 2909444312227404027}
   - component: {fileID: 9156619533117004912}
-  m_Layer: 8
+  m_Layer: 6
   m_Name: brazo_low
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -346,7 +455,7 @@ GameObject:
   - component: {fileID: 505459182094635603}
   - component: {fileID: 4955371191620991749}
   - component: {fileID: 652987301236451290}
-  m_Layer: 8
+  m_Layer: 6
   m_Name: artic2_dedo3_low
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -429,7 +538,7 @@ GameObject:
   - component: {fileID: 55493685427004648}
   - component: {fileID: 4091234816095796723}
   - component: {fileID: 4085388640733671494}
-  m_Layer: 8
+  m_Layer: 6
   m_Name: artic1_dedo3_low001
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -513,7 +622,7 @@ GameObject:
   - component: {fileID: 24365003244530613}
   - component: {fileID: 6996183899724587200}
   - component: {fileID: 2379855859611003761}
-  m_Layer: 8
+  m_Layer: 6
   m_Name: nudillo1_low
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -597,7 +706,7 @@ GameObject:
   - component: {fileID: 7070593951377827581}
   - component: {fileID: 3115003016537146448}
   - component: {fileID: 2450038264826777883}
-  m_Layer: 8
+  m_Layer: 6
   m_Name: artic2_dedo1_low001
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -680,7 +789,7 @@ GameObject:
   - component: {fileID: 2267308976389342270}
   - component: {fileID: 2193270678745795298}
   - component: {fileID: 5864477635959871305}
-  m_Layer: 8
+  m_Layer: 6
   m_Name: artic1_dedo3_low
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -753,6 +862,53 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
+--- !u!1 &1932228036436926708
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 8758384442062062821}
+  - component: {fileID: 420605570}
+  m_Layer: 8
+  m_Name: Objective Arrow
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &8758384442062062821
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1932228036436926708}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: -0.607, y: 0.327, z: 0.605}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children:
+  - {fileID: 6706574949109788933}
+  m_Father: {fileID: 8568796442919035185}
+  m_RootOrder: 3
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &420605570
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1932228036436926708}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fc6c2ab5ad6a6464aad71ccda6cf0564, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  gamemode: {fileID: 0}
+  rotationSpeed: 6
 --- !u!1 &2194866391361443306
 GameObject:
   m_ObjectHideFlags: 0
@@ -764,7 +920,7 @@ GameObject:
   - component: {fileID: 4006123470455290512}
   - component: {fileID: 6614345899317294850}
   - component: {fileID: 5561810089197438108}
-  m_Layer: 8
+  m_Layer: 6
   m_Name: "mu\xF1eca_low001"
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -852,7 +1008,7 @@ GameObject:
   - component: {fileID: 7274074131443855393}
   - component: {fileID: 902214417492029712}
   - component: {fileID: 6094580808009747884}
-  m_Layer: 8
+  m_Layer: 6
   m_Name: artic2_pulgar_low001
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -935,7 +1091,7 @@ GameObject:
   - component: {fileID: 2011948485610099514}
   - component: {fileID: 2045711476072552207}
   - component: {fileID: 2180553824245975945}
-  m_Layer: 8
+  m_Layer: 6
   m_Name: artic2_dedo3_low001
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1018,7 +1174,7 @@ GameObject:
   - component: {fileID: 1726709641995474538}
   - component: {fileID: 5005839980783488711}
   - component: {fileID: 8074611481562521144}
-  m_Layer: 8
+  m_Layer: 6
   m_Name: artic2_pulgar_low
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1101,7 +1257,7 @@ GameObject:
   - component: {fileID: 8430193723178773762}
   - component: {fileID: 8246516365351917436}
   - component: {fileID: 8606100076984601520}
-  m_Layer: 8
+  m_Layer: 6
   m_Name: nudillo2_low
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1185,7 +1341,7 @@ GameObject:
   - component: {fileID: 121832680275032729}
   - component: {fileID: 1495623630625235373}
   - component: {fileID: 2667937976724539031}
-  m_Layer: 8
+  m_Layer: 6
   m_Name: nudillo3_low001
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1269,7 +1425,7 @@ GameObject:
   - component: {fileID: 4522846348072626292}
   - component: {fileID: 2243604200630139808}
   - component: {fileID: 4316699099178772601}
-  m_Layer: 8
+  m_Layer: 6
   m_Name: artic1_dedo4_low
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1353,7 +1509,7 @@ GameObject:
   - component: {fileID: 5392569474920659947}
   - component: {fileID: 253606661893557449}
   - component: {fileID: 7223291673635437805}
-  m_Layer: 8
+  m_Layer: 6
   m_Name: artic1_dedo2_low001
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1437,7 +1593,7 @@ GameObject:
   - component: {fileID: 141514949575181512}
   - component: {fileID: 2874638877184664875}
   - component: {fileID: 7146909164556021446}
-  m_Layer: 8
+  m_Layer: 6
   m_Name: nudillo4_low
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1521,7 +1677,7 @@ GameObject:
   - component: {fileID: 2910682228468943300}
   - component: {fileID: 6417854433299721990}
   - component: {fileID: 689846173738095786}
-  m_Layer: 8
+  m_Layer: 6
   m_Name: artic1_pulgar_low
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1594,6 +1750,89 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
+--- !u!1 &4033393265810143437
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 6706574949109788933}
+  - component: {fileID: 7049233346528981510}
+  - component: {fileID: 2286248787612535043}
+  m_Layer: 8
+  m_Name: Cylinder
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &6706574949109788933
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4033393265810143437}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 0.15148197, y: 0.15148197, z: 0.15148197}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 8758384442062062821}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!33 &7049233346528981510
+MeshFilter:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4033393265810143437}
+  m_Mesh: {fileID: -7208780576801545532, guid: 7aa505a01c19c6b498dcce8ef4120757, type: 3}
+--- !u!23 &2286248787612535043
+MeshRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4033393265810143437}
+  m_Enabled: 1
+  m_CastShadows: 1
+  m_ReceiveShadows: 1
+  m_DynamicOccludee: 1
+  m_StaticShadowCaster: 0
+  m_MotionVectors: 1
+  m_LightProbeUsage: 1
+  m_ReflectionProbeUsage: 1
+  m_RayTracingMode: 2
+  m_RayTraceProcedural: 0
+  m_RenderingLayerMask: 1
+  m_RendererPriority: 0
+  m_Materials:
+  - {fileID: 2100000, guid: 31321ba15b8f8eb4c954353edc038b1d, type: 2}
+  m_StaticBatchInfo:
+    firstSubMesh: 0
+    subMeshCount: 0
+  m_StaticBatchRoot: {fileID: 0}
+  m_ProbeAnchor: {fileID: 0}
+  m_LightProbeVolumeOverride: {fileID: 0}
+  m_ScaleInLightmap: 1
+  m_ReceiveGI: 1
+  m_PreserveUVs: 0
+  m_IgnoreNormalsForChartDetection: 0
+  m_ImportantGI: 0
+  m_StitchLightmapSeams: 1
+  m_SelectedEditorRenderState: 3
+  m_MinimumChartSize: 4
+  m_AutoUVMaxDistance: 0.5
+  m_AutoUVMaxAngle: 89
+  m_LightmapParameters: {fileID: 0}
+  m_SortingLayerID: 0
+  m_SortingLayer: 0
+  m_SortingOrder: 0
+  m_AdditionalVertexStreams: {fileID: 0}
 --- !u!1 &4040269026770918210
 GameObject:
   m_ObjectHideFlags: 0
@@ -1605,7 +1844,7 @@ GameObject:
   - component: {fileID: 8576022869813780723}
   - component: {fileID: 5572457082161126754}
   - component: {fileID: 7362486919125176868}
-  m_Layer: 8
+  m_Layer: 6
   m_Name: artic2_dedo1_low
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1688,7 +1927,7 @@ GameObject:
   - component: {fileID: 8464756925223549091}
   - component: {fileID: 4938187876329998035}
   - component: {fileID: 4741064612039581054}
-  m_Layer: 8
+  m_Layer: 6
   m_Name: artic_chichon_low001
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1772,7 +2011,7 @@ GameObject:
   - component: {fileID: 8789634205191420585}
   - component: {fileID: 3774099923702165497}
   - component: {fileID: 1655973926576863417}
-  m_Layer: 8
+  m_Layer: 6
   m_Name: nudillo4_low001
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1856,7 +2095,7 @@ GameObject:
   - component: {fileID: 4924872834477661730}
   - component: {fileID: 3035642412483045986}
   - component: {fileID: 7601532803341735381}
-  m_Layer: 8
+  m_Layer: 6
   m_Name: nudillo1_low001
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1940,7 +2179,7 @@ GameObject:
   - component: {fileID: 6201789591772532605}
   - component: {fileID: 293495077095499529}
   - component: {fileID: 3620309045783131817}
-  m_Layer: 8
+  m_Layer: 6
   m_Name: brazo_low001
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -2024,7 +2263,7 @@ GameObject:
   - component: {fileID: 1343026633649739965}
   - component: {fileID: 8341721493621937734}
   - component: {fileID: 7174873654043698605}
-  m_Layer: 8
+  m_Layer: 6
   m_Name: artic1_dedo1_low
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -2108,7 +2347,7 @@ GameObject:
   - component: {fileID: 1608619236349500935}
   - component: {fileID: 5319705171599221019}
   - component: {fileID: 8671323855520293325}
-  m_Layer: 8
+  m_Layer: 6
   m_Name: codo_low001
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -2192,7 +2431,7 @@ GameObject:
   - component: {fileID: 7183902664094570995}
   - component: {fileID: 490586796813982506}
   - component: {fileID: 8544920345570978351}
-  m_Layer: 8
+  m_Layer: 6
   m_Name: codo_low
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -2373,7 +2612,7 @@ GameObject:
   - component: {fileID: 7285498008421261046}
   - component: {fileID: 8351522117205337135}
   - component: {fileID: 1415745252858252666}
-  m_Layer: 8
+  m_Layer: 6
   m_Name: artic1_dedo2_low
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -2457,7 +2696,7 @@ GameObject:
   - component: {fileID: 5274954351738677574}
   - component: {fileID: 9149445319588025860}
   - component: {fileID: 8195101811346555590}
-  m_Layer: 8
+  m_Layer: 6
   m_Name: artic1_dedo4_low001
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -2572,7 +2811,7 @@ GameObject:
   - component: {fileID: 6798242072609463576}
   - component: {fileID: 2769132856506849974}
   - component: {fileID: 3528391680553024770}
-  m_Layer: 8
+  m_Layer: 6
   m_Name: artic2_dedo4_low001
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -2655,7 +2894,7 @@ GameObject:
   - component: {fileID: 2323866843857398843}
   - component: {fileID: 7874586423234762509}
   - component: {fileID: 6249990910449158997}
-  m_Layer: 8
+  m_Layer: 6
   m_Name: artic2_dedo4_low
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -2738,7 +2977,7 @@ GameObject:
   - component: {fileID: 8670452719168335310}
   - component: {fileID: 8744500831685601479}
   - component: {fileID: 6929898600039228757}
-  m_Layer: 8
+  m_Layer: 6
   m_Name: nudillo3_low
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -2822,7 +3061,7 @@ GameObject:
   - component: {fileID: 3359828823344188434}
   - component: {fileID: 8757886709475066667}
   - component: {fileID: 5642243824567670765}
-  m_Layer: 8
+  m_Layer: 6
   m_Name: artic_chichon_low
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -2906,7 +3145,7 @@ GameObject:
   - component: {fileID: 551904821673827189}
   - component: {fileID: 3963071160617565464}
   - component: {fileID: 1553610679555914517}
-  m_Layer: 8
+  m_Layer: 6
   m_Name: artic1_dedo1_low001
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -2991,9 +3230,9 @@ GameObject:
   - component: {fileID: 8568796442919035190}
   - component: {fileID: 8568796442919035191}
   - component: {fileID: 8568796442919035188}
-  - component: {fileID: 8366505079162908116}
-  - component: {fileID: 3625573193884317111}
-  - component: {fileID: 173236157}
+  - component: {fileID: 3689215954763141333}
+  - component: {fileID: 6973481011780483529}
+  - component: {fileID: 3654896284712484960}
   m_Layer: 8
   m_Name: Main Camera
   m_TagString: MainCamera
@@ -3015,6 +3254,8 @@ Transform:
   m_Children:
   - {fileID: 8568796443100534763}
   - {fileID: 4684739103721409622}
+  - {fileID: 4568827508649930120}
+  - {fileID: 8758384442062062821}
   m_Father: {fileID: 6346039511204688671}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -3042,14 +3283,14 @@ Camera:
     width: 1
     height: 1
   near clip plane: 0.01
-  far clip plane: 4000
+  far clip plane: 5000
   field of view: 80
   orthographic: 0
   orthographic size: 5
   m_Depth: -1
   m_CullingMask:
     serializedVersion: 2
-    m_Bits: 4294967295
+    m_Bits: 2147483647
   m_RenderingPath: -1
   m_TargetTexture: {fileID: 0}
   m_TargetDisplay: 0
@@ -3085,7 +3326,8 @@ MonoBehaviour:
   m_RequiresDepthTextureOption: 2
   m_RequiresOpaqueTextureOption: 2
   m_CameraType: 0
-  m_Cameras: []
+  m_Cameras:
+  - {fileID: 120710038773720381}
   m_RendererIndex: -1
   m_VolumeLayerMask:
     serializedVersion: 2
@@ -3102,24 +3344,7 @@ MonoBehaviour:
   m_RequiresDepthTexture: 0
   m_RequiresColorTexture: 0
   m_Version: 2
---- !u!114 &8366505079162908116
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8568796442919035189}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 7937b962a14cbe8408081251610910c1, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  player: {fileID: 8568796443268590854}
-  _damage: {r: 1, g: 0, b: 0, a: 1}
-  _heal: {r: 0, g: 1, b: 0, a: 1}
-  _blitBlood: {fileID: 385626960270167318, guid: 4a8e21d5c33334b11b34a596161b9360, type: 2}
-  lastLifecheck: 1
---- !u!114 &3625573193884317111
+--- !u!114 &3689215954763141333
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -3135,7 +3360,24 @@ MonoBehaviour:
   gizmoDraw:
     m_PersistentCalls:
       m_Calls: []
---- !u!114 &173236157
+--- !u!114 &6973481011780483529
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8568796442919035189}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7937b962a14cbe8408081251610910c1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  player: {fileID: 8568796443268590854}
+  _damage: {r: 1, g: 0, b: 0, a: 1}
+  _heal: {r: 0, g: 1, b: 0, a: 1}
+  _blitBlood: {fileID: 385626960270167318, guid: 4a8e21d5c33334b11b34a596161b9360, type: 2}
+  lastLifecheck: 0.287
+--- !u!114 &3654896284712484960
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -3366,6 +3608,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c3d32a7f4a5e01c459b2fe1c272c978b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  InteractFov: 45
+  vibrate: {fileID: 6750984308105810704}
 --- !u!114 &8568796443268590854
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3558,6 +3802,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   myGuns: []
   _actualGun: {fileID: 0}
+  hitmarker: {fileID: 0}
 --- !u!1 &8568796444031059858
 GameObject:
   m_ObjectHideFlags: 0
@@ -3582,7 +3827,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 8568796444031059858}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: 0.09799787, y: 0, z: 0.2539976}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -3634,6 +3879,7 @@ GameObject:
   - component: {fileID: 8568796444215729709}
   - component: {fileID: 8568796444215729708}
   - component: {fileID: 4777580876267569269}
+  - component: {fileID: 6750984308105810704}
   m_Layer: 8
   m_Name: CameraShake
   m_TagString: Untagged
@@ -3695,6 +3941,23 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4c397f19295381e47bdd3801f1c64751, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &6750984308105810704
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8568796444215729698}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a44f03f86505f7d4ead0aab727b5dc9d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  frequency: 0.01
+  intensity: 0
+  magnitud: 0.025
+  stability: 4
+  soft: 0
 --- !u!1 &8803150952759800549
 GameObject:
   m_ObjectHideFlags: 0
@@ -3706,7 +3969,7 @@ GameObject:
   - component: {fileID: 8169744721956300895}
   - component: {fileID: 5102323425865426938}
   - component: {fileID: 7001953201373844272}
-  m_Layer: 8
+  m_Layer: 6
   m_Name: brazos_conriging
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -3791,7 +4054,7 @@ GameObject:
   - component: {fileID: 8102719581157982391}
   - component: {fileID: 8296468922474366032}
   - component: {fileID: 4191138442621033220}
-  m_Layer: 8
+  m_Layer: 6
   m_Name: "mu\xF1eca_low"
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -3879,7 +4142,7 @@ GameObject:
   - component: {fileID: 1731536545558476411}
   - component: {fileID: 2107923108015731514}
   - component: {fileID: 5531454019564947426}
-  m_Layer: 8
+  m_Layer: 6
   m_Name: artic2_dedo2_low
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -4005,6 +4268,14 @@ PrefabInstance:
     - target: {fileID: 2868271147788517937, guid: 6a12480e9990c5940a6962d8971dfa1a, type: 3}
       propertyPath: m_Name
       value: BurstPistol (1)
+      objectReference: {fileID: 0}
+    - target: {fileID: 5846903351772916053, guid: 6a12480e9990c5940a6962d8971dfa1a, type: 3}
+      propertyPath: _baseDamage
+      value: 30
+      objectReference: {fileID: 0}
+    - target: {fileID: 5846903351772916053, guid: 6a12480e9990c5940a6962d8971dfa1a, type: 3}
+      propertyPath: _currentDamage
+      value: 30
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 6a12480e9990c5940a6962d8971dfa1a, type: 3}

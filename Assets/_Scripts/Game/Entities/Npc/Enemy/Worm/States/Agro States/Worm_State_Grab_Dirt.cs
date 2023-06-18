@@ -25,6 +25,7 @@ public class Worm_State_Grab_Dirt : Worm_State<Worm_AttackState>
     public override void OnEnter()
     {
         _worm.OnStun += _worm.CancelGrabDirt;
+        _worm.health.OnKilled += _worm.CancelGrabDirt;
 
         _timeSinceEnter = 0;
 
@@ -46,13 +47,15 @@ public class Worm_State_Grab_Dirt : Worm_State<Worm_AttackState>
             _fsm.ChangeState(Worm_AttackState.ShootDirt);
             return;
         }
-
-        _worm.transform.forward = (Player_Movement.position - _worm.transform.position).normalized;
+        Vector3 dirToPlayer = Player_Movement.position - _worm.transform.position;
+        _worm.transform.rotation = Quaternion.LookRotation(Vector3.RotateTowards(_worm.transform.forward, dirToPlayer, 180f * Mathf.Deg2Rad * Time.deltaTime, 0), Vector3.up);
     }
 
     public override void OnExit()
     {
         _worm.OnStun -= _worm.CancelGrabDirt;
+        _worm.health.OnKilled -= _worm.CancelGrabDirt;
+
         _worm.health.OnTakeDamage -= AddCount;
         _worm.health.dmgResist = auxDmgResist;
     }

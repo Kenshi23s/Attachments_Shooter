@@ -49,8 +49,6 @@ public class ShakeCamera : MonoBehaviour
     {
         if (ScreenManager.IsPaused()) return;
 
-       
-
         Vector3 temp1;
         Vector3 temp2;
 
@@ -85,6 +83,7 @@ public class ShakeCamera : MonoBehaviour
         } 
         else
         {
+            aiming = false;
             OnAimEnd?.Invoke();
             hands.transform.localPosition = temp2;
             actualAimPos = Vector3.zero;

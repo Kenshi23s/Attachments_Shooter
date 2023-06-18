@@ -1,24 +1,26 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Random = UnityEngine.Random;
 using static EggEscapeModel;
 
 public class EggGameChaseMode : GameModeBaseClass
 {
     [Header("EggGameMode")]
-    [SerializeField] EggEscapeModel model;
-
-
- 
+    [SerializeField] EggEscapeModel model; 
 
     public float interactRadius => _egg_interactRadius;
     [SerializeField] float _egg_interactRadius;
 
     [SerializeField, Tooltip("huevos en el mapa, solo lectura")]
-    EggEscapeModel[] eggsEscaping;
+    public EggEscapeModel[] eggsEscaping { get; private set; }
 
-    [SerializeField] Transform Incubators;
+    [SerializeField]
+    Material[] eggMaterials;
+    [SerializeField] Transform IncubatorFather;
 
+    public Egg_Incubator[] incubators { get; private set; }
     public Transform[] waypoints => _waypoints;
     [SerializeField] Transform[] _waypoints;
 
@@ -27,20 +29,21 @@ public class EggGameChaseMode : GameModeBaseClass
 
     [SerializeField]EggStats eggStats;
 
+    public event Action<EggEscapeModel> OnEggGrabed;
+
 
     public override void InitializeMode()
-    {
-      
+    {     
         eggStats.gameMode = this;
-     
         // preguntarle a algun profe o compañero si esto esta bien
-        eggsEscaping = new EggEscapeModel[Incubators.childCount];
-
+        incubators = IncubatorFather.GetComponentsInChildren<Egg_Incubator>();
+        eggsEscaping = new EggEscapeModel[incubators.Length];
         for (int i = 0; i < eggsEscaping.Length; i++)
         {
             eggsEscaping[i]= Instantiate(model);
             eggsEscaping[i].Initialize(eggStats, _waypoints[Random.Range(0, waypoints.Length-1)].position);
-          
+            eggsEscaping[i].GetComponentInChildren<Renderer>().material = eggMaterials[i];//tendria que ser random, pero como justo coinciden
+                                                                                          //cantidad de materiales y huevos...         
         }
     }
 

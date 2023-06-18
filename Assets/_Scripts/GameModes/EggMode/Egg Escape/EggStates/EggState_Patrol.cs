@@ -6,8 +6,8 @@ using static EggEscapeModel;
 
 public class EggState_Patrol : EggState<EggStates>
 {
+
  
-   
     public EggState_Patrol(EggStateData data) : base(data) 
     {
       _getRandomWaypoint = () =>
@@ -17,9 +17,10 @@ public class EggState_Patrol : EggState<EggStates>
     Transform _actualWaypoint;
 
     Func<Transform> _getRandomWaypoint;
-
+ 
     public override void OnEnter()
     {      
+        
         _actualWaypoint = _getRandomWaypoint?.Invoke();
 
         _agent.SetMaxSpeed(_eggStats.patrolSpeed);

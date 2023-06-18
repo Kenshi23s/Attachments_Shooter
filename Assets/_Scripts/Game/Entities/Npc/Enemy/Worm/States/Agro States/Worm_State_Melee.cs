@@ -16,6 +16,7 @@ public class Worm_State_Melee : Worm_State<Worm_AttackState>
         _worm.anim.SetTrigger("Melee");
         _worm.StartCoroutine(_worm.SpawnMeleeHitbox());
         _worm.OnStun += _worm.CancelMelee;
+        _worm.health.OnKilled += _worm.CancelMelee;
     }
 
     public override void OnUpdate()
@@ -31,6 +32,8 @@ public class Worm_State_Melee : Worm_State<Worm_AttackState>
     public override void OnExit()
     {
         _worm.OnStun -= _worm.CancelMelee;
+        _worm.health.OnKilled -= _worm.CancelMelee;
+        _worm.StartCoroutine(_worm.MeleeCooldown());
     }
 
     public override void GizmoShow()

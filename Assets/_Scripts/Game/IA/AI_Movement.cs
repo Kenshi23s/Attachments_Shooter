@@ -7,6 +7,7 @@ using UnityEngine;
 [RequireComponent(typeof(FOVAgent))]
 [RequireComponent(typeof(DebugableObject))]
 [RequireComponent(typeof(Physics_Movement))]
+[RequireComponent(typeof(PausableObject))]
 
 #endregion
 
@@ -48,6 +49,9 @@ public class AI_Movement : MonoBehaviour
         Movement = GetComponent<Physics_Movement>();
         _debug = GetComponent<DebugableObject>();    
 
+         var x = GetComponent<PausableObject>();
+         x.onPause  += () => enabled = false;
+         x.onResume += () => enabled = true;
         _flockingParameters.myTransform = transform;
         _flockingParameters.maxForce = Movement.maxForce;
         _flockingParameters.viewRadius= FOV.viewRadius;
@@ -75,10 +79,10 @@ public class AI_Movement : MonoBehaviour
 
         _destination = destination;        
 
-        if (transform.position.InLineOffSight(destination,IA_Manager.instance.wall_Mask))
+        if (transform.position.InLineOffSight(destination,AI_Manager.instance.wall_Mask))
         {
             // Conseguir la posicion en el piso
-            if (Physics.Raycast(destination, Vector3.down, out RaycastHit hitInfo, 10f, IA_Manager.instance.wall_Mask))
+            if (Physics.Raycast(destination, Vector3.down, out RaycastHit hitInfo, 10f, AI_Manager.instance.wall_Mask))
             {
                 destination = hitInfo.point;
                 _destination = destination;
@@ -113,10 +117,10 @@ public class AI_Movement : MonoBehaviour
 
         _destination = destination;
 
-        if (transform.position.InLineOffSight(destination, IA_Manager.instance.wall_Mask))
+        if (transform.position.InLineOffSight(destination, AI_Manager.instance.wall_Mask))
         {
             // Conseguir la posicion en el piso
-            if (Physics.Raycast(destination, Vector3.down, out RaycastHit hitInfo, 10f, IA_Manager.instance.wall_Mask)) 
+            if (Physics.Raycast(destination, Vector3.down, out RaycastHit hitInfo, 10f, AI_Manager.instance.wall_Mask)) 
             {
                 destination = hitInfo.point;
                 _destination = destination;
@@ -185,7 +189,7 @@ public class AI_Movement : MonoBehaviour
     /// <returns></returns>
     List<Vector3> GetPath(Vector3 target)
     {
-        IA_Manager I = IA_Manager.instance;
+        AI_Manager I = AI_Manager.instance;
         
         Tuple<Node, Node> keyNodes = Tuple.Create(I.GetNearestNode(transform.position), I.GetNearestNode(target));
         

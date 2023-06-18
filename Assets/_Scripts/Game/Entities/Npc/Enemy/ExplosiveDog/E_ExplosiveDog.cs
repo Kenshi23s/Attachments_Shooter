@@ -3,6 +3,7 @@ using System.Linq;
 using UnityEngine;
 [RequireComponent(typeof(AI_Movement))]
 [RequireComponent(typeof(DebugableObject))]
+[RequireComponent(typeof(PausableObject))]
 public class E_ExplosiveDog : Enemy
 {
     StateMachine<EDogStates> _fsm;
@@ -13,7 +14,7 @@ public class E_ExplosiveDog : Enemy
     }
 
     public AI_Movement agent { get; private set; }
-
+    public PausableObject pauseHandler { get; private set; }
     #region Idle
     float alarmRadius;
     #endregion
@@ -39,6 +40,10 @@ public class E_ExplosiveDog : Enemy
     int poolKey;
     public override void ArtificialAwake()
     {
+        pauseHandler = GetComponent<PausableObject>();
+        pauseHandler.onPause += () => enabled = false;
+        pauseHandler.onResume += () => enabled = true;
+
         blinkMat = blinkObject.GetComponent<Renderer>().material;
         _debug = GetComponent<DebugableObject>(); _debug.AddGizmoAction(GizmosDraw);
         _fsm = new StateMachine<EDogStates>(); _fsm.Initialize(_debug);

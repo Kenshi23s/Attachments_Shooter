@@ -1,13 +1,12 @@
-
 using System;
+using System.Collections;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
 public class ModesManager : MonoSingleton<ModesManager>
 {
     [SerializeField] GameModeBaseClass[] AvailableGameModes;
-    [Tooltip("solo lectura, no modificar")]
-    public GameModeBaseClass gameMode;
+  
     public enum GameMode
     {
         EggChase,
@@ -17,18 +16,25 @@ public class ModesManager : MonoSingleton<ModesManager>
     [SerializeField]
     GameMode actualGameMode;
 
+    public GameModeBaseClass actualMode { get; private set; }
 
     protected override void SingletonAwake()
     {
 
-        gameMode = AvailableGameModes[0];
+        actualMode = AvailableGameModes[0];
        
     }
 
     private void Start()
     {
-        gameMode.gameObject.SetActive(true);
-        gameMode.InitializeMode();
+        StartCoroutine(LateStart());
+    }
+
+    IEnumerator LateStart()
+    {
+        yield return null;
+        actualMode.gameObject.SetActive(true);
+        actualMode.InitializeMode();
     }
 
 

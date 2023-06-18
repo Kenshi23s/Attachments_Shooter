@@ -46,21 +46,19 @@ public class Trap_DmgOvertime : MonoBehaviour
         {
             bool hasAny = dmgList.Any();
             dmgList.CheckAndAdd(target); onEnter?.Invoke(target);
+            aux.CheckAndAdd(target);
             if (!hasAny) StartCoroutine(CoroutineMake());        
         }                                
     }
 
-    private void OnTriggerStay(Collider other)
-    {
-        if (other.gameObject.TryGetComponent(out IDamagable x))
-            if (dmgList.Contains(x)) aux.CheckAndAdd(x);
-    }
+  
 
     IEnumerator CoroutineMake()
     {
         WaitForSeconds wait = new WaitForSeconds(1);
         while (dmgList.Any())
         {
+            yield return new WaitUntil(ScreenManager.IsPaused);
             _debug.Log("on Coroutine :D");
             yield return wait;
             foreach (var item in aux) onStay(item);

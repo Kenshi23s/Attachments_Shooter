@@ -2,13 +2,13 @@ using System;
 using UnityEngine;
 using System.Linq;
 using FacundoColomboMethods;
-
+[RequireComponent(typeof(PausableObject))]
 public class Enemy_AirTurret : Enemy, IDetector
 {
     //aca me guardo el target actual
     public Transform target => _target;
+    
 
-   
 
     [SerializeField] Transform _target;
 
@@ -73,7 +73,9 @@ public class Enemy_AirTurret : Enemy, IDetector
 
     public override void ArtificialAwake()
     {
-        
+        var x = GetComponent<PausableObject>();
+        x.onPause += () => enabled = false;
+        x.onPause += () => enabled = true;
         _misileStats.owner = this;
         GetComponent<LifeComponent>().OnKilled += () => Destroy(gameObject);
         _debug = GetComponent<DebugableObject>();

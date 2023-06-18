@@ -244,6 +244,37 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _vfxPrefab: {fileID: -3972655145039689112, guid: 347023f0940c79b4c91c3f190a8eca81, type: 3}
+--- !u!1 &3823962321464532700
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 3470754020885241976}
+  m_Layer: 9
+  m_Name: Inside Incubator
+  m_TagString: Untagged
+  m_Icon: {fileID: -964228994112308473, guid: 0000000000000000d000000000000000, type: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &3470754020885241976
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3823962321464532700}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0.165, y: 0.1424, z: -0.0159}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 8057132550997207645}
+  m_RootOrder: 2
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &5216019640944692474
 GameObject:
   m_ObjectHideFlags: 0
@@ -1047,6 +1078,7 @@ Transform:
   m_Children:
   - {fileID: 5675563997585581079}
   - {fileID: 2441539485367374458}
+  - {fileID: 3470754020885241976}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -1086,8 +1118,10 @@ MonoBehaviour:
   _sliderImage: {fileID: 0}
   _backSliderImage: {fileID: 0}
   _debug: {fileID: 0}
-  can_InteractText: Tenes Huevos
-  canT_InteractText: No Tenes Huevos
+  can_InteractText: Incubation ready
+  canT_InteractText: Empty incubator
+  _eggModel: {fileID: 919132149155446097, guid: eb256b4827b9b734c88576d76407ea11, type: 3}
+  pointInsideIncubator: {fileID: 3470754020885241976}
 --- !u!135 &8057132550997207640
 SphereCollider:
   m_ObjectHideFlags: 0

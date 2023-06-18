@@ -11,6 +11,7 @@ using Worm_AttackState = Worm_State_Attack.Worm_AttackState;
 
 [RequireComponent(typeof(AI_Movement))]
 //[RequireComponent(typeof(Animator))]
+[RequireComponent(typeof(PausableObject))]
 [SelectionBase]
 public class Enemy_Worm : Enemy
 {
@@ -23,7 +24,7 @@ public class Enemy_Worm : Enemy
         Search
     }
 
-
+    [NonSerialized] public PausableObject pauseHandlder;
     [NonSerialized] public AI_Movement AI_move;
     [NonSerialized] public Animator anim;
     public StateMachine<EWormStates> fsm;
@@ -56,8 +57,8 @@ public class Enemy_Worm : Enemy
     [Header("Melee")]
     [SerializeField] HitBox _meleeHitbox;
     [SerializeField, Min(0)] int _meleeDamage;
-    [SerializeField, Min(0)] float _meleeKnockback;
-    [SerializeField, Min(0)] float _meleeCooldown;
+    [SerializeField, Min(0)] float _meleeKnockback = 2f;
+    [SerializeField, Min(0)] float _meleeCooldown = 2f;
     [SerializeField, Min(0)] float _meleeStartTime = 0.4f;
     [SerializeField, Min(0)] float _meleeEndTime = 0.4f;
     #endregion
@@ -71,6 +72,7 @@ public class Enemy_Worm : Enemy
     [SerializeField, Min(0)] float _acidShootTime;
     [SerializeField, Min(0)] int _acidDamage;
     [SerializeField, Min(0)] float _acidCooldown;
+    [SerializeField, Min(0)] float _acidForce;
     #endregion
 
     #region Dirt
@@ -100,14 +102,15 @@ public class Enemy_Worm : Enemy
     int _dmgNeeded4stun;
     int _stunDmgCount;
 
-    public bool CanBeStunned => _stunDmgCount >= _dmgNeeded4stun;
+    public bool CanBeStunned = true;
+    public bool CanMelee = true;
 
     public float StunTime;
 
     void AddStunCharge(int dmgTaken) {
         _stunDmgCount += dmgTaken;
 
-        if (CanBeStunned)
+        if (CanBeStunned && _stunDmgCount >= _dmgNeeded4stun)
             StunWorm();
     }
 
@@ -148,6 +151,8 @@ public class Enemy_Worm : Enemy
 
     public override void ArtificialAwake()
     {
+        pauseHandlder = GetComponent<PausableObject>();
+        pauseHandlder.onPause += () => StartCoroutine(PauseWorm());
         AI_move = GetComponent<AI_Movement>();
         anim = GetComponentInChildren<Animator>();
 
@@ -155,7 +160,10 @@ public class Enemy_Worm : Enemy
 
         foreach (AnimationClip clip in clips)
         {
-            AnimationLengths.Add(clip.name, clip.length);
+            if (!AnimationLengths.ContainsKey(clip.name))
+            {
+                AnimationLengths.Add(clip.name, clip.length);
+            }
         }
 
         #region Initialize FSM
@@ -177,7 +185,24 @@ public class Enemy_Worm : Enemy
         fsm.ChangeState(EWormStates.Idle);
         #endregion
 
-    } 
+    }
+
+    public IEnumerator MeleeCooldown() 
+    {
+        CanMelee = false;
+        yield return new WaitForSeconds(_meleeCooldown);
+        CanMelee = true;
+    }
+
+    IEnumerator PauseWorm()
+    {
+        var x = anim.speed;     
+        anim.speed= 0;
+        enabled = false;
+        yield return new WaitWhile(ScreenManager.IsPaused);
+        enabled= true;
+        anim.speed= x;
+    }
     private void Start()
     {
         #region CreateHitbox       
@@ -201,20 +226,14 @@ public class Enemy_Worm : Enemy
 
     void DieChange() => fsm.ChangeState(EWormStates.Die);
 
-    public Worm_AttackState ChooseBetweenAttacks() 
-    {
-        if (Random.Range(0, _acidAttackFrequency) >= Random.Range(0, _dirtAttackFrequency))
-            return Worm_AttackState.ShootAcid;
-
-        return Worm_AttackState.GrabDirt;
-    }
-
     // Se llama por animacion
     public IEnumerator ShootAcid()
     {
         yield return new WaitForSeconds(_acidShootTime);
         var x = Instantiate(_prefabAcid, _shootPivot.position, Quaternion.identity);
-        x.Initialize(Tuple.Create(gameObject, _acidDamage, target.position - _shootPivot.position));
+        Vector3 dir = Player_Movement.position - _shootPivot.position;
+        Vector3 force = (Vector3.up + new Vector3(dir.x, 0, dir.z)).normalized * (_acidForce+dir.magnitude);
+        x.Initialize(gameObject, _acidDamage, force);
     }
     
     public void CancelShootAcid()

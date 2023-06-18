@@ -15,14 +15,4 @@ public class GameManager : MonoSingleton<GameManager>
         vfxPool = new ParticlePool();   
         
     }
-
-    public void HelpStartCoroutine(Func<IEnumerator> x)
-    {
-        StartCoroutine(x());
-    }
-    public void HelpStopCoroutine(Func<IEnumerator> x)
-    {
-       StopCoroutine(x());
-    }
-
 }

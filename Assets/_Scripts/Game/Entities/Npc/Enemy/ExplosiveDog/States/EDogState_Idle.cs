@@ -20,24 +20,35 @@ public class EDogState_Idle : IState<EDogStates>
         _agent = agent;
         _fsm = fsm;
         this.myLifeComponent = myLifeComponent;
-        callBackChange = (x) => { _fsm.ChangeState(EDogStates.PURSUIT); GameManager.instance.HelpStopCoroutine(StayIdle); ; };
-       
-
-
+        callBackChange = (x) => _fsm.ChangeState(EDogStates.PURSUIT);
     }
 
     public void OnEnter()
     {
         stopBlink?.Invoke();
         myLifeComponent.OnTakeDamage += callBackChange;
-        GameManager.instance.HelpStartCoroutine(StayIdle);
+        GameManager.instance.StartCoroutine(StayIdle());
        
     }
 
+    
+
     IEnumerator StayIdle()
     {
+        Debug.Log("Stay Idle Called");
+        if (_agent.FOV.IN_FOV(Player_Movement.position))
+        {
+            Debug.Log("ENCONTRE AL JUGADOR");
+            _fsm.Debug("Veo al player"); _fsm.ChangeState(EDogStates.PURSUIT);
+        }
+        else
+        {
+            _fsm.Debug("El player no esta cerca");
+        }
+
         while (_fsm.actualStateKey == EDogStates.IDLE)
         {
+            yield return new WaitForSeconds(1);
             if (_fsm.actualStateKey != EDogStates.IDLE) break;
 
 
@@ -58,12 +69,6 @@ public class EDogState_Idle : IState<EDogStates>
             {
                _fsm.Debug("El player no esta cerca");
             }
-
-              
-           
-             
-
-            yield return new WaitForSeconds(1);
         }     
     }
 
@@ -74,7 +79,6 @@ public class EDogState_Idle : IState<EDogStates>
 
     public void OnExit()
     {
-        GameManager.instance.HelpStopCoroutine(StayIdle);
         myLifeComponent.OnTakeDamage -= callBackChange;
     }
 
