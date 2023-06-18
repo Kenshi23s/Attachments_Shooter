@@ -11,6 +11,8 @@ public class ScopeCamera : MonoBehaviour
     Vector3 _ogLocalPosition;
     Quaternion _ogLocalRotation;
 
+    Transform _mainCamera;
+
     [SerializeField]
     float _additionalFOV = 5f;
 
@@ -28,6 +30,7 @@ public class ScopeCamera : MonoBehaviour
 
     private void Awake()
     {
+        _mainCamera = Camera.main.transform;
         _camera = GetComponent<Camera>();
         _owner = GetComponentInParent<Sight>();
         _scopeMaterial = _scopeRenderer.material;
@@ -44,74 +47,68 @@ public class ScopeCamera : MonoBehaviour
         
     }
 
-    private void Start()
-    {
-        
-    }
-
 
     void SetValuesToMainCamera() 
     {
         // Igualar a los valores de la camara principal
-        transform.parent = Camera.main.transform;
+        transform.parent = _mainCamera;
         transform.localPosition = Vector3.zero;
         transform.localRotation = Quaternion.identity;
 
-        ShakeCamera.OnAimTransition += UpdateCamera;
-        ShakeCamera.AimStart += SetAimRenderTexture;
-        ShakeCamera.AimEnd += SetHipFireRenderTexture;
-
-
-
+        ShakeCamera.OnAimTransition += UpdateScope;
+        ShakeCamera.OnHipPosReached += TurnOffScope;
+        ShakeCamera.OnHipPosLeft += TurnOnScope;
     }
-    void SetAimRenderTexture() => SetRenderTexture(textureAimWidth, textureAimHeight);
 
-    void SetHipFireRenderTexture() => SetRenderTexture(HipfireWidth, HipfireHeight);
-
-    void SetRenderTexture(int x,int y)
-    {
-        // "borro" la textura
-        myRenderTexture.Release();
-        //asigno valores
-        myRenderTexture.width = x;
-        myRenderTexture.height = y;
-        //la vuelvo a crear
-        myRenderTexture.Create();
-
-    }
     void ResetValues() 
     {
         // Restaurar valores de la camara
+        
         transform.parent = _ogParent;
         transform.localPosition = _ogLocalPosition;
         transform.localRotation = _ogLocalRotation;
 
-        TurnOffScope(); SetHipFireRenderTexture();
+        TurnOffScope(); 
 
-        ShakeCamera.OnAimTransition -= UpdateCamera;
-        ShakeCamera.AimStart -= SetAimRenderTexture;
-        ShakeCamera.AimEnd -= SetHipFireRenderTexture;
+        ShakeCamera.OnAimTransition -= UpdateScope;
+        ShakeCamera.OnHipPosReached -= TurnOffScope;
+        ShakeCamera.OnHipPosLeft -= TurnOnScope;
     }
 
     // Actualizar los valores de la mira y la camara segun que tan cerca esta de llegar a su posicion final de apuntado
-    void UpdateCamera(float t)
+    void UpdateScope(float t)
     {
-        if (t > 0)
-        {
-            _camera.enabled = true;
-            _camera.fieldOfView = Camera.main.fieldOfView + _additionalFOV;
-            _scopeMaterial.SetFloat("_Fade", 1 - t);
-          
-        }
-        else
-        {
-            TurnOffScope();
-        }
+        _camera.fieldOfView = Camera.main.fieldOfView + _additionalFOV;
+        _scopeMaterial.SetFloat("_Fade", 1 - t);
     }
 
     void TurnOffScope() 
     {
         _camera.enabled = false;
         _scopeMaterial.SetFloat("_Fade", 1);
+        ReleaseRenderTexture();
+    }
+
+    void TurnOnScope()
+    {
+        _camera.enabled = true;
+        CreateRenderTexture(textureAimWidth, textureAimHeight);
+    }
+
+    void CreateRenderTexture(int x, int y)
+    {
+        // "Borro" la textura
+        myRenderTexture.Release();
+        // Asigno valores
+        myRenderTexture.width = x;
+        myRenderTexture.height = y;
+        // La vuelvo a crear
+        myRenderTexture.Create();
+
+    }
+
+    void ReleaseRenderTexture()
+    {
+        myRenderTexture.Release();
     }
 }
