@@ -37,6 +37,18 @@ public class AttachmentHandler : MonoBehaviour
     private Dictionary<AttachmentType, Action> _onAttachmentChange = new Dictionary<AttachmentType, Action>();
     #endregion
 
+   public bool TryGetAttachment<T>(AttachmentType key,out T lookValue) where T : Attachment
+    {
+        lookValue= default(T);
+       
+        if (_activeAttachments.TryGetValue(key, out var attachmentType))
+            if (attachmentType.TryGetComponent<T>(out var finalResult))
+            {
+                lookValue = finalResult;
+                return true;
+            }
+        return false;
+   } 
 
     public Transform _shootPos { get; private set; }
     public Transform aimPos { get; private set; }
@@ -46,6 +58,7 @@ public class AttachmentHandler : MonoBehaviour
     [SerializeField, Tooltip("La posicion default de la mira")]
     Transform _defaultAimPos;
 
+   
     /// <summary>
     /// este metodo inicializa la clase, requiere q pases un "GunFather"
     /// </summary>

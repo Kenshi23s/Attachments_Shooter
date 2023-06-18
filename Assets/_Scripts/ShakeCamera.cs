@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using static StatsHandler;
+using static Attachment;
 [RequireComponent(typeof(PausableObject))]
 public class ShakeCamera : MonoBehaviour
 {
@@ -124,7 +125,7 @@ public class ShakeCamera : MonoBehaviour
             _normalizedDistanceToAimPosition = Mathf.Clamp01(_normalizedDistanceToAimPosition);
 
             AimMotion();
-            OnAimTransition?.Invoke(_normalizedDistanceToAimPosition);
+           
         }
 
         cam.transform.localPosition = _ogCamLocalPos + _camShake;
@@ -136,6 +137,7 @@ public class ShakeCamera : MonoBehaviour
         float smoothT = Mathf.SmoothStep(0, 1, _normalizedDistanceToAimPosition);
         _currentHandsLocalPos = Vector3.Lerp(_ogHandsLocalPos, _handsAimLocalPos, smoothT);
         LerpCameraFOV(smoothT);
+        OnAimTransition?.Invoke(smoothT);
     }
 
     bool HandsReachedTargetPosition() 
@@ -145,7 +147,12 @@ public class ShakeCamera : MonoBehaviour
 
     void LerpCameraFOV(float t)
     {
-        cam.fieldOfView = Mathf.Lerp(_hipFOV, _aimFOV, t);
+        float multiplyZoom = 1;
+      
+        if (myGunHandler.actualGun.attachmentHandler.TryGetAttachment<Sight>(AttachmentType.Sight,out var sight))        
+            multiplyZoom = sight.zoomMultiplier;
+        
+        cam.fieldOfView = Mathf.Lerp(_hipFOV, _aimFOV*Mathf.Max(1,multiplyZoom), t);
     }
 
     public Vector3 FootStepMotion(float frequency, float amplitude)
