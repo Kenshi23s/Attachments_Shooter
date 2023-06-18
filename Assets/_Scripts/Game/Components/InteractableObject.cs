@@ -33,11 +33,8 @@ public class InteractableObject : MonoBehaviour
     [SerializeField] bool _cycleInteract;
 
     [Header("Canvas")]
-    [SerializeField] Canvas _canvas;
-    [SerializeField] Slider _sliderInteract;
-    [SerializeField] Text _promptText;
-    [SerializeField] Image _sliderImage;
-    [SerializeField] Image _backSliderImage;
+    [SerializeField] TextAndFiller _canvas;
+    
 
     [SerializeField]
     protected DebugableObject _debug;
@@ -104,10 +101,20 @@ public class InteractableObject : MonoBehaviour
     {
         //si no estoy interactuando bajo el tiempo q se mantuvo pulsado
         _isTriyingToInteract = Input.GetKey(KeyCode.E);
-        if (InteractData.canInteract && _isTriyingToInteract && _canvas.isActiveAndEnabled)
-                  Interact();        
 
-        else if (!_isTriyingToInteract && currentInteractionTime > 0)
+        if (InteractData.canInteract && _isTriyingToInteract && _canvas.isActiveAndEnabled)
+        {
+            Interact(); _canvas.TurnSliderTextOff();
+        }
+        else
+        {
+            _canvas.TurnSliderTextOn();
+        }
+       
+       
+                   
+
+        if (!_isTriyingToInteract && currentInteractionTime > 0)
         {
             currentInteractionTime = 0f;
             SetVisibleSlider(false);
@@ -150,28 +157,20 @@ public class InteractableObject : MonoBehaviour
  
     public void SetUICalls()
     {
-        #region Slider
-        onDataChange += (x) =>
-        {
-            _sliderInteract.maxValue = x._interactTimeNeeded;
-            _sliderInteract.minValue = 0;
-        };
-
-        Action<float> ValueChange = (x) => _sliderInteract.value = x;
+        Action<float> ValueChange = (x) => _canvas.SetSliderValue(currentInteractionTime / InteractData._interactTimeNeeded);
 
         WhileInteracting += ValueChange;
         While_NOT_Interacting += ValueChange;
-        #endregion
+    
 
         #region PromptText
-        onDataChange += (x) => _promptText.text = x._promptText;
+        onDataChange += (x) => _canvas.SetText(x._promptText);
         #endregion
     }
 
     public void SetVisibleSlider(bool mybool)
     {
-        if (_sliderImage != null) _sliderImage.enabled = mybool;
-        if (_backSliderImage != null)  _backSliderImage.enabled = mybool; 
+        _canvas.gameObject.SetActive(mybool);
     }
 
     public void OnDesactivate()
