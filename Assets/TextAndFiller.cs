@@ -6,11 +6,29 @@ using UnityEngine;
 public class TextAndFiller : MonoBehaviour
 {
     [SerializeField] Text text;
+    [SerializeField] Text textOverSlider;
     [SerializeField] Slider slider;
 
     public void SetText(string x)
     {
         text.text = x;
+    }
+
+    public void SetOverlayText(string x)
+    {
+        textOverSlider.text = x;
+    }
+
+    public void TurnSliderTextOff()
+    {
+        textOverSlider.gameObject.SetActive(false);
+        slider.gameObject.SetActive(true);
+    }
+
+    public void TurnSliderTextOn()
+    {
+        textOverSlider.gameObject.SetActive(true);
+        slider.gameObject.SetActive(false);
     }
 
     public void SetSliderValue(float x)
