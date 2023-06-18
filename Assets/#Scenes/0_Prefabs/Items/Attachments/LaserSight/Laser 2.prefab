@@ -43,6 +43,8 @@ GameObject:
   - component: {fileID: 8274196726495797010}
   - component: {fileID: 37321876217687643}
   - component: {fileID: 8640581564090189436}
+  - component: {fileID: 1182152339146979360}
+  - component: {fileID: 3486858850072018510}
   m_Layer: 11
   m_Name: Laser 2
   m_TagString: Untagged
@@ -93,7 +95,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   pivotPos: {fileID: 0}
-  _myType: 4
   Attachment_stats:
     _serializedList: []
   _laserLineRender: {fileID: 3198255233122485324}
@@ -112,6 +113,34 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _color: {r: 1, g: 0, b: 0, a: 1}
   length: 3
+--- !u!114 &1182152339146979360
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2052278849705528592}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4c397f19295381e47bdd3801f1c64751, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &3486858850072018510
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2052278849705528592}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 360ca867e48780448a1401b7fc47e037, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  canDebug: 1
+  gizmoDraw:
+    m_PersistentCalls:
+      m_Calls: []
 --- !u!1 &9192258057105068192
 GameObject:
   m_ObjectHideFlags: 0
@@ -250,6 +279,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 8709545740602978973}
     m_Modifications:
+    - target: {fileID: 7043261496363661114, guid: c95223dc90698834f9931313c2dd422e, type: 3}
+      propertyPath: m_CastShadows
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 8211643077537746005, guid: c95223dc90698834f9931313c2dd422e, type: 3}
       propertyPath: m_RootOrder
       value: 0
