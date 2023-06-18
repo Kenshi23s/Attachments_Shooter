@@ -24,9 +24,9 @@ public class GunHandler : MonoBehaviour
 
     //awake para inicializacion
 
-    //Esto esta mal, rompe con solid, preguntarle a jocha como hacerlo de mejor manera, pero por ahora...
-    static Transform _sightPoint;
-    public static Vector3 sightPosition=>_sightPoint != null? _sightPoint.localPosition : Vector3.zero; 
+    //Transform _sightPoint;
+    //public Vector3 SightPosition =>_sightPoint != null ? _sightPoint.localPosition : Vector3.zero; 
+    public Vector3 SightPosition => _actualGun.attachmentHandler.aimPos.position; 
 
     public void SetPlayer(Player_Handler player) => myPlayer = player;
   
@@ -73,27 +73,27 @@ public class GunHandler : MonoBehaviour
     {
        
 
-        OnSightChange();
+        //SetupOnSightChange();
     
         Debug.LogWarning("Armas en full auto, asegurarse q tengan el RateofFire != 0 ");
     }
 
 
-    void OnSightChange()
-    {
-        AttachmentType key = AttachmentType.Sight;
-        AttachmentHandler x = _actualGun.attachmentHandler;
-        x.AddOnChangeEvent(key, () =>
-        {
-            if (x.activeAttachments.TryGetValue(key,out var z))
-            {
-                var y = x.activeAttachments[key].GetComponent<Sight>();
-                _sightPoint = y.sightPoint;
-                return;
-            }
-            _sightPoint = null;
-        });
-    }
+    //void SetupOnSightChange()
+    //{
+    //    AttachmentType key = AttachmentType.Sight;
+    //    AttachmentHandler handler = _actualGun.attachmentHandler;
+    //    handler.AddOnChangeEvent(key, () =>
+    //    {
+    //        if (handler.activeAttachments.TryGetValue(key,out var z))
+    //        {
+    //            var sight = handler.activeAttachments[key].GetComponent<Sight>();
+    //            _sightPoint = sight.sightPoint;
+    //            return;
+    //        }
+    //        _sightPoint = null;
+    //    });
+    //}
 
     void Update()
     {

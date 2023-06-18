@@ -55,6 +55,7 @@ public class AttachmentHandler : MonoBehaviour
         _gun = GetComponent<Gun>();
 
         _shootPos = _defaultShootPos;
+        
         // este metodo lo uso para chequear desde donde tiene q salir mi bala
         Action onMuzzleChange = () =>
         {

@@ -258,7 +258,7 @@ MonoBehaviour:
   m_RenderShadows: 1
   m_RequiresDepthTextureOption: 2
   m_RequiresOpaqueTextureOption: 2
-  m_CameraType: 1
+  m_CameraType: 0
   m_Cameras: []
   m_RendererIndex: -1
   m_VolumeLayerMask:
@@ -3923,7 +3923,7 @@ MonoBehaviour:
   _minRun: 12
   soft: 0.284
   handsInfluence: 0.7
-  aimPos: {x: -0.35, y: 0.09, z: -0.2}
+  aimTransform: {fileID: 9120681748301058055}
   hands: {fileID: 8568796444031059869}
   cam: {fileID: 8568796442919035190}
   playerMov: {fileID: 8568796443268590854}
@@ -4282,5 +4282,10 @@ PrefabInstance:
 --- !u!4 &4370232877342257796 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 2868271147788517936, guid: 6a12480e9990c5940a6962d8971dfa1a, type: 3}
+  m_PrefabInstance: {fileID: 1974840308912369844}
+  m_PrefabAsset: {fileID: 0}
+--- !u!4 &9120681748301058055 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 7348504008614977715, guid: 6a12480e9990c5940a6962d8971dfa1a, type: 3}
   m_PrefabInstance: {fileID: 1974840308912369844}
   m_PrefabAsset: {fileID: 0}

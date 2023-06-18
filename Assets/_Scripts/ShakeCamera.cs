@@ -24,7 +24,7 @@ public class ShakeCamera : MonoBehaviour
     public float handsInfluence = 0.5f;
 
     [Header("Apuntado"), Space(1)]
-    public Vector3 aimPos;
+    public Transform aimTransform;
    
     public static bool aiming =false;
     Vector3 actualAimPos;
@@ -49,35 +49,40 @@ public class ShakeCamera : MonoBehaviour
     {
         if (ScreenManager.IsPaused()) return;
 
-        Vector3 temp1;
-        Vector3 temp2;
-
+        Vector3 camShake;
+        Vector3 handsShake;
+        // Movimiento de manos cuando corre
         if (rb.velocity.magnitude > _minRun && playerMov.onGrounded)
         {
-            temp1 = Vector3.Lerp(cam.transform.localPosition, FootStepMotion(_runFrequency, _runAmplitude), soft);
-            temp2 = Vector3.Lerp(hands.transform.localPosition, FootStepMotion(_runFrequency, _runAmplitude) * handsInfluence, soft);
+            camShake = Vector3.Lerp(cam.transform.localPosition, FootStepMotion(_runFrequency, _runAmplitude), soft);
+            handsShake = Vector3.Lerp(hands.localPosition, FootStepMotion(_runFrequency, _runAmplitude) * handsInfluence, soft);
         }
+        // Movimiento de manos cuando camina
         else
         {
             if (rb.velocity.magnitude > _minWalk && playerMov.onGrounded)
             {
-                temp1 = Vector3.Lerp(cam.transform.localPosition, FootStepMotion(_walkFrequency, _walkAmplitude), soft);
-                temp2 = Vector3.Lerp(hands.transform.localPosition, FootStepMotion(_walkFrequency, _walkAmplitude) * handsInfluence, soft);
+                camShake = Vector3.Lerp(cam.transform.localPosition, FootStepMotion(_walkFrequency, _walkAmplitude), soft);
+                handsShake = Vector3.Lerp(hands.localPosition, FootStepMotion(_walkFrequency, _walkAmplitude) * handsInfluence, soft);
             }
+            // Movimiento de camera cuando esta quieto
             else
             {
-                temp1 = Vector3.Lerp(cam.transform.localPosition, Vector3.zero, soft);
-                temp2 = Vector3.Lerp(hands.transform.localPosition, Vector3.zero, soft);
+                camShake = Vector3.Lerp(cam.transform.localPosition, Vector3.zero, soft);
+                handsShake = Vector3.Lerp(hands.localPosition, Vector3.zero, soft);
             }
         }
 
         if (Input.GetKey(KeyCode.Mouse1))
         {
+            Vector3 targetAimPos = -cam.transform.InverseTransformPoint(myGunHandler.SightPosition);
+            targetAimPos.z = 0;
+
             aiming = true;
             float handling = myGunHandler.actualGun.stats.GetStat(StatNames.Handling);
-            actualAimPos = Vector3.Lerp(actualAimPos,aimPos - GunHandler.sightPosition,soft+(soft * handling/100)* Time.deltaTime);
+            actualAimPos = Vector3.Lerp(actualAimPos, hands.transform.localPosition + targetAimPos, soft+(soft * handling/100)* Time.deltaTime);
 
-            hands.transform.localPosition = actualAimPos + temp1;
+            hands.transform.localPosition = actualAimPos;
             OnAim?.Invoke();
 
         } 
@@ -85,10 +90,10 @@ public class ShakeCamera : MonoBehaviour
         {
             aiming = false;
             OnAimEnd?.Invoke();
-            hands.transform.localPosition = temp2;
+            hands.transform.localPosition = handsShake;
             actualAimPos = Vector3.zero;
         }
-        cam.transform.localPosition = temp1;
+        cam.transform.localPosition = camShake;
     }
 
 
