@@ -21,21 +21,30 @@ Material:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_Name: mat_barks1
-  m_Shader: {fileID: 4800000, guid: 933532a4fcc9baf4fa0491de14d08ed7, type: 3}
-  m_ValidKeywords:
-  - _ALPHATEST_ON
-  - _NORMALMAP
+  m_Shader: {fileID: -6465566751694194690, guid: acfc684c6a31f1b4da9ec4efbf3e1f18, type: 3}
+  m_ValidKeywords: []
   m_InvalidKeywords: []
   m_LightmapFlags: 4
   m_EnableInstancingVariants: 0
   m_DoubleSidedGI: 1
-  m_CustomRenderQueue: 2450
-  stringTagMap:
-    RenderType: TransparentCutout
+  m_CustomRenderQueue: -1
+  stringTagMap: {}
   disabledShaderPasses: []
   m_SavedProperties:
     serializedVersion: 3
     m_TexEnvs:
+    - Texture2D_316569da9d0b4ece85c1f2478c69fb56:
+        m_Texture: {fileID: 2800000, guid: 322d44289945f6c4586a4b30b89fff71, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - Texture2D_8814fa2b728b4d899ed56685ca913d0b:
+        m_Texture: {fileID: 2800000, guid: af5f6166d3f595042a8f69d878ad63fb, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - Texture2D_d4675d23291b4c6782f27e20ee80eebe:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
     - _BaseMap:
         m_Texture: {fileID: 2800000, guid: 322d44289945f6c4586a4b30b89fff71, type: 3}
         m_Scale: {x: 1, y: 1}
@@ -94,6 +103,10 @@ Material:
         m_Offset: {x: 0, y: 0}
     m_Ints: []
     m_Floats:
+    - Vector1_3b27a6699cad42f18528d136b123f447: 0.21
+    - Vector1_b21d908a40e345578e1b1fee30fedc41: 0.29
+    - Vector1_ca5418d0a5514d698d41180d4df40f9c: 0.34
+    - Vector1_f8be969ffd8a492fb522aa3b99c54602: 0.5
     - _AlphaClip: 1
     - _Blend: 0
     - _BumpScale: 1
@@ -111,6 +124,7 @@ Material:
     - _Metallic: 0
     - _OcclusionStrength: 1
     - _Parallax: 0.005
+    - _QueueControl: 0
     - _QueueOffset: 0
     - _ReceiveShadows: 1
     - _Smoothness: 0.33
@@ -121,8 +135,12 @@ Material:
     - _WorkflowMode: 1
     - _ZWrite: 1
     m_Colors:
+    - Color_3e491cc671ad442ea076b4b8457fbb54: {r: 0.028301895, g: 0.028301895, b: 0.028301895, a: 0}
+    - Color_f10ddad21c9c423d98f51792d0eae37d: {r: 1, g: 1, b: 1, a: 0}
+    - _AirMove: {r: 1.11, g: 1.46, b: 0, a: 0}
     - _BaseColor: {r: 1, g: 1, b: 1, a: 1}
     - _Color: {r: 1, g: 1, b: 1, a: 1}
+    - _Emisive: {r: 0.05660379, g: 0, b: 0, a: 0}
     - _EmissionColor: {r: 0, g: 0, b: 0, a: 1}
     - _SpecColor: {r: 0.19999996, g: 0.19999996, b: 0.19999996, a: 1}
   m_BuildTextureStacks: []
