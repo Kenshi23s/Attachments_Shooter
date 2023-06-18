@@ -8,26 +8,34 @@ public class ShakeCamera : MonoBehaviour
 {
     
     [Header("Caminar"), Space(1)]
-    public float _walkFrequency = 0.7f;
-    public float _walkAmplitude = 1f;
-    public float _minWalk = 1f;
+    [SerializeField] float _walkFrequency = 14f;
+    [SerializeField] float _walkAmplitude = 0.15f;
+    [SerializeField] float _minWalkSpeed = 3f;
 
     [Header("Correr"), Space(1)]
-    public float _runFrequency = 1f;
-    public float _runAmplitude = 1f;
-    public float _minRun = 1f;
+    [SerializeField] float _runFrequency = 25f;
+    [SerializeField] float _runAmplitude = 0.3f;
+    [SerializeField] float _minRunSpeed = 12f;
+
 
     [Header("Suavizar Animacion"), Space(1)]
-    [Range(0f, 1f)]
-    public float soft = 0.3f;
-    [Range(0f, 1f)]
-    public float handsInfluence = 0.5f;
+    [SerializeField, Range(0f, 1f)] float _soft = 0.5f;
+    [SerializeField, Range(0f, 1f)] float _handsAmplitudeScale = 0.5f;
+    [SerializeField, Range(0f, 1f)] float _horizontalFrequencyScale = 0.5f, _verticalFrequencyScale = 1f;
 
     [Header("Apuntado"), Space(1)]
     public Transform aimTransform;
-   
-    public static bool aiming =false;
-    Vector3 actualAimPos;
+
+    [SerializeField, Range(0, 1)]
+    float _aimMultiplier = 0.1f;
+
+    [SerializeField]
+    float _aimFOV, _hipFOV;
+
+    [SerializeField]
+    float _aimSpeed = 8f, _returnSpeed = 8f;
+
+    public static bool aiming = false;
 
     [Header("Referencias"), Space(1)]
     public Transform hands;
@@ -39,93 +47,117 @@ public class ShakeCamera : MonoBehaviour
 
     public event Action OnCamUpdate;
 
+    public static event Action<float> OnAimTransition;
 
-    [SerializeField]
-    float aimFov, hipFov,Speed,returnSpeed;
+    Vector3 _camShake;
+    Vector3 _handsShake;
+
+    Vector3 _ogCamLocalPos;
+    Vector3 _ogHandsLocalPos;
+    Vector3 _currentHandsLocalPos;
+    Vector3 _handsAimLocalPos;
+
+    float _normalizedDistanceToAimPosition = 0;
+    float _normalizedTargetPos;
+
+
+
     private void Awake()
     {
-      
-       
+        _ogCamLocalPos = cam.transform.localPosition;
+        _ogHandsLocalPos = hands.localPosition;
     }
 
     public void Update()
     {
         if (ScreenManager.IsPaused()) return;
 
-        Vector3 camShake;
-        Vector3 handsShake;
-        // Movimiento de manos cuando corre
-        if (rb.velocity.magnitude > _minRun && playerMov.onGrounded)
+
+        // Detectar inputs
+        if (Input.GetKeyDown(KeyCode.Mouse1))
         {
-            camShake = Vector3.Lerp(cam.transform.localPosition, FootStepMotion(_runFrequency, _runAmplitude), soft);
-            handsShake = Vector3.Lerp(hands.localPosition, FootStepMotion(_runFrequency, _runAmplitude) * handsInfluence, soft);
+            aiming = true;
+            // el hands aim local pos se deberia setear en un OnSightChange
+            Vector3 offset = cam.transform.parent.InverseTransformPoint(myGunHandler.SightPosition);
+            offset.y -= _handsShake.y;
+            offset.x -= _handsShake.x;
+            offset.z = 0;
+            _handsAimLocalPos = _currentHandsLocalPos - offset;
+ 
+            _normalizedTargetPos = 1;
+        }
+        else if (Input.GetKeyUp(KeyCode.Mouse1))
+        {
+            aiming = false;
+            _normalizedTargetPos = 0;
+        }
+
+        float handling = myGunHandler.actualGun.stats.GetStat(StatNames.Handling);
+        float multiplier = aiming ? _aimMultiplier : 1f;
+        multiplier *= 1 - handling / 100f;
+        Debug.Log("handling: " + handling);
+        // Movimiento de manos cuando corre
+        if (rb.velocity.magnitude > _minRunSpeed && playerMov.onGrounded)
+        {
+            _camShake = _camShake *_soft + FootStepMotion(_runFrequency, _runAmplitude * multiplier);
+            _handsShake = _camShake * _handsAmplitudeScale;
         }
         // Movimiento de manos cuando camina
+        else if (rb.velocity.magnitude > _minWalkSpeed && playerMov.onGrounded)
+        {
+            
+            _camShake = _camShake * _soft + FootStepMotion(_walkFrequency, _walkAmplitude * multiplier);
+            _handsShake = _camShake * _handsAmplitudeScale;
+        }
+        // Movimiento de camera cuando esta quieto
         else
         {
-            if (rb.velocity.magnitude > _minWalk && playerMov.onGrounded)
-            {
-                camShake = Vector3.Lerp(cam.transform.localPosition, FootStepMotion(_walkFrequency, _walkAmplitude), soft);
-                handsShake = Vector3.Lerp(hands.localPosition, FootStepMotion(_walkFrequency, _walkAmplitude) * handsInfluence, soft);
-            }
-            // Movimiento de camera cuando esta quieto
-            else
-            {
-                camShake = Vector3.Lerp(cam.transform.localPosition, Vector3.zero, soft);
-                handsShake = Vector3.Lerp(hands.localPosition, Vector3.zero, soft);
-            }
+            _camShake *= _soft;
+            _handsShake *= _soft;
         }
 
-        if (Input.GetKey(KeyCode.Mouse1))
+        // Si esta transicionando entre apuntar y hip fire...
+        if (!HandsReachedTargetPosition())
         {
+            // Sumar / Restar velocidad si esta apuntando
+            _normalizedDistanceToAimPosition += aiming ? _aimSpeed * Time.deltaTime : -_returnSpeed * Time.deltaTime;
+            _normalizedDistanceToAimPosition = Mathf.Clamp01(_normalizedDistanceToAimPosition);
+
             AimMotion();
-            float handling = myGunHandler.actualGun.stats.GetStat(StatNames.Handling);
-            LerpCamera(aimFov, soft + (soft * handling / 100)*Time.deltaTime, aimFov >= cam.fieldOfView);
-
-
-        } 
-        else
-        {
-            LerpCamera(hipFov, returnSpeed*Time.deltaTime, hipFov <= cam.fieldOfView);
-            aiming = false;   
-            hands.transform.localPosition = handsShake;
-            actualAimPos = Vector3.zero;
+            OnAimTransition?.Invoke(_normalizedDistanceToAimPosition);
         }
-        cam.transform.localPosition = camShake;
 
-       
+        cam.transform.localPosition = _ogCamLocalPos + _camShake;
+        hands.transform.localPosition = _currentHandsLocalPos + _handsShake;
     }
 
     void AimMotion()
     {
-        Vector3 targetAimPos = -cam.transform.InverseTransformPoint(myGunHandler.SightPosition);
-        targetAimPos.z = 0;
-        aiming = true;
-        float handling = myGunHandler.actualGun.stats.GetStat(StatNames.Handling);
-        actualAimPos = Vector3.Lerp(actualAimPos, hands.transform.localPosition + targetAimPos, soft + (soft * handling / 100) * Time.deltaTime);
-        hands.transform.localPosition = actualAimPos;
-        
+        float smoothT = Mathf.SmoothStep(0, 1, _normalizedDistanceToAimPosition);
+        _currentHandsLocalPos = Vector3.Lerp(_ogHandsLocalPos, _handsAimLocalPos, smoothT);
+        LerpCameraFOV(smoothT);
     }
 
-    void LerpCamera(float lerpTo,float lerpSpeed,bool conditionToStop)
+    bool HandsReachedTargetPosition() 
     {
-        if (!conditionToStop)
-            cam.fieldOfView = Mathf.Lerp(cam.fieldOfView, lerpTo, lerpSpeed);
-        else
-            cam.fieldOfView = lerpTo;
+        return _normalizedTargetPos - _normalizedDistanceToAimPosition == 0;
     }
-     
-  
+
+    void LerpCameraFOV(float t)
+    {
+        cam.fieldOfView = Mathf.Lerp(_hipFOV, _aimFOV, t);
+    }
 
     public Vector3 FootStepMotion(float frequency, float amplitude)
     {
         Vector3 pos = Vector3.zero;
-        pos.y += Mathf.Sin(Time.time * frequency) * amplitude*1.2f;
-        pos.x += Mathf.Cos(Time.time * frequency/2) * amplitude * 2;
+        pos.x += Mathf.Cos(Time.time * frequency * _horizontalFrequencyScale) * amplitude;
+        pos.y += Mathf.Sin(Time.time * frequency * _verticalFrequencyScale) * amplitude;
         return pos;
     }
+
     private void OnValidate()
     {
-        hipFov = cam.fieldOfView;
+        _hipFOV = cam.fieldOfView;
     }
 }
