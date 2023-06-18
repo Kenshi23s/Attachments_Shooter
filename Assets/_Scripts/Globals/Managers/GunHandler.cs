@@ -20,6 +20,7 @@ public class GunHandler : MonoBehaviour
     public event Action onActualGunShoot;
     int actualGunCount;
     [SerializeField]Image hitmarker;
+    [SerializeField] RawImage crosshair;
     //event Action OnSwapWeapons;
 
     //awake para inicializacion
@@ -43,7 +44,9 @@ public class GunHandler : MonoBehaviour
             actualGun.onHit += (x) => Hitmarker();
             hitmarker.color = hitmarker.color.SetAlpha(0);
         }
-       
+
+        ShakeCamera.AimStart += () => crosshair.gameObject.SetActive(false);
+        ShakeCamera.AimEnd += () => crosshair.gameObject.SetActive(true);
     }
 
     void Hitmarker()
