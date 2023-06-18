@@ -29,10 +29,7 @@ public class GunHandler : MonoBehaviour
     //public Vector3 SightPosition =>_sightPoint != null ? _sightPoint.localPosition : Vector3.zero; 
     public Vector3 SightPosition => _actualGun.attachmentHandler.aimPos.position; 
 
-    public void SetPlayer(Player_Handler player) => myPlayer = player;
-  
-    
- 
+    public void SetPlayer(Player_Handler player) => myPlayer = player; 
 
     private void Awake()
     {
@@ -45,8 +42,8 @@ public class GunHandler : MonoBehaviour
             hitmarker.color = hitmarker.color.SetAlpha(0);
         }
 
-        ShakeCamera.AimStart += () => crosshair.gameObject.SetActive(false);
-        ShakeCamera.AimEnd += () => crosshair.gameObject.SetActive(true);
+        ShakeCamera.OnHipPosReached += () => crosshair.gameObject.SetActive(true);
+        ShakeCamera.OnAimPosReached += () => crosshair.gameObject.SetActive(false);
     }
 
     void Hitmarker()
