@@ -50,7 +50,8 @@ public class ShakeCamera : MonoBehaviour
 
     public static event Action<float> OnAimTransition;
 
-    public static event Action AimStart,AimEnd;
+    public static event Action OnHipPosReached, OnHipPosLeft, OnAimPosReached, OnAimPosLeft;
+    bool _aimPosReached = false, _hipPosReached = false;
 
     Vector3 _camShake;
     Vector3 _handsShake;
@@ -80,7 +81,7 @@ public class ShakeCamera : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.Mouse1))
         {
             aiming = true;
-            AimStart?.Invoke();
+            OnHipPosReached?.Invoke();
             // el hands aim local pos se deberia setear en un OnSightChange
             Vector3 offset = cam.transform.parent.InverseTransformPoint(myGunHandler.SightPosition);
             offset.y -= _handsShake.y;
@@ -92,7 +93,7 @@ public class ShakeCamera : MonoBehaviour
         }
         else if (Input.GetKeyUp(KeyCode.Mouse1))
         {
-            AimEnd?.Invoke();
+            OnAimPosReached?.Invoke();
             aiming = false;
             _normalizedTargetPos = 0;
         }
@@ -127,9 +128,9 @@ public class ShakeCamera : MonoBehaviour
             // Sumar / Restar velocidad si esta apuntando
             _normalizedDistanceToAimPosition += aiming ? _aimSpeed * Time.deltaTime : -_returnSpeed * Time.deltaTime;
             _normalizedDistanceToAimPosition = Mathf.Clamp01(_normalizedDistanceToAimPosition);
+            UpdateState();
 
-            AimMotion();
-           
+            AimMotion();           
         }
 
         cam.transform.localPosition = _ogCamLocalPos + _camShake;
@@ -146,12 +147,50 @@ public class ShakeCamera : MonoBehaviour
 
     bool HandsReachedTargetPosition() 
     {
-        if (_normalizedDistanceToAimPosition == 0)        
-            AimEnd?.Invoke();    
-        else if (_normalizedDistanceToAimPosition == 1)    
-            AimStart?.Invoke();
-        
         return _normalizedTargetPos - _normalizedDistanceToAimPosition == 0;
+    }
+
+    void UpdateState() 
+    {
+        // Llamar eventos y actualizar variables
+        if (_aimPosReached)
+        {
+            _aimPosReached = _normalizedDistanceToAimPosition == 1;
+            if (!_aimPosReached) 
+            {
+                OnAimPosLeft?.Invoke();
+                Debug.Log("AIM POS LEFT");
+
+            }
+        }
+        else
+        {
+            _aimPosReached = _normalizedDistanceToAimPosition == 1;
+            if (_aimPosReached) 
+            {
+                OnAimPosReached?.Invoke();
+                Debug.Log("AIM POS REACHED");
+            }
+        }
+
+        if (_hipPosReached)
+        {
+            _hipPosReached = _normalizedDistanceToAimPosition == 0;
+            if (!_hipPosReached) 
+            {
+                OnHipPosLeft?.Invoke();
+                Debug.Log("HIP POS LEFT");
+            }
+        }
+        else
+        {
+            _hipPosReached = _normalizedDistanceToAimPosition == 0;
+            if (_hipPosReached) 
+            {
+                OnHipPosReached?.Invoke();
+                Debug.Log("HIP POS REACHED");
+            }
+        }
     }
 
     void LerpCameraFOV(float t)
