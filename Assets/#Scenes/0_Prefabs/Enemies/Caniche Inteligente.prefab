@@ -9,13 +9,13 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 7995179844713157502}
+  - component: {fileID: 7995179844713157492}
+  - component: {fileID: 7995179844713157493}
   - component: {fileID: 7995179844713157503}
   - component: {fileID: 7995179844713157496}
   - component: {fileID: 7995179844713157497}
   - component: {fileID: 7995179844713157498}
   - component: {fileID: 7995179844713157499}
-  - component: {fileID: 7995179844713157492}
-  - component: {fileID: 7995179844713157493}
   - component: {fileID: 7995179844713157494}
   - component: {fileID: 6040398420493665900}
   m_Layer: 0
@@ -41,6 +41,44 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &7995179844713157492
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7995179844713157495}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8acd364f316a31a499706c4da6c3dad3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  DestinationArriveDistance: 0.1
+  NodeArriveDistance: 1
+  WhatIsGround:
+    serializedVersion: 2
+    m_Bits: 4096
+  ObstacleMask:
+    serializedVersion: 2
+    m_Bits: 8192
+--- !u!114 &7995179844713157493
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7995179844713157495}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d9c8b9bb2e7803e418e7eb18ca7d9b0f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _life: 100
+  _maxLife: 100
+  _dmgMultiplier: 1
+  dmgResist: 1
+  canTakeDamage: 1
+  canBeHealed: 1
 --- !u!114 &7995179844713157503
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -114,44 +152,6 @@ MonoBehaviour:
   _maxForce: 30.4
   _maxSpeed: 38.7
   _steeringForce: 50
---- !u!114 &7995179844713157492
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7995179844713157495}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 8acd364f316a31a499706c4da6c3dad3, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  DestinationArriveDistance: 0.1
-  NodeArriveDistance: 1
-  WhatIsGround:
-    serializedVersion: 2
-    m_Bits: 4096
-  ObstacleMask:
-    serializedVersion: 2
-    m_Bits: 8192
---- !u!114 &7995179844713157493
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7995179844713157495}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d9c8b9bb2e7803e418e7eb18ca7d9b0f, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _life: 100
-  _maxLife: 100
-  _dmgMultiplier: 1
-  dmgResist: 1
-  canTakeDamage: 1
-  canBeHealed: 1
 --- !u!114 &7995179844713157494
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -164,7 +164,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 575ff388e7e55b94e8b0a0e0a69e0036, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  pursuitMaxSpeed: 15
+  pursuitMaxSpeed: 30
   minJumpDistance: 10
   unitsAbovePlayer: 10
   _explosionDamage: 50
