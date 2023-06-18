@@ -98,6 +98,6 @@ public class AirTurretState_Shoot : IState<AirTurretState>
 
     public void SetStateMachine(StateMachine<AirTurretState> fsm)
     {
-        throw new NotImplementedException();
+       
     }
 }

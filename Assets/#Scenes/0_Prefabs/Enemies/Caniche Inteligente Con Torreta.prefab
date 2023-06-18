@@ -46,8 +46,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   owner: {fileID: 0}
   rateOfFire: 0.2
-  triggerDistance: 50
-  shootDistance: 100
+  triggerDistance: 30
+  shootDistance: 60
   ammo: 100
   damage: 10
   trail: {fileID: 2610780281482316935, guid: 2fc77cda861fb874cbd5f7075f680aa3, type: 3}
@@ -60,7 +60,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 7995179844713157494, guid: 72fe7901cdf0cbd48b048fa065bb91be, type: 3}
       propertyPath: triggerRadius
-      value: 1.5
+      value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 7995179844713157494, guid: 72fe7901cdf0cbd48b048fa065bb91be, type: 3}
       propertyPath: pursuitMaxSpeed
@@ -76,15 +76,15 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7995179844713157502, guid: 72fe7901cdf0cbd48b048fa065bb91be, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 60.87448
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7995179844713157502, guid: 72fe7901cdf0cbd48b048fa065bb91be, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 7.300007
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7995179844713157502, guid: 72fe7901cdf0cbd48b048fa065bb91be, type: 3}
       propertyPath: m_LocalPosition.z
-      value: 324.94522
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7995179844713157502, guid: 72fe7901cdf0cbd48b048fa065bb91be, type: 3}
       propertyPath: m_LocalRotation.w

@@ -56,6 +56,6 @@ public class AirTurretState_Align : IState<AirTurretState>
 
     public void SetStateMachine(StateMachine<AirTurretState> fsm)
     {
-        throw new System.NotImplementedException();
+        
     }
 }

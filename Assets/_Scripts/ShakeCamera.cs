@@ -50,6 +50,8 @@ public class ShakeCamera : MonoBehaviour
 
     public static event Action<float> OnAimTransition;
 
+    public static event Action AimStart,AimEnd;
+
     Vector3 _camShake;
     Vector3 _handsShake;
 
@@ -78,6 +80,7 @@ public class ShakeCamera : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.Mouse1))
         {
             aiming = true;
+            AimStart?.Invoke();
             // el hands aim local pos se deberia setear en un OnSightChange
             Vector3 offset = cam.transform.parent.InverseTransformPoint(myGunHandler.SightPosition);
             offset.y -= _handsShake.y;
@@ -89,6 +92,7 @@ public class ShakeCamera : MonoBehaviour
         }
         else if (Input.GetKeyUp(KeyCode.Mouse1))
         {
+            AimEnd?.Invoke();
             aiming = false;
             _normalizedTargetPos = 0;
         }
@@ -142,6 +146,11 @@ public class ShakeCamera : MonoBehaviour
 
     bool HandsReachedTargetPosition() 
     {
+        if (_normalizedDistanceToAimPosition == 0)        
+            AimEnd?.Invoke();    
+        else if (_normalizedDistanceToAimPosition == 1)    
+            AimStart?.Invoke();
+        
         return _normalizedTargetPos - _normalizedDistanceToAimPosition == 0;
     }
 
@@ -152,7 +161,7 @@ public class ShakeCamera : MonoBehaviour
         if (myGunHandler.actualGun.attachmentHandler.TryGetAttachment<Sight>(AttachmentType.Sight,out var sight))        
             multiplyZoom = sight.zoomMultiplier;
         
-        cam.fieldOfView = Mathf.Lerp(_hipFOV, _aimFOV*Mathf.Max(1,multiplyZoom), t);
+        cam.fieldOfView = Mathf.Lerp(_hipFOV, _aimFOV/Mathf.Max(1,multiplyZoom), t);
     }
 
     public Vector3 FootStepMotion(float frequency, float amplitude)

@@ -18,17 +18,32 @@ public class EDog_Turret : MonoBehaviour
     private void Awake()
     {
         owner = GetComponentInParent<E_ExplosiveDog>();
-       owner.pauseHandler.onPause+=()=>StartCoroutine(OnPause())
+      
 ;   }
+
 
     IEnumerator OnPause()
     {
         StopAllCoroutines();
         yield return new WaitUntil(ScreenManager.IsPaused);
-        Start();
+        StartCoroutines();
     }
 
     private void Start()
+    {
+        owner.pauseHandler.onPause += () => StartCoroutine(OnPause());
+        owner._debug.AddGizmoAction(DrawRanges);
+       
+    }
+    void DrawRanges()
+    {
+        Gizmos.color = Color.yellow;
+        Gizmos.DrawWireSphere(transform.position,shootDistance);
+        Gizmos.color = Color.red;
+        Gizmos.DrawWireSphere(transform.position, triggerDistance);
+    }
+
+    void StartCoroutines()
     {
         StartCoroutine(TurretFinishCondition());
         StartCoroutine(ShootCoroutine());
