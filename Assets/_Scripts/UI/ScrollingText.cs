@@ -15,7 +15,7 @@ public class ScrollingText : MonoBehaviour
 
     private void Start()
     {
-        ActivateText();
+        
     }
 
     public void ActivateText()
