@@ -2,6 +2,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using AYellowpaper.SerializedCollections;
 using System;
+using System.Linq;
 using static Attachment;
 
 [DisallowMultipleComponent]
@@ -27,6 +28,7 @@ public class StatsHandler : MonoBehaviour
     {
         return _myGunStats[key];
     }
+
     public Dictionary<StatNames, int> statDictionary => _myGunStats;
     [SerializeField,SerializedDictionary("Stat", "Value")]
     SerializedDictionary<StatNames, int> _myGunStats;
@@ -63,10 +65,42 @@ public class StatsHandler : MonoBehaviour
             if (_myGunStats.ContainsKey(actualKey))
             {
                 _myGunStats[actualKey] = Mathf.Clamp(_myGunStats[actualKey] + (NewStats[actualKey].value * x), 0, 100);
-              
             }
         }        
     }
+
+    //statChangeParameters no deberia clampear nada (StatChangeParams)
+    #region ElNuevoChangeStat
+    /// <summary>
+    /// Le pasas las stats del baseGun y las stats de los attachments y te devuelve las stats nuevas
+    /// </summary>
+    /// <param name="myGunStat"></param>
+    /// <param name="MyAtachments"></param>
+    /// <returns></returns>
+    public SerializedDictionary<StatNames, int> RecalculateStats(SerializedDictionary<StatNames, int> myGunStat, List<SerializedDictionary<StatNames,int>> MyAtachments)
+    {
+        SerializedDictionary<StatNames, int> newStats = myGunStat;
+
+        foreach (var item in myGunStat)
+        {
+            newStats[item.Key] = Mathf.Clamp(CalculateSingleStat( MyAtachments.Where(x => x.ContainsKey(item.Key)).Select(z => z[item.Key]).ToList(), myGunStat[item.Key]),0,100);
+        }
+
+        return newStats;
+
+    }
+
+    //debes pasarle los valores de los atachments y el basegun para que te lo recalcule (es algo interno de recalculate stats)
+    int CalculateSingleStat(List<int> atachValues, int mygunValue)
+    {
+        for (int i = 0; i < atachValues.Count; i++)
+        {
+            mygunValue += atachValues[i];
+        }
+
+        return Mathf.Clamp(mygunValue,0,100);
+    }
+    #endregion
 }
 
 
