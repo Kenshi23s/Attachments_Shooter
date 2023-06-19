@@ -14,6 +14,7 @@ GameObject:
   - component: {fileID: 3141935995479390572}
   - component: {fileID: 1400027092267706469}
   - component: {fileID: 3775507110074393605}
+  - component: {fileID: 8671060435760103149}
   m_Layer: 11
   m_Name: Laser 1
   m_TagString: Untagged
@@ -110,6 +111,19 @@ MonoBehaviour:
   gizmoDraw:
     m_PersistentCalls:
       m_Calls: []
+--- !u!114 &8671060435760103149
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7993079114820009351}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9e774f0e03ae3b14eb305cb76455376e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _prefabExplosion: {fileID: 2380901596432051203, guid: 2ecd7f73e92bf0b4f9ece6e55627f378, type: 3}
 --- !u!1 &7993079114910758359
 GameObject:
   m_ObjectHideFlags: 0

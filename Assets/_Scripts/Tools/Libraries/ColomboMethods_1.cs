@@ -110,6 +110,7 @@ namespace FacundoColomboMethods
                  .Select(x => x.GetComponent<T>()).ToArray();
 
         }
+
         //metodos utiles que puede ayudar a la hora de desarrollar el juego
         /// <summary>
         /// Soporta hasta 180 grados
