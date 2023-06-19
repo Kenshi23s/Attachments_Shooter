@@ -25,7 +25,7 @@ public class ShotgunSpreadHardCode : MonoBehaviour
     void SetEvent()
     {
         burst = AttachmentOwner.owner.GetComponent<Burst_Gun>();
-        burst.shootOnBurst += RepeatShotgunShot;
+        burst.OnshootOnBurst += RepeatShotgunShot;
      
     }
 
@@ -33,7 +33,7 @@ public class ShotgunSpreadHardCode : MonoBehaviour
     {
         if (burst != null)
         {
-            burst.shootOnBurst -= RepeatShotgunShot;
+            burst.OnshootOnBurst -= RepeatShotgunShot;
             burst = null;
         }
        
@@ -41,13 +41,13 @@ public class ShotgunSpreadHardCode : MonoBehaviour
 
     void RepeatShotgunShot()
     {
-        burst.shootOnBurst -= RepeatShotgunShot;
+        burst.OnshootOnBurst -= RepeatShotgunShot;
        
         for (int i = 0; i < pellets; i++)
         {
             burst.ShootOnBurst();
         }
-        burst.shootOnBurst += RepeatShotgunShot;
+        burst.OnshootOnBurst += RepeatShotgunShot;
     }
 
 
