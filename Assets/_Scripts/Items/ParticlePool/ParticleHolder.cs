@@ -27,6 +27,7 @@ public class ParticleHolder : MonoBehaviour
     {
         yield return new WaitForSeconds(_totalDuration);
         OnFinish?.Invoke();
+        OnFinish = null;
         _returnToPool(this,key);
     }
 
@@ -34,6 +35,7 @@ public class ParticleHolder : MonoBehaviour
     {
         StopCoroutine(CooldownDecrease());
         OnFinish?.Invoke();
+        OnFinish = null;
         _returnToPool(this, key);
     }
 }
