@@ -64,12 +64,12 @@ public class StatsHandler : MonoBehaviour
         {
             if (_myGunStats.ContainsKey(actualKey))
             {
-                _myGunStats[actualKey] = Mathf.Clamp(_myGunStats[actualKey] + (NewStats[actualKey].value * x), 0, 100);
+                _myGunStats[actualKey] = _myGunStats[actualKey] + (NewStats[actualKey].value * x);
             }
         }        
     }
 
-    //statChangeParameters no deberia clampear nada (StatChangeParams)
+    //statChangeParameters no deberia clampear nada (StatChangeParams) .. ahora no se usa, queda como borrador
     #region ElNuevoChangeStat
     /// <summary>
     /// Le pasas las stats del baseGun y las stats de los attachments y te devuelve las stats nuevas
