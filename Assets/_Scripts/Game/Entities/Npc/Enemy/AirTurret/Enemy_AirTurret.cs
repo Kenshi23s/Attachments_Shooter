@@ -162,7 +162,7 @@ public class Enemy_AirTurret : Enemy, IDetector
         //esto lo hago porque euler angles va de 0 a 360
         //ej, si mi angulo esta entre 360 - 36 = 324 y 180, lo clampeo 
         
-        Debug.Log(pivotMisileBattery.localEulerAngles.z);
+       
         //if (dir && pivotMisileBattery.localEulerAngles.z.InBetween(360 - _maxBatteryAngle, 180))
         if (dir && pivotMisileBattery.localEulerAngles.z > _maxBatteryAngle)
         {                                                // unity en editor opera con negativo

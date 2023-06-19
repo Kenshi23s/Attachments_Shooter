@@ -18,6 +18,7 @@ GameObject:
   - component: {fileID: 7995179844713157499}
   - component: {fileID: 7995179844713157494}
   - component: {fileID: 6040398420493665900}
+  - component: {fileID: 3344128092875333514}
   m_Layer: 0
   m_Name: Caniche Inteligente
   m_TagString: Untagged
@@ -185,6 +186,19 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 2.5822277, y: 2.5521946, z: 1.9823914}
   m_Center: {x: -0.034773827, y: 1.0977592, z: -0.099975586}
+--- !u!114 &3344128092875333514
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7995179844713157495}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a86af0ecba957cb4aa516987e75c070f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _vfxPrefab: {fileID: -3972655145039689112, guid: 347023f0940c79b4c91c3f190a8eca81, type: 3}
 --- !u!1001 &6863919696760206666
 PrefabInstance:
   m_ObjectHideFlags: 0

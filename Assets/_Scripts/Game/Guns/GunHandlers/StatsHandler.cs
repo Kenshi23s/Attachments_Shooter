@@ -26,7 +26,7 @@ public class StatsHandler : MonoBehaviour
 
     public float GetStat(StatNames key)
     {
-        return _myGunStats[key];
+        return Mathf.Clamp(_myGunStats[key],0,100);
     }
 
     public Dictionary<StatNames, int> statDictionary => _myGunStats;
@@ -41,7 +41,6 @@ public class StatsHandler : MonoBehaviour
             if (!_myGunStats.ContainsKey(item))
             {
                 _myGunStats.Add(item, 1);
-
                 statName += item.ToString() + ", ";
             }
         }
@@ -62,10 +61,8 @@ public class StatsHandler : MonoBehaviour
 
         foreach (StatNames actualKey in NewStats.Keys)
         {
-            if (_myGunStats.ContainsKey(actualKey))
-            {
-                _myGunStats[actualKey] = _myGunStats[actualKey] + (NewStats[actualKey].value * x);
-            }
+            if (_myGunStats.ContainsKey(actualKey))            
+                _myGunStats[actualKey] = _myGunStats[actualKey] + NewStats[actualKey].value * x;      
         }        
     }
 
