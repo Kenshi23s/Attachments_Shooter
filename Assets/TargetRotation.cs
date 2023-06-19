@@ -8,21 +8,32 @@ using Random = UnityEngine.Random;
 
 public class TargetRotation : MonoBehaviour
 {
-    [SerializeField] float rangeRotation = 50f,speed=3,deface;
-  
+    [SerializeField] float rangeRotation = 50f, speed = 3, deface;
+
+    Quaternion _ogRotation;
+
     InteractableComponent _interactableComponent;
 
     [SerializeField] int steps = 6;
 
     [SerializeField] TextAndFiller textnFiller;
 
+    private void OnValidate()
+    {
+        speed = Mathf.Abs(speed);
+    }
+
     private void Awake()
     {
         callbakcRandomRotation = () => MakeRandomRotation(steps);
         _interactableComponent = GetComponent<InteractableComponent>();
-       
+
+        _ogRotation = transform.rotation;
+
+        OnValidate();       
     }
 
+    UnityAction callbakcRandomRotation;
     private void Start()
     {
         _interactableComponent.OnInteract.AddListener(callbakcRandomRotation);
@@ -31,16 +42,6 @@ public class TargetRotation : MonoBehaviour
 
     }
 
-    [SerializeField]bool button;
-    private void LateUpdate()
-    {
-        if (button)
-        {
-            button = false;
-            MakeRandomRotation(steps);
-        }
-    }
-    UnityAction callbakcRandomRotation;
     void MakeRandomRotation(int manyTimes)
     {
         _interactableComponent.OnInteract.RemoveAllListeners();
@@ -57,20 +58,22 @@ public class TargetRotation : MonoBehaviour
   
         float degrees = Random.Range(-rangeRotation, rangeRotation);
 
-        
-
-
         StartCoroutine(StartRotatingTowards(degrees, () => MakeRandomRotation(manyTimes)));
     }
 
 
-    IEnumerator StartRotatingTowards(float degrees,Action onEnd)
+    IEnumerator StartRotatingTowards(float degrees, Action onEnd)
     {
-        Quaternion target = Quaternion.Euler(0, degrees, 0);
-        while (Quaternion.Angle(transform.rotation, target) > 3f)
-        {
+        Quaternion startRotation = transform.rotation;
+        Quaternion target = _ogRotation * Quaternion.Euler(0, degrees, 0);
 
-            transform.rotation = Quaternion.Lerp(transform.rotation, target, Time.fixedDeltaTime * speed);
+        float currentDegrees = 0;
+        float angle = Quaternion.Angle(startRotation, target);
+
+        while (currentDegrees <= angle)
+        {
+            currentDegrees += Time.deltaTime * speed;
+            transform.rotation = Quaternion.Lerp(startRotation, target, Mathf.SmoothStep(0, 1, currentDegrees / angle));
           
             yield return null;
         }

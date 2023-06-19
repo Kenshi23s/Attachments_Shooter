@@ -79,10 +79,11 @@ public class LifeComponent : MonoBehaviour, IDamagable, IHealable
 
     }
 
+    public bool isCrit;
     public void ShowDamageNumber(int x)
     {
         
-        FloatingTextManager.instance.PopUpText(x.ToString(), hitPos != Vector3.zero? hitPos : transform.position);
+        FloatingTextManager.instance.PopUpText(x.ToString(), hitPos != Vector3.zero? hitPos : transform.position, isCrit);
         hitPos = Vector3.zero;
     }
     Vector3 hitPos = Vector3.zero;
