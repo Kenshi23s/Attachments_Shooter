@@ -127,8 +127,8 @@ public class Enemy_AirTurret : Enemy, IDetector
         
         Vector3 dir = _target - pivotBase.position;
         Vector3 desiredForward = new Vector3(dir.x, 0, dir.z).normalized * Time.deltaTime * _baseRotationSpeed;
-        pivotBase.forward += desiredForward;
-        float angle = Vector3.Angle(pivotBase.forward, desiredForward.normalized);
+        pivotBase.right  += desiredForward;
+        float angle = Vector3.Angle(pivotBase.right, desiredForward.normalized);
      
         if (angle > 5) return false;
       
@@ -143,9 +143,9 @@ public class Enemy_AirTurret : Enemy, IDetector
 
         if (CheckIFMaxAngle(goUp))
          return true;
-        Vector3 AlignDir = goUp ? Vector3.left : Vector3.right;
+        Vector3 AlignDir = goUp ? Vector3.forward : Vector3.back;
         pivotMisileBattery.eulerAngles += AlignDir * _canonRotationSpeed * Time.deltaTime;
-
+       
         return CheckIFMaxAngle(goUp);
     }
 
@@ -158,18 +158,21 @@ public class Enemy_AirTurret : Enemy, IDetector
         //esto es legible?, creo que no. Consultar a alguien
 
         //la rotacion es en negativo, pero euler angles por codigo da positivo, maldigo unity
-                                                     // si mi angulo esta entre (360 - angulo deseado) y 180
-                                                     //esto lo hago porque euler angles va de 0 a 360
-                                                     //ej, si mi angulo esta entre 360 - 36 = 324 y 180, lo clampeo 
-        if (dir && pivotMisileBattery.localEulerAngles.x.InBetween(360 - _maxBatteryAngle, 180))
+        // si mi angulo esta entre (360 - angulo deseado) y 180
+        //esto lo hago porque euler angles va de 0 a 360
+        //ej, si mi angulo esta entre 360 - 36 = 324 y 180, lo clampeo 
+        
+        Debug.Log(pivotMisileBattery.localEulerAngles.z);
+        //if (dir && pivotMisileBattery.localEulerAngles.z.InBetween(360 - _maxBatteryAngle, 180))
+        if (dir && pivotMisileBattery.localEulerAngles.z > _maxBatteryAngle)
         {                                                // unity en editor opera con negativo
-            pivotMisileBattery.eulerAngles = new Vector3(-_maxBatteryAngle, pivotMisileBattery.eulerAngles.y, 0);
+            pivotMisileBattery.localEulerAngles = new Vector3(0,0 , pivotMisileBattery.eulerAngles.z);
            
             return true;          
           
         }
         //harcodeado mal D:, despues fijarse como obtener el valor negativo
-        else if(!dir && pivotMisileBattery.eulerAngles.x.InBetween(10, 0))
+        else if(!dir && pivotMisileBattery.localEulerAngles.z<=0)
         {
           
            pivotMisileBattery.eulerAngles = Vector3.zero;
