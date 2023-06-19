@@ -57,6 +57,11 @@ public static class ScreenManager
         }
         Debug.Log("Se DES PAUSARON los items" + ItemsPaused);
     }
+
+    public static void RemoveAllPausables()
+    {
+        pausables.Clear();
+    }
 }
 
 

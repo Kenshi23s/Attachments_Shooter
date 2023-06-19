@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
+using Random = UnityEngine.Random;
 
 public static class LinqExtension
 {
@@ -46,4 +47,16 @@ public static class LinqExtension
                 yield return item;            
         }
     }
+
+    //public static IEnumerable<T> GetRandomAmount<T>(this IEnumerable<T> col,int quantity = 1)
+    //{
+    //    HashSet<T> list = new HashSet<T>();
+    //    while (quantity>0)
+    //    {
+    //        yield return col.Skip(Random.Range(0, col.Count())).Take(1);
+    //        quantity--;
+    //    }
+    //}
+
+
 }

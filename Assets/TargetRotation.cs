@@ -2,8 +2,10 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Events;
 using Random = UnityEngine.Random;
 [RequireComponent(typeof(InteractableComponent))]
+
 public class TargetRotation : MonoBehaviour
 {
     [SerializeField] float rangeRotation = 50f,speed=3,deface;
@@ -12,15 +14,23 @@ public class TargetRotation : MonoBehaviour
 
     [SerializeField] int steps = 6;
 
+    [SerializeField] TextAndFiller textnFiller;
+
     private void Awake()
     {
-        //_interactableComponent = GetComponent<InteractableComponent>();
-        //_interactableComponent.OnInteract.AddListener(() => MakeRandomRotation(steps));
+        callbakcRandomRotation = () => MakeRandomRotation(steps);
+        _interactableComponent = GetComponent<InteractableComponent>();
+       
     }
-    private void Update()
+
+    private void Start()
     {
-  
+        _interactableComponent.OnInteract.AddListener(callbakcRandomRotation);
+        _interactableComponent.onFocus.AddListener(()=>textnFiller.gameObject.SetActive(true));
+        _interactableComponent.onUnFocus.AddListener(() => textnFiller.gameObject.SetActive(false));
+
     }
+
     [SerializeField]bool button;
     private void LateUpdate()
     {
@@ -30,12 +40,16 @@ public class TargetRotation : MonoBehaviour
             MakeRandomRotation(steps);
         }
     }
+    UnityAction callbakcRandomRotation;
     void MakeRandomRotation(int manyTimes)
     {
+        _interactableComponent.OnInteract.RemoveAllListeners();
         Debug.Log(manyTimes);
         if (0 >= manyTimes) 
         {
+            _interactableComponent.OnInteract.AddListener(callbakcRandomRotation);
             StartCoroutine(StartRotatingTowards(0, () => { }));
+
             return;
         }
        

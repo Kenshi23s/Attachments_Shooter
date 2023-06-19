@@ -18,7 +18,9 @@ public abstract class Burst_Gun : Gun
     public int burstCount { get; private set; }
 
     public event Action<int> burstNumber;
+    public event Action shootOnBurst;
     public abstract void ShootOnBurst();
+   
 
     public override void Shoot() => StartCoroutine(ShootBurst());
 
@@ -30,7 +32,7 @@ public abstract class Burst_Gun : Gun
         burstCount = 0;
         while (burstCount < bulletsPerBurst)
         {
-            ShootOnBurst(); CallOnShootEvent();
+            ShootOnBurst(); CallOnShootEvent(); shootOnBurst?.Invoke();
             burstCount++;
             burstNumber?.Invoke(burstCount);
             _debug.Log("Bullet " + burstCount + " de " + bulletsPerBurst);

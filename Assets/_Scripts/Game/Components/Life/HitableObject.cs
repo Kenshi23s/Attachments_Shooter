@@ -3,7 +3,7 @@ using UnityEngine;
 //se usaria para hacer varios spots donde puede ser golpeado un enemigo
 public class HitableObject : MonoBehaviour,IDamagable,IHealable
 {
-    LifeComponent _owner;
+    [SerializeField]LifeComponent _owner;
 
     [SerializeField,Tooltip("Marcar TRUE en caso de que sea punto critico")] 
     bool isCritSpot;
@@ -13,7 +13,8 @@ public class HitableObject : MonoBehaviour,IDamagable,IHealable
 
     void Awake()
     {
-
+        if (_owner == null) return;
+        
         if (transform.root.TryGetComponent(out LifeComponent x))
         {
           

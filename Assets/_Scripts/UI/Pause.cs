@@ -24,7 +24,8 @@ public class Pause : MonoBehaviour
 
     public void Restart()
     {
-        SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
         ScreenManager.ResumeGame();
+        ScreenManager.RemoveAllPausables();
+        SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
     }
 }
