@@ -72,6 +72,48 @@ public class RaycastComponent : MonoBehaviour
 
     }
 
+    public void ShootRaycast(Vector3 pos,Vector3 dir, Action<HitData> action)
+    {
+        // Primero disparar raycast desde la camara
+
+       
+      
+
+        var z = Instantiate(trailSample, pos, Quaternion.identity);
+        Vector3 dirTrail = Vector3.zero;
+        if (Physics.Raycast(pos, dir, out RaycastHit testHit, 500f, _shootableLayers))
+        {
+            gun._debug.Log("RAYCAST FROM CAM HIT: " + testHit.transform.gameObject);
+
+
+
+            // Disparar raycast desde el arma hacia la posicion que golpeo el raycast de la camara
+           
+            
+                CheckDamagable(testHit, action);
+
+
+                if (testHit.transform.TryGetComponent(out IHitFeedback x) && !testHit.collider.isTrigger)
+                {
+                    x.FeedbackHit(testHit.point, testHit.normal);
+
+                }
+                dirTrail = testHit.point;
+
+
+                gun._debug.Log("RAYCAST FROM GUN HIT: " + testHit.transform.gameObject);
+
+            
+
+
+        }
+        if (dirTrail == Vector3.zero) dirTrail = cam.transform.forward * 100;
+
+        StartCoroutine(SpawnTrail(z, dirTrail));
+
+
+    }
+
 
     IEnumerator SpawnTrail(TrailRenderer trail,Vector3 impactPos)
     {

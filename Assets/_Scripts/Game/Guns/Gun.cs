@@ -98,7 +98,7 @@ public abstract class Gun : MonoBehaviour
     public abstract void Shoot();
     public abstract bool ShootCondition();
 
-    protected void OnHitCallBack(HitData data) => onHit?.Invoke(data);
+    public void OnHitCallBack(HitData data) => onHit?.Invoke(data);
 
     protected virtual void Awake()
     {
