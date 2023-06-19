@@ -13,19 +13,13 @@ public class HitableObject : MonoBehaviour,IDamagable,IHealable
 
     void Awake()
     {
-        if (_owner == null) return;
+        if (_owner != null) return;
         
         if (transform.root.TryGetComponent(out LifeComponent x))
-        {
-          
             SetOwner(x);
-        }
         else
-        {
             Debug.LogError("No hay padre con life component, me destruyo");
-            Destroy(this.gameObject);
-
-        }
+            Destroy(gameObject);
        
     }
 
@@ -48,7 +42,12 @@ public class HitableObject : MonoBehaviour,IDamagable,IHealable
 
     public DamageData TakeDamage(int dmgToDeal, Vector3 hitPoint)
     {
-        return TakeDamage(dmgToDeal, hitPoint);
+        dmgToDeal = (int)(dmgToDeal * damageMultiplier);
+        _owner.isCrit = isCritSpot;
+        DamageData data = _owner.TakeDamage(dmgToDeal, hitPoint);
+        data.wasCrit = isCritSpot;
+
+        return data;
     }
 
     public void AddKnockBack(Vector3 dir, float force) => _owner.AddKnockBack(dir * force);
