@@ -74,7 +74,7 @@ public class EggGameChaseMode : GameModeBaseClass
     //}
 
 
-    ScrollingText winPanel;
+    [SerializeField]ScrollingText winPanel;
 
     protected override void ModeFinish()
     {
