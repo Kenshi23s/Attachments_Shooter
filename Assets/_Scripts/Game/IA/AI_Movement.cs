@@ -1,6 +1,7 @@
 using FacundoColomboMethods;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using UnityEngine;
 #region ComponentsRequired
@@ -104,7 +105,12 @@ public class AI_Movement : MonoBehaviour
 
             if (TryGetPath(destination, out _waypoints))
             {
-                _fixedUpdate = PlayPathButLookAtTarget;
+                _fixedUpdate = PlayPath;
+                _debug.Log("puedo calcular el camino.");
+            }
+            else
+            {
+                _debug.Log("No puedo calcular el camino.");
             }
         }
     }
@@ -153,6 +159,10 @@ public class AI_Movement : MonoBehaviour
             if (TryGetPath(destination,out _waypoints))
             {
                 _fixedUpdate = PlayPathButLookAtTarget;
+            }
+            else
+            {
+                _debug.Log("No veo el camino");
             }
             
             
@@ -216,7 +226,8 @@ public class AI_Movement : MonoBehaviour
     {
         if (!_waypoints.Any()) 
         {
-            OnDestinationReached?.Invoke();
+            _debug.Log("no hay mas nodos, corto pathfinding");
+             OnDestinationReached?.Invoke();
             ClearPath();
             return;
         }

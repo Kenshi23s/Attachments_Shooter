@@ -16,7 +16,8 @@ public class EggState_Escape : EggState<EggStates>
 
     public override void OnEnter()
     {
-        _agent.SetMaxSpeed(_eggStats.escapeSpeed); 
+        _agent.SetMaxSpeed(_eggStats.escapeSpeed);
+        _agent.Movement.maxForce = _eggStats.escapeSpeed;
         _actualWaypoint = GetFurthestWaypoint();
         _agent.SetDestination(_actualWaypoint.position);
     }

@@ -20,4 +20,9 @@ public class UI_Manager : MonoBehaviour
         txt_EggActualCount.text = num.ToString();
 
     }
+
+    public void CloseGame()
+    {
+        Application.Quit();
+    }
 }

@@ -34,8 +34,10 @@ public class Egg_Incubator : MonoBehaviour
         _interactComponent.onUnFocus.AddListener(() => IncubatorText.gameObject.SetActive(false));
 
         _interactComponent.onTryingToInteract.AddListener(UpdateSlider);
+        _interactComponent.onTryingToInteract.AddListener(IncubatorText.TurnSliderTextOn);
 
         _interactComponent.OnInteractAbort.AddListener(UpdateSlider);
+        _interactComponent.OnInteractAbort.AddListener(IncubatorText.TurnSliderTextOff);
     }
 
 
@@ -47,15 +49,18 @@ public class Egg_Incubator : MonoBehaviour
     }
     void IncubateEgg()
     {
-        if (_eggs[0] == null) return;
+        if (!_eggs.Any()) return;
 
         ModesManager.instance.actualMode.AddPoints(1);
 
 
         var x = Instantiate(_eggs[0].view, pointInsideIncubator.position, Quaternion.identity);
         x.transform.parent = pointInsideIncubator;
- 
-        Destroy(_eggs[0].gameObject);
+
+        var z = _eggs[0];
+        
+        _eggs.RemoveAt(0);
+        Destroy(z.gameObject);
     }
     bool CheckEggs()
     {

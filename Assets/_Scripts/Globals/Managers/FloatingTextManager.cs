@@ -26,6 +26,7 @@ public class FloatingTextManager : MonoSingleton<FloatingTextManager>
     //esto deberia subscribirse a el gun manager.actualgunhit<HitData>, por ahora lo dejo asi
     public void PopUpText(string text,Vector3 pos)
     {
+     
         FloatingText t = pool.GetHolder();
 
         if (t != null)

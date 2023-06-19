@@ -28,7 +28,7 @@ public class Physics_Movement : MonoBehaviour
         {
             float aux = _maxForce;
             _maxForce =  Mathf.Clamp(value, 0, maxSpeed);
-            TryDebug($"STEERING FORCE cambio de {aux} a {_maxForce}");
+            TryDebug($"MAX FORCE cambio de {aux} a {_maxForce}");
         }
     } 
 
