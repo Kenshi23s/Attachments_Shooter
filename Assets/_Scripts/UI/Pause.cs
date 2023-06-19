@@ -5,12 +5,13 @@ using UnityEngine.SceneManagement;
 
 public class Pause : MonoBehaviour
 {
-    public Player_Movement player;
+    public Player_Handler player;
     public GameObject HUD_Restart;
+    public Transform respawnPoint;
 
     private void Start()
     {
-        player.lifehandler.OnKilled += PauseMethod;
+        player.myHealth.OnKilled += PauseMethod;
       
     }
 
@@ -25,7 +26,10 @@ public class Pause : MonoBehaviour
     public void Restart()
     {
         ScreenManager.ResumeGame();
-        ScreenManager.RemoveAllPausables();
-        SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
+        Cursor.visible = false;
+        Cursor.lockState = CursorLockMode.Locked;
+        HUD_Restart.SetActive(false);
+        player.transform.position = respawnPoint.position;
+        player.myHealth.Heal(int.MaxValue/2);
     }
 }

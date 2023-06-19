@@ -3,45 +3,29 @@ using UnityEngine;
 [RequireComponent(typeof(BoxCollider))]
 public class HealItem : MonoBehaviour
 {
-    public enum Function
-    {
-        Damage=0,
-        Heal=1
-    }
-    [SerializeField] Function function;
+   
+   
     DebugableObject _debug;
-    [SerializeField,Range(0.1f,10)]  int Amount;
-    [SerializeField,Range(0.1f, 10)] float time;
+    [SerializeField,Range(1,100)]  int Amount;
+  
 
     private void Awake()
     {
         _debug = GetComponent<DebugableObject>();
         GetComponent<BoxCollider>().isTrigger = true;
-        Color a = default;
-
-        if (function==Function.Damage)        
-            a = Color.red;     
-        else      
-            a = Color.green;
- 
+        Color a = default; 
         GetComponent<Renderer>().material.color = a;
     }
 
     private void OnTriggerEnter(Collider other)
     {
-        if (other.TryGetComponent(out IHealable target) && Function.Heal==function)
+        if (other.TryGetComponent(out IHealable target))
         {        
             _debug.Log($"trato de curar a {target}");
-            target.AddHealOverTime(Amount, time);
+            target.Heal(Amount);        
             Destroy(gameObject);
-        }
-
-        if (other.TryGetComponent(out IDamagable a) && function == Function.Damage)
-        {
-            _debug.Log($"trato de hacer daño a {a}");
-            a.AddDamageOverTime(Amount, time);
-            Destroy(gameObject);
-        }
+            return;
+        }       
         _debug.Log($"{other} choco conmigo, no es Idamagable ni Healable");
     }
 }

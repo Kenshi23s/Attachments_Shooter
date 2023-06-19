@@ -34,6 +34,10 @@ public class VFX_Sign : MonoBehaviour
 
     public void DeactivateSign()
     {
-        sign.gameObject.SetActive(false);
+        if (sign!=null)
+        {
+            sign.gameObject.SetActive(false);
+        }
+       
     }
 }
