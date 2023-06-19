@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using Random = UnityEngine.Random;
 using static EggEscapeModel;
+using System.Linq;
 
 public class EggGameChaseMode : GameModeBaseClass
 {
@@ -29,7 +30,7 @@ public class EggGameChaseMode : GameModeBaseClass
 
     [SerializeField]EggStats eggStats;
 
-    public event Action<EggEscapeModel> OnEggGrabed;
+    public EggEscapeModel[] alreadySpawned;
 
 
     public override void InitializeMode()
@@ -37,13 +38,26 @@ public class EggGameChaseMode : GameModeBaseClass
         eggStats.gameMode = this;
         // preguntarle a algun profe o compañero si esto esta bien
         incubators = IncubatorFather.GetComponentsInChildren<Egg_Incubator>();
-        eggsEscaping = new EggEscapeModel[incubators.Length];
+        eggsEscaping = new EggEscapeModel[incubators.Length-alreadySpawned.Length];
         for (int i = 0; i < eggsEscaping.Length; i++)
         {
             eggsEscaping[i]= Instantiate(model);
             eggsEscaping[i].Initialize(eggStats, _waypoints[Random.Range(0, waypoints.Length-1)].position);
             eggsEscaping[i].GetComponentInChildren<Renderer>().material = eggMaterials[i];//tendria que ser random, pero como justo coinciden
                                                                                           //cantidad de materiales y huevos...         
+        }
+
+        if (alreadySpawned.Any())
+        {
+            for (int i = 0; i < alreadySpawned.Length; i++)
+            {
+                alreadySpawned[i].Initialize(eggStats, alreadySpawned[i].transform.position);
+                alreadySpawned[i].GetComponentInChildren<Renderer>().material = eggMaterials[2];
+            }
+
+            eggsEscaping = eggsEscaping.Concat(alreadySpawned).ToArray();
+
+
         }
     }
 

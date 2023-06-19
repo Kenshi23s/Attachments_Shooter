@@ -64,7 +64,10 @@ public class EggEscapeModel : MonoBehaviour
 
     //Action OnGrab;
     //Action OnRelease;
-
+    private void Awake()
+    {
+        enabled= false;
+    }
 
     //tendria que tener 4 estados:
     // Patrullar, hago la mia y sigo los waypoints, trato de no hacer el mismo camino q otro huevo en caso q haya(Obsoleto)
@@ -85,7 +88,7 @@ public class EggEscapeModel : MonoBehaviour
         _fov   = GetComponent<FOVAgent>();
         _fsm   = new StateMachine<EggStates>();
 
-
+        Debug.Log("inicializo"+gameObject.name);
         #endregion
 
         #region DataSet
@@ -118,6 +121,7 @@ public class EggEscapeModel : MonoBehaviour
         #endregion
 
         _fsm.ChangeState(EggStates.Patrol);
+        enabled= true;
 
     }
     public void SetLife()
