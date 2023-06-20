@@ -5,6 +5,7 @@ using UnityEngine;
 public class HardcodedExplosiveRounds : MonoBehaviour
 {
     Attachment _owner;
+    Gun gun;
     [SerializeField]
     Explosion _prefabExplosion;
 
@@ -13,17 +14,27 @@ public class HardcodedExplosiveRounds : MonoBehaviour
     {
         _owner = GetComponent<Attachment>();
         _owner.onAttach += AttachExplosiveRounds;
-        _owner.onDettach -= DetachExplosiveRounds;
+        _owner.onDettach += DetachExplosiveRounds;
     }
 
     void AttachExplosiveRounds() 
     {
-        _owner.owner.onHit += InsantiateExplosiveRounds;
+        gun = _owner.owner;
+        if (gun!=null)
+        {
+            gun.onHit += InsantiateExplosiveRounds;
+        }
+      
     }
 
     void DetachExplosiveRounds() 
     {
-        _owner.owner.onHit -= InsantiateExplosiveRounds;
+        if (gun!=null)
+        {
+            gun.onHit -= InsantiateExplosiveRounds;
+            gun = null;
+        }
+      
     }
 
     void InsantiateExplosiveRounds(HitData hitData) 
