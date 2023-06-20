@@ -36,6 +36,7 @@ public class EggGameChaseMode : GameModeBaseClass
     public override void InitializeMode()
     {     
         eggStats.gameMode = this;
+        
 
         // preguntarle a algun profe o compañero si esto esta bien
         incubators = IncubatorFather.GetComponentsInChildren<Egg_Incubator>();

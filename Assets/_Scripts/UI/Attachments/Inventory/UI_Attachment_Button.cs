@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 using TMPro;
@@ -11,9 +12,13 @@ public class UI_Attachment_Button : MonoBehaviour,IPointerEnterHandler, IPointer
 {
     Button button;
     [SerializeField] TMP_Text Buttontext;
+    [SerializeField] View_SliderAttachment sliderPrefab;
+    [SerializeField] Transform panel;
     DebugableObject _debug;
     public Attachment owner { get; private set; }
     Gun displayGun;
+
+    List<View_SliderAttachment> sliders = new List<View_SliderAttachment>();
     
     Action<UI_Attachment_Button> _onChange;
 
@@ -51,10 +56,40 @@ public class UI_Attachment_Button : MonoBehaviour,IPointerEnterHandler, IPointer
 
   
    public void ShowStat(bool arg)
+   {
+        if (arg)
+        {
+            DeleteSliders();
+            Buttontext.gameObject.SetActive(false);
+          
+            foreach (var key in owner.Attachment_stats.Keys)
+            {
+                View_SliderAttachment statSlider = Instantiate(sliderPrefab, panel);
+
+                statSlider.SetSliderValue(key.ToString(), owner.Attachment_stats[key].value);
+
+                sliders.Add(statSlider);
+            }
+
+        }
+        else
+        {
+            DeleteSliders();
+            Buttontext.gameObject.SetActive(true);  
+            Buttontext.text = owner.gameObject.name;
+        }
+        
+   }
+
+    void DeleteSliders()
     {
-        Buttontext.text = arg 
-            ? owner.Attachment_stats.Aggregate(0, (x, y) => x + y.Value.value).ToString() 
-            : owner.gameObject.name;
+        if (!sliders.Any()) return;
+       
+        foreach (var item in sliders)       
+            Destroy(item.gameObject);
+
+        sliders.Clear();
+        
     }
 
     void EquipAttachment()

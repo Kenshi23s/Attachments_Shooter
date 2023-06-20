@@ -18,9 +18,9 @@ public class Egg_Incubator : MonoBehaviour
     List<EggEscapeModel> _eggs = new List<EggEscapeModel>();
     private void Awake()
     {
-        _debug= GetComponent<DebugableObject>();
+        _debug = GetComponent<DebugableObject>();
         _interactComponent = GetComponent<InteractableComponent>();
-       
+        _interactComponent.interactConditions.Add(_eggs.Any());
         _interactComponent.OnInteract.AddListener(IncubateEgg);
 
         UnityAction focus = () =>
@@ -60,6 +60,8 @@ public class Egg_Incubator : MonoBehaviour
         var z = _eggs[0];
         
         _eggs.RemoveAt(0);
+        IncubatorText.gameObject.SetActive(false);
+        _interactComponent.NoMoreInteraction();
         Destroy(z.gameObject);
     }
     bool CheckEggs()
