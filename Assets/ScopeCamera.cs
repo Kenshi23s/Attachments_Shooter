@@ -24,9 +24,6 @@ public class ScopeCamera : MonoBehaviour
     [Header("Aim Texture Resolution")]
     [SerializeField] int textureAimWidth;
     [SerializeField] int textureAimHeight;
-    [Header("HipFire Texture Resolution")]
-    [SerializeField] int HipfireWidth;
-    [SerializeField] int HipfireHeight;
 
     private void Awake()
     {
