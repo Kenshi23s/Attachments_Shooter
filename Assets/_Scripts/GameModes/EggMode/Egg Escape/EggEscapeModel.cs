@@ -1,4 +1,5 @@
 using System;
+using System.Linq;
 using UnityEngine;
 
 
@@ -184,9 +185,13 @@ public class EggEscapeModel : MonoBehaviour
         }     
     }
 
+
+
+
     private void OnDestroy()
     {
         _eggStats.gameMode.eggsEscaping.Remove(this);
+
     }
 
 }

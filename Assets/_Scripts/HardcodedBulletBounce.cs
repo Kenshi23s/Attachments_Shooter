@@ -10,6 +10,7 @@ public class HardcodedBulletBounce : MonoBehaviour
 {
     Attachment attachment;
     RaycastComponent raycastComponent;
+    Gun GunRef;
 
     private void Awake()
     {
@@ -21,22 +22,28 @@ public class HardcodedBulletBounce : MonoBehaviour
     void OnAttach()
     {
         raycastComponent = attachment.owner.GetComponent<RaycastComponent>();
-        attachment.owner.onHit += Bounce;
+        GunRef = attachment.owner;
+        GunRef.onHit += Bounce;
     }
 
     void OnDetach()
     {
+        if (GunRef!=null)
+        {
+            GunRef.onHit -= Bounce;
+        }
+      
         if (attachment.owner!=null)
         {
-            raycastComponent = null;
             attachment.owner.onHit -= Bounce;
+            raycastComponent = null;
         }
        
     }
 
     void Bounce(HitData hit)
     {
-        attachment.owner.onHit -= Bounce;
+        GunRef.onHit -= Bounce;
 
         IDamagable enemy = hit._impactPos.GetItemsOFTypeAround<IDamagable>(1000f).Where(x=>x!=hit.dmgData.victim)
             .Where(x => hit._impactPos.InLineOffSight(x.Position(), AI_Manager.instance.wall_Mask))
@@ -50,6 +57,6 @@ public class HardcodedBulletBounce : MonoBehaviour
             raycastComponent.ShootRaycast(spawnPos, dir, attachment.owner.OnHitCallBack);
 
         }
-        attachment.owner.onHit += Bounce;
+        GunRef.onHit += Bounce;
     }
 }

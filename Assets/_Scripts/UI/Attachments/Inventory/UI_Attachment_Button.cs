@@ -65,6 +65,8 @@ public class UI_Attachment_Button : MonoBehaviour,IPointerEnterHandler, IPointer
             foreach (var key in owner.Attachment_stats.Keys)
             {
                 View_SliderAttachment statSlider = Instantiate(sliderPrefab, panel);
+                
+             
 
                 statSlider.SetSliderValue(key.ToString(), owner.Attachment_stats[key].value);
 
