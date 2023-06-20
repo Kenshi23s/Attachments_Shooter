@@ -20,14 +20,15 @@ public class ScrollingText : MonoBehaviour
     public void ActivateText(ObjectiveTextSO objectiveText)
     {
         _currentObjectiveText = objectiveText;
+
+        gameObject.SetActive(true);
+
         StopAllCoroutines();
         StartCoroutine(AnimateText());
     }
 
     IEnumerator AnimateText()
     {
-        gameObject.SetActive(true);
-
         _itemInfoText.text = "";
         for (int i = 0; i < _currentObjectiveText.text.Length; i++)
         {
