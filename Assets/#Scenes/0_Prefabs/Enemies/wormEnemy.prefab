@@ -446,6 +446,7 @@ MonoBehaviour:
   dmgResist: 1
   canTakeDamage: 1
   canBeHealed: 1
+  isCrit: 0
 --- !u!114 &1017622548
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -461,7 +462,7 @@ MonoBehaviour:
   SightRadius: 40
   LoseSightRadius: 50
   MeleeAttackRadius: 7
-  ShootAcidRadius: 35
+  ShootAcidRadius: 60
   ShootDirtRadius: 35
   _acidAttackFrequency: 1
   _dirtAttackFrequency: 1

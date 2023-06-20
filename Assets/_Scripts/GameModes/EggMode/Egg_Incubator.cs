@@ -20,7 +20,7 @@ public class Egg_Incubator : MonoBehaviour
     {
         _debug = GetComponent<DebugableObject>();
         _interactComponent = GetComponent<InteractableComponent>();
-        _interactComponent.interactConditions.Add(_eggs.Any());
+        _interactComponent.interactConditions.Add(()=>_eggs.Any());
         _interactComponent.OnInteract.AddListener(IncubateEgg);
 
         UnityAction focus = () =>
