@@ -18,6 +18,17 @@ public class LookToObjective : MonoBehaviour
        
     }
 
+    private void OnEnable()
+    {
+        StopAllCoroutines();
+        StartCoroutine(LookTowards());
+    }
+    private void OnDisable()
+    {
+        StopAllCoroutines();
+    }
+
+
     IEnumerator LookTowards()
     {
         for (int i = 0; i < 30; i++)
@@ -32,7 +43,7 @@ public class LookToObjective : MonoBehaviour
             
             yield return null;
             time += Time.deltaTime;
-            transform.forward = Vector3.Lerp(transform.forward,GetObjectiveDir(), time*rotationSpeed);
+            transform.forward = Vector3.Lerp(transform.forward,GetObjectiveDir(), time * rotationSpeed);
             
         }
     }

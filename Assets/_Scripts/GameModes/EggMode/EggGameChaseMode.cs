@@ -85,6 +85,8 @@ public class EggGameChaseMode : GameModeBaseClass
         //pantalla de victoria?
         //en duda, consultar con equipo
          ScreenManager.PauseGame();
+        Cursor.visible = true;
+        Cursor.lockState = CursorLockMode.None;
         winPanel.gameObject.SetActive(true);
         winPanel.ActivateText(winText);
         Debug.Log("EL JUEGO TERMINO");
