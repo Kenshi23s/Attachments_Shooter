@@ -18,7 +18,7 @@ GameObject:
   m_Layer: 11
   m_Name: Laser 1
   m_TagString: Untagged
-  m_Icon: {fileID: 0}
+  m_Icon: {fileID: 419385456094870383, guid: 0000000000000000d000000000000000, type: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
@@ -66,7 +66,13 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   pivotPos: {fileID: 0}
   Attachment_stats:
-    _serializedList: []
+    _serializedList:
+    - Key: 0
+      Value:
+        _value: -16
+    - Key: 4
+      Value:
+        _value: -3
   _laserLineRender: {fileID: 7993079114910758357}
   _laserOutPoint: {fileID: 7993079116449760143}
 --- !u!114 &3141935995479390572
@@ -140,7 +146,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &7993079114910758356
 Transform:
   m_ObjectHideFlags: 0
