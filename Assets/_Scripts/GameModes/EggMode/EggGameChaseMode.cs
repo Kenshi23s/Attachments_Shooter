@@ -76,7 +76,7 @@ public class EggGameChaseMode : GameModeBaseClass
 
 
     [SerializeField]ScrollingText winPanel;
-
+    [SerializeField] ObjectiveTextSO winText;
     protected override void ModeFinish()
     {
         // que deberia pasar aca¿?
@@ -86,7 +86,7 @@ public class EggGameChaseMode : GameModeBaseClass
         //en duda, consultar con equipo
          ScreenManager.PauseGame();
         winPanel.gameObject.SetActive(true);
-        winPanel.ActivateText();
+        winPanel.ActivateText(winText);
         Debug.Log("EL JUEGO TERMINO");
         
     }
