@@ -29,6 +29,11 @@ public class AI_Manager : MonoSingleton<AI_Manager>
             x.GetComponent<DebugableObject>().canDebug = debugNodeConnections;
 
         });
+        var colliders = nodes.Select(x => x.GetComponent<BoxCollider>()).Where(x => x != null);
+        foreach (var item in colliders)
+        {
+            item.enabled = false;
+        }
     }
 
     public Node GetNearestNode(Vector3 pos)
