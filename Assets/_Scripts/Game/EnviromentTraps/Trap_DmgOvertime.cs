@@ -31,7 +31,7 @@ public class Trap_DmgOvertime : MonoBehaviour
     {
         BoxCollider x = GetComponent<BoxCollider>();
         x.size = new Vector3(radius, x.size.y,radius);
-        _floorProjection.size = x.size;
+        //_floorProjection.size = x.size;
     }
 
     private void Awake()
@@ -82,6 +82,6 @@ public class Trap_DmgOvertime : MonoBehaviour
     {
         BoxCollider x = GetComponent<BoxCollider>();
         x.size = new Vector3(radius, x.size.y, radius);
-        _floorProjection.size = x.size;
+        //_floorProjection.size = x.size;
     }
 }
