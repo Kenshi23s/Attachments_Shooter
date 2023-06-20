@@ -65,7 +65,7 @@ public class RaycastComponent : MonoBehaviour
 
 
         }
-        if (dirTrail==Vector3.zero) dirTrail = cam.transform.forward * 100;
+        if (dirTrail==Vector3.zero) dirTrail = cam.transform.forward * 100 + from;
 
         StartCoroutine(SpawnTrail(z, dirTrail));
       
