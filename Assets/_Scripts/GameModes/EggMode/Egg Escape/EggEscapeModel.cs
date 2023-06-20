@@ -37,7 +37,7 @@ public class EggEscapeModel : MonoBehaviour
         public float kidnapFollowRadius, kidnapSpeed;
 
         [Header("Patrol")]
-        [Range(0.1f,25)] public float patrolSpeed;
+        [Range(0f,25)] public float patrolSpeed;
         [Header("Escape")]
         [Range(0.1f, 25)] public float escapeSpeed;
 
@@ -124,13 +124,25 @@ public class EggEscapeModel : MonoBehaviour
         enabled= true;
 
     }
+
+
     public void SetLife()
     {
         myLife = GetComponent<LifeComponent>();
         myLife.SetNewMaxLife(_eggStats.requiredDmg4stun);
+        myLife.OnTakeDamage += Escape;
         myLife.OnKilled += Stun;
 
         myLife.Initialize();
+    }
+
+
+    public void Escape(int x )
+    {
+        if (_fsm.actualStateKey == EggStates.Patrol&&_fsm.actualStateKey!=EggStates.Escape)
+        {
+            _fsm.ChangeState(EggStates.Escape);
+        }
     }
 
     void Update() => _fsm.Execute();
@@ -170,6 +182,11 @@ public class EggEscapeModel : MonoBehaviour
             Gizmos.DrawWireSphere(_agent.Destination, 5f);
             _fsm.StateGizmos();
         }     
+    }
+
+    private void OnDestroy()
+    {
+        _eggStats.gameMode.eggsEscaping.Remove(this);
     }
 
 }

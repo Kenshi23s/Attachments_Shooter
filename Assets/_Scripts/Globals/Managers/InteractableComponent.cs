@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 using UnityEngine.Events;
 [RequireComponent(typeof(DebugableObject))]
@@ -12,17 +13,18 @@ public class InteractableComponent : MonoBehaviour, IInteractable
     float _checkInteractTime;
     [SerializeField] Collider _interactableCollider;
 
-    public UnityEvent onFocus,onUnFocus,OnInteract,onTryingToInteract,OnInteractAbort;
+    public UnityEvent onFocus, onUnFocus, OnInteract, onTryingToInteract, OnInteractAbort;
 
-    public event Func<bool> interactConditions = () => true;
+    public List<bool> interactConditions = new List<bool>();
 
     DebugableObject _debug;
     private void Start()
     {
+        interactConditions.Add(true);
         InteractablesManager.instance.AddInteractableObject(this);
 
         //_interactableCollider=GetComponent<Collider>();
-        _debug = GetComponent<DebugableObject>();     
+        _debug = GetComponent<DebugableObject>();
         OnInteract.AddListener(() => _debug.Log("Interactuan conmigo"));
         onFocus.AddListener(() => _debug.Log("Me focusean"));
         onUnFocus.AddListener(() => _debug.Log("Me dejaron de focusear conmigo"));
@@ -40,17 +42,34 @@ public class InteractableComponent : MonoBehaviour, IInteractable
         OnInteractAbort.RemoveAllListeners();
     }
 
+
+    public void NoMoreInteraction()
+    {
+        InteractablesManager.instance.RemoveInteractableObject(this);
+
+        onFocus.RemoveAllListeners();
+        onUnFocus.RemoveAllListeners();
+        OnInteract.RemoveAllListeners();
+        onTryingToInteract.RemoveAllListeners();
+        OnInteractAbort.RemoveAllListeners();
+    }
+
     // En vez de estar constantemente agregando y removiendo el interactuable, tal vez sea mejor que la interfaz tenga un metodo 'isActive'
     // y que mediante esta se determine si se debe interactuar o no con ella.
 
     
     public void Interact()
     {
-        if (!interactConditions.Invoke())
+
+        foreach (var item in interactConditions)
         {
-            _debug.Log("Las condiciones dieron falso, no se puede interactuar");
-            return;
+            if (!item)
+            {
+                _debug.Log("Las condiciones dieron falso, no se puede interactuar");
+                return;
+            }
         }
+      
       
         _checkInteractTime = currentInteractTime += Time.deltaTime;
         

@@ -42,7 +42,6 @@ public class FloatingText : MonoBehaviour
     Color _color, _actualColor;
 
 
-
     #region Initialize
     private void Awake()
     {
@@ -60,7 +59,23 @@ public class FloatingText : MonoBehaviour
         _color = _popUpText.color;
         
     }
- 
+
+    /// <summary>
+    /// este metodo es el encargado de preparar a el texto para que haga todos 
+    /// los comportamientos necesarios para su correcta funcion
+    /// </summary>
+    public void InitializeText(string TextValueDamage, Vector3 pos, FloatingTextParam parametersPass, Color color)
+    {
+        //inital pos lo uso para fijarme(en el gizmos) en que direccion va el texto 
+        //transform.position = pos;
+
+        _actualColor = color;
+        _initialPos = transform.position = pos;
+        _textParameters = parametersPass;
+        SetText(TextValueDamage, parametersPass.sortingOrderRead);
+        SetRandomForce(parametersPass.x_Spread);
+
+    }
 
     /// <summary>
     /// este metodo es el encargado de preparar a el texto para que haga todos 

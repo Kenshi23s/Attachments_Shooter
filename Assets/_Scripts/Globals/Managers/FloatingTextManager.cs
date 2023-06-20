@@ -24,14 +24,19 @@ public class FloatingTextManager : MonoSingleton<FloatingTextManager>
 
 
     //esto deberia subscribirse a el gun manager.actualgunhit<HitData>, por ahora lo dejo asi
-    public void PopUpText(string text,Vector3 pos)
+    public void PopUpText(string text,Vector3 pos, bool isCrit = false)
     {
+     
         FloatingText t = pool.GetHolder();
 
         if (t != null)
         {                         
-            _parameters.IncreaseSortingOrder();    
-            t.InitializeText(text, pos, _parameters);         
+            _parameters.IncreaseSortingOrder();
+            if (isCrit)
+                t.InitializeText(text, pos, _parameters, Color.yellow);
+            else
+                t.InitializeText(text, pos, _parameters);
+
         }
     }
 }
