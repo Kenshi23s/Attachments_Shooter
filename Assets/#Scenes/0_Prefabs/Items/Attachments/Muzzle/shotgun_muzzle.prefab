@@ -28,7 +28,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 3272480216906808902}
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: -20.894257, y: 0.98, z: -409.4013}
   m_LocalScale: {x: 0.21025701, y: 0.21025701, z: 0.21025701}
   m_ConstrainProportionsScale: 0
@@ -109,7 +109,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7216fb5843692dc4ca86d7eec4e5e740, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  pellets: 0
+  pellets: 6
 --- !u!1 &8762548552620114437
 GameObject:
   m_ObjectHideFlags: 0
@@ -208,10 +208,6 @@ PrefabInstance:
       propertyPath: m_CastShadows
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: -7511558181221131132, guid: 315aa4409081d0041b058890c9c6a8a2, type: 3}
-      propertyPath: m_Materials.Array.data[0]
-      value: 
-      objectReference: {fileID: 2100000, guid: a671d759a2141434d940ccfbf8a652da, type: 2}
     - target: {fileID: 919132149155446097, guid: 315aa4409081d0041b058890c9c6a8a2, type: 3}
       propertyPath: m_Name
       value: medium_cannon2

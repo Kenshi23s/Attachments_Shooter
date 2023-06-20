@@ -1,13 +1,12 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
-using System.Linq;
 using UnityEngine;
 using UnityEngine.Events;
 [RequireComponent(typeof(DebugableObject))]
 public class InteractableComponent : MonoBehaviour, IInteractable
 {
-    //UIManager _ui;
+    
     [SerializeField] float interactDistance;
     public float interactTimeNeeded, currentInteractTime;
     float _checkInteractTime;
@@ -15,13 +14,18 @@ public class InteractableComponent : MonoBehaviour, IInteractable
 
     public UnityEvent onFocus, onUnFocus, OnInteract, onTryingToInteract, OnInteractAbort;
 
-    public List<bool> interactConditions = new List<bool>();
+    public List<Func<bool>> interactConditions = new List<Func<bool>>();
 
     DebugableObject _debug;
+
+    private void Awake()
+    {
+        interactConditions.Add(()=>true);
+    }
     private void Start()
     {
-        interactConditions.Add(true);
         InteractablesManager.instance.AddInteractableObject(this);
+      
 
         //_interactableCollider=GetComponent<Collider>();
         _debug = GetComponent<DebugableObject>();
@@ -63,7 +67,7 @@ public class InteractableComponent : MonoBehaviour, IInteractable
 
         foreach (var item in interactConditions)
         {
-            if (!item)
+            if (!item.Invoke())
             {
                 _debug.Log("Las condiciones dieron falso, no se puede interactuar");
                 return;

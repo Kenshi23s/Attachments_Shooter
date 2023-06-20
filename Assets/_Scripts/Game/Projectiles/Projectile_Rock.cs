@@ -21,6 +21,7 @@ public class Projectile_Rock : MonoBehaviour,IDamagable
     {
         _rb = GetComponent<Rigidbody>();
         GetComponent<PausableObject>().onPause += () => StartCoroutine(Pause());
+        Destroy(gameObject, 20f);
     }
     IEnumerator Pause()
     {
