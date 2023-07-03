@@ -33,14 +33,6 @@ public class Trap_DmgOvertime : MonoBehaviour
         BoxCollider collider = GetComponent<BoxCollider>();
         collider.size = new Vector3(radius, collider.size.y, radius);
         _floorProjection.size = new Vector3(radius, radius, _floorProjection.size.z);
-
-        // Setear rotacion de particulas
-        //var main = _bubbleParticles.main;
-        //var rotation = Quaternion.LookRotation(-transform.forward) * Vector3.up;
-        //Quaternion.
-        //main.startRotationX = rotation.x;
-        //main.startRotationY = rotation.y;
-        //main.startRotationZ = rotation.z;
     }
 
     private void Awake()
