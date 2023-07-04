@@ -61,7 +61,7 @@ public class Projectile_Acid : MonoBehaviour
             x.TakeDamage(damage);
         }
         Tuple<float, Vector3> b = transform.position.GetNormalAngleOfFloor(wallnfloor);
-        if (collision.GetContact(0).normal.y >= 0.70f) 
+        if (collision.GetContact(0).normal.y >= 0.50f) 
         { 
             _debug.Log("Hago el lago de acido"); 
             MakeLagoon(-collision.GetContact(0).normal); 
