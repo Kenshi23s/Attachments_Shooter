@@ -75,7 +75,7 @@ public class ScopeCamera : MonoBehaviour
     // Actualizar los valores de la mira y la camara segun que tan cerca esta de llegar a su posicion final de apuntado
     void UpdateScope(float t)
     {
-        _camera.fieldOfView = Camera.main.fieldOfView + _additionalFOV;
+        _camera.fieldOfView = Camera.main.fieldOfView - _additionalFOV;
         _scopeMaterial.SetFloat("_Fade", 1 - t);
     }
 
