@@ -59,10 +59,13 @@ public class Projectile_Acid : MonoBehaviour
         if (collision.gameObject.TryGetComponent(out IDamagable x))
         {
             x.TakeDamage(damage);
-
         }
         Tuple<float, Vector3> b = transform.position.GetNormalAngleOfFloor(wallnfloor);
-        if (b.Item1 < 70f) { _debug.Log("Hago el lago de acido"); MakeLagoon(b.Item2); }
+        if (collision.GetContact(0).normal.y >= 0.50f) 
+        { 
+            _debug.Log("Hago el lago de acido"); 
+            MakeLagoon(-collision.GetContact(0).normal); 
+        }
         else
         {
             _debug.Log("No hago el lago, el angulo de la normal es " + b.Item1); ;
@@ -77,7 +80,7 @@ public class Projectile_Acid : MonoBehaviour
     void MakeLagoon(Vector3 forward)
     {
         Vector3 x = transform.position.TryGetMeshCollision(Vector3.down, wallnfloor);
-        Trap_DmgOvertime y = Instantiate(AcidLake,x,Quaternion.Euler(forward));
+        Trap_DmgOvertime y = Instantiate(AcidLake,x,Quaternion.LookRotation(forward));
         y.onStay += (x) =>
         {
             x.TakeDamage(2); Debug.Log("el acido hace daño");

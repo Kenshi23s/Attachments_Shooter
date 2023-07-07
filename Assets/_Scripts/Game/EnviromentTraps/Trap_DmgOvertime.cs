@@ -10,9 +10,10 @@ using System.Linq;
 [RequireComponent(typeof(DebugableObject))]
 public class Trap_DmgOvertime : MonoBehaviour
 {
-   [SerializeField] DecalProjector _floorProjection;
+    [SerializeField] DecalProjector _floorProjection;
+    [SerializeField] ParticleSystem _bubbleParticles;
 
-   [SerializeField] protected float _dmg;
+    [SerializeField] protected float _dmg;
 
     [SerializeField] float radius;
 
@@ -29,15 +30,16 @@ public class Trap_DmgOvertime : MonoBehaviour
 
     public void Initialize()
     {
-        BoxCollider x = GetComponent<BoxCollider>();
-        x.size = new Vector3(radius, x.size.y,radius);
-        //_floorProjection.size = x.size;
+        BoxCollider collider = GetComponent<BoxCollider>();
+        collider.size = new Vector3(radius, collider.size.y, radius);
+        _floorProjection.size = new Vector3(radius, radius, _floorProjection.size.z);
     }
 
     private void Awake()
     {
         _debug = GetComponent<DebugableObject>();
         GetComponent<BoxCollider>().isTrigger = true;
+        _bubbleParticles = GetComponentInChildren<ParticleSystem>();
         Initialize();
     }
     private void OnTriggerEnter(Collider other)
@@ -80,8 +82,8 @@ public class Trap_DmgOvertime : MonoBehaviour
     }
     private void OnValidate()
     {
-        BoxCollider x = GetComponent<BoxCollider>();
-        x.size = new Vector3(radius, x.size.y, radius);
-        //_floorProjection.size = x.size;
+        BoxCollider collider = GetComponent<BoxCollider>();
+        collider.size = new Vector3(radius, collider.size.y, radius);
+        _floorProjection.size = new Vector3(radius, radius, _floorProjection.size.z);
     }
 }
