@@ -8,11 +8,19 @@ public class ButtonMenuAnim : MonoBehaviour
     public Image fillArrowLeft, fillArrowRight;
     public Image emptyArrowLeft, emptyArrowRight;
     float speed = 0.1f;
-    
+    Vector2 initialPosLeftFillArrow;
+    Vector2 initialPosRightFillArrow;
+
+    private void Start()
+    {
+        initialPosLeftFillArrow = fillArrowLeft.transform.position;
+        initialPosRightFillArrow = fillArrowRight.transform.position;
+    }
+
 
     public void MoveArrows()
     {
-        //Vector3 dirLeft = emptyArrowLeft.transform.position - fillArrowLeft.transform.position;
+        
 
         //fillArrowLeft.transform.position -= dirLeft * speed * Time.deltaTime;
 
@@ -20,4 +28,12 @@ public class ButtonMenuAnim : MonoBehaviour
         fillArrowRight.transform.position = emptyArrowRight.transform.position;
         
     }
+
+    public void NormalArrows()
+    {
+        fillArrowLeft.transform.position = initialPosLeftFillArrow;
+        fillArrowRight.transform.position= initialPosRightFillArrow;
+    }
+
+    
 }
