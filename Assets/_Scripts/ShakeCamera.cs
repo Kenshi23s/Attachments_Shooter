@@ -70,48 +70,63 @@ public class ShakeCamera : MonoBehaviour
     {
         _ogCamLocalPos = cam.transform.localPosition;
         _ogHandsLocalPos = hands.localPosition;
+      
+    }
+
+
+    private void Start()
+    {
+        AimMotion();
+
+
     }
 
     public void Update()
     {
         if (ScreenManager.IsPaused()) return;
 
-
-        // Detectar inputs
-        if (Input.GetKeyDown(KeyCode.Mouse1))
-        {
-            aiming = true;
-            OnHipPosReached?.Invoke();
-            // el hands aim local pos se deberia setear en un OnSightChange
-            Vector3 offset = cam.transform.parent.InverseTransformPoint(myGunHandler.SightPosition);
-            offset.y -= _handsShake.y;
-            offset.x -= _handsShake.x;
-            offset.z = 0;
-            _handsAimLocalPos = _currentHandsLocalPos - offset;
- 
-            _normalizedTargetPos = 1;
-        }
-        else if (Input.GetKeyUp(KeyCode.Mouse1))
-        {
-            OnAimPosReached?.Invoke();
-            aiming = false;
-            _normalizedTargetPos = 0;
-        }
+        ListenInputs();
 
         float handling = myGunHandler.actualGun.stats.GetStat(StatNames.Handling);
         float multiplier = aiming ? _aimMultiplier : 1f;
         multiplier *= 1 - handling / 100f;
         Debug.Log("handling: " + handling);
+
+        SelectHandMovementType(multiplier);
+        AimTransition();
+
+        cam.transform.localPosition = _ogCamLocalPos + _camShake;
+        hands.transform.localPosition = _currentHandsLocalPos + _handsShake;
+    }
+
+
+
+    void AimTransition()
+    {
+        // Si esta transicionando entre apuntar y hip fire...
+        if (!HandsReachedTargetPosition())
+        {
+            // Sumar / Restar velocidad si esta apuntando
+            _normalizedDistanceToAimPosition += aiming ? _aimSpeed * Time.deltaTime : -_returnSpeed * Time.deltaTime;
+            _normalizedDistanceToAimPosition = Mathf.Clamp01(_normalizedDistanceToAimPosition);
+            UpdateState();
+
+            AimMotion();
+        }
+    }
+
+    void SelectHandMovementType(float multiplier = 1)
+    {
         // Movimiento de manos cuando corre
         if (rb.velocity.magnitude > _minRunSpeed && playerMov.onGrounded)
         {
-            _camShake = _camShake *_soft + FootStepMotion(_runFrequency, _runAmplitude * multiplier);
+            _camShake = _camShake * _soft + FootStepMotion(_runFrequency, _runAmplitude * multiplier);
             _handsShake = _camShake * _handsAmplitudeScale;
         }
         // Movimiento de manos cuando camina
         else if (rb.velocity.magnitude > _minWalkSpeed && playerMov.onGrounded)
         {
-            
+
             _camShake = _camShake * _soft + FootStepMotion(_walkFrequency, _walkAmplitude * multiplier);
             _handsShake = _camShake * _handsAmplitudeScale;
         }
@@ -121,20 +136,40 @@ public class ShakeCamera : MonoBehaviour
             _camShake *= _soft;
             _handsShake *= _soft;
         }
+    }
 
-        // Si esta transicionando entre apuntar y hip fire...
-        if (!HandsReachedTargetPosition())
+    void ListenInputs()
+    {
+        // Detectar inputs
+        if (Input.GetKeyDown(KeyCode.Mouse1))
         {
-            // Sumar / Restar velocidad si esta apuntando
-            _normalizedDistanceToAimPosition += aiming ? _aimSpeed * Time.deltaTime : -_returnSpeed * Time.deltaTime;
-            _normalizedDistanceToAimPosition = Mathf.Clamp01(_normalizedDistanceToAimPosition);
-            UpdateState();
-
-            AimMotion();           
+            AimInput();
         }
+        else if (Input.GetKeyUp(KeyCode.Mouse1))
+        {
+            ReleaseAimInput();
+        }
+    }
 
-        cam.transform.localPosition = _ogCamLocalPos + _camShake;
-        hands.transform.localPosition = _currentHandsLocalPos + _handsShake;
+    public void AimInput()
+    {
+        aiming = true;
+        OnHipPosReached?.Invoke();
+        // el hands aim local pos se deberia setear en un OnSightChange
+        Vector3 offset = cam.transform.parent.InverseTransformPoint(myGunHandler.SightPosition);
+        offset.y -= _handsShake.y;
+        offset.x -= _handsShake.x;
+        offset.z = 0;
+        _handsAimLocalPos = _currentHandsLocalPos - offset;
+
+        _normalizedTargetPos = 1;
+    }
+
+    void ReleaseAimInput()
+    {
+        OnAimPosReached?.Invoke();
+        aiming = false;
+        _normalizedTargetPos = 0;
     }
 
     void AimMotion()
