@@ -96,7 +96,7 @@ GameObject:
   - component: {fileID: 6761114041254848367}
   - component: {fileID: 881273093255205441}
   m_Layer: 0
-  m_Name: Camera
+  m_Name: CameraScope
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -124,7 +124,7 @@ Camera:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 4133183424571332787}
-  m_Enabled: 1
+  m_Enabled: 0
   serializedVersion: 2
   m_ClearFlags: 1
   m_BackGroundColor: {r: 0.19215687, g: 0.3019608, b: 0.4745098, a: 0}
@@ -207,11 +207,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _additionalFOV: 5
   _scopeRenderer: {fileID: 6220711580480116933}
-  myRenderTexture: {fileID: 0}
-  textureAimWidth: 0
-  textureAimHeight: 0
-  HipfireWidth: 0
-  HipfireHeight: 0
+  myRenderTexture: {fileID: 8400000, guid: b66a592480a88634bb137ce5a33018ac, type: 2}
+  textureAimWidth: 1024
+  textureAimHeight: 1024
 --- !u!1 &4890296052347002353
 GameObject:
   m_ObjectHideFlags: 0
@@ -342,7 +340,7 @@ GameObject:
   m_Layer: 11
   m_Name: sight_2 (1)
   m_TagString: Untagged
-  m_Icon: {fileID: 0}
+  m_Icon: {fileID: 419385456094870383, guid: 0000000000000000d000000000000000, type: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
@@ -398,9 +396,9 @@ MonoBehaviour:
         _value: 100
     - Key: 0
       Value:
-        _value: 0
+        _value: -10
   _sightDot: {fileID: 0}
-  zoomMultiplier: 0
+  zoomMultiplier: 3
   sightPoint: {fileID: 3725675996528958703}
 --- !u!114 &8617172088389036185
 MonoBehaviour:
