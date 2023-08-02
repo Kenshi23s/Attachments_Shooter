@@ -11,9 +11,13 @@ public class LookToObjective : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        if (gamemode&&gamemode.isActiveAndEnabled)
+        if (gamemode && gamemode.isActiveAndEnabled)
         {
             StartCoroutine(LookTowards());
+        }
+        else
+        {
+            Destroy(gameObject);
         }
        
     }
