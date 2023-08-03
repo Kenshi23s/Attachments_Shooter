@@ -34,8 +34,10 @@ public class UI_AttachmentInventory : MonoBehaviour
     [SerializeField] AnimationCurve _animationCurve;
 
     float _transitionTime;
-    Vector3 _startPosition, _endPosition;
-    Quaternion _startRotation, _endRotation;
+    Vector3 _startPosition;
+    Quaternion _startRotation;
+    Transform _endPosAndRot;
+
     float _startFov, _endFov;
 
     bool _isTransitioning;
@@ -138,8 +140,7 @@ public class UI_AttachmentInventory : MonoBehaviour
         _startRotation = _camTransform.rotation;
         _startFov = _cam.fieldOfView;
 
-        _endPosition = target.position;
-        _endRotation = target.rotation;
+        _endPosAndRot = target;
         _endFov = targetFov;
 
         _transitionTime = 0;
@@ -152,8 +153,8 @@ public class UI_AttachmentInventory : MonoBehaviour
         _transitionTime += Time.deltaTime;
         float t = _animationCurve.Evaluate(_transitionTime);
 
-        _camTransform.position = Vector3.Lerp(_startPosition, _endPosition, t);
-        _camTransform.rotation = Quaternion.Lerp(_startRotation, _endRotation, t);
+        _camTransform.position = Vector3.Lerp(_startPosition, _endPosAndRot.position, t);
+        _camTransform.rotation = Quaternion.Lerp(_startRotation, _endPosAndRot.rotation, t);
         _cam.fieldOfView = Mathf.Lerp(_startFov, _endFov, t);
 
         if (t >= 1)
