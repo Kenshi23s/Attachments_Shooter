@@ -90,7 +90,7 @@ public class ShakeCamera : MonoBehaviour
         float handling = myGunHandler.actualGun.stats.GetStat(StatNames.Handling);
         float multiplier = aiming ? _aimMultiplier : 1f;
         multiplier *= 1 - handling / 100f;
-        Debug.Log("handling: " + handling);
+        //Debug.Log("handling: " + handling);
 
         SelectHandMovementType(multiplier);
         AimTransition();
@@ -194,7 +194,7 @@ public class ShakeCamera : MonoBehaviour
             if (!_aimPosReached) 
             {
                 OnAimPosLeft?.Invoke();
-                Debug.Log("AIM POS LEFT");
+                //Debug.Log("AIM POS LEFT");
 
             }
         }
@@ -204,7 +204,7 @@ public class ShakeCamera : MonoBehaviour
             if (_aimPosReached) 
             {
                 OnAimPosReached?.Invoke();
-                Debug.Log("AIM POS REACHED");
+                //Debug.Log("AIM POS REACHED");
             }
         }
 
@@ -214,7 +214,7 @@ public class ShakeCamera : MonoBehaviour
             if (!_hipPosReached) 
             {
                 OnHipPosLeft?.Invoke();
-                Debug.Log("HIP POS LEFT");
+                //Debug.Log("HIP POS LEFT");
             }
         }
         else
@@ -223,7 +223,7 @@ public class ShakeCamera : MonoBehaviour
             if (_hipPosReached) 
             {
                 OnHipPosReached?.Invoke();
-                Debug.Log("HIP POS REACHED");
+                //Debug.Log("HIP POS REACHED");
             }
         }
     }

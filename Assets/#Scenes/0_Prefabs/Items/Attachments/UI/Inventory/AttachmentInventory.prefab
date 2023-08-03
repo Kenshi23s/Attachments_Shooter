@@ -810,13 +810,43 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c98db613a13afdd4f83dc6a66214219c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  template: {fileID: 5931648148543068310, guid: 544714b9145264d4ca69b246947938b1, type: 3}
-  savedPanel: {fileID: 151103343951027347}
-  equippedPanel: {fileID: 151103342660171868}
-  viewGunCamPrefab: {fileID: 8778942942074206513, guid: a1794a6c65d812e40938c1bc2cff258c, type: 3}
-  _pointTogo: {fileID: 0}
-  _camRotationSpeed: 4
-  _cam_MoveSpeed: 3
+  _template: {fileID: 0}
+  _savedPanel: {fileID: 0}
+  _equippedPanel: {fileID: 0}
+  _inventoryFieldOfView: 40
+  _animationCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
+    - serializedVersion: 3
+      time: 0.11826277
+      value: 0.21055052
+      inSlope: 3.1236587
+      outSlope: 3.1236587
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    - serializedVersion: 3
+      time: 0.4
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
 --- !u!114 &1971193044436575543
 MonoBehaviour:
   m_ObjectHideFlags: 0

@@ -88,7 +88,7 @@ public class InteractablesManager : MonoSingleton<InteractablesManager>
         //}).First();
         #endregion
 
-        Debug.Log(_currentInteractable);
+        //Debug.Log(_currentInteractable);
         if (newInteractable != _currentInteractable)
         {
             // Hide any visual feedback from the previous interactable object

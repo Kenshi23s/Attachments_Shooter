@@ -147,16 +147,16 @@ namespace FacundoColomboMethods
         /// 
         public static T[] GetChildrenComponents<T>(this Transform Father)
         {
-            T[] Components = new T[Father.childCount];
+            var Components = new List<T>();
             for (int i = 0; i < Father.childCount; i++)
             {
                 var item = Father.transform.GetChild(i).GetComponent<T>();
                 if (item != null)
                 {
-                    Components[i] = item;
+                    Components.Add(item);
                 }
             }
-            return Components;
+            return Components.ToArray();
         }
         /// <summary>
         /// obtiene todos los componentes de tipo T que haya cerca

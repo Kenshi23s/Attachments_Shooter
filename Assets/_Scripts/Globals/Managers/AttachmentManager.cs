@@ -76,7 +76,7 @@ public class AttachmentManager : MonoSingleton<AttachmentManager>
             return x + result;
         });
 
-        _canvasInventory.SetInventoryUI(finalResult, _gunHandler.actualGun);
+        _canvasInventory.EnterInventory(finalResult, _gunHandler.actualGun);
 
         Cursor.lockState = CursorLockMode.None;
         Cursor.visible = true;
@@ -86,7 +86,7 @@ public class AttachmentManager : MonoSingleton<AttachmentManager>
 
     void CloseInventory()
     {
-        _canvasInventory.DeactivateInventory();
+        _canvasInventory.ExitInventory();
         Cursor.lockState = CursorLockMode.Locked;
         Cursor.visible = false;
         _inventoryState = OpenInventory;

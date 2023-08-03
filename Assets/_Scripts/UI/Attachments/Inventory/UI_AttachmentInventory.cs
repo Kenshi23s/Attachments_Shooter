@@ -10,40 +10,52 @@ public class UI_AttachmentInventory : MonoBehaviour
 {
     #region Canvas
     Canvas _inventoryCanvas;
-    [SerializeField] UI_Attachment_Button template;
-    [SerializeField] GameObject savedPanel, equippedPanel;
+    [SerializeField] UI_Attachment_Button _template;
+    [SerializeField] GameObject _savedPanel, _equippedPanel;
     #endregion
 
-    #region InventoryCamera Camera
-    [SerializeField] Camera viewGunCamPrefab;
-    Camera viewGunCamInstance;
+    #region Camera
+    Camera _cam;
 
-   Transform _pointTogo;
+    Transform _inventoryCamParent;
+    [SerializeField] float _inventoryFov = 40f;
 
-    [SerializeField,Range(1,10)] float _camRotationSpeed, _cam_MoveSpeed;
-
-    event Action _camUpdate;
+    Transform _camTransform;
+    Transform _ogCamParent;
+    float _ogFov;
     #endregion
 
     List<UI_Attachment_Button> _buttons = new List<UI_Attachment_Button>();
 
-    //las camaras que habia activadas antes de poner la UI
-    Camera[] enabledbeforeUI;
-
     DebugableObject _debug;
-    Gun displayGun; 
+    Gun _displayGun;
+
+    #region Transition Variables
+    [SerializeField] AnimationCurve _animationCurve;
+
+    float _transitionTime;
+    Vector3 _startPosition, _endPosition;
+    Quaternion _startRotation, _endRotation;
+    float _startFov, _endFov;
+
+    bool _isTransitioning;
+    #endregion
 
     private void Awake()
     {   
         _inventoryCanvas = GetComponent<Canvas>();
         _debug = GetComponent<DebugableObject>();
-        _inventoryCanvas.enabled= false;
+        _inventoryCanvas.enabled = false;
        
     }
 
     private void Start()
     {
-        _pointTogo = PlayerCameraPivots.instance.ViewFromInventory;
+        _inventoryCamParent = PlayerCameraPivots.instance.ViewFromInventory;
+        _cam = Camera.main;
+        _ogFov = _cam.fieldOfView;
+        _camTransform = _cam.transform;
+        _ogCamParent = _camTransform.parent;
     }
 
 
@@ -51,14 +63,16 @@ public class UI_AttachmentInventory : MonoBehaviour
 
     private void LateUpdate()
     {
-        _camUpdate?.Invoke();
+
+        if (_isTransitioning)
+            MoveCamera();
     }
 
-    public void SetInventoryUI(IEnumerable<Attachment> AttachmentsSaved,Gun displayGun)
+    public void EnterInventory(IEnumerable<Attachment> AttachmentsSaved, Gun displayGun)
     {       
         _inventoryCanvas.enabled = true;
 
-        this.displayGun = displayGun;
+        this._displayGun = displayGun;
         // por si no tengo un arma equipada actualmente(?) lo dejo por las dudas
         IEnumerable<Attachment> gunAttachments = displayGun != null ? displayGun.attachmentHandler.activeAttachments.Values : default;
 
@@ -69,8 +83,22 @@ public class UI_AttachmentInventory : MonoBehaviour
         _buttons = result.ToList();       
 
         ScreenManager.PauseGame();
-        SetCamera();     
+
+        SetCameraTransition(_inventoryCamParent, _inventoryFov);
     }
+
+    public void ExitInventory()
+    {
+
+        _inventoryCanvas.enabled = false;
+
+        DestroyButtons();
+
+        ScreenManager.ResumeGame();
+        SetCameraTransition(_ogCamParent, _ogFov);
+        //SetCameraTransition(_ogCamParent, _ogFov, () => ScreenManager.ResumeGame());
+    }
+
 
     public void AddButton(Attachment target)
     {
@@ -79,8 +107,8 @@ public class UI_AttachmentInventory : MonoBehaviour
       
         UI_Attachment_Button aux = _buttons.FirstOrDefault(x => x.owner == target);
 
-        string debugmsg= $"el accesorio{target}";
-        if (aux!=default)
+        string debugmsg = $"el accesorio{target}";
+        if (aux != default)
         {
             debugmsg += $" tenia un boton asignado!";
             ChangePosition(aux);
@@ -95,42 +123,44 @@ public class UI_AttachmentInventory : MonoBehaviour
         print(debugmsg);
     }
 
-    public void DeactivateInventory()
-    {
-
-        foreach (var item in enabledbeforeUI) item.gameObject.SetActive(true);
-
-        enabledbeforeUI = default;
-        _inventoryCanvas.enabled = false;
-
-        _camUpdate = null;
-
-        Destroy(viewGunCamInstance.gameObject);
-        DestroyButtons();
-
-        ScreenManager.ResumeGame();
-    }
 
     #region Camera Methods
-    void SetCamera()
+
+    Action _onFinishTransition;
+
+    void SetCameraTransition(Transform target, float targetFov, Action onFinishTransition = null)
     {
-        Transform cam = Camera.main.transform;
-        viewGunCamInstance = Instantiate(viewGunCamPrefab, cam.position, cam.rotation);
+        _isTransitioning = true;
 
-        enabledbeforeUI = Camera.allCameras.Where(x => x != viewGunCamInstance).ToArray();
+        _camTransform.parent = target;
 
-        foreach (var item in enabledbeforeUI) item.gameObject.SetActive(false);
+        _startPosition = _camTransform.position;
+        _startRotation = _camTransform.rotation;
+        _startFov = _cam.fieldOfView;
 
-        _camUpdate += MoveCamera;
+        _endPosition = target.position;
+        _endRotation = target.rotation;
+        _endFov = targetFov;
+
+        _transitionTime = 0;
+
+        _onFinishTransition = onFinishTransition;
     }
 
     void MoveCamera()
     {
-        //cree este variable para que sea un poco mas legible
-        Transform viewGun = viewGunCamInstance.transform; 
+        _transitionTime += Time.deltaTime;
+        float t = _animationCurve.Evaluate(_transitionTime);
 
-        viewGun.position = Vector3.Slerp(viewGun.position, _pointTogo.transform.position, _cam_MoveSpeed * Time.deltaTime);
-        viewGun.rotation = Quaternion.Slerp(viewGun.rotation, _pointTogo.rotation, _camRotationSpeed * Time.deltaTime);
+        _camTransform.position = Vector3.Lerp(_startPosition, _endPosition, t);
+        _camTransform.rotation = Quaternion.Lerp(_startRotation, _endRotation, t);
+        _cam.fieldOfView = Mathf.Lerp(_startFov, _endFov, t);
+
+        if (t >= 1)
+        {
+            _isTransitioning = false;
+            _onFinishTransition?.Invoke();
+        }
     }
     #endregion
 
@@ -140,18 +170,18 @@ public class UI_AttachmentInventory : MonoBehaviour
         return attachments.Aggregate(new FList<UI_Attachment_Button>(), (x, y) =>
         {
 
-            Transform parent = y.isAttached ? equippedPanel.transform : savedPanel.transform;
-            var fillTemplate = Instantiate(template, parent);
+            Transform parent = y.isAttached ? _equippedPanel.transform : _savedPanel.transform;
+            var fillTemplate = Instantiate(_template, parent);
 
-            return x + fillTemplate.AssignAttachment(y, displayGun, ChangePosition);
+            return x + fillTemplate.AssignAttachment(y, _displayGun, ChangePosition);
         }).ToFList();
     }
 
     void ChangePosition(UI_Attachment_Button x)
     {
          
-        x.transform.SetParent(x.owner.isAttached ? equippedPanel.transform : savedPanel.transform); 
-        x.AssignAttachment(x.owner, displayGun, ChangePosition);
+        x.transform.SetParent(x.owner.isAttached ? _equippedPanel.transform : _savedPanel.transform); 
+        x.AssignAttachment(x.owner, _displayGun, ChangePosition);
 
     }
 
