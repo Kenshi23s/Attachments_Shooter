@@ -1,95 +1,76 @@
+using System;
 using UnityEngine;
+using UnityEngine.Events;
 using UnityEngine.EventSystems;
 
-
+public interface IObjectSelectable : IPointerEnterHandler, IPointerExitHandler, IPointerClickHandler, IPointerDownHandler { }
 /// <summary>
 /// Hace que un GameObject con collider actue como un botton. Se necesita un EventSystem en escena, y un PhysicsRaycaster acoplado a la camara.
 /// </summary>
-public class ButtonGameObject : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler, IPointerClickHandler, IPointerDownHandler, IPointerUpHandler, ISelectHandler, IDeselectHandler
+[RequireComponent(typeof(Collider))]
+public class ButtonGameObject : MonoBehaviour, IObjectSelectable
 {
-    public Material normalMaterial;
-    public Material highlightedMaterial;
-    public Material pressedMaterial;
-    public Material selectedMaterial;
-    public Material disabledMaterial;
+ 
 
-    private MeshRenderer meshRenderer;
 
-    private bool isDisabled = false;
+    private bool isEnabled = true;
+    public UnityEvent OnSelected, OnHighlighted, OnUnHighlighte, OnPressed;
+    public UnityEvent OnEnable, OnDisable;
 
-    private void Start()
-    {
-        meshRenderer = GetComponent<MeshRenderer>();
-        meshRenderer.material = normalMaterial;
-    }
+
 
     public void OnPointerEnter(PointerEventData eventData)
     {
-        if (!isDisabled)
-        {
-            meshRenderer.material = highlightedMaterial;
-            Debug.Log("POINTER ENTER");
-        }
+        if (!isEnabled) return;
+
+     
+        Debug.Log("POINTER ENTER");
+
+        OnHighlighted?.Invoke();
+
+
     }
 
     public void OnPointerExit(PointerEventData eventData)
     {
-        if (!isDisabled)
-        {
-            meshRenderer.material = normalMaterial;
-            Debug.Log("POINTER EXIT");
-        }
+        if (!isEnabled) return;
+
+    
+        OnUnHighlighte?.Invoke();
+
+        Debug.Log("POINTER EXIT");
+
     }
 
     public void OnPointerClick(PointerEventData eventData)
     {
-        if (!isDisabled)
-        {
-            // Call your custom onClick function here
-            Debug.Log("POINTER CLICK");
-        }
+        if (!isEnabled) return;
+
+        OnSelected?.Invoke();
+        Debug.Log("POINTER CLICK");
+
     }
 
     public void OnPointerDown(PointerEventData eventData)
     {
-        if (!isDisabled)
-        {
-            meshRenderer.material = pressedMaterial;
-            Debug.Log("POINTER DOWN");
-        }
+        if (!isEnabled) return;
+
+      
+        OnPressed?.Invoke();
+        Debug.Log("POINTER DOWN");
+
     }
 
-    public void OnPointerUp(PointerEventData eventData)
-    {
-        if (!isDisabled)
-        {
-            meshRenderer.material = highlightedMaterial;
-            Debug.Log("POINTER UP");
-        }
-    }
-
-    public void OnSelect(BaseEventData eventData)
-    {
-        if (!isDisabled)
-        {
-            meshRenderer.material = selectedMaterial;
-            Debug.Log("ON SELECT");
-        }
-    }
-
-    public void OnDeselect(BaseEventData eventData)
-    {
-        if (!isDisabled)
-        {
-            meshRenderer.material = normalMaterial;
-            Debug.Log("ON DESELECT");
-        }
-    }
 
     // Use this function to disable/enable the button
-    public void SetButtonState(bool disabled)
+    public void SetButtonState(bool newValue)
     {
-        isDisabled = disabled;
-        meshRenderer.material = disabled ? disabledMaterial : normalMaterial;
+        if (isEnabled == newValue) return;
+
+        isEnabled = newValue;
+        UnityEvent x = isEnabled ? OnEnable : OnDisable;
+        x?.Invoke();
+       
+
     }
 }
