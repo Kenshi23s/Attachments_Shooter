@@ -81,6 +81,6 @@ public class ButtonGameObject : MonoBehaviour, IObjectSelectable
     public void OnDeselect(BaseEventData eventData)
     {
         OnUnhighlighted?.Invoke();
-        Debug.Log("OBJECT STATE: NORMAL");
+        _debugger.Log("OBJECT STATE: NORMAL");
     }
 }
