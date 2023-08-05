@@ -1,4 +1,6 @@
 using System;
+using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.EventSystems;
@@ -8,14 +10,27 @@ public interface IObjectSelectable : IPointerEnterHandler, IPointerExitHandler, 
 /// Hace que un GameObject con collider actue como un botton. Se necesita un EventSystem en escena, y un PhysicsRaycaster acoplado a la camara.
 /// </summary>
 [RequireComponent(typeof(Collider), typeof(DebugableObject))]
+[DisallowMultipleComponent]
 public class ButtonGameObject : MonoBehaviour, IObjectSelectable
 {
-    public bool IsEnabled { get; private set; } = true;
+    [field:SerializeField] public bool IsEnabled { get; private set; } = true;
     public UnityEvent OnNormal, OnHighlighted, OnPressed, OnSelected;
     public UnityEvent OnEnable, OnDisable;
 
     DebugableObject _debugger;
 
+    public void ClearAllEvents()
+    {
+        UnityEvent[] EventCol = 
+        {
+             OnNormal,OnHighlighted, OnPressed, OnSelected ,OnEnable, OnDisable
+        };
+
+        //foreach (var item in EventCol.Where(x => x.GetPersistentEventCount() > 0).Where(x => x != null))
+        //{
+        //    item.RemoveAllListeners();
+        //}
+    }
     private void Awake()
     {
         _debugger = GetComponent<DebugableObject>();
