@@ -3,74 +3,84 @@ using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.EventSystems;
 
-public interface IObjectSelectable : IPointerEnterHandler, IPointerExitHandler, IPointerClickHandler, IPointerDownHandler { }
+public interface IObjectSelectable : IPointerEnterHandler, IPointerExitHandler, IPointerClickHandler, IPointerDownHandler, ISelectHandler, IDeselectHandler { }
 /// <summary>
 /// Hace que un GameObject con collider actue como un botton. Se necesita un EventSystem en escena, y un PhysicsRaycaster acoplado a la camara.
 /// </summary>
-[RequireComponent(typeof(Collider))]
+[RequireComponent(typeof(Collider), typeof(DebugableObject))]
 public class ButtonGameObject : MonoBehaviour, IObjectSelectable
 {
- 
-
-
-    private bool isEnabled = true;
-    public UnityEvent OnSelected, OnHighlighted, OnUnHighlighte, OnPressed;
+    public bool IsEnabled { get; private set; } = true;
+    public UnityEvent OnSelected, OnHighlighted, OnUnhighlighted, OnPressed;
     public UnityEvent OnEnable, OnDisable;
 
+    public DebugableObject _debugger;
 
+    private void Awake()
+    {
+        _debugger = GetComponent<DebugableObject>();
+    }
 
     public void OnPointerEnter(PointerEventData eventData)
     {
-        if (!isEnabled) return;
+        if (!IsEnabled || eventData.selectedObject == gameObject) return;
 
-     
-        Debug.Log("POINTER ENTER");
-
-        OnHighlighted?.Invoke();
-
-
+        if (eventData.pointerPress)
+        {
+            OnPressed?.Invoke();
+            _debugger.Log("OBJECT STATE: PRESSED");
+        }
+        else
+        {
+            OnHighlighted?.Invoke();
+            _debugger.Log("OBJECT STATE: HIGHLIGHTED");
+        }
     }
 
     public void OnPointerExit(PointerEventData eventData)
     {
-        if (!isEnabled) return;
+        if (!IsEnabled || eventData.selectedObject == gameObject) return;
 
-    
-        OnUnHighlighte?.Invoke();
+        OnUnhighlighted?.Invoke();
 
-        Debug.Log("POINTER EXIT");
-
+        _debugger.Log("OBJECT STATE: NORMAL");
     }
 
     public void OnPointerClick(PointerEventData eventData)
     {
-        if (!isEnabled) return;
+        if (!IsEnabled || eventData.selectedObject == gameObject) return;
 
-        OnSelected?.Invoke();
-        Debug.Log("POINTER CLICK");
-
+        EventSystem.current.SetSelectedGameObject(gameObject, eventData);
     }
 
     public void OnPointerDown(PointerEventData eventData)
     {
-        if (!isEnabled) return;
+        if (!IsEnabled || eventData.selectedObject == gameObject) return;
 
-      
         OnPressed?.Invoke();
-        Debug.Log("POINTER DOWN");
-
+        _debugger.Log("OBJECT STATE: PRESSED");
     }
 
 
     // Use this function to disable/enable the button
     public void SetButtonState(bool newValue)
     {
-        if (isEnabled == newValue) return;
+        if (IsEnabled == newValue) return;
 
-        isEnabled = newValue;
-        UnityEvent x = isEnabled ? OnEnable : OnDisable;
+        IsEnabled = newValue;
+        UnityEvent x = IsEnabled ? OnEnable : OnDisable;
         x?.Invoke();
-       
+    }
 
+    public void OnSelect(BaseEventData eventData)
+    {
+        OnSelected?.Invoke();
+        _debugger.Log("OBJECT STATE: SELECTED");
+    }
+
+    public void OnDeselect(BaseEventData eventData)
+    {
+        OnUnhighlighted?.Invoke();
+        Debug.Log("OBJECT STATE: NORMAL");
     }
 }
