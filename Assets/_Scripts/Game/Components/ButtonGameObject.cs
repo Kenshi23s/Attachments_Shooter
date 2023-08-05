@@ -11,17 +11,17 @@ public interface IObjectSelectable : IPointerEnterHandler, IPointerExitHandler, 
 public class ButtonGameObject : MonoBehaviour, IObjectSelectable
 {
     public bool IsEnabled { get; private set; } = true;
-    public UnityEvent OnSelected, OnHighlighted, OnUnhighlighted, OnPressed;
+    public UnityEvent OnNormal, OnHighlighted, OnPressed, OnSelected;
     public UnityEvent OnEnable, OnDisable;
 
-    public DebugableObject _debugger;
+    DebugableObject _debugger;
 
     private void Awake()
     {
         _debugger = GetComponent<DebugableObject>();
     }
 
-    public void OnPointerEnter(PointerEventData eventData)
+    void IPointerEnterHandler.OnPointerEnter(PointerEventData eventData)
     {
         if (!IsEnabled || eventData.selectedObject == gameObject) return;
 
@@ -37,23 +37,23 @@ public class ButtonGameObject : MonoBehaviour, IObjectSelectable
         }
     }
 
-    public void OnPointerExit(PointerEventData eventData)
+    void IPointerExitHandler.OnPointerExit(PointerEventData eventData)
     {
         if (!IsEnabled || eventData.selectedObject == gameObject) return;
 
-        OnUnhighlighted?.Invoke();
+        OnNormal?.Invoke();
 
         _debugger.Log("OBJECT STATE: NORMAL");
     }
 
-    public void OnPointerClick(PointerEventData eventData)
+    void IPointerClickHandler.OnPointerClick(PointerEventData eventData)
     {
         if (!IsEnabled || eventData.selectedObject == gameObject) return;
 
         EventSystem.current.SetSelectedGameObject(gameObject, eventData);
     }
 
-    public void OnPointerDown(PointerEventData eventData)
+    void IPointerDownHandler.OnPointerDown(PointerEventData eventData)
     {
         if (!IsEnabled || eventData.selectedObject == gameObject) return;
 
@@ -61,26 +61,27 @@ public class ButtonGameObject : MonoBehaviour, IObjectSelectable
         _debugger.Log("OBJECT STATE: PRESSED");
     }
 
-
-    // Use this function to disable/enable the button
-    public void SetButtonState(bool newValue)
-    {
-        if (IsEnabled == newValue) return;
-
-        IsEnabled = newValue;
-        UnityEvent x = IsEnabled ? OnEnable : OnDisable;
-        x?.Invoke();
-    }
-
-    public void OnSelect(BaseEventData eventData)
+    void ISelectHandler.OnSelect(BaseEventData eventData)
     {
         OnSelected?.Invoke();
         _debugger.Log("OBJECT STATE: SELECTED");
     }
 
-    public void OnDeselect(BaseEventData eventData)
+    void IDeselectHandler.OnDeselect(BaseEventData eventData)
     {
-        OnUnhighlighted?.Invoke();
+        OnNormal?.Invoke();
         _debugger.Log("OBJECT STATE: NORMAL");
+    }
+
+    // Usar esta funcion para activar o desactivar el boton.
+    public void SetButtonState(bool enabled)
+    {
+        if (IsEnabled == enabled) return;
+
+        IsEnabled = enabled;
+        UnityEvent x = IsEnabled ? OnEnable : OnDisable;
+        x?.Invoke();
+
+        _debugger.Log("OBJECT STATE: " + (IsEnabled ? "ENABLED" : "DISABLED"));
     }
 }
