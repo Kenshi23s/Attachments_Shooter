@@ -27,7 +27,7 @@ public class View_Attachment : MonoBehaviour
     {
         //saco la direccion opuesta para q lo vea bien(????)
         Vector3 dir = transform.position - Camera.main.transform.position;
-        transform.forward=new Vector3(dir.x,0,dir.z);
+        transform.forward = dir;
     }
 
     public void NewAttachment(Attachment x)
