@@ -2,10 +2,11 @@ using AYellowpaper.SerializedCollections;
 using FacundoColomboMethods;
 using System;
 using UnityEngine;
+using UnityEngine.UI;
 using static StatsHandler;
 [RequireComponent(typeof(BoxCollider))]
-[RequireComponent(typeof(VFX_Sign))]
 [RequireComponent(typeof(DebugableObject))]
+[RequireComponent(typeof(VFX_Attachment))]
 public abstract class Attachment : MonoBehaviour
 {
     protected DebugableObject _debug;
@@ -31,6 +32,7 @@ public abstract class Attachment : MonoBehaviour
 
     }
     #endregion
+
     [SerializeField] Transform pivotPos;
 
     public AttachmentType MyType { get; protected set; }
@@ -47,13 +49,14 @@ public abstract class Attachment : MonoBehaviour
     public bool isAttached { get; protected set; }
 
     public Gun owner { get; private set; }
+    public VFX_Attachment VFX { get; private set; }
 
     public event Action OnAttach;
     public event Action OnDettach;
 
     Vector3 OriginPivot = Vector3.zero; 
     BoxCollider b_collider;
-
+    
     /// <summary>
     /// Awake
     /// </summary>
@@ -64,14 +67,9 @@ public abstract class Attachment : MonoBehaviour
     protected abstract void Comunicate();
 
     private void Awake()
-    {
-        b_collider = GetComponent<BoxCollider>();
-
+    {     
         _debug = GetComponent<DebugableObject>(); _debug.AddGizmoAction(DrawPivot);
-
-        Action<bool> colliderEnable = (x) => b_collider.enabled = x;
-        OnAttach += () => colliderEnable(false);
-        OnDettach += () => colliderEnable(true);
+        VFX = GetComponent<VFX_Attachment>(); VFX.Initialize();
         isAttached = false;
         #region Pivot
         
@@ -81,34 +79,34 @@ public abstract class Attachment : MonoBehaviour
         {
             OriginPivot = pivotPos.localPosition;
             _debug.Log(OriginPivot.ToString());
-        }   
-           
-         
-        
-          
-      
-
+        }
         #endregion
 
+         SetColider(); Initialize();       
+    }
+    #region VFX Attachment(Talvez habria que crear otra clase para la logica de VFX)
+   
+
+
+    #endregion
+
+    void SetColider()
+    {
+        b_collider = GetComponent<BoxCollider>();
+        Action<bool> colliderEnable = (x) => b_collider.enabled = x;
+        OnAttach += () => colliderEnable(false);
+        OnDettach += () => colliderEnable(true);
         colliderEnable(!isAttached);
-        Initialize();       
     }
 
-    
- 
     protected virtual void Start()
     {
-        gameObject.layer = AttachmentManager.instance.attachmentLayer.LayerMaskToLayerNumber();    
-        Comunicate(); SetVFXsign();   
+        gameObject.layer = AttachmentManager.instance.AttachmentLayer.LayerMaskToLayerNumber();    
+        Comunicate();    
         if (isAttached) OnAttach?.Invoke(); else OnDettach?.Invoke();       
     }
    
-    void SetVFXsign()
-    {
-        VFX_Sign x = GetComponent<VFX_Sign>();
-        OnAttach += x.DeactivateSign;
-        OnDettach += x.ActivateSign;
-    }
+   
 
     // hace que el accesorio se vuelva hijo del arma y le añada sus estadisticas
     public void Attach(Gun gun,Transform AttachTo)

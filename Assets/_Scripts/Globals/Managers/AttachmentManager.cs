@@ -9,15 +9,23 @@ public class AttachmentManager : MonoSingleton<AttachmentManager>
 {
     //lo debe crear el gunManager?
     //tipo de accesorio => codigo de accesorio => accesorio
+
     Dictionary<AttachmentType, Dictionary<int,Attachment>> _attachmentsInventory = new Dictionary<AttachmentType, Dictionary<int, Attachment>>();
-    [SerializeField] View_Attachment _canvasAttachments;
-    [SerializeField] KeyCode _inventoryKey;
+    [SerializeField,Header("Canvas")] View_Attachment _canvasAttachments;
+ 
     [SerializeField] UI_AttachmentInventory _canvasInventory;
 
+    [field: SerializeField,Header("Inventory Light")] 
+    public Light InventoryLight { get; private set; }
+
+    public event Action OnInventoryOpen,OnInventoryClose;
+
     #region  InteractWithAttachments
-    public LayerMask attachmentLayer => _attachmentLayer;
-    [SerializeField] LayerMask _attachmentLayer;
+   
+    [field:SerializeField,Header("InventoryParameters")] public LayerMask AttachmentLayer { get; private set; }    
     [SerializeField] float raycastDistance;
+
+    [SerializeField,Header("Inputs")] KeyCode _inventorySwitchInput;
     [SerializeField] KeyCode Equip = KeyCode.F, Save = KeyCode.G;
     #endregion
 
@@ -43,10 +51,22 @@ public class AttachmentManager : MonoSingleton<AttachmentManager>
         _gunHandler = GetComponent<GunHandler>();
         _debug = GetComponent<DebugableObject>(); _debug.AddGizmoAction(DrawRaycast);
 
+        
+
         _canvasAttachments = Instantiate(_canvasAttachments); _canvasInventory = Instantiate(_canvasInventory);
 
+        OnInventoryOpen += ShowMouse; OnInventoryClose += HideMouse;
+       
         InventoryState = OpenInventory;
+       
     }
+
+    private void Start()
+    {
+        InventoryLight = PlayerCameraPivots.instance.ViewFromInventory.GetComponent<Light>();
+        OnInventoryOpen += TurnOnInventoryLight; OnInventoryClose += TurnOffInventoryLight;
+    }
+
 
     private void Update() => AttachmentOnSight();
 
@@ -55,7 +75,7 @@ public class AttachmentManager : MonoSingleton<AttachmentManager>
     {
         Transform tr = Camera.main.transform;
      
-        if (Physics.SphereCast(tr.position, 1f ,tr.forward, out RaycastHit hit, raycastDistance, attachmentLayer))
+        if (Physics.SphereCast(tr.position, 1f ,tr.forward, out RaycastHit hit, raycastDistance, AttachmentLayer))
         {
             _canvasAttachments.gameObject.SetActive(true);
            
@@ -77,7 +97,7 @@ public class AttachmentManager : MonoSingleton<AttachmentManager>
     #region InventoryView
     private void LateUpdate()
     {
-        if (Input.GetKeyDown(_inventoryKey)) InventoryState?.Invoke();
+        if (Input.GetKeyDown(_inventorySwitchInput)) InventoryState?.Invoke();
     }
   
     void OpenInventory()
@@ -90,17 +110,36 @@ public class AttachmentManager : MonoSingleton<AttachmentManager>
 
         _canvasInventory.EnterInventory( _gunHandler.ActualGun);
 
+        
+        OnInventoryOpen?.Invoke();
+        InventoryState = CloseInventory;
+    }
+
+    #region LightInventory
+
+    void TurnOnInventoryLight() => InventoryLight.enabled = true;
+    void TurnOffInventoryLight() => InventoryLight.enabled = false;
+    #endregion
+
+    #region CursorShow
+    void ShowMouse()
+    {
         Cursor.lockState = CursorLockMode.None;
         Cursor.visible = true;
 
-        InventoryState = CloseInventory;
     }
+
+    void HideMouse()
+    {
+        Cursor.lockState = CursorLockMode.Locked;
+        Cursor.visible = false;
+    }
+    #endregion
 
     void CloseInventory()
     {
         _canvasInventory.ExitInventory();
-        Cursor.lockState = CursorLockMode.Locked;
-        Cursor.visible = false;
+        OnInventoryClose?.Invoke();
         InventoryState = OpenInventory;
     }
     #endregion
@@ -182,13 +221,11 @@ public class AttachmentManager : MonoSingleton<AttachmentManager>
     #endregion
 
 
-
-   
     void DrawRaycast()
     {
         Transform tr = Camera.main.transform;
         Gizmos.color = Color.blue;
-        if (Physics.Raycast(tr.position, tr.forward, out RaycastHit hit, raycastDistance, attachmentLayer))
+        if (Physics.Raycast(tr.position, tr.forward, out RaycastHit hit, raycastDistance, AttachmentLayer))
             Gizmos.DrawLine(tr.position, hit.point);
         else
             Gizmos.DrawLine(tr.position, tr.position + tr.forward * raycastDistance);

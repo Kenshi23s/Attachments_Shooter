@@ -7,14 +7,14 @@ public class LaserSight : Attachment
 {
     [SerializeField] LineRenderer _laserLineRender;
     [SerializeField] Transform _laserOutPoint;
-
+    Action<bool> _enable;
 
     protected override void Initialize()
     {
         MyType = AttachmentType.LaserSight;
         GetComponent<PausableObject>().onPause += () => {if(this.isActiveAndEnabled) StartCoroutine(StopLaser()); };
     }
-    Action<bool> _enable;
+  
     protected override void Comunicate() 
     {
         _enable = (x) =>
@@ -24,8 +24,7 @@ public class LaserSight : Attachment
         };
 
         OnAttach += () => _enable(!ScreenManager.IsPaused());
-        OnDettach += () => _enable(false);
-      
+        OnDettach += () => _enable(false);     
     }
    
   

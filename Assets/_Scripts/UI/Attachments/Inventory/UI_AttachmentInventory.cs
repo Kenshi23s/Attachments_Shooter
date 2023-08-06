@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Collections;
 using UnityEngine;
 using System.Linq;
 using System;
@@ -82,18 +83,7 @@ public class UI_AttachmentInventory : MonoBehaviour
             MoveCamera();
     }
 
-    public void EnterInventory(Gun displayGun)
-    {       
-        _inventoryCanvas.enabled = true;
-
-        _displayGun = displayGun;
-
-        RefreshStats(); RefreshAttachments();
-        ScreenManager.PauseGame();
-
-        SetCameraTransition(_inventoryCamParent, _inventoryFov);
-    }
-
+    #region Stats Methods
     void RefreshStats()
     {
         foreach (var stat in statCollection)
@@ -101,8 +91,7 @@ public class UI_AttachmentInventory : MonoBehaviour
             stat.Value.SetStatDisplay(stat.Key,_displayGun.stats.GetStat(stat.Key));
         }
     }
-
-  
+    #endregion
 
     #region Attachments Methods
     void SetAttachmentInteractions(Attachment x)
@@ -111,8 +100,9 @@ public class UI_AttachmentInventory : MonoBehaviour
         button.ClearAllEvents();
         button.OnSelected.AddListener(() => OpenAttachmentColectionOfType(x));
 
-        //logica del outline
-        //button.OnHighlighted.AddListener();
+        button.OnNormal.AddListener(x.VFX.DeactivateOutline);
+        button.OnHighlighted.AddListener(x.VFX.ActivateOutline);
+       
     }
 
     public void OpenAttachmentColectionOfType<T>(T attachment) where T : Attachment
@@ -149,17 +139,20 @@ public class UI_AttachmentInventory : MonoBehaviour
 
     void RefreshAttachments()
     {
-        foreach (Tuple<Vector3, Attachment> attach in _displayGun.attachmentHandler.GetPosAndAttachment())
+        foreach (Tuple<Vector3, Attachment> attach in _displayGun.attachmentHandler.GetPivotPosAndAttachment())
         {
             //pos attachment                  // pos pivot de attachment type en arma
             //despues lo paso a struct o otro formato, lo nesecitaba en tuple para prototipar mas rapido
+                                 //pos Inicial                      //pos final
             Vector3 inverseDir = attach.Item2.transform.position - attach.Item1;
+            //StartCoroutine(MoveAttachment(attach.Item2, inverseDir.normalized * offsetAttachment));
             //preguntar a jocha pq no hace lo que quiero esta wea :C
 
 
             SetAttachmentInteractions(attach.Item2);
             attach.Item2.gameObject.GetComponent<Collider>().enabled = true;
-            attach.Item2.transform.position += inverseDir.normalized * offsetAttachment;
+           
+       
         }
     }
 
@@ -177,10 +170,8 @@ public class UI_AttachmentInventory : MonoBehaviour
     public FList<UI_Attachment_Button> CreateEmptyButtons(int amount)
     {
         FList<UI_Attachment_Button> col = new FList<UI_Attachment_Button>();
-        for (int i = 0; i < amount; i++)
-        {
-            col += Instantiate(_templateAttachments, _accesoriesPanel);
-        }
+
+        for (int i = 0; i < amount; i++) col += Instantiate(_templateAttachments, _accesoriesPanel);
 
         return col;
     }
@@ -206,6 +197,7 @@ public class UI_AttachmentInventory : MonoBehaviour
         }
         _debug.Log(debugmsg);
     }
+
     void DestroyButtons()
     {
         if (!_buttons.Any()) return;
@@ -218,6 +210,19 @@ public class UI_AttachmentInventory : MonoBehaviour
     #endregion
 
     #endregion
+
+    #region Input Inventory
+    public void EnterInventory(Gun displayGun)
+    {
+        ScreenManager.PauseGame();
+        _inventoryCanvas.enabled = true;
+
+        _displayGun = displayGun;
+
+        RefreshStats(); RefreshAttachments();
+
+        SetCameraTransition(_inventoryCamParent, _inventoryFov);
+    }
 
     public void ExitInventory()
     {
@@ -235,8 +240,7 @@ public class UI_AttachmentInventory : MonoBehaviour
         SetCameraTransition(_ogCamParent, _ogFov);
         //SetCameraTransition(_ogCamParent, _ogFov, () => ScreenManager.ResumeGame());
     }
-
-   
+    #endregion
 
     #region Camera Methods
 
@@ -277,5 +281,23 @@ public class UI_AttachmentInventory : MonoBehaviour
     }
     #endregion
 
-   
+    IEnumerator MoveAttachment(Attachment x, Vector3 targtPos)
+    {
+        float time = 0;
+        if (Vector3.Distance(x.transform.position, targtPos) < 1)
+        {
+            time = 1;
+        }
+
+        while (time < 1 && ScreenManager.IsPaused())
+        {
+            x.transform.position = Vector3.Lerp(x.transform.position, targtPos, time);
+            time += Time.deltaTime;
+            yield return new WaitForEndOfFrame();
+        }
+
+        x.transform.position = Vector3.Lerp(x.transform.position, targtPos, 1);
+
+
+    }
 }

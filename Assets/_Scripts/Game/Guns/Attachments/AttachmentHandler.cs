@@ -8,8 +8,8 @@ using static Attachment;
 //se encarga de organizar los accesorios en el arma
 public class AttachmentHandler : MonoBehaviour
 {
-   
-   public Gun Owner { get; private set; }
+
+    public Gun Owner { get; private set; }
 
     #region Descripcion Pos
     //si no existe una posicion para el accesorio, es imposible colocarlo
@@ -38,7 +38,7 @@ public class AttachmentHandler : MonoBehaviour
     private Dictionary<AttachmentType, Action> _onAttachmentChange = new Dictionary<AttachmentType, Action>();
     #endregion
 
-  
+
 
     public Transform _shootPos { get; private set; }
     public Transform aimPos { get; private set; }
@@ -121,7 +121,7 @@ public class AttachmentHandler : MonoBehaviour
             //añado
             AddAttachment(_DefaultAttachment[key]); Debug.Log(key);
             if (_onAttachmentChange.TryGetValue(key, out var action)) action?.Invoke();
-        
+
 
             //chequeo por las dudas para que no salten errores              
 
@@ -129,7 +129,7 @@ public class AttachmentHandler : MonoBehaviour
     }
     #region Useful Questions
 
-    public bool IsDefaultAttachment(Attachment x)   => _DefaultAttachment.ContainsValue(x);
+    public bool IsDefaultAttachment(Attachment x) => _DefaultAttachment.ContainsValue(x);
     public bool IsntDefaultAttachment(Attachment x) => !IsDefaultAttachment(x);
     #endregion
 
@@ -236,8 +236,6 @@ public class AttachmentHandler : MonoBehaviour
 
         }
 
-
-
         if (_onAttachmentChange.TryGetValue(key, out var x)) x?.Invoke();
 
     }
@@ -245,21 +243,18 @@ public class AttachmentHandler : MonoBehaviour
     void SaveAttachment(Attachment x)
     {
         x.Dettach(); AttachmentManager.instance.Inventory_SaveAttachment(x);
-
-
-
     }
 
-    public List<Tuple<Vector3, Attachment>> GetPosAndAttachment()
+    public List<Tuple<Vector3, Attachment>> GetPivotPosAndAttachment()
     {
         List<Tuple<Vector3, Attachment>> col = new List<Tuple<Vector3, Attachment>>();
         foreach (AttachmentType key in Enum.GetValues(typeof(AttachmentType)))
         {
-            if (activeAttachments.ContainsKey(key) && _attachmentPos.ContainsKey(key))
-            {
-                var x = Tuple.Create(_attachmentPos[key].position, activeAttachments[key]);
-                col.Add(x);
-            }
+            if (!activeAttachments.ContainsKey(key) || !_attachmentPos.ContainsKey(key)) continue;
+
+            var x = Tuple.Create(_attachmentPos[key].position, activeAttachments[key]);
+            col.Add(x);
+
         }
         return col;
     }
