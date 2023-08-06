@@ -17,7 +17,7 @@ public class Magazine : Attachment
     }
     protected override void Initialize()
     {
-        _myType = AttachmentType.Magazine;
+        MyType = AttachmentType.Magazine;
     }
 }
 

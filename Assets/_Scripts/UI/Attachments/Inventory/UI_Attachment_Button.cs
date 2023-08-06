@@ -1,6 +1,5 @@
 using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 using System.Linq;
 using TMPro;
 using UnityEngine;
@@ -10,40 +9,72 @@ using UnityEngine.UI;
 [RequireComponent(typeof(DebugableObject))]
 public class UI_Attachment_Button : MonoBehaviour,IPointerEnterHandler, IPointerExitHandler
 {
-    Button button;
+    Button _button;
     [SerializeField] TMP_Text Buttontext;
-    [SerializeField] View_SliderAttachment sliderPrefab;
-    [SerializeField] Transform panel;
     DebugableObject _debug;
     public Attachment owner { get; private set; }
     Gun displayGun;
-
+    Transform panel;
     List<View_SliderAttachment> sliders = new List<View_SliderAttachment>();
     
-    Action<UI_Attachment_Button> _onChange;
+    //Action<UI_Attachment_Button> _onChange;
 
     void Awake()
     {
-        button = GetComponent<Button>();
+        _button = GetComponent<Button>();
         _debug = GetComponent<DebugableObject>();
     }
 
-    public UI_Attachment_Button AssignAttachment(Attachment x, Gun y, Action<UI_Attachment_Button> onChange)
+    //public UI_Attachment_Button AssignAttachment(Attachment newOwner, Gun newDisplayGun, Action<UI_Attachment_Button> onChange)
+    //{
+    //    _button.onClick.RemoveAllListeners();
+    //    owner = newOwner;
+    //    displayGun = newDisplayGun;
+    //    _onChange = onChange;
+
+    //    Buttontext.text = owner.gameObject.name;
+
+    //    gameObject.name = "[Button]" + Buttontext.text;
+
+
+    //    if (newOwner.isAttached)
+    //    {
+    //        _button.onClick.AddListener(SaveAttachment);
+    //        _button.image.color = Color.green;
+    //    }
+    //    else
+    //    {
+    //        _button.image.color = Color.green;
+    //        _button.onClick.AddListener(EquipAttachment);
+    //    }
+
+
+    //    return this;
+    //}
+
+    public UI_Attachment_Button AssignAttachment(Attachment newOwner, Gun newDisplayGun)
     {
-        button.onClick.RemoveAllListeners();
-        owner = x;
-        displayGun = y;
-        _onChange = onChange;
+        _button.onClick.RemoveAllListeners();
+        owner = newOwner; displayGun = newDisplayGun;
 
-        Buttontext.text = owner.gameObject.name;
-        gameObject.name = "[Button]" + Buttontext.text;
+        if (displayGun == null || owner == null) 
+        { 
+            Debug.LogError($"El arma es {newDisplayGun} y accesorio es {newOwner}, no puedo Inicializar el boton"); 
+            return this; 
+        }
 
+        Buttontext.text = owner.gameObject.name; gameObject.name = "[Button]" + Buttontext.text;
 
-        if (x.isAttached)
-            button.onClick.AddListener(SaveAttachment);
+        if (newOwner.isAttached)
+        {
+            _button.onClick.AddListener(SaveAttachment);
+            _button.image.color = Color.green;
+        }
         else
-            button.onClick.AddListener(EquipAttachment);
-
+        {
+            _button.image.color = Color.white;
+            _button.onClick.AddListener(EquipAttachment);
+        }
         return this;
     }
 
@@ -51,7 +82,7 @@ public class UI_Attachment_Button : MonoBehaviour,IPointerEnterHandler, IPointer
     {
         _debug.Log($"Guardo el accesorio {owner}");
         AttachmentManager.instance.Inventory_SaveAttachment(owner);
-        _onChange?.Invoke(this);
+        //_onChange?.Invoke(this);
     }
 
   
@@ -64,15 +95,12 @@ public class UI_Attachment_Button : MonoBehaviour,IPointerEnterHandler, IPointer
           
             foreach (var key in owner.Attachment_stats.Keys)
             {
-                View_SliderAttachment statSlider = Instantiate(sliderPrefab, panel);
+                ////View_SliderAttachment statSlider = Instantiate(sliderPrefab, panel);
                 
-             
+                //statSlider.SetSliderValue(key.ToString(), owner.Attachment_stats[key].value);
 
-                statSlider.SetSliderValue(key.ToString(), owner.Attachment_stats[key].value);
-
-                sliders.Add(statSlider);
+                //sliders.Add(statSlider);
             }
-
         }
         else
         {
@@ -96,19 +124,21 @@ public class UI_Attachment_Button : MonoBehaviour,IPointerEnterHandler, IPointer
 
     void EquipAttachment()
     {
-        
+        //shortcut
+        var attachHandler = displayGun.attachmentHandler;
+
         string msg =  $"Equipo el accesorio {owner} a {displayGun} ";
-        if (displayGun.attachmentHandler.activeAttachments.ContainsKey(owner.myType))
+        if (attachHandler.activeAttachments.ContainsKey(owner.MyType))
         {
-             var aux = displayGun.attachmentHandler.activeAttachments[owner.myType];
-            displayGun.attachmentHandler.RemoveAttachment(aux.myType);
+            var aux = attachHandler.activeAttachments[owner.MyType];
+            attachHandler.RemoveAttachment(aux.MyType);
             msg += $",PERO ANTES desconecto el accesorio {aux} (la cual de mi mismo tipo) de el arma";
         }
         _debug.Log(msg);
 
-        displayGun.attachmentHandler.AddAttachment(AttachmentManager.instance.RemoveFromInventory(owner));
+        attachHandler.AddAttachment(AttachmentManager.instance.RemoveFromInventory(owner));
 
-        _onChange?.Invoke(this);
+        //_onChange?.Invoke(this);
     }
 
     public void OnPointerEnter(PointerEventData eventData)

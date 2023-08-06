@@ -75,7 +75,7 @@ public abstract class Gun : MonoBehaviour
 
 
     #endregion
-
+   
     bool _triggerPressed;
     public bool TriggerPressed
     {

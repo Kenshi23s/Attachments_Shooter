@@ -15,7 +15,7 @@ public class CamRecoil : MonoBehaviour
   
     public GunHandler _gunHandler;
 
-    StatsHandler _gunstats => _gunHandler.actualGun.stats;
+    StatsHandler _gunstats => _gunHandler.ActualGun.stats;
     private void Awake()
     {
         var x = GetComponent<PausableObject>();
@@ -26,7 +26,7 @@ public class CamRecoil : MonoBehaviour
 
     private void Start()
     {
-        _gunHandler.actualGun.onShoot += Recoil;
+        _gunHandler.ActualGun.onShoot += Recoil;
         Debug.Log(_gunHandler);
       
     }

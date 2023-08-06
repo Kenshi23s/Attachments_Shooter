@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Collections;
 using System.Linq;
 using UnityEngine;
 using static Attachment;
@@ -7,6 +8,7 @@ using static Attachment;
 public class AttachmentManager : MonoSingleton<AttachmentManager>
 {
     //lo debe crear el gunManager?
+    //tipo de accesorio => codigo de accesorio => accesorio
     Dictionary<AttachmentType, Dictionary<int,Attachment>> _attachmentsInventory = new Dictionary<AttachmentType, Dictionary<int, Attachment>>();
     [SerializeField] View_Attachment _canvasAttachments;
     [SerializeField] KeyCode _inventoryKey;
@@ -20,20 +22,30 @@ public class AttachmentManager : MonoSingleton<AttachmentManager>
     #endregion
 
    
-
+    public int InventoryAmount => _attachmentsInventory.SelectMany(x => x.Value).Count();
     GunHandler _gunHandler;
   
     DebugableObject _debug;
 
-    Action _inventoryState;
+   public Action InventoryState { get; private set; }
+
+    public IEnumerable<T> GetAllSavedAttachments<T>() where T : Attachment
+    {
+
+        return _attachmentsInventory
+            .SelectMany(x => x.Value)        
+            .Select(x => x.Value)
+            .OfType<T>();                   
+    }
 
     protected override void SingletonAwake()
     {
         _gunHandler = GetComponent<GunHandler>();
         _debug = GetComponent<DebugableObject>(); _debug.AddGizmoAction(DrawRaycast);
-        _canvasAttachments = Instantiate(_canvasAttachments);
-        _canvasInventory = Instantiate(_canvasInventory);
-        _inventoryState = OpenInventory;
+
+        _canvasAttachments = Instantiate(_canvasAttachments); _canvasInventory = Instantiate(_canvasInventory);
+
+        InventoryState = OpenInventory;
     }
 
     private void Update() => AttachmentOnSight();
@@ -42,7 +54,7 @@ public class AttachmentManager : MonoSingleton<AttachmentManager>
     void AttachmentOnSight()
     {
         Transform tr = Camera.main.transform;
-        //desde                     //hacia                         //distancia      //layer
+     
         if (Physics.SphereCast(tr.position, 1f ,tr.forward, out RaycastHit hit, raycastDistance, attachmentLayer))
         {
             _canvasAttachments.gameObject.SetActive(true);
@@ -51,7 +63,7 @@ public class AttachmentManager : MonoSingleton<AttachmentManager>
             {
                 _canvasAttachments.NewAttachment(x);
                 
-                if (Input.GetKey(Equip)) _gunHandler.actualGun.attachmentHandler.AddAttachment(x);
+                if (Input.GetKey(Equip)) _gunHandler.ActualGun.attachmentHandler.AddAttachment(x);
 
                 else if (Input.GetKey(Save)) Inventory_SaveAttachment(x);
             }
@@ -65,23 +77,23 @@ public class AttachmentManager : MonoSingleton<AttachmentManager>
     #region InventoryView
     private void LateUpdate()
     {
-        if (Input.GetKeyDown(_inventoryKey)) _inventoryState?.Invoke();
+        if (Input.GetKeyDown(_inventoryKey)) InventoryState?.Invoke();
     }
   
     void OpenInventory()
     {
-        IEnumerable<Attachment> finalResult = _attachmentsInventory.Aggregate(FList.Create<Attachment>(), (x, y) =>
-        {
-            var result = y.Value.Aggregate(FList.Create<Attachment>(), (x, y) => x + FList.Create(y.Value));
-            return x + result;
-        });
+        //IEnumerable<Attachment> finalResult = _attachmentsInventory.Aggregate(FList.Create<Attachment>(), (x, y) =>
+        //{
+        //    var result = y.Value.Aggregate(FList.Create<Attachment>(), (x, y) => x + FList.Create(y.Value));
+        //    return x + result;
+        //});
 
-        _canvasInventory.EnterInventory(finalResult, _gunHandler.actualGun);
+        _canvasInventory.EnterInventory( _gunHandler.ActualGun);
 
         Cursor.lockState = CursorLockMode.None;
         Cursor.visible = true;
 
-        _inventoryState = CloseInventory;
+        InventoryState = CloseInventory;
     }
 
     void CloseInventory()
@@ -89,7 +101,7 @@ public class AttachmentManager : MonoSingleton<AttachmentManager>
         _canvasInventory.ExitInventory();
         Cursor.lockState = CursorLockMode.Locked;
         Cursor.visible = false;
-        _inventoryState = OpenInventory;
+        InventoryState = OpenInventory;
     }
     #endregion
 
@@ -97,32 +109,48 @@ public class AttachmentManager : MonoSingleton<AttachmentManager>
     public int Inventory_SaveAttachment(Attachment value)
     {
 
-        _debug.Log("Saving Attachment"+ value.name);
+        _debug.Log("Saving Attachment" + value.name);
         int key = value.GetHashCode();
-        if (!_attachmentsInventory.ContainsKey(value.myType))
-            _attachmentsInventory.Add(value.myType, new Dictionary<int, Attachment>());
+        if (!_attachmentsInventory.ContainsKey(value.MyType))
+            _attachmentsInventory.Add(value.MyType, new Dictionary<int, Attachment>());
 
-        if (_attachmentsInventory[value.myType].ContainsKey(key)) return key;
+        if (_attachmentsInventory[value.MyType].ContainsKey(key)) return key;
 
         if (value.isAttached)
-            value.owner.attachmentHandler.RemoveAttachment(value.myType); value.Dettach();
+        {
+            value.owner.attachmentHandler.RemoveAttachment(value.MyType);
+          
+        }
+        value.Dettach();
 
-        if (!_attachmentsInventory[value.myType].ContainsKey(key))       
-            _attachmentsInventory[value.myType].Add(key, value);
+
+        if (!_attachmentsInventory[value.MyType].ContainsKey(key))       
+            _attachmentsInventory[value.MyType].Add(key, value);
         
        
         value.gameObject.SetActive(false);
 
         _debug.Log(" Attachment"+ value.name + " Saved!");
 
-        if (_inventoryState != OpenInventory)
+        if (InventoryState != OpenInventory)
         {
             _debug.Log($"Intento Crear un boton para{value}");
             _canvasInventory.AddButton(value);
         }
+
+        _debug.Log($"hay un total de {InventoryAmount} accesorios guardados" );
         return key;
 
     }
+
+    //void DebugAmountAndType()
+    //{
+    //    string debug="";
+    //    foreach (var item in _attachmentsInventory.Keys)
+    //    {
+    //        _attachmentsInventory[]
+    //    }
+    //}
 
     public bool Inventory_GetAttachment(out Attachment x, Tuple<AttachmentType, int> keys)
     {
@@ -141,11 +169,11 @@ public class AttachmentManager : MonoSingleton<AttachmentManager>
 
     public Attachment RemoveFromInventory(Attachment x)
     {
-        if (_attachmentsInventory.TryGetValue(x.myType,out var y))              
-            if (_attachmentsInventory[x.myType].ContainsKey(x.GetHashCode()))
+        if (_attachmentsInventory.TryGetValue(x.MyType,out var y))              
+            if (_attachmentsInventory[x.MyType].ContainsKey(x.GetHashCode()))
             {
                 _debug.Log($"Se removio el accesiorio {x} DEL INVENTARIO");
-                _attachmentsInventory[x.myType].Remove(x.GetHashCode());
+                _attachmentsInventory[x.MyType].Remove(x.GetHashCode());
             }
                
       
@@ -153,6 +181,9 @@ public class AttachmentManager : MonoSingleton<AttachmentManager>
     }
     #endregion
 
+
+
+   
     void DrawRaycast()
     {
         Transform tr = Camera.main.transform;

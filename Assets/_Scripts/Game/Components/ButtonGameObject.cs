@@ -5,6 +5,7 @@ using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.EventSystems;
 
+
 public interface IObjectSelectable : IPointerEnterHandler, IPointerExitHandler, IPointerClickHandler, IPointerDownHandler, IPointerUpHandler, ISelectHandler, IDeselectHandler { }
 /// <summary>
 /// Hace que un GameObject con collider actue como un botton. Se necesita un EventSystem en escena, y un PhysicsRaycaster acoplado a la camara.
@@ -13,7 +14,7 @@ public interface IObjectSelectable : IPointerEnterHandler, IPointerExitHandler, 
 [DisallowMultipleComponent]
 public class ButtonGameObject : MonoBehaviour, IObjectSelectable
 {
-
+    
     bool _interactable = true;
     public bool Interactable
     {
@@ -41,16 +42,14 @@ public class ButtonGameObject : MonoBehaviour, IObjectSelectable
              OnNormal,OnHighlighted, OnPressed, OnSelected, OnEnabled, OnDisabled
         };
 
-        //foreach (var item in EventCol.Where(x => x.GetPersistentEventCount() > 0).Where(x => x != null))
-        //{
-        //    item.RemoveAllListeners();
-        //}
+        foreach (var item in EventCol.Where(x => x.GetPersistentEventCount() > 0).Where(x => x != null))
+        {
+            item.RemoveAllListeners();
+        }
     }
 
     private void Awake()
     {
-        Debug.Log("Awake called", gameObject);
-
         _debugger = GetComponent<DebugableObject>();
     }
 

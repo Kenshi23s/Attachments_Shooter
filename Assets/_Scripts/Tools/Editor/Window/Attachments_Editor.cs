@@ -82,7 +82,7 @@ public class Attachments_Editor : EditorWindow
                 Debug.Log("el arma es == a null");
             }
             //SelectedGun._myAttachMents.AssignGun(SelectedGun);
-            SelectedGun.attachmentHandler.RemoveAttachment(attachmentSelected.myType);
+            SelectedGun.attachmentHandler.RemoveAttachment(attachmentSelected.MyType);
             availableButtons = Detach;
         }
     }

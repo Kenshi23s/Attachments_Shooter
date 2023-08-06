@@ -8,6 +8,8 @@ public class Muzzle : Attachment
 {
     [Space(5f)]
     [Header("Muzzle Variables")]
+    //estaria bueno despues hacer esto una propiedad,
+    //no lo cambio porque reasignar cosas en el editor
     [SerializeField]Transform _shootPos;
     public Transform shootPos => _shootPos;
 
@@ -21,11 +23,5 @@ public class Muzzle : Attachment
     {
         
     }
-    //private void Awake()
-    //{
-    //    OnAtach += () => { gunAttachedTo?.Stats.AddRange(rangeStat);};
-
-    //    OnUnAttach += () => { gunAttachedTo?.Stats.AddRange(-rangeStat);};
-    //}
 
 }

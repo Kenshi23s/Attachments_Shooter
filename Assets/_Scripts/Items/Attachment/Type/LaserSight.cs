@@ -11,7 +11,7 @@ public class LaserSight : Attachment
 
     protected override void Initialize()
     {
-        _myType = AttachmentType.LaserSight;
+        MyType = AttachmentType.LaserSight;
         GetComponent<PausableObject>().onPause += () => {if(this.isActiveAndEnabled) StartCoroutine(StopLaser()); };
     }
     Action<bool> _enable;
@@ -23,8 +23,8 @@ public class LaserSight : Attachment
             enabled = x;
         };
 
-        onAttach += () => _enable(!ScreenManager.IsPaused());
-        onDettach += () => _enable(false);
+        OnAttach += () => _enable(!ScreenManager.IsPaused());
+        OnDettach += () => _enable(false);
       
     }
    

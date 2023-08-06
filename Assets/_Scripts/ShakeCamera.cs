@@ -87,7 +87,7 @@ public class ShakeCamera : MonoBehaviour
 
         ListenInputs();
 
-        float handling = myGunHandler.actualGun.stats.GetStat(StatNames.Handling);
+        float handling = myGunHandler.ActualGun.stats.GetStat(StatNames.Handling);
         float multiplier = aiming ? _aimMultiplier : 1f;
         multiplier *= 1 - handling / 100f;
         //Debug.Log("handling: " + handling);
@@ -232,7 +232,7 @@ public class ShakeCamera : MonoBehaviour
     {
         float multiplyZoom = 1;
       
-        if (myGunHandler.actualGun.attachmentHandler.TryGetAttachment<Sight>(AttachmentType.Sight,out var sight))        
+        if (myGunHandler.ActualGun.attachmentHandler.TryGetAttachment<Sight>(AttachmentType.Sight,out var sight))        
             multiplyZoom = sight.zoomMultiplier;
         
         cam.fieldOfView = Mathf.Lerp(_hipFOV, _aimFOV/Mathf.Max(1,multiplyZoom), t);

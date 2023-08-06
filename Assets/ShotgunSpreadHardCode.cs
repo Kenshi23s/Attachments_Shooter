@@ -13,8 +13,8 @@ public class ShotgunSpreadHardCode : MonoBehaviour
     private void Awake()
     {
         AttachmentOwner = GetComponent<Attachment>();
-        AttachmentOwner.onAttach += SetEvent;
-        AttachmentOwner.onDettach += UnbindEvent;
+        AttachmentOwner.OnAttach += SetEvent;
+        AttachmentOwner.OnDettach += UnbindEvent;
     }
 
     private void Start()

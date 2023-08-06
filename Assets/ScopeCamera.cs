@@ -39,8 +39,8 @@ public class ScopeCamera : MonoBehaviour
         _ogLocalPosition = transform.localPosition;
         _ogLocalRotation = transform.localRotation;
 
-        _owner.onAttach += SetValuesToMainCamera;
-        _owner.onDettach += ResetValues;
+        _owner.OnAttach += SetValuesToMainCamera;
+        _owner.OnDettach += ResetValues;
         
     }
 

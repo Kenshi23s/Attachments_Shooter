@@ -15,8 +15,8 @@ public class HardcodedBulletBounce : MonoBehaviour
     private void Awake()
     {
         attachment = GetComponent<Attachment>();
-        attachment.onAttach += OnAttach;
-        attachment.onDettach += OnDetach;
+        attachment.OnAttach += OnAttach;
+        attachment.OnDettach += OnDetach;
     }
 
     void OnAttach()

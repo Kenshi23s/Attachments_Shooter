@@ -3,7 +3,6 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
-using UnityEngine.UIElements;
 using Random = UnityEngine.Random;
 
 namespace FacundoColomboMethods
@@ -22,11 +21,16 @@ namespace FacundoColomboMethods
 
     public static class ColomboMethods
     {
+        public static T CreateComponent<T>(this GameObject x) where T : Component
+        {
+            x.AddComponent(typeof(T));
+            return x.GetComponent<T>();
+        }
 
-       public static Color SetAlpha(this Color color,float newAlpha)
-       {
+        public static Color SetAlpha(this Color color,float newAlpha)
+        {
             return new Color(color.r, color.g, color.b, newAlpha);
-       }
+        }
         public static Vector3 TryGetMeshCollision(this Vector3 myPos,Vector3 dir,LayerMask layer)
         {
             if (Physics.Raycast(myPos,dir,out RaycastHit hit,Mathf.Infinity,layer))            
@@ -61,6 +65,7 @@ namespace FacundoColomboMethods
             string[] consonants = { "b", "c", "d", "f", "g", "h", "j", "k", "l", "m", "l", "n", "p", "q", "r", "s", "sh", "zh", "t", "v", "w", "x" };
             string[] vowels = { "a", "e", "i", "o", "u", "ae", "y" };
             string Name = "";
+            //el metodo Next es como un random range que va de 0 a x
             Name += consonants[r.Next(consonants.Length)].ToUpper();
             Name += vowels[r.Next(vowels.Length)];
             int b = 2; //b tells how many times a new letter has been added. It's 2 right now because the first two letters are already in the name.

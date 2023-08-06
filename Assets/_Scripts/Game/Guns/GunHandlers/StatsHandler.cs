@@ -23,10 +23,12 @@ public class StatsHandler : MonoBehaviour
     //quien deberia hacer el cambio de estadistica, el arma o el accesorio?(lo hace el arma, a partir de que el accesorio pase sus stats)
     //el arma deberia tener referencia de todos sus accesorios o no es de gran importancia?
     //(si, deberia para saber donde posicionarlos)
+    public const float MaxStatValue = 100;
+    public  const float MinStatValue = 0;
 
     public float GetStat(StatNames key)
     {
-        return Mathf.Clamp(_myGunStats[key],0,100);
+        return Mathf.Clamp(_myGunStats[key], MinStatValue, MaxStatValue);
     }
 
     public Dictionary<StatNames, int> statDictionary => _myGunStats;

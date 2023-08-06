@@ -7,7 +7,7 @@ public class Stock : Attachment
 {
     protected override void Initialize()
     {
-        _myType = AttachmentType.Stock;
+        MyType = AttachmentType.Stock;
     }
     protected override void Comunicate()
     {

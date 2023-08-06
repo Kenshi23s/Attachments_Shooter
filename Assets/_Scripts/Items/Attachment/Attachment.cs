@@ -27,14 +27,15 @@ public abstract class Attachment : MonoBehaviour
         Grip,
         LaserSight,
         Stock,
-        TriggerHandler
+        RearGrip
 
     }
     #endregion
-
     [SerializeField] Transform pivotPos;
-    protected AttachmentType _myType;
-    public AttachmentType myType => _myType;
+
+    public AttachmentType MyType { get; protected set; }
+
+    
     //protected AttachmentStats _stats;
 
     //se le pueden pasar valores negativos para que alguna estadistica disminuya.
@@ -47,8 +48,8 @@ public abstract class Attachment : MonoBehaviour
 
     public Gun owner { get; private set; }
 
-    public event Action onAttach;
-    public event Action onDettach;
+    public event Action OnAttach;
+    public event Action OnDettach;
 
     Vector3 OriginPivot = Vector3.zero; 
     BoxCollider b_collider;
@@ -66,11 +67,11 @@ public abstract class Attachment : MonoBehaviour
     {
         b_collider = GetComponent<BoxCollider>();
 
-        _debug = GetComponent<DebugableObject>();
-        _debug.AddGizmoAction(DebugGizmo);
+        _debug = GetComponent<DebugableObject>(); _debug.AddGizmoAction(DrawPivot);
+
         Action<bool> colliderEnable = (x) => b_collider.enabled = x;
-        onAttach += () => colliderEnable(false);
-        onDettach += () => colliderEnable(true);
+        OnAttach += () => colliderEnable(false);
+        OnDettach += () => colliderEnable(true);
         isAttached = false;
         #region Pivot
         
@@ -99,14 +100,14 @@ public abstract class Attachment : MonoBehaviour
     {
         gameObject.layer = AttachmentManager.instance.attachmentLayer.LayerMaskToLayerNumber();    
         Comunicate(); SetVFXsign();   
-        if (isAttached) onAttach?.Invoke(); else onDettach?.Invoke();       
+        if (isAttached) OnAttach?.Invoke(); else OnDettach?.Invoke();       
     }
    
     void SetVFXsign()
     {
-        VFX_Sign a = GetComponent<VFX_Sign>();
-        onAttach += a.DeactivateSign;
-        onDettach += a.ActivateSign;
+        VFX_Sign x = GetComponent<VFX_Sign>();
+        OnAttach += x.DeactivateSign;
+        OnDettach += x.ActivateSign;
     }
 
     // hace que el accesorio se vuelva hijo del arma y le añada sus estadisticas
@@ -114,13 +115,8 @@ public abstract class Attachment : MonoBehaviour
     {
     
         if (gun == null) return;
-
-        Debug.LogWarning(AttachTo);
-        
-       
+     
          transform.parent = AttachTo;
-
-        
 
         if (pivotPos != transform)
         {
@@ -131,11 +127,9 @@ public abstract class Attachment : MonoBehaviour
 
             transform.position =  AttachTo.position - OriginPivot.GetOrientedVector(AttachTo);
 
-
             //transform.forward *= pivotPos.forward.z;
             //transform.right *= pivotPos.right.x;
             //transform.up *= pivotPos.up.y;
-
         }
         else
         {
@@ -147,7 +141,7 @@ public abstract class Attachment : MonoBehaviour
          isAttached = true;
 
          owner.stats.ChangeStats(Attachment_stats, true);
-         onAttach?.Invoke();       
+         OnAttach?.Invoke();       
     }
 
     // para cuando las armas tengan colliders
@@ -162,14 +156,13 @@ public abstract class Attachment : MonoBehaviour
         if (!isAttached) return;
         owner.stats.ChangeStats(Attachment_stats, false);
 
-        owner=null;
-        this.transform.parent=null;
+        owner = null; transform.parent = null;
         isAttached = false;
 
-        onDettach?.Invoke();      
+        OnDettach?.Invoke();      
     }
 
-    private void DebugGizmo()
+    public void DrawPivot()
     {
         if (pivotPos != null) 
         {

@@ -10,16 +10,16 @@ using UnityEngine.UI;
 [RequireComponent(typeof(AttachmentManager))]
 public class GunHandler : MonoBehaviour
 {
-    [SerializeField]List<Gun> myGuns = new List<Gun>();
-    [SerializeField]Gun _actualGun;
-    public Gun actualGun => _actualGun;
+    [SerializeField] List<Gun> myGuns = new List<Gun>();
+
+    [field: SerializeField] public Gun ActualGun { get; private set; }
     public Player_Handler myPlayer { get; private set; }
    
     event Action<HitData> onActualGunHit;
 
     public event Action onActualGunShoot;
     int actualGunCount;
-    [SerializeField]Image hitmarker;
+    [SerializeField] Image hitmarker;
     [SerializeField] RawImage crosshair;
     //event Action OnSwapWeapons;
 
@@ -27,18 +27,22 @@ public class GunHandler : MonoBehaviour
 
     //Transform _sightPoint;
     //public Vector3 SightPosition =>_sightPoint != null ? _sightPoint.localPosition : Vector3.zero; 
-    public Vector3 SightPosition => _actualGun.attachmentHandler.aimPos.position; 
+    public Vector3 SightPosition => ActualGun.attachmentHandler.aimPos.position; 
 
-    public void SetPlayer(Player_Handler player) => myPlayer = player; 
+    public void SetPlayer(Player_Handler player) => myPlayer = player;
 
+    [SerializeField] Gun DefaultGun;
+    [SerializeField] Transform gunPos;
     private void Awake()
     {
-        myGuns = ColomboMethods.GetChildrenComponents<Gun>(transform).ToList();
-        if (actualGun == null) _actualGun = myGuns[UnityEngine.Random.Range(0, myGuns.Count)];
-        actualGun.onShoot += onActualGunShoot;
+        ActualGun = Instantiate(DefaultGun, gunPos);
+        ActualGun.transform.position = gunPos.position;
+        myGuns = transform.GetChildrenComponents<Gun>().ToList();
+        if (ActualGun == null) ActualGun = myGuns[UnityEngine.Random.Range(0, myGuns.Count)];
+        ActualGun.onShoot += onActualGunShoot;
         if (hitmarker!=null)
         {
-            actualGun.onHit += (x) => Hitmarker();
+            ActualGun.onHit += (x) => Hitmarker();
             hitmarker.color = hitmarker.color.SetAlpha(0);
         }
 
@@ -120,16 +124,16 @@ public class GunHandler : MonoBehaviour
     }
 
     
-    public void TriggerActualGun() => actualGun.PressTrigger();
-    public void ReleaseTriggerActualGun() => actualGun.ReleaseTrigger();
+    public void TriggerActualGun() => ActualGun.PressTrigger();
+    public void ReleaseTriggerActualGun() => ActualGun.ReleaseTrigger();
 
     void SwapWeapons(Gun actualWeapon)
     {
         if (!myGuns.Contains(actualWeapon)) AddGun(actualWeapon);
 
-        foreach (Gun gun in myGuns) if (actualGun != gun) gun.Stow();
+        foreach (Gun gun in myGuns) if (ActualGun != gun) gun.Stow();
 
-        actualGun.Draw();
+        ActualGun.Draw();
       
     }
 

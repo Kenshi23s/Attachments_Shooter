@@ -10,7 +10,8 @@ public class Sight : Attachment
     public float zoomMultiplier;
     public Transform sightPoint;
 
-    protected override void Initialize() => _myType = AttachmentType.Sight;
+    protected override void Initialize() => MyType = AttachmentType.Sight;
    
     protected override void Comunicate() { }
+
 }

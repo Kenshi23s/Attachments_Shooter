@@ -60,7 +60,7 @@ public class View_Attachment : MonoBehaviour
     {
         AttachmentData data = new AttachmentData();
 
-        data.type = attachment.myType; data.name = attachment.name;
+        data.type = attachment.MyType; data.name = attachment.name;
 
         data.stats = new Dictionary<StatNames, int>();
 

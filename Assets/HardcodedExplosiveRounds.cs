@@ -13,8 +13,8 @@ public class HardcodedExplosiveRounds : MonoBehaviour
     void Awake()
     {
         _owner = GetComponent<Attachment>();
-        _owner.onAttach += AttachExplosiveRounds;
-        _owner.onDettach += DetachExplosiveRounds;
+        _owner.OnAttach += AttachExplosiveRounds;
+        _owner.OnDettach += DetachExplosiveRounds;
     }
 
     void AttachExplosiveRounds() 
