@@ -18,7 +18,7 @@ public class AttachmentManager : MonoSingleton<AttachmentManager>
     [SerializeField] UI_AttachmentInventory _canvasInventory;
 
     [field: SerializeField, Header("Inventory Light")]
-    public Light InventoryLight { get; private set; }
+    public GameObject InventoryLight { get; private set; }
 
     public event Action OnInventoryOpen, OnInventoryClose;
 
@@ -65,7 +65,6 @@ public class AttachmentManager : MonoSingleton<AttachmentManager>
 
     private void Start()
     {
-        InventoryLight = PlayerCameraPivots.instance.ViewFromInventory.GetComponent<Light>();
         OnInventoryOpen += TurnOnInventoryLight; OnInventoryClose += TurnOffInventoryLight;
     }
 
@@ -131,8 +130,8 @@ public class AttachmentManager : MonoSingleton<AttachmentManager>
 
     #region LightInventory
 
-    void TurnOnInventoryLight() => InventoryLight.enabled = true;
-    void TurnOffInventoryLight() => InventoryLight.enabled = false;
+    void TurnOnInventoryLight() => InventoryLight.SetActive(true);
+    void TurnOffInventoryLight() => InventoryLight.SetActive(false);
     #endregion
 
     #region CursorShow
