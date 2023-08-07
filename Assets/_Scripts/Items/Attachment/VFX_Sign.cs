@@ -11,10 +11,7 @@ public class VFX_Sign : MonoBehaviour
 
     public Vector3 NewInitialPos
     {
-        set 
-        {
-            InitialPos = value;
-        } 
+        set => InitialPos = value;
     }
 
 
@@ -31,7 +28,7 @@ public class VFX_Sign : MonoBehaviour
 
         Material mat = sign.GetComponent<Renderer>().material;
         mat.SetColor("_Color", _color);
-        //sign.GetComponent<Renderer>().material = mat;
+      
 
         sign.name = gameObject.name + " HelpSign";
        

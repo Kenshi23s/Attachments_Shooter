@@ -5,7 +5,7 @@ using UnityEngine;
 public class PlayerCameraPivots : MonoSingleton<PlayerCameraPivots>
 {
    
-    [field: SerializeField]public Transform ViewFromInventory { get; private set; }
+    [field: SerializeField] public Transform ViewFromInventory { get; private set; }
    
 
     protected override void SingletonAwake()

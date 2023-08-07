@@ -37,24 +37,25 @@ public class GunHandler : MonoBehaviour
     {
         ActualGun = Instantiate(DefaultGun, gunPos);
         ActualGun.transform.position = gunPos.position;
+
         myGuns = transform.GetChildrenComponents<Gun>().ToList();
+
         if (ActualGun == null) ActualGun = myGuns[UnityEngine.Random.Range(0, myGuns.Count)];
         ActualGun.onShoot += onActualGunShoot;
+
         if (hitmarker!=null)
         {
             ActualGun.onHit += (x) => Hitmarker();
             hitmarker.color = hitmarker.color.SetAlpha(0);
         }
 
-        ShakeCamera.OnHipPosReached += () => crosshair.gameObject.SetActive(true);
-        ShakeCamera.OnAimPosReached += () => crosshair.gameObject.SetActive(false);
+       
     }
 
     void Hitmarker()
     {
         StopCoroutine(HitmarkerUpdate());
         StartCoroutine(HitmarkerUpdate());
-
     }
 
     IEnumerator HitmarkerUpdate()
@@ -75,11 +76,18 @@ public class GunHandler : MonoBehaviour
     //start para comunicacion
     void Start()
     {
-       
+        SetCrosshairEvents();
 
-        //SetupOnSightChange();
-    
-        Debug.LogWarning("Armas en full auto, asegurarse q tengan el RateofFire != 0 ");
+
+    }
+
+    void SetCrosshairEvents()
+    {
+        ShakeCamera.OnHipPosReached += () => crosshair.gameObject.SetActive(true);
+        ShakeCamera.OnAimPosReached += () => crosshair.gameObject.SetActive(false);
+        AttachmentManager.instance.OnInventoryOpen +=  () => crosshair.gameObject.SetActive(true);
+        AttachmentManager.instance.OnInventoryClose += () => crosshair.gameObject.SetActive(false);
+
     }
 
 

@@ -72,8 +72,8 @@ public class UI_Attachment_Button : MonoBehaviour,IPointerEnterHandler, IPointer
         }
         else
         {
-            UI_Button.image.color = Color.white;
             UI_Button.onClick.AddListener(EquipAttachment);
+            UI_Button.image.color = Color.white;
         }
         return this;
     }
