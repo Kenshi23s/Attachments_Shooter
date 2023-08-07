@@ -82,7 +82,7 @@ BoxCollider:
   m_Enabled: 1
   serializedVersion: 2
   m_Size: {x: 0.098932266, y: 0.18166327, z: 0.27697086}
-  m_Center: {x: 0.00059890747, y: 0.0018142462, z: -0.00060510635}
+  m_Center: {x: 0, y: 0, z: 0}
 --- !u!114 &1062702816
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -146,7 +146,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5fea29bb7c508c244a1f805a5fd3fc4d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  outlineMode: 0
+  outlineMode: 1
   outlineColor: {r: 1, g: 1, b: 1, a: 1}
   outlineWidth: 2
   precomputeOutline: 0
@@ -164,7 +164,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 863362441f4b2fb4eb00a2bc16d52e70, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  unitsAboveAttachment: 2
+  _view: {fileID: 0}
+  _augmentViewScale: 1.5
+  _originaViewScale: {x: 0, y: 0, z: 0}
+  _unitsAboveAttachment: 0
+  <PickUpCanvasPixelsAbove>k__BackingField: 40
 --- !u!1001 &5782295052661517595
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -214,10 +218,6 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 12a1598dd51295e448bd399bb23ca025, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: -7511558181221131132, guid: 12a1598dd51295e448bd399bb23ca025, type: 3}
-      propertyPath: m_CastShadows
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: -7511558181221131132, guid: 12a1598dd51295e448bd399bb23ca025, type: 3}

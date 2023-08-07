@@ -78,11 +78,11 @@ BoxCollider:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5623346308091543907}
   m_Material: {fileID: 0}
-  m_IsTrigger: 0
+  m_IsTrigger: 1
   m_Enabled: 1
   serializedVersion: 2
   m_Size: {x: 0.08041906, y: 0.18357858, z: 0.20442343}
-  m_Center: {x: 0.0008420944, y: 0.008210704, z: -0.00042128563}
+  m_Center: {x: 0, y: 0, z: 0}
 --- !u!114 &1809484877022583509
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -140,7 +140,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5fea29bb7c508c244a1f805a5fd3fc4d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  outlineMode: 0
+  outlineMode: 1
   outlineColor: {r: 1, g: 1, b: 1, a: 1}
   outlineWidth: 2
   precomputeOutline: 0
@@ -158,6 +158,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 863362441f4b2fb4eb00a2bc16d52e70, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _view: {fileID: 0}
+  _augmentViewScale: 1.5
+  _originaViewScale: {x: 0, y: 0, z: 0}
+  _unitsAboveAttachment: 0
+  <PickUpCanvasPixelsAbove>k__BackingField: 40
 --- !u!1001 &5420797566662912703
 PrefabInstance:
   m_ObjectHideFlags: 0
