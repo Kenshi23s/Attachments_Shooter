@@ -8,13 +8,13 @@ using static StatsHandler;
 
 public class View_Attachment : MonoBehaviour
 {
-    [SerializeField] GameObject Panel;
+    //[SerializeField] GameObject Panel;
     public Text myTypeText;
     public Text nameText;
     public View_SliderAttachment sliderTemplate;
 
     public List<View_SliderAttachment> View_SliderAttachment;
-    Attachment actual;
+    Attachment _actual;
 
     public struct AttachmentData
     {
@@ -26,19 +26,20 @@ public class View_Attachment : MonoBehaviour
     private void LateUpdate()
     {
         //saco la direccion opuesta para q lo vea bien(????)
-        Vector3 dir = transform.position - Camera.main.transform.position;
-        transform.forward = dir;
+        //Vector3 dir = transform.position - Camera.main.transform.position;
+        //transform.forward = dir;
+
+        transform.position = Camera.main.WorldToScreenPoint(_actual.transform.position) + Vector3.up * _actual.VFX.PickUpCanvasPixelsAbove;
     }
 
-    public void NewAttachment(Attachment x)
+    public void NewAttachment(Attachment attachment)
     {
-        if (x == null) return;
+        if (!attachment || _actual == attachment) return;
 
-        transform.position = x.transform.position + Vector3.up * x.VFX.PickUpCanvasUnitsAbove;
-        if (actual == x) return;
-        actual = x; RemoveStats();
+        _actual = attachment; 
+        RemoveStats();
 
-        AttachmentData data = GetData(x);
+        AttachmentData data = GetData(attachment);
         myTypeText.text = data.type.ToString();
         nameText.text = data.name;
       
@@ -53,7 +54,9 @@ public class View_Attachment : MonoBehaviour
   
     void RemoveStats()
     {
-        foreach (View_SliderAttachment item in View_SliderAttachment) Destroy(item.gameObject);      
+        foreach (View_SliderAttachment item in View_SliderAttachment) 
+            Destroy(item.gameObject);
+        
         View_SliderAttachment.Clear();
     }
 

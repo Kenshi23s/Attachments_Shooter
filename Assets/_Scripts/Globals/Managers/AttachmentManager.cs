@@ -16,6 +16,7 @@ public class AttachmentManager : MonoSingleton<AttachmentManager>
     [SerializeField, Header("Canvas")] View_Attachment _canvasAttachments;
 
     [SerializeField] UI_AttachmentInventory _canvasInventory;
+    [SerializeField] Transform _canvasSight;
 
     [field: SerializeField, Header("Inventory Light")]
     public GameObject InventoryLight { get; private set; }
@@ -55,7 +56,7 @@ public class AttachmentManager : MonoSingleton<AttachmentManager>
         _gunHandler = GetComponent<GunHandler>();
         _debug = GetComponent<DebugableObject>(); _debug.AddGizmoAction(DrawRaycast);
 
-        _canvasAttachments = Instantiate(_canvasAttachments); _canvasInventory = Instantiate(_canvasInventory);
+        _canvasAttachments = Instantiate(_canvasAttachments, _canvasSight); _canvasInventory = Instantiate(_canvasInventory);
 
         OnInventoryOpen += ShowMouse; OnInventoryClose += HideMouse;
 

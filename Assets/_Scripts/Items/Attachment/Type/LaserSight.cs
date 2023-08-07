@@ -14,7 +14,12 @@ public class LaserSight : Attachment
         MyType = AttachmentType.LaserSight;
         GetComponent<PausableObject>().onPause += () => {if(this.isActiveAndEnabled) StartCoroutine(StopLaser()); };
     }
-  
+
+    private void OnValidate()
+    {
+        UpdateLaser(_laserOutPoint.forward);
+    }
+
     protected override void Comunicate() 
     {
         _enable = (x) =>

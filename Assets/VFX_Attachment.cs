@@ -16,10 +16,10 @@ public class VFX_Attachment : MonoBehaviour
 
     [SerializeField,Header("View")] MeshRenderer _view;
     [SerializeField] float _augmentViewScale;
-    public Vector3 originaViewlScale;
+    public Vector3 _originaViewScale;
 
-    [SerializeField, Header("LaserSign")] float unitsAboveAttachment = 2f;
-    [field : SerializeField] public float PickUpCanvasUnitsAbove { get; private set; }
+    [SerializeField, Header("LaserSign")] float _unitsAboveAttachment = 0f;
+    [field: SerializeField] public float PickUpCanvasPixelsAbove { get; private set; } = 0f;
 
     public void Initialize()
     {
@@ -27,7 +27,7 @@ public class VFX_Attachment : MonoBehaviour
         LaserSign = GetComponent<VFX_Sign>();
 
         _view = GetComponentInChildren<MeshRenderer>();
-        originaViewlScale = _view.transform.localScale;
+        _originaViewScale = _view.transform.localScale;
         SetOutline(); SetVFXsign(); SetScaleMethods(); SetShadowCasting();
     }
 
@@ -35,7 +35,7 @@ public class VFX_Attachment : MonoBehaviour
     private void Start()
     {
         SetInventoryEvents();
-        LaserSign.NewInitialPos = owner.transform.position + Vector3.up * unitsAboveAttachment;
+        LaserSign.NewInitialPos = owner.transform.position + Vector3.up * _unitsAboveAttachment;
     }
 
     void SetInventoryEvents()
@@ -79,12 +79,12 @@ public class VFX_Attachment : MonoBehaviour
     void ScaleView()
     {
        
-        _view.transform.localScale = originaViewlScale * _augmentViewScale;
+        _view.transform.localScale = _originaViewScale * _augmentViewScale;
     }
 
     void UnscaleView()
     {
-        _view.transform.localScale = originaViewlScale;
+        _view.transform.localScale = _originaViewScale;
     }
     #endregion
     #region OutLine
@@ -110,7 +110,7 @@ public class VFX_Attachment : MonoBehaviour
 
     private void OnValidate()
     {
-        unitsAboveAttachment = Mathf.Max(unitsAboveAttachment, 1);
+        _unitsAboveAttachment = Mathf.Max(_unitsAboveAttachment, 0);
         _augmentViewScale = Mathf.Max(_augmentViewScale, 1);
     }
 }
