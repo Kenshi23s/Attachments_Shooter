@@ -20,7 +20,9 @@ public class UI_AttachmentInventory : MonoBehaviour
 
     #region Gun Stats 
     [SerializeField,Header("Stats Display")] GunStatDisplay statDisplayTemplate;
-    Dictionary<StatsHandler.StatNames, GunStatDisplay> statCollection = new Dictionary<StatsHandler.StatNames, GunStatDisplay>();
+    Dictionary<StatNames, GunStatDisplay> statCollection = new Dictionary<StatNames, GunStatDisplay>();
+    GunStatDisplay _recoilStat;
+
     [SerializeField] Transform _statsPanel;
     #endregion
 
@@ -63,9 +65,12 @@ public class UI_AttachmentInventory : MonoBehaviour
 
         foreach (StatNames stat in Enum.GetValues(typeof(StatNames)))
         {
+            if (IsRecoil(stat)) continue;
+            
             statCollection.Add(stat, Instantiate(statDisplayTemplate, _statsPanel));
         }
-       
+        _recoilStat = Instantiate(statDisplayTemplate, _statsPanel);
+
     }
 
     private void Start()
@@ -86,12 +91,22 @@ public class UI_AttachmentInventory : MonoBehaviour
     #region Stats Methods
     void RefreshStats()
     {
-        foreach (var stat in statCollection)
+        
+        foreach (var stat in statCollection.Where(x => !IsRecoil(x.Key)))
         {
             stat.Value.SetStatDisplay(stat.Key,_displayGun.stats.GetStat(stat.Key));
         }
+        float stats = _displayGun.stats.GetStats(FList.Create(StatNames.HorizontalRecoil)+ StatNames.VerticalRecoil);
+        _recoilStat.SetStatDisplay("Recoil", stats / (StatsHandler.MaxStatValue * 2));
+    }
+
+    bool IsRecoil(StatNames x)
+    {
+        return x == StatNames.HorizontalRecoil || x == StatNames.VerticalRecoil;
     }
     #endregion
+
+
 
     #region Attachments Methods
     void SetAttachmentInteractions(Attachment x)
@@ -143,6 +158,8 @@ public class UI_AttachmentInventory : MonoBehaviour
         foreach (var item in result.Where(x => x.owner != null))
         {
             item.UI_Button.onClick.AddListener(() => OpenAttachmentColectionOfType(attachment));
+            item.UI_Button.onClick.AddListener(RefreshStats);
+           
         }
         _buttons = result.ToList();       
     }

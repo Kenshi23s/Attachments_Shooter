@@ -31,6 +31,14 @@ public class StatsHandler : MonoBehaviour
         return Mathf.Clamp(_myGunStats[key], MinStatValue, MaxStatValue);
     }
 
+    public float GetStats(IEnumerable<StatNames> keys)
+    {
+        return _myGunStats
+            .Where(x => keys.Contains(x.Key))
+            .Select(x => GetStat(x.Key))
+            .Aggregate(0f, (x, y) => x + y);
+    }
+
     public Dictionary<StatNames, int> statDictionary => _myGunStats;
     [SerializeField,SerializedDictionary("Stat", "Value")]
     SerializedDictionary<StatNames, int> _myGunStats;

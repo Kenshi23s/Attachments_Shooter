@@ -11,9 +11,13 @@ public class GunStatDisplay : MonoBehaviour
 
     public void SetStatDisplay(StatsHandler.StatNames name,float statValue = 0)
     {
-        Debug.Log(statValue);
-        SliderStat.value = Mathf.Max(0, statValue/StatsHandler.MaxStatValue);
-        StatName.text = name.ToString();
+        SetStatDisplay(name.ToString(), Mathf.Max(0, statValue / StatsHandler.MaxStatValue));      
+    }
+
+    public void SetStatDisplay(string name, float normalizedValue = 0)
+    {
+        SliderStat.value = Mathf.Max(0, normalizedValue);
+        StatName.text = name;
     }
 
 }
