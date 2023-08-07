@@ -27,7 +27,7 @@ public class VFX_Attachment : MonoBehaviour
     private void Start()
     {
         
-        LaserSign.NewInitialPos = owner.transform.position + (Vector3.up * (unitsAboveAttachment > 1 ? unitsAboveAttachment : 1));
+        LaserSign.NewInitialPos = owner.transform.position + Vector3.up * unitsAboveAttachment;
     }
    
 
@@ -50,5 +50,10 @@ public class VFX_Attachment : MonoBehaviour
         
         owner.OnAttach += LaserSign.DeactivateSign;
         owner.OnDettach += LaserSign.ActivateSign;
+    }
+
+    private void OnValidate()
+    {
+        unitsAboveAttachment = Mathf.Max(unitsAboveAttachment, 1);
     }
 }

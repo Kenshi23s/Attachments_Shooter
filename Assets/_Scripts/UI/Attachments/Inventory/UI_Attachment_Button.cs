@@ -9,7 +9,7 @@ using UnityEngine.UI;
 [RequireComponent(typeof(DebugableObject))]
 public class UI_Attachment_Button : MonoBehaviour,IPointerEnterHandler, IPointerExitHandler
 {
-    Button _button;
+    public Button UI_Button { get; private set; }
     [SerializeField] TMP_Text Buttontext;
     DebugableObject _debug;
     public Attachment owner { get; private set; }
@@ -21,7 +21,7 @@ public class UI_Attachment_Button : MonoBehaviour,IPointerEnterHandler, IPointer
 
     void Awake()
     {
-        _button = GetComponent<Button>();
+        UI_Button = GetComponent<Button>();
         _debug = GetComponent<DebugableObject>();
     }
 
@@ -54,7 +54,7 @@ public class UI_Attachment_Button : MonoBehaviour,IPointerEnterHandler, IPointer
 
     public UI_Attachment_Button AssignAttachment(Attachment newOwner, Gun newDisplayGun)
     {
-        _button.onClick.RemoveAllListeners();
+        UI_Button.onClick.RemoveAllListeners();
         owner = newOwner; displayGun = newDisplayGun;
 
         if (displayGun == null || owner == null) 
@@ -67,13 +67,13 @@ public class UI_Attachment_Button : MonoBehaviour,IPointerEnterHandler, IPointer
 
         if (newOwner.isAttached)
         {
-            _button.onClick.AddListener(SaveAttachment);
-            _button.image.color = Color.green;
+            UI_Button.onClick.AddListener(SaveAttachment);
+            UI_Button.image.color = Color.green;
         }
         else
         {
-            _button.image.color = Color.white;
-            _button.onClick.AddListener(EquipAttachment);
+            UI_Button.image.color = Color.white;
+            UI_Button.onClick.AddListener(EquipAttachment);
         }
         return this;
     }

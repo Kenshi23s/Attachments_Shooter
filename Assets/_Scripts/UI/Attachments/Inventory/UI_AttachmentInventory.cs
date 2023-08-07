@@ -121,19 +121,29 @@ public class UI_AttachmentInventory : MonoBehaviour
         //accesorios del mismo arma que no son default
         var noDefault = gunAttachments.Where(_displayGun.attachmentHandler.IsntDefaultAttachment);
         //accesorios guardados de tipo T
-        var AttachmentsSaved = AttachmentManager.instance.GetAllSavedAttachments<T>().Where(_isSameType);
+        var AttachmentsSaved = AttachmentManager.instance
+            .GetAllSavedAttachments<T>()
+            .Where(_isSameType)
+            .Where(x => !gunAttachments.Contains(x));
+            
 
         var emptyButtons = new FList<UI_Attachment_Button>(); 
-        int amount = noDefault.Count() + AttachmentsSaved.Count();
+        int amount = noDefault == null ? 0 : 1 + AttachmentsSaved.Count();
 
         _debug.Log($"hay {AttachmentsSaved.Count()}");
         if (amount < MinimumButtonsInInventory)
         {
-            _debug.Log($"La cantidad de accesorios guardados de tipo {attachment.MyType} es de {amount}, creo {MinimumButtonsInInventory - amount} para rellenar el inventario");
-            emptyButtons = CreateEmptyButtons(MinimumButtonsInInventory - amount);
+            int minus = MinimumButtonsInInventory - amount;
+            _debug.Log($"La cantidad de accesorios guardados de tipo {attachment.MyType} es de {amount}," +
+                       $" creo {minus} para rellenar el inventario");
+            emptyButtons = CreateEmptyButtons(minus);
         }
-        var result = CreateButtons<T>(noDefault) + CreateButtons<T>(AttachmentsSaved) + emptyButtons; 
+        var result = CreateButtons<T>(noDefault) + CreateButtons<T>(AttachmentsSaved) + emptyButtons;
 
+        foreach (var item in result.Where(x => x.owner != null))
+        {
+            item.UI_Button.onClick.AddListener(() => OpenAttachmentColectionOfType(attachment));
+        }
         _buttons = result.ToList();       
     }
 

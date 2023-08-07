@@ -131,6 +131,12 @@ public class AttachmentHandler : MonoBehaviour
 
     public bool IsDefaultAttachment(Attachment x) => _DefaultAttachment.ContainsValue(x);
     public bool IsntDefaultAttachment(Attachment x) => !IsDefaultAttachment(x);
+
+    public bool HasPivotFor(Attachment x) => _attachmentPos.ContainsKey(x.MyType);
+    public bool HasPivotFor(AttachmentType x) => _attachmentPos.ContainsKey(x);
+
+    public bool HasEquippedItemOfType(Attachment x) => _activeAttachments.ContainsKey(x.MyType);
+    public bool HasEquippedItemOfType(AttachmentType x) => _activeAttachments.ContainsKey(x);
     #endregion
 
     #region Events

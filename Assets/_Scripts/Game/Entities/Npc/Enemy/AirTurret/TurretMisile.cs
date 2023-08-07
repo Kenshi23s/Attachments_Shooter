@@ -7,6 +7,7 @@ using UnityEngine;
 [RequireComponent(typeof(Rigidbody))]
 [RequireComponent(typeof(DebugableObject))]
 [RequireComponent(typeof(LifeComponent))]
+[RequireComponent(typeof(PausableObject))]
 public class TurretMisile : MonoBehaviour
 {
     [System.Serializable]
@@ -53,6 +54,7 @@ public class TurretMisile : MonoBehaviour
     Rigidbody _rb;
     Action _movement;
     LifeComponent _lifeComponent;
+    
     private void Awake()
     {
         _lifeComponent = GetComponent<LifeComponent>();
@@ -60,8 +62,10 @@ public class TurretMisile : MonoBehaviour
 
         _rb = GetComponent<Rigidbody>();
 
-        _debug = GetComponent<DebugableObject>();
-        _debug.AddGizmoAction(MisileGizmos);
+        _debug = GetComponent<DebugableObject>(); _debug.AddGizmoAction(MisileGizmos);
+
+
+
     }
 
     public void Initialize(MisileStats _myNewStats,Transform _newTarget,Vector3 forward)
