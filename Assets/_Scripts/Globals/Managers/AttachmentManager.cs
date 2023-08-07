@@ -22,7 +22,7 @@ public class AttachmentManager : MonoSingleton<AttachmentManager>
 
     public event Action OnInventoryOpen, OnInventoryClose;
 
-    [SerializeField] float PickUpCanvasScale;
+  
 
     #region  InteractWithAttachments
 

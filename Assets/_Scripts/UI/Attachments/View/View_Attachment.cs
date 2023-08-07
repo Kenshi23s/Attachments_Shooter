@@ -33,8 +33,8 @@ public class View_Attachment : MonoBehaviour
     public void NewAttachment(Attachment x)
     {
         if (x == null) return;
-       
-        transform.position = x.transform.position;
+
+        transform.position = x.transform.position + Vector3.up * x.VFX.PickUpCanvasUnitsAbove;
         if (actual == x) return;
         actual = x; RemoveStats();
 

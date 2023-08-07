@@ -19,7 +19,7 @@ public class VFX_Attachment : MonoBehaviour
     public Vector3 originaViewlScale;
 
     [SerializeField, Header("LaserSign")] float unitsAboveAttachment = 2f;
-   
+    [field : SerializeField] public float PickUpCanvasUnitsAbove { get; private set; }
 
     public void Initialize()
     {
