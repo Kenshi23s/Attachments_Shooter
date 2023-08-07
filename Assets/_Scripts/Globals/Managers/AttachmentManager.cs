@@ -22,6 +22,8 @@ public class AttachmentManager : MonoSingleton<AttachmentManager>
 
     public event Action OnInventoryOpen, OnInventoryClose;
 
+    [SerializeField] float PickUpCanvasScale;
+
     #region  InteractWithAttachments
 
     [field: SerializeField, Header("InventoryParameters")] public LayerMask AttachmentLayer { get; private set; }
@@ -52,8 +54,6 @@ public class AttachmentManager : MonoSingleton<AttachmentManager>
     {
         _gunHandler = GetComponent<GunHandler>();
         _debug = GetComponent<DebugableObject>(); _debug.AddGizmoAction(DrawRaycast);
-
-
 
         _canvasAttachments = Instantiate(_canvasAttachments); _canvasInventory = Instantiate(_canvasInventory);
 
@@ -88,8 +88,7 @@ public class AttachmentManager : MonoSingleton<AttachmentManager>
         if (!hit.transform.TryGetComponent(out Attachment x)) return;
             //throw new NotImplementedException("Theres Something that is NOT an attachment in the attachment layer, Execption Name " + hit.transform.name);
 
-        _canvasAttachments.gameObject.SetActive(true); _canvasAttachments.NewAttachment(x);
-        ListenGrabInputs(x);
+        _canvasAttachments.gameObject.SetActive(true); _canvasAttachments.NewAttachment(x); ListenGrabInputs(x);
     }
     
     void ListenGrabInputs(Attachment x)

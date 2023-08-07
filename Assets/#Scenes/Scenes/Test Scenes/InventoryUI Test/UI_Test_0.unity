@@ -22305,6 +22305,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Laser 1
       objectReference: {fileID: 0}
+    - target: {fileID: 7993079114910758359, guid: c9c137274b6e03044916e36493135ced, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents:
     - {fileID: 1566112118317120080, guid: c9c137274b6e03044916e36493135ced, type: 3}
   m_SourcePrefab: {fileID: 100100000, guid: c9c137274b6e03044916e36493135ced, type: 3}
@@ -22325,6 +22329,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 863362441f4b2fb4eb00a2bc16d52e70, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _view: {fileID: 0}
+  _augmentViewScale: 1
+  originaViewlScale: {x: 0, y: 0, z: 0}
   unitsAboveAttachment: 2
 --- !u!1001 &560475567
 PrefabInstance:
@@ -22336,6 +22343,10 @@ PrefabInstance:
     - target: {fileID: 5623346308091543907, guid: 73d8fe94dc42c4a40963c74af5f5cc5b, type: 3}
       propertyPath: m_Name
       value: Culata 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 5869974568189417593, guid: 73d8fe94dc42c4a40963c74af5f5cc5b, type: 3}
+      propertyPath: unitsAboveAttachment
+      value: 1.2
       objectReference: {fileID: 0}
     - target: {fileID: 8772370827392028176, guid: 73d8fe94dc42c4a40963c74af5f5cc5b, type: 3}
       propertyPath: m_RootOrder
@@ -22625,6 +22636,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 1257446795}
     m_Modifications:
+    - target: {fileID: 9123264346785992265, guid: f1d523c350d300348a6cb72c5cfe0cd7, type: 3}
+      propertyPath: _augmentViewScale
+      value: 30
+      objectReference: {fileID: 0}
     - target: {fileID: 9166610628816272836, guid: f1d523c350d300348a6cb72c5cfe0cd7, type: 3}
       propertyPath: m_RootOrder
       value: 4
@@ -22735,6 +22750,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 4242290653351192537, guid: 368e0b287748eec40b8c442e966b2b17, type: 3}
+      propertyPath: unitsAboveAttachment
+      value: 1.2
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 368e0b287748eec40b8c442e966b2b17, type: 3}
 --- !u!4 &1119401816 stripped
@@ -22841,6 +22860,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: sight_2 (1)
       objectReference: {fileID: 0}
+    - target: {fileID: 7982474619777078935, guid: efbbf349d84703b49ac7dff3fd8d452b, type: 3}
+      propertyPath: _augmentViewScale
+      value: 3
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: efbbf349d84703b49ac7dff3fd8d452b, type: 3}
 --- !u!4 &1311568300 stripped
@@ -22855,6 +22878,38 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 1257446795}
     m_Modifications:
+    - target: {fileID: 8067779019883516222, guid: 1b351c6b4ebde93478196f52e8defa53, type: 3}
+      propertyPath: m_Parameters.numCapVertices
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 8067779019883516222, guid: 1b351c6b4ebde93478196f52e8defa53, type: 3}
+      propertyPath: m_Parameters.widthMultiplier
+      value: 0.3
+      objectReference: {fileID: 0}
+    - target: {fileID: 8067779019883516222, guid: 1b351c6b4ebde93478196f52e8defa53, type: 3}
+      propertyPath: m_Parameters.colorGradient.key1.a
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8067779019883516222, guid: 1b351c6b4ebde93478196f52e8defa53, type: 3}
+      propertyPath: m_Parameters.widthCurve.m_Curve.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8067779019883516222, guid: 1b351c6b4ebde93478196f52e8defa53, type: 3}
+      propertyPath: m_Parameters.widthCurve.m_Curve.Array.data[0].time
+      value: 0.051360898
+      objectReference: {fileID: 0}
+    - target: {fileID: 8067779019883516222, guid: 1b351c6b4ebde93478196f52e8defa53, type: 3}
+      propertyPath: m_Parameters.widthCurve.m_Curve.Array.data[1].time
+      value: 0.9667672
+      objectReference: {fileID: 0}
+    - target: {fileID: 8067779019883516222, guid: 1b351c6b4ebde93478196f52e8defa53, type: 3}
+      propertyPath: m_Parameters.widthCurve.m_Curve.Array.data[0].value
+      value: 0.036177486
+      objectReference: {fileID: 0}
+    - target: {fileID: 8067779019883516222, guid: 1b351c6b4ebde93478196f52e8defa53, type: 3}
+      propertyPath: m_Parameters.widthCurve.m_Curve.Array.data[1].value
+      value: 0.15754136
+      objectReference: {fileID: 0}
     - target: {fileID: 8067779020548387650, guid: 1b351c6b4ebde93478196f52e8defa53, type: 3}
       propertyPath: m_RootOrder
       value: 1
@@ -23586,6 +23641,10 @@ PrefabInstance:
     - target: {fileID: 2052278849705528592, guid: 3323c54bade2a744e85360c3909c16fe, type: 3}
       propertyPath: m_Name
       value: Laser 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 2052278849705528592, guid: 3323c54bade2a744e85360c3909c16fe, type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8709545740602978973, guid: 3323c54bade2a744e85360c3909c16fe, type: 3}
       propertyPath: m_RootOrder

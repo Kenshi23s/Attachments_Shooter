@@ -42,14 +42,15 @@ public class View_Attachment : MonoBehaviour
         myTypeText.text = data.type.ToString();
         nameText.text = data.name;
       
-        foreach (StatNames key in data.stats.Keys.Where(x => data.stats[x] != 0))
-        {
-            View_SliderAttachment newSlider = Instantiate(sliderTemplate, Panel.transform).GetComponent<View_SliderAttachment>();
-            View_SliderAttachment.Add(newSlider);         
-            newSlider.SetSliderValue(key.ToString(), data.stats[key]);
-        }
+        //foreach (StatNames key in data.stats.Keys.Where(x => data.stats[x] != 0))
+        //{
+        //    View_SliderAttachment newSlider = Instantiate(sliderTemplate, Panel.transform).GetComponent<View_SliderAttachment>();
+        //    View_SliderAttachment.Add(newSlider);         
+        //    newSlider.SetSliderValue(key.ToString(), data.stats[key]);
+        //}
     }
 
+  
     void RemoveStats()
     {
         foreach (View_SliderAttachment item in View_SliderAttachment) Destroy(item.gameObject);      
