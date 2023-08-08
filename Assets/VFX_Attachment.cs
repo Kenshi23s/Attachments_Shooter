@@ -48,8 +48,17 @@ public class VFX_Attachment : MonoBehaviour
                 StartCastingShadows();        
         };
 
-        AttachmentManager.instance.OnInventoryOpen += StartCastingShadows;    
+        AttachmentManager.instance.OnInventoryOpen += StartCastingShadows;
+
+        AttachmentManager.instance.OnInventoryClose += () =>
+        {
+            if (owner.isAttached)
+                UnscaleView();
+            else
+                ScaleView();
+        };
     }
+
     #region View Methods
 
     #region Shadows
@@ -76,9 +85,9 @@ public class VFX_Attachment : MonoBehaviour
         owner.OnAttach  += UnscaleView;
         owner.OnDettach += ScaleView;
     }
+
     void ScaleView()
-    {
-       
+    {       
         _view.transform.localScale = _originaViewScale * _augmentViewScale;
     }
 
@@ -87,6 +96,7 @@ public class VFX_Attachment : MonoBehaviour
         _view.transform.localScale = _originaViewScale;
     }
     #endregion
+
     #region OutLine
     void SetOutline()
     {
