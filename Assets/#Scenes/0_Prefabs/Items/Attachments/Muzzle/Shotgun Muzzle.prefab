@@ -16,7 +16,7 @@ GameObject:
   - component: {fileID: -3709004587768776457}
   - component: {fileID: 5771658272583088796}
   - component: {fileID: 4242290653351192537}
-  m_Layer: 0
+  m_Layer: 11
   m_Name: Shotgun Muzzle
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -168,7 +168,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 2056453038948890782}
-  m_Layer: 0
+  m_Layer: 11
   m_Name: shot_pivot
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -260,6 +260,10 @@ PrefabInstance:
     - target: {fileID: 919132149155446097, guid: 315aa4409081d0041b058890c9c6a8a2, type: 3}
       propertyPath: m_Name
       value: medium_cannon2
+      objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: 315aa4409081d0041b058890c9c6a8a2, type: 3}
+      propertyPath: m_Layer
+      value: 11
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 315aa4409081d0041b058890c9c6a8a2, type: 3}

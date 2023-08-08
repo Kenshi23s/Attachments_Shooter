@@ -15,7 +15,7 @@ GameObject:
   - component: {fileID: 2640793924812048417}
   - component: {fileID: 6111383454800215254}
   - component: {fileID: 4218831545564569995}
-  m_Layer: 0
+  m_Layer: 11
   m_Name: Culata3
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -141,7 +141,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 527382529821115118}
-  m_Layer: 0
+  m_Layer: 11
   m_Name: PivotPos
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -237,6 +237,10 @@ PrefabInstance:
     - target: {fileID: 919132149155446097, guid: 12567d0b21ea14349ba38565a3653ef4, type: 3}
       propertyPath: m_Name
       value: stock1
+      objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: 12567d0b21ea14349ba38565a3653ef4, type: 3}
+      propertyPath: m_Layer
+      value: 11
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 12567d0b21ea14349ba38565a3653ef4, type: 3}

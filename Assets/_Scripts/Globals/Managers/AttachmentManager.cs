@@ -40,6 +40,8 @@ public class AttachmentManager : MonoSingleton<AttachmentManager>
 
     public Action InventoryState { get; private set; }
 
+    Transform _camTransform;
+
     public IEnumerable<T> GetAllSavedAttachments<T>() where T : Attachment
     {
 
@@ -68,6 +70,8 @@ public class AttachmentManager : MonoSingleton<AttachmentManager>
 
         OnInventoryOpen += () => _canvasSight.gameObject.SetActive(false);
         OnInventoryClose += () => _canvasSight.gameObject.SetActive(true);
+
+       _camTransform = Camera.main.transform;
     }
 
 
@@ -76,11 +80,9 @@ public class AttachmentManager : MonoSingleton<AttachmentManager>
 
     void AttachmentOnSight()
     {
-        Transform tr = Camera.main.transform;
-
         //si veo algo 
         Debug.Log(AttachmentLayer.LayerMaskToLayerNumber().ToString());
-        if (!Physics.SphereCast(tr.position, 1f, tr.forward, out RaycastHit hit, raycastDistance, AttachmentLayer))
+        if (!Physics.SphereCast(_camTransform.position, 1f, _camTransform.forward, out RaycastHit hit, raycastDistance, AttachmentLayer))
         {
             _canvasAttachments.gameObject.SetActive(false);
             return;
