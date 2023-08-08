@@ -23,8 +23,6 @@ public class AttachmentManager : MonoSingleton<AttachmentManager>
 
     public event Action OnInventoryOpen, OnInventoryClose;
 
-  
-
     #region  InteractWithAttachments
 
     [field: SerializeField, Header("InventoryParameters")] public LayerMask AttachmentLayer { get; private set; }
@@ -66,7 +64,10 @@ public class AttachmentManager : MonoSingleton<AttachmentManager>
 
     private void Start()
     {
-        OnInventoryOpen += TurnOnInventoryLight; OnInventoryClose += TurnOffInventoryLight;
+        OnInventoryOpen += TurnOnInventoryLights; OnInventoryClose += TurnOffInventoryLights;
+
+        OnInventoryOpen += () => _canvasSight.gameObject.SetActive(false);
+        OnInventoryClose += () => _canvasSight.gameObject.SetActive(true);
     }
 
 
@@ -87,11 +88,11 @@ public class AttachmentManager : MonoSingleton<AttachmentManager>
 
         //si es un attachment
         if (!hit.transform.TryGetComponent(out Attachment x)) return;
-            //throw new NotImplementedException("Theres Something that is NOT an attachment in the attachment layer, Execption Name " + hit.transform.name);
+        //throw new NotImplementedException("Theres Something that is NOT an attachment in the attachment layer, Execption Name " + hit.transform.name);
 
         _canvasAttachments.gameObject.SetActive(true); _canvasAttachments.NewAttachment(x); ListenGrabInputs(x);
     }
-    
+
     void ListenGrabInputs(Attachment x)
     {
         var handler = _gunHandler.ActualGun.attachmentHandler;
@@ -123,15 +124,26 @@ public class AttachmentManager : MonoSingleton<AttachmentManager>
 
         _canvasInventory.EnterInventory(_gunHandler.ActualGun);
 
-
         OnInventoryOpen?.Invoke();
         InventoryState = CloseInventory;
     }
 
     #region LightInventory
 
-    void TurnOnInventoryLight() => InventoryLight.SetActive(true);
-    void TurnOffInventoryLight() => InventoryLight.SetActive(false);
+    void TurnOnInventoryLights()
+    {
+        RenderSettings.sun.gameObject.SetActive(false);
+        RenderSettings.ambientIntensity = 0;
+        InventoryLight.SetActive(true);
+    }
+
+    void TurnOffInventoryLights()
+    {
+        InventoryLight.SetActive(false);
+        RenderSettings.ambientIntensity = 1;
+        RenderSettings.sun.gameObject.SetActive(true);
+
+    }
     #endregion
 
     #region CursorShow
@@ -153,6 +165,7 @@ public class AttachmentManager : MonoSingleton<AttachmentManager>
     {
         _canvasInventory.ExitInventory();
         OnInventoryClose?.Invoke();
+
         InventoryState = OpenInventory;
     }
     #endregion

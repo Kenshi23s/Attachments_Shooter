@@ -75,7 +75,9 @@ public abstract class Gun : MonoBehaviour
 
 
     #endregion
-   
+
+    MeshRenderer _meshRenderer;
+
     bool _triggerPressed;
     public bool TriggerPressed
     {
@@ -113,7 +115,14 @@ public abstract class Gun : MonoBehaviour
         _pausableObject = GetComponent<PausableObject>();
         _pausableObject.onPause += () => StartCoroutine(RememberTrigger());
 
+        _meshRenderer ??= GetComponentInChildren<MeshRenderer>();
+
         OptionalInitialize();
+    }
+
+    protected virtual void Start() 
+    {
+        SetInventoryEvents();
     }
 
     protected virtual void OptionalInitialize() { }
@@ -178,4 +187,19 @@ public abstract class Gun : MonoBehaviour
         onStow?.Invoke();
     }
 
+    void SetInventoryEvents()
+    {
+        AttachmentManager.instance.OnInventoryClose += StopCastingShadows;
+        AttachmentManager.instance.OnInventoryOpen += StartCastingShadows;
+    }
+
+    public void StopCastingShadows()
+    {
+        _meshRenderer.shadowCastingMode = UnityEngine.Rendering.ShadowCastingMode.Off;
+    }
+
+    public void StartCastingShadows()
+    {
+        _meshRenderer.shadowCastingMode = UnityEngine.Rendering.ShadowCastingMode.On;
+    }
 }

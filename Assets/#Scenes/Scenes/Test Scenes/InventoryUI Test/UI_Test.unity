@@ -37,7 +37,7 @@ RenderSettings:
   m_ReflectionBounces: 1
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
-  m_Sun: {fileID: 0}
+  m_Sun: {fileID: 509847613}
   m_IndirectSpecularColor: {r: 0.18028378, g: 0.22571412, b: 0.30692285, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
@@ -481,9 +481,9 @@ PrefabInstance:
       value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 2938340201787266778, guid: 4e0b8e6078937b342881ef0454eba315, type: 3}
-      propertyPath: _inventorySwitchInput
-      value: 105
-      objectReference: {fileID: 0}
+      propertyPath: _directionalLight
+      value: 
+      objectReference: {fileID: 509847612}
     - target: {fileID: 3175519703262863214, guid: 4e0b8e6078937b342881ef0454eba315, type: 3}
       propertyPath: m_Layer
       value: 8

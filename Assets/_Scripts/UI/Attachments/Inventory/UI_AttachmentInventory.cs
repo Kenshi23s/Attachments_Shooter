@@ -29,27 +29,11 @@ public class UI_AttachmentInventory : MonoBehaviour
     #endregion
 
     #region Camera
-    Camera _cam;
+    Camera _mainCam;
+    Camera _inventoryCam;
 
-    Transform _inventoryCamParent;
-    [SerializeField,Header("Camera ")] float _inventoryFov = 40f;
-
-    Transform _camTransform;
-    Transform _ogCamParent;
-    float _ogFov;
-
-    #region Transition Variables
-    [SerializeField] AnimationCurve _animationCurve;
     [SerializeField] float offsetAttachment = 5;
-    float _transitionTime;
-    Vector3 _startPosition;
-    Quaternion _startRotation;
-    Transform _endPosAndRot;
 
-    float _startFov, _endFov;
-
-    bool _isTransitioning;
-    #endregion
     #endregion
 
     DebugableObject _debug;
@@ -75,17 +59,8 @@ public class UI_AttachmentInventory : MonoBehaviour
 
     private void Start()
     {
-        _inventoryCamParent = PlayerCameraPivots.instance.ViewFromInventory;
-        _cam = Camera.main;
-        _ogFov = _cam.fieldOfView;
-        _camTransform = _cam.transform;
-        _ogCamParent = _camTransform.parent;
-    }
-
-    private void LateUpdate()
-    {
-        if (_isTransitioning)
-            MoveCamera();
+        _inventoryCam = PlayerCameraPivots.instance.ViewFromInventory.GetComponentInChildren<Camera>(true);
+        _mainCam = Camera.main;
     }
 
     #region Stats Methods
@@ -171,7 +146,7 @@ public class UI_AttachmentInventory : MonoBehaviour
             //pos attachment                  // pos pivot de attachment type en arma
             //despues lo paso a struct o otro formato, lo nesecitaba en tuple para prototipar mas rapido
                                  //pos Inicial                      //pos final
-            Vector3 inverseDir = attach.Item2.transform.position - attach.Item1;
+            //Vector3 inverseDir = attach.Item2.transform.position - attach.Item1;
             //StartCoroutine(MoveAttachment(attach.Item2, inverseDir.normalized * offsetAttachment));
             //preguntar a jocha pq no hace lo que quiero esta wea :C
 
@@ -242,13 +217,15 @@ public class UI_AttachmentInventory : MonoBehaviour
     public void EnterInventory(Gun displayGun)
     {
         ScreenManager.PauseGame();
+
         _inventoryCanvas.enabled = true;
 
         _displayGun = displayGun;
 
         RefreshStats(); RefreshAttachments();
 
-        SetCameraTransition(_inventoryCamParent, _inventoryFov);
+        _mainCam.gameObject.SetActive(false);
+        _inventoryCam.gameObject.SetActive(true);
     }
 
     public void ExitInventory()
@@ -263,48 +240,11 @@ public class UI_AttachmentInventory : MonoBehaviour
             item.gameObject.GetComponent<Collider>().enabled = false;
             _displayGun.attachmentHandler.AddAttachment(item);
         }
+
+        _inventoryCam.gameObject.SetActive(false);
+        _mainCam.gameObject.SetActive(true);
+
         ScreenManager.ResumeGame();
-        SetCameraTransition(_ogCamParent, _ogFov);
-        //SetCameraTransition(_ogCamParent, _ogFov, () => ScreenManager.ResumeGame());
-    }
-    #endregion
-
-    #region Camera Methods
-
-    Action _onFinishTransition;
-
-    void SetCameraTransition(Transform target, float targetFov, Action onFinishTransition = null)
-    {
-        _isTransitioning = true;
-
-        _camTransform.parent = target;
-
-        _startPosition = _camTransform.position;
-        _startRotation = _camTransform.rotation;
-        _startFov = _cam.fieldOfView;
-
-        _endPosAndRot = target;
-        _endFov = targetFov;
-
-        _transitionTime = 0;
-
-        _onFinishTransition = onFinishTransition;
-    }
-
-    void MoveCamera()
-    {
-        _transitionTime += Time.deltaTime;
-        float t = _animationCurve.Evaluate(_transitionTime);
-
-        _camTransform.position = Vector3.Lerp(_startPosition, _endPosAndRot.position, t);
-        _camTransform.rotation = Quaternion.Lerp(_startRotation, _endPosAndRot.rotation, t);
-        _cam.fieldOfView = Mathf.Lerp(_startFov, _endFov, t);
-
-        if (t >= 1)
-        {
-            _isTransitioning = false;
-            _onFinishTransition?.Invoke();
-        }
     }
     #endregion
 
