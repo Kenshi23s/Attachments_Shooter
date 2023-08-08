@@ -41,8 +41,14 @@ public class ButtonMenuAnim : MonoBehaviour
         SceneManager.LoadScene(1);
     }
 
+    public void TestUIScene()
+    {
+        SceneManager.LoadScene(2);
+    }
+
     public void QuitGame()
     {
+        Debug.LogWarning("Quit");
         Application.Quit();
     }
     
