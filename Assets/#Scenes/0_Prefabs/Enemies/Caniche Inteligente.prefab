@@ -80,6 +80,7 @@ MonoBehaviour:
   dmgResist: 1
   canTakeDamage: 1
   canBeHealed: 1
+  isCrit: 0
 --- !u!114 &7995179844713157503
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -109,7 +110,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _viewRadius: 30
-  viewAngle: 180
+  viewAngle: 360
 --- !u!54 &7995179844713157497
 Rigidbody:
   m_ObjectHideFlags: 0
