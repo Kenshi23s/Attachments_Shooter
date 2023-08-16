@@ -19531,6 +19531,30 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 33003955}
     m_Modifications:
+    - target: {fileID: 3099042531233437023, guid: f1d523c350d300348a6cb72c5cfe0cd7, type: 3}
+      propertyPath: m_Materials.Array.size
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 3099042531233437023, guid: f1d523c350d300348a6cb72c5cfe0cd7, type: 3}
+      propertyPath: m_Materials.Array.data[1]
+      value: 
+      objectReference: {fileID: 1246946088}
+    - target: {fileID: 3099042531233437023, guid: f1d523c350d300348a6cb72c5cfe0cd7, type: 3}
+      propertyPath: m_Materials.Array.data[2]
+      value: 
+      objectReference: {fileID: 2135551156}
+    - target: {fileID: 7563727873934116101, guid: f1d523c350d300348a6cb72c5cfe0cd7, type: 3}
+      propertyPath: m_Materials.Array.size
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 7563727873934116101, guid: f1d523c350d300348a6cb72c5cfe0cd7, type: 3}
+      propertyPath: m_Materials.Array.data[1]
+      value: 
+      objectReference: {fileID: 1246946088}
+    - target: {fileID: 7563727873934116101, guid: f1d523c350d300348a6cb72c5cfe0cd7, type: 3}
+      propertyPath: m_Materials.Array.data[2]
+      value: 
+      objectReference: {fileID: 2135551156}
     - target: {fileID: 9166610628816272836, guid: f1d523c350d300348a6cb72c5cfe0cd7, type: 3}
       propertyPath: m_RootOrder
       value: 0
@@ -20478,6 +20502,33 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 354035468748174465, guid: e209288cfb2264d4eae6002f1c0da90e, type: 3}
   m_PrefabInstance: {fileID: 611635424}
   m_PrefabAsset: {fileID: 0}
+--- !u!21 &612096131
+Material:
+  serializedVersion: 8
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: OutlineFill (Instance)
+  m_Shader: {fileID: 4800000, guid: 4e76d4023d7e0411297c670f878973e2, type: 3}
+  m_ValidKeywords: []
+  m_InvalidKeywords: []
+  m_LightmapFlags: 4
+  m_EnableInstancingVariants: 0
+  m_DoubleSidedGI: 0
+  m_CustomRenderQueue: -1
+  stringTagMap: {}
+  disabledShaderPasses: []
+  m_SavedProperties:
+    serializedVersion: 3
+    m_TexEnvs: []
+    m_Ints: []
+    m_Floats:
+    - _OutlineWidth: 2
+    - _ZTest: 4
+    m_Colors:
+    - _OutlineColor: {r: 1, g: 1, b: 1, a: 1}
+  m_BuildTextureStacks: []
 --- !u!4 &619002971 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 3804110559565851123, guid: 6a14d836f9090f242acbbf96575a4b02, type: 3}
@@ -21396,6 +21447,33 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 354035468748174465, guid: e209288cfb2264d4eae6002f1c0da90e, type: 3}
   m_PrefabInstance: {fileID: 638175756}
   m_PrefabAsset: {fileID: 0}
+--- !u!21 &639346214
+Material:
+  serializedVersion: 8
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: OutlineFill (Instance)
+  m_Shader: {fileID: 4800000, guid: 4e76d4023d7e0411297c670f878973e2, type: 3}
+  m_ValidKeywords: []
+  m_InvalidKeywords: []
+  m_LightmapFlags: 4
+  m_EnableInstancingVariants: 0
+  m_DoubleSidedGI: 0
+  m_CustomRenderQueue: -1
+  stringTagMap: {}
+  disabledShaderPasses: []
+  m_SavedProperties:
+    serializedVersion: 3
+    m_TexEnvs: []
+    m_Ints: []
+    m_Floats:
+    - _OutlineWidth: 1.8
+    - _ZTest: 8
+    m_Colors:
+    - _OutlineColor: {r: 0.7268243, g: 0.9150943, b: 0.5740922, a: 1}
+  m_BuildTextureStacks: []
 --- !u!1001 &641276396
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -24395,6 +24473,33 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 7102104929370319591, guid: 151615502220e60499df3bf6d023292d, type: 3}
   m_PrefabInstance: {fileID: 735898352}
   m_PrefabAsset: {fileID: 0}
+--- !u!21 &737060501
+Material:
+  serializedVersion: 8
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: OutlineFill (Instance)
+  m_Shader: {fileID: 4800000, guid: 4e76d4023d7e0411297c670f878973e2, type: 3}
+  m_ValidKeywords: []
+  m_InvalidKeywords: []
+  m_LightmapFlags: 4
+  m_EnableInstancingVariants: 0
+  m_DoubleSidedGI: 0
+  m_CustomRenderQueue: -1
+  stringTagMap: {}
+  disabledShaderPasses: []
+  m_SavedProperties:
+    serializedVersion: 3
+    m_TexEnvs: []
+    m_Ints: []
+    m_Floats:
+    - _OutlineWidth: 2
+    - _ZTest: 4
+    m_Colors:
+    - _OutlineColor: {r: 1, g: 1, b: 1, a: 1}
+  m_BuildTextureStacks: []
 --- !u!1001 &737942467
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -25079,33 +25184,9 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 983200729}
     m_Modifications:
-    - target: {fileID: 2287118039546917382, guid: c2f027cdcd816ae4f86ed964115f5e4f, type: 3}
-      propertyPath: m_AnchorMax.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 2287118039546917382, guid: c2f027cdcd816ae4f86ed964115f5e4f, type: 3}
-      propertyPath: m_AnchorMax.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 2287118039993971650, guid: c2f027cdcd816ae4f86ed964115f5e4f, type: 3}
-      propertyPath: m_AnchorMax.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 2287118039993971650, guid: c2f027cdcd816ae4f86ed964115f5e4f, type: 3}
-      propertyPath: m_AnchorMax.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 2287118039993971650, guid: c2f027cdcd816ae4f86ed964115f5e4f, type: 3}
-      propertyPath: m_AnchorMin.x
-      value: 0
-      objectReference: {fileID: 0}
     - target: {fileID: 8615013027077086804, guid: c2f027cdcd816ae4f86ed964115f5e4f, type: 3}
       propertyPath: m_Name
       value: Incubator 2
-      objectReference: {fileID: 0}
-    - target: {fileID: 8615013027077086804, guid: c2f027cdcd816ae4f86ed964115f5e4f, type: 3}
-      propertyPath: m_Layer
-      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8615013027077086807, guid: c2f027cdcd816ae4f86ed964115f5e4f, type: 3}
       propertyPath: m_RootOrder
@@ -25152,41 +25233,9 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8615013027077086815, guid: c2f027cdcd816ae4f86ed964115f5e4f, type: 3}
-      propertyPath: interactDistance
-      value: 10
-      objectReference: {fileID: 0}
-    - target: {fileID: 8615013027077086815, guid: c2f027cdcd816ae4f86ed964115f5e4f, type: 3}
-      propertyPath: interactTimeNeeded
-      value: 2
-      objectReference: {fileID: 0}
-    - target: {fileID: 8615013027077086815, guid: c2f027cdcd816ae4f86ed964115f5e4f, type: 3}
-      propertyPath: OnInteract.m_PersistentCalls.m_Calls.Array.size
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 8615013027077086815, guid: c2f027cdcd816ae4f86ed964115f5e4f, type: 3}
-      propertyPath: OnInteract.m_PersistentCalls.m_Calls.Array.data[0].m_Mode
-      value: 6
-      objectReference: {fileID: 0}
-    - target: {fileID: 8615013027077086815, guid: c2f027cdcd816ae4f86ed964115f5e4f, type: 3}
       propertyPath: OnInteract.m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 
       objectReference: {fileID: 1410667773}
-    - target: {fileID: 8615013027077086815, guid: c2f027cdcd816ae4f86ed964115f5e4f, type: 3}
-      propertyPath: OnInteract.m_PersistentCalls.m_Calls.Array.data[0].m_CallState
-      value: 2
-      objectReference: {fileID: 0}
-    - target: {fileID: 8615013027077086815, guid: c2f027cdcd816ae4f86ed964115f5e4f, type: 3}
-      propertyPath: OnInteract.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
-      value: SetActive
-      objectReference: {fileID: 0}
-    - target: {fileID: 8615013027077086815, guid: c2f027cdcd816ae4f86ed964115f5e4f, type: 3}
-      propertyPath: OnInteract.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
-      value: UnityEngine.GameObject, UnityEngine
-      objectReference: {fileID: 0}
-    - target: {fileID: 8615013027077086815, guid: c2f027cdcd816ae4f86ed964115f5e4f, type: 3}
-      propertyPath: OnInteract.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgumentAssemblyTypeName
-      value: UnityEngine.Object, UnityEngine
-      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: c2f027cdcd816ae4f86ed964115f5e4f, type: 3}
 --- !u!1001 &765510600
@@ -27374,6 +27423,33 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 3804110559565851123, guid: 6a14d836f9090f242acbbf96575a4b02, type: 3}
   m_PrefabInstance: {fileID: 1367078585}
   m_PrefabAsset: {fileID: 0}
+--- !u!21 &809030958
+Material:
+  serializedVersion: 8
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: OutlineFill (Instance)
+  m_Shader: {fileID: 4800000, guid: 4e76d4023d7e0411297c670f878973e2, type: 3}
+  m_ValidKeywords: []
+  m_InvalidKeywords: []
+  m_LightmapFlags: 4
+  m_EnableInstancingVariants: 0
+  m_DoubleSidedGI: 0
+  m_CustomRenderQueue: -1
+  stringTagMap: {}
+  disabledShaderPasses: []
+  m_SavedProperties:
+    serializedVersion: 3
+    m_TexEnvs: []
+    m_Ints: []
+    m_Floats:
+    - _OutlineWidth: 2
+    - _ZTest: 4
+    m_Colors:
+    - _OutlineColor: {r: 1, g: 1, b: 1, a: 1}
+  m_BuildTextureStacks: []
 --- !u!1001 &810363576
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -32280,6 +32356,33 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 7102104929370319591, guid: 151615502220e60499df3bf6d023292d, type: 3}
   m_PrefabInstance: {fileID: 930814406}
   m_PrefabAsset: {fileID: 0}
+--- !u!21 &931192221
+Material:
+  serializedVersion: 8
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: OutlineFill (Instance)
+  m_Shader: {fileID: 4800000, guid: 4e76d4023d7e0411297c670f878973e2, type: 3}
+  m_ValidKeywords: []
+  m_InvalidKeywords: []
+  m_LightmapFlags: 4
+  m_EnableInstancingVariants: 0
+  m_DoubleSidedGI: 0
+  m_CustomRenderQueue: -1
+  stringTagMap: {}
+  disabledShaderPasses: []
+  m_SavedProperties:
+    serializedVersion: 3
+    m_TexEnvs: []
+    m_Ints: []
+    m_Floats:
+    - _OutlineWidth: 2
+    - _ZTest: 4
+    m_Colors:
+    - _OutlineColor: {r: 1, g: 1, b: 1, a: 1}
+  m_BuildTextureStacks: []
 --- !u!4 &931945356 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 7785738990554098102, guid: 2ff87d8b9e177944a8015c0416e356d0, type: 3}
@@ -38841,6 +38944,33 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1084572666}
   m_CullTransparentMesh: 1
+--- !u!21 &1091707574
+Material:
+  serializedVersion: 8
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: OutlineFill (Instance)
+  m_Shader: {fileID: 4800000, guid: 4e76d4023d7e0411297c670f878973e2, type: 3}
+  m_ValidKeywords: []
+  m_InvalidKeywords: []
+  m_LightmapFlags: 4
+  m_EnableInstancingVariants: 0
+  m_DoubleSidedGI: 0
+  m_CustomRenderQueue: -1
+  stringTagMap: {}
+  disabledShaderPasses: []
+  m_SavedProperties:
+    serializedVersion: 3
+    m_TexEnvs: []
+    m_Ints: []
+    m_Floats:
+    - _OutlineWidth: 2
+    - _ZTest: 4
+    m_Colors:
+    - _OutlineColor: {r: 1, g: 1, b: 1, a: 1}
+  m_BuildTextureStacks: []
 --- !u!1001 &1093892239
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -42776,6 +42906,31 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 7102104929370319591, guid: 151615502220e60499df3bf6d023292d, type: 3}
   m_PrefabInstance: {fileID: 1196794487}
   m_PrefabAsset: {fileID: 0}
+--- !u!21 &1197566141
+Material:
+  serializedVersion: 8
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: OutlineMask (Instance)
+  m_Shader: {fileID: 4800000, guid: 341b058cd7dee4f5cba5cc59a513619e, type: 3}
+  m_ValidKeywords: []
+  m_InvalidKeywords: []
+  m_LightmapFlags: 4
+  m_EnableInstancingVariants: 0
+  m_DoubleSidedGI: 0
+  m_CustomRenderQueue: -1
+  stringTagMap: {}
+  disabledShaderPasses: []
+  m_SavedProperties:
+    serializedVersion: 3
+    m_TexEnvs: []
+    m_Ints: []
+    m_Floats:
+    - _ZTest: 8
+    m_Colors: []
+  m_BuildTextureStacks: []
 --- !u!43 &1198705407
 Mesh:
   m_ObjectHideFlags: 0
@@ -43643,6 +43798,33 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 7102104929370319591, guid: 151615502220e60499df3bf6d023292d, type: 3}
   m_PrefabInstance: {fileID: 1212591651}
   m_PrefabAsset: {fileID: 0}
+--- !u!21 &1216943145
+Material:
+  serializedVersion: 8
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: OutlineFill (Instance)
+  m_Shader: {fileID: 4800000, guid: 4e76d4023d7e0411297c670f878973e2, type: 3}
+  m_ValidKeywords: []
+  m_InvalidKeywords: []
+  m_LightmapFlags: 4
+  m_EnableInstancingVariants: 0
+  m_DoubleSidedGI: 0
+  m_CustomRenderQueue: -1
+  stringTagMap: {}
+  disabledShaderPasses: []
+  m_SavedProperties:
+    serializedVersion: 3
+    m_TexEnvs: []
+    m_Ints: []
+    m_Floats:
+    - _OutlineWidth: 2
+    - _ZTest: 4
+    m_Colors:
+    - _OutlineColor: {r: 1, g: 1, b: 1, a: 1}
+  m_BuildTextureStacks: []
 --- !u!1 &1218584330
 GameObject:
   m_ObjectHideFlags: 0
@@ -45042,6 +45224,31 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 7102104929370319591, guid: 151615502220e60499df3bf6d023292d, type: 3}
   m_PrefabInstance: {fileID: 1245871870}
   m_PrefabAsset: {fileID: 0}
+--- !u!21 &1246946088
+Material:
+  serializedVersion: 8
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: OutlineMask (Instance)
+  m_Shader: {fileID: 4800000, guid: 341b058cd7dee4f5cba5cc59a513619e, type: 3}
+  m_ValidKeywords: []
+  m_InvalidKeywords: []
+  m_LightmapFlags: 4
+  m_EnableInstancingVariants: 0
+  m_DoubleSidedGI: 0
+  m_CustomRenderQueue: -1
+  stringTagMap: {}
+  disabledShaderPasses: []
+  m_SavedProperties:
+    serializedVersion: 3
+    m_TexEnvs: []
+    m_Ints: []
+    m_Floats:
+    - _ZTest: 8
+    m_Colors: []
+  m_BuildTextureStacks: []
 --- !u!1001 &1247689322
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -47511,6 +47718,18 @@ PrefabInstance:
       propertyPath: m_Positions.Array.data[1].z
       value: -75.926186
       objectReference: {fileID: 0}
+    - target: {fileID: 5209592728341355487, guid: 3323c54bade2a744e85360c3909c16fe, type: 3}
+      propertyPath: m_Materials.Array.size
+      value: 4
+      objectReference: {fileID: 0}
+    - target: {fileID: 5209592728341355487, guid: 3323c54bade2a744e85360c3909c16fe, type: 3}
+      propertyPath: m_Materials.Array.data[2]
+      value: 
+      objectReference: {fileID: 1770263606}
+    - target: {fileID: 5209592728341355487, guid: 3323c54bade2a744e85360c3909c16fe, type: 3}
+      propertyPath: m_Materials.Array.data[3]
+      value: 
+      objectReference: {fileID: 1091707574}
     - target: {fileID: 8709545740602978973, guid: 3323c54bade2a744e85360c3909c16fe, type: 3}
       propertyPath: m_RootOrder
       value: 5
@@ -48880,6 +49099,31 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 3804110559565851123, guid: 6a14d836f9090f242acbbf96575a4b02, type: 3}
   m_PrefabInstance: {fileID: 1045966062}
   m_PrefabAsset: {fileID: 0}
+--- !u!21 &1354694706
+Material:
+  serializedVersion: 8
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: OutlineMask (Instance)
+  m_Shader: {fileID: 4800000, guid: 341b058cd7dee4f5cba5cc59a513619e, type: 3}
+  m_ValidKeywords: []
+  m_InvalidKeywords: []
+  m_LightmapFlags: 4
+  m_EnableInstancingVariants: 0
+  m_DoubleSidedGI: 0
+  m_CustomRenderQueue: -1
+  stringTagMap: {}
+  disabledShaderPasses: []
+  m_SavedProperties:
+    serializedVersion: 3
+    m_TexEnvs: []
+    m_Ints: []
+    m_Floats:
+    - _ZTest: 8
+    m_Colors: []
+  m_BuildTextureStacks: []
 --- !u!1001 &1357535914
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -49630,6 +49874,31 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 7102104929370319591, guid: 151615502220e60499df3bf6d023292d, type: 3}
   m_PrefabInstance: {fileID: 1384689669}
   m_PrefabAsset: {fileID: 0}
+--- !u!21 &1386018395
+Material:
+  serializedVersion: 8
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: OutlineMask (Instance)
+  m_Shader: {fileID: 4800000, guid: 341b058cd7dee4f5cba5cc59a513619e, type: 3}
+  m_ValidKeywords: []
+  m_InvalidKeywords: []
+  m_LightmapFlags: 4
+  m_EnableInstancingVariants: 0
+  m_DoubleSidedGI: 0
+  m_CustomRenderQueue: -1
+  stringTagMap: {}
+  disabledShaderPasses: []
+  m_SavedProperties:
+    serializedVersion: 3
+    m_TexEnvs: []
+    m_Ints: []
+    m_Floats:
+    - _ZTest: 8
+    m_Colors: []
+  m_BuildTextureStacks: []
 --- !u!1001 &1387251923
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -52679,6 +52948,82 @@ PrefabInstance:
       propertyPath: _steeringForce
       value: 75
       objectReference: {fileID: 0}
+    - target: {fileID: 805201051863011618, guid: 2648dfb2a7e94e046a756d5ba76dddf1, type: 3}
+      propertyPath: m_Materials.Array.size
+      value: 19
+      objectReference: {fileID: 0}
+    - target: {fileID: 805201051863011618, guid: 2648dfb2a7e94e046a756d5ba76dddf1, type: 3}
+      propertyPath: m_Materials.Array.data[1]
+      value: 
+      objectReference: {fileID: 1197566141}
+    - target: {fileID: 805201051863011618, guid: 2648dfb2a7e94e046a756d5ba76dddf1, type: 3}
+      propertyPath: m_Materials.Array.data[2]
+      value: 
+      objectReference: {fileID: 639346214}
+    - target: {fileID: 805201051863011618, guid: 2648dfb2a7e94e046a756d5ba76dddf1, type: 3}
+      propertyPath: m_Materials.Array.data[3]
+      value: 
+      objectReference: {fileID: 1197566141}
+    - target: {fileID: 805201051863011618, guid: 2648dfb2a7e94e046a756d5ba76dddf1, type: 3}
+      propertyPath: m_Materials.Array.data[4]
+      value: 
+      objectReference: {fileID: 639346214}
+    - target: {fileID: 805201051863011618, guid: 2648dfb2a7e94e046a756d5ba76dddf1, type: 3}
+      propertyPath: m_Materials.Array.data[5]
+      value: 
+      objectReference: {fileID: 1197566141}
+    - target: {fileID: 805201051863011618, guid: 2648dfb2a7e94e046a756d5ba76dddf1, type: 3}
+      propertyPath: m_Materials.Array.data[6]
+      value: 
+      objectReference: {fileID: 639346214}
+    - target: {fileID: 805201051863011618, guid: 2648dfb2a7e94e046a756d5ba76dddf1, type: 3}
+      propertyPath: m_Materials.Array.data[7]
+      value: 
+      objectReference: {fileID: 1197566141}
+    - target: {fileID: 805201051863011618, guid: 2648dfb2a7e94e046a756d5ba76dddf1, type: 3}
+      propertyPath: m_Materials.Array.data[8]
+      value: 
+      objectReference: {fileID: 639346214}
+    - target: {fileID: 805201051863011618, guid: 2648dfb2a7e94e046a756d5ba76dddf1, type: 3}
+      propertyPath: m_Materials.Array.data[9]
+      value: 
+      objectReference: {fileID: 1197566141}
+    - target: {fileID: 805201051863011618, guid: 2648dfb2a7e94e046a756d5ba76dddf1, type: 3}
+      propertyPath: m_Materials.Array.data[10]
+      value: 
+      objectReference: {fileID: 639346214}
+    - target: {fileID: 805201051863011618, guid: 2648dfb2a7e94e046a756d5ba76dddf1, type: 3}
+      propertyPath: m_Materials.Array.data[11]
+      value: 
+      objectReference: {fileID: 1197566141}
+    - target: {fileID: 805201051863011618, guid: 2648dfb2a7e94e046a756d5ba76dddf1, type: 3}
+      propertyPath: m_Materials.Array.data[12]
+      value: 
+      objectReference: {fileID: 639346214}
+    - target: {fileID: 805201051863011618, guid: 2648dfb2a7e94e046a756d5ba76dddf1, type: 3}
+      propertyPath: m_Materials.Array.data[13]
+      value: 
+      objectReference: {fileID: 1197566141}
+    - target: {fileID: 805201051863011618, guid: 2648dfb2a7e94e046a756d5ba76dddf1, type: 3}
+      propertyPath: m_Materials.Array.data[14]
+      value: 
+      objectReference: {fileID: 639346214}
+    - target: {fileID: 805201051863011618, guid: 2648dfb2a7e94e046a756d5ba76dddf1, type: 3}
+      propertyPath: m_Materials.Array.data[15]
+      value: 
+      objectReference: {fileID: 1197566141}
+    - target: {fileID: 805201051863011618, guid: 2648dfb2a7e94e046a756d5ba76dddf1, type: 3}
+      propertyPath: m_Materials.Array.data[16]
+      value: 
+      objectReference: {fileID: 639346214}
+    - target: {fileID: 805201051863011618, guid: 2648dfb2a7e94e046a756d5ba76dddf1, type: 3}
+      propertyPath: m_Materials.Array.data[17]
+      value: 
+      objectReference: {fileID: 1197566141}
+    - target: {fileID: 805201051863011618, guid: 2648dfb2a7e94e046a756d5ba76dddf1, type: 3}
+      propertyPath: m_Materials.Array.data[18]
+      value: 
+      objectReference: {fileID: 639346214}
     - target: {fileID: 2371435201304580149, guid: 2648dfb2a7e94e046a756d5ba76dddf1, type: 3}
       propertyPath: canDebug
       value: 1
@@ -56237,6 +56582,18 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 33003955}
     m_Modifications:
+    - target: {fileID: 4422724380766204044, guid: c9c137274b6e03044916e36493135ced, type: 3}
+      propertyPath: m_Materials.Array.size
+      value: 4
+      objectReference: {fileID: 0}
+    - target: {fileID: 4422724380766204044, guid: c9c137274b6e03044916e36493135ced, type: 3}
+      propertyPath: m_Materials.Array.data[2]
+      value: 
+      objectReference: {fileID: 2137102125}
+    - target: {fileID: 4422724380766204044, guid: c9c137274b6e03044916e36493135ced, type: 3}
+      propertyPath: m_Materials.Array.data[3]
+      value: 
+      objectReference: {fileID: 612096131}
     - target: {fileID: 7993079114820009348, guid: c9c137274b6e03044916e36493135ced, type: 3}
       propertyPath: m_RootOrder
       value: 1
@@ -56285,6 +56642,18 @@ PrefabInstance:
       propertyPath: m_Name
       value: Laser 1
       objectReference: {fileID: 0}
+    - target: {fileID: 7993079114910758357, guid: c9c137274b6e03044916e36493135ced, type: 3}
+      propertyPath: m_Materials.Array.size
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 7993079114910758357, guid: c9c137274b6e03044916e36493135ced, type: 3}
+      propertyPath: m_Materials.Array.data[1]
+      value: 
+      objectReference: {fileID: 2137102125}
+    - target: {fileID: 7993079114910758357, guid: c9c137274b6e03044916e36493135ced, type: 3}
+      propertyPath: m_Materials.Array.data[2]
+      value: 
+      objectReference: {fileID: 612096131}
     - target: {fileID: 7993079114910758357, guid: c9c137274b6e03044916e36493135ced, type: 3}
       propertyPath: m_Positions.Array.data[0].x
       value: -422.95755
@@ -58572,6 +58941,31 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1617620110}
   m_CullTransparentMesh: 1
+--- !u!21 &1617910791
+Material:
+  serializedVersion: 8
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: OutlineMask (Instance)
+  m_Shader: {fileID: 4800000, guid: 341b058cd7dee4f5cba5cc59a513619e, type: 3}
+  m_ValidKeywords: []
+  m_InvalidKeywords: []
+  m_LightmapFlags: 4
+  m_EnableInstancingVariants: 0
+  m_DoubleSidedGI: 0
+  m_CustomRenderQueue: -1
+  stringTagMap: {}
+  disabledShaderPasses: []
+  m_SavedProperties:
+    serializedVersion: 3
+    m_TexEnvs: []
+    m_Ints: []
+    m_Floats:
+    - _ZTest: 8
+    m_Colors: []
+  m_BuildTextureStacks: []
 --- !u!1001 &1619326675
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -61337,6 +61731,18 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 7426103756789810430, guid: 368e0b287748eec40b8c442e966b2b17, type: 3}
+      propertyPath: m_Materials.Array.size
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 7426103756789810430, guid: 368e0b287748eec40b8c442e966b2b17, type: 3}
+      propertyPath: m_Materials.Array.data[1]
+      value: 
+      objectReference: {fileID: 1386018395}
+    - target: {fileID: 7426103756789810430, guid: 368e0b287748eec40b8c442e966b2b17, type: 3}
+      propertyPath: m_Materials.Array.data[2]
+      value: 
+      objectReference: {fileID: 1216943145}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 368e0b287748eec40b8c442e966b2b17, type: 3}
 --- !u!1 &1691628090
@@ -61791,6 +62197,18 @@ PrefabInstance:
       propertyPath: m_Name
       value: CameraScope
       objectReference: {fileID: 0}
+    - target: {fileID: 5055336460874800149, guid: efbbf349d84703b49ac7dff3fd8d452b, type: 3}
+      propertyPath: m_Materials.Array.size
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 5055336460874800149, guid: efbbf349d84703b49ac7dff3fd8d452b, type: 3}
+      propertyPath: m_Materials.Array.data[1]
+      value: 
+      objectReference: {fileID: 1736841173}
+    - target: {fileID: 5055336460874800149, guid: efbbf349d84703b49ac7dff3fd8d452b, type: 3}
+      propertyPath: m_Materials.Array.data[2]
+      value: 
+      objectReference: {fileID: 737060501}
     - target: {fileID: 5055336461523588804, guid: efbbf349d84703b49ac7dff3fd8d452b, type: 3}
       propertyPath: zoomMultiplier
       value: 3
@@ -61855,6 +62273,18 @@ PrefabInstance:
       propertyPath: m_Name
       value: sight_2 (1)
       objectReference: {fileID: 0}
+    - target: {fileID: 6220711580480116933, guid: efbbf349d84703b49ac7dff3fd8d452b, type: 3}
+      propertyPath: m_Materials.Array.size
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 6220711580480116933, guid: efbbf349d84703b49ac7dff3fd8d452b, type: 3}
+      propertyPath: m_Materials.Array.data[1]
+      value: 
+      objectReference: {fileID: 1736841173}
+    - target: {fileID: 6220711580480116933, guid: efbbf349d84703b49ac7dff3fd8d452b, type: 3}
+      propertyPath: m_Materials.Array.data[2]
+      value: 
+      objectReference: {fileID: 737060501}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: efbbf349d84703b49ac7dff3fd8d452b, type: 3}
 --- !u!4 &1708835825 stripped
@@ -62970,6 +63400,31 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 7102104929370319591, guid: 151615502220e60499df3bf6d023292d, type: 3}
   m_PrefabInstance: {fileID: 1736829290}
   m_PrefabAsset: {fileID: 0}
+--- !u!21 &1736841173
+Material:
+  serializedVersion: 8
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: OutlineMask (Instance)
+  m_Shader: {fileID: 4800000, guid: 341b058cd7dee4f5cba5cc59a513619e, type: 3}
+  m_ValidKeywords: []
+  m_InvalidKeywords: []
+  m_LightmapFlags: 4
+  m_EnableInstancingVariants: 0
+  m_DoubleSidedGI: 0
+  m_CustomRenderQueue: -1
+  stringTagMap: {}
+  disabledShaderPasses: []
+  m_SavedProperties:
+    serializedVersion: 3
+    m_TexEnvs: []
+    m_Ints: []
+    m_Floats:
+    - _ZTest: 8
+    m_Colors: []
+  m_BuildTextureStacks: []
 --- !u!1001 &1742546996
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -64055,6 +64510,31 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 7102104929370319591, guid: 151615502220e60499df3bf6d023292d, type: 3}
   m_PrefabInstance: {fileID: 1770196626}
   m_PrefabAsset: {fileID: 0}
+--- !u!21 &1770263606
+Material:
+  serializedVersion: 8
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: OutlineMask (Instance)
+  m_Shader: {fileID: 4800000, guid: 341b058cd7dee4f5cba5cc59a513619e, type: 3}
+  m_ValidKeywords: []
+  m_InvalidKeywords: []
+  m_LightmapFlags: 4
+  m_EnableInstancingVariants: 0
+  m_DoubleSidedGI: 0
+  m_CustomRenderQueue: -1
+  stringTagMap: {}
+  disabledShaderPasses: []
+  m_SavedProperties:
+    serializedVersion: 3
+    m_TexEnvs: []
+    m_Ints: []
+    m_Floats:
+    - _ZTest: 8
+    m_Colors: []
+  m_BuildTextureStacks: []
 --- !u!1001 &1775160483
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -64431,6 +64911,18 @@ PrefabInstance:
       propertyPath: m_Name
       value: Culata 1
       objectReference: {fileID: 0}
+    - target: {fileID: 5187939062803198367, guid: 8b668931f1bb59545917dbc6dbe896b7, type: 3}
+      propertyPath: m_Materials.Array.size
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 5187939062803198367, guid: 8b668931f1bb59545917dbc6dbe896b7, type: 3}
+      propertyPath: m_Materials.Array.data[1]
+      value: 
+      objectReference: {fileID: 1354694706}
+    - target: {fileID: 5187939062803198367, guid: 8b668931f1bb59545917dbc6dbe896b7, type: 3}
+      propertyPath: m_Materials.Array.data[2]
+      value: 
+      objectReference: {fileID: 1886051080}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 8b668931f1bb59545917dbc6dbe896b7, type: 3}
 --- !u!4 &1792062769 stripped
@@ -68325,6 +68817,33 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 7102104929370319591, guid: 151615502220e60499df3bf6d023292d, type: 3}
   m_PrefabInstance: {fileID: 178668467}
   m_PrefabAsset: {fileID: 0}
+--- !u!21 &1886051080
+Material:
+  serializedVersion: 8
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: OutlineFill (Instance)
+  m_Shader: {fileID: 4800000, guid: 4e76d4023d7e0411297c670f878973e2, type: 3}
+  m_ValidKeywords: []
+  m_InvalidKeywords: []
+  m_LightmapFlags: 4
+  m_EnableInstancingVariants: 0
+  m_DoubleSidedGI: 0
+  m_CustomRenderQueue: -1
+  stringTagMap: {}
+  disabledShaderPasses: []
+  m_SavedProperties:
+    serializedVersion: 3
+    m_TexEnvs: []
+    m_Ints: []
+    m_Floats:
+    - _OutlineWidth: 2
+    - _ZTest: 4
+    m_Colors:
+    - _OutlineColor: {r: 1, g: 1, b: 1, a: 1}
+  m_BuildTextureStacks: []
 --- !u!1001 &1890582637
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -73416,6 +73935,31 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 151615502220e60499df3bf6d023292d, type: 3}
+--- !u!21 &2043953851
+Material:
+  serializedVersion: 8
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: OutlineMask (Instance)
+  m_Shader: {fileID: 4800000, guid: 341b058cd7dee4f5cba5cc59a513619e, type: 3}
+  m_ValidKeywords: []
+  m_InvalidKeywords: []
+  m_LightmapFlags: 4
+  m_EnableInstancingVariants: 0
+  m_DoubleSidedGI: 0
+  m_CustomRenderQueue: -1
+  stringTagMap: {}
+  disabledShaderPasses: []
+  m_SavedProperties:
+    serializedVersion: 3
+    m_TexEnvs: []
+    m_Ints: []
+    m_Floats:
+    - _ZTest: 8
+    m_Colors: []
+  m_BuildTextureStacks: []
 --- !u!1001 &2044363171
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -75993,6 +76537,18 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 33003955}
     m_Modifications:
+    - target: {fileID: 4331984837732736101, guid: 1b351c6b4ebde93478196f52e8defa53, type: 3}
+      propertyPath: m_Materials.Array.size
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 4331984837732736101, guid: 1b351c6b4ebde93478196f52e8defa53, type: 3}
+      propertyPath: m_Materials.Array.data[1]
+      value: 
+      objectReference: {fileID: 1617910791}
+    - target: {fileID: 4331984837732736101, guid: 1b351c6b4ebde93478196f52e8defa53, type: 3}
+      propertyPath: m_Materials.Array.data[2]
+      value: 
+      objectReference: {fileID: 931192221}
     - target: {fileID: 8067779019883516216, guid: 1b351c6b4ebde93478196f52e8defa53, type: 3}
       propertyPath: m_IsActive
       value: 0
@@ -77220,6 +77776,58 @@ Transform:
   m_Father: {fileID: 367179335}
   m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 158.094, z: 0}
+--- !u!21 &2135551156
+Material:
+  serializedVersion: 8
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: OutlineFill (Instance)
+  m_Shader: {fileID: 4800000, guid: 4e76d4023d7e0411297c670f878973e2, type: 3}
+  m_ValidKeywords: []
+  m_InvalidKeywords: []
+  m_LightmapFlags: 4
+  m_EnableInstancingVariants: 0
+  m_DoubleSidedGI: 0
+  m_CustomRenderQueue: -1
+  stringTagMap: {}
+  disabledShaderPasses: []
+  m_SavedProperties:
+    serializedVersion: 3
+    m_TexEnvs: []
+    m_Ints: []
+    m_Floats:
+    - _OutlineWidth: 2
+    - _ZTest: 4
+    m_Colors:
+    - _OutlineColor: {r: 1, g: 1, b: 1, a: 1}
+  m_BuildTextureStacks: []
+--- !u!21 &2137102125
+Material:
+  serializedVersion: 8
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: OutlineMask (Instance)
+  m_Shader: {fileID: 4800000, guid: 341b058cd7dee4f5cba5cc59a513619e, type: 3}
+  m_ValidKeywords: []
+  m_InvalidKeywords: []
+  m_LightmapFlags: 4
+  m_EnableInstancingVariants: 0
+  m_DoubleSidedGI: 0
+  m_CustomRenderQueue: -1
+  stringTagMap: {}
+  disabledShaderPasses: []
+  m_SavedProperties:
+    serializedVersion: 3
+    m_TexEnvs: []
+    m_Ints: []
+    m_Floats:
+    - _ZTest: 8
+    m_Colors: []
+  m_BuildTextureStacks: []
 --- !u!4 &2139456380 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 3804110559565851123, guid: 6a14d836f9090f242acbbf96575a4b02, type: 3}
@@ -77706,6 +78314,18 @@ PrefabInstance:
       propertyPath: m_Name
       value: Culata3
       objectReference: {fileID: 0}
+    - target: {fileID: 759403385772899029, guid: 918a5a39c3c62f643a0cfc1765a4f9b6, type: 3}
+      propertyPath: m_Materials.Array.size
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 759403385772899029, guid: 918a5a39c3c62f643a0cfc1765a4f9b6, type: 3}
+      propertyPath: m_Materials.Array.data[1]
+      value: 
+      objectReference: {fileID: 2043953851}
+    - target: {fileID: 759403385772899029, guid: 918a5a39c3c62f643a0cfc1765a4f9b6, type: 3}
+      propertyPath: m_Materials.Array.data[2]
+      value: 
+      objectReference: {fileID: 809030958}
     - target: {fileID: 7455150717726836741, guid: 918a5a39c3c62f643a0cfc1765a4f9b6, type: 3}
       propertyPath: m_RootOrder
       value: 3
