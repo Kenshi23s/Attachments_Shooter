@@ -9,6 +9,16 @@ public class TextAndFiller : MonoBehaviour
     [SerializeField] Text textOverSlider;
     [SerializeField] Slider slider;
 
+
+    private void LateUpdate()
+    {
+        transform.forward = Camera.main.transform.position - transform.position;
+    }
+
+    public void SetFontColor(Color color)
+    {
+        text.color = color;
+    }
     public void SetText(string x)
     {
         text.text = x;

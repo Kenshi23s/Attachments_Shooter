@@ -46,14 +46,14 @@ public class HardcodedBulletBounce : MonoBehaviour
         GunRef.onHit -= Bounce;
 
         IDamagable enemy = hit._impactPos.GetItemsOFTypeAround<IDamagable>(1000f).Where(x=>x!=hit.dmgData.victim)
-            .Where(x => hit._impactPos.InLineOffSight(x.Position(), AI_Manager.instance.wall_Mask))
-            .Minimum(x=>Vector3.Distance(x.Position(), hit._impactPos));
+            .Where(x => hit._impactPos.InLineOffSight(x.Position, AI_Manager.instance.wall_Mask))
+            .Minimum(x=>Vector3.Distance(x.Position, hit._impactPos));
         Debug.Log("enter bounce");
         if (enemy!=null)
         {
             Debug.Log("hit clone");
             Vector3 spawnPos = hit._impactPos + Vector3.up * 2f;
-            Vector3 dir = enemy.Position() - spawnPos;
+            Vector3 dir = enemy.Position - spawnPos;
             raycastComponent.ShootRaycast(spawnPos, dir, attachment.owner.OnHitCallBack);
 
         }

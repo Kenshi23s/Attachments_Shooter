@@ -1,9 +1,11 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 using UnityEngine.Events;
 [RequireComponent(typeof(DebugableObject))]
+[DisallowMultipleComponent]
 public class InteractableComponent : MonoBehaviour, IInteractable
 {
     
@@ -12,15 +14,16 @@ public class InteractableComponent : MonoBehaviour, IInteractable
     float _checkInteractTime;
     [SerializeField] Collider _interactableCollider;
 
-    public UnityEvent onFocus, onUnFocus, OnInteract, onTryingToInteract, OnInteractAbort;
+    public UnityEvent onFocus, onUnFocus, OnInteract, onTryingToInteract, OnInteractAbort,OnInteractFail;
 
     public List<Func<bool>> interactConditions = new List<Func<bool>>();
-
+    Transform cam;
     DebugableObject _debug;
 
     private void Awake()
     {
-        interactConditions.Add(()=>true);
+        interactConditions.Add(() => true);
+        cam = Camera.main.transform;
     }
     private void Start()
     {
@@ -32,6 +35,7 @@ public class InteractableComponent : MonoBehaviour, IInteractable
         OnInteract.AddListener(() => _debug.Log("Interactuan conmigo"));
         onFocus.AddListener(() => _debug.Log("Me focusean"));
         onUnFocus.AddListener(() => _debug.Log("Me dejaron de focusear conmigo"));
+        OnInteractFail.AddListener(() => _debug.Log("No se puede interactuar, alguna condicion no se cumplio"));
         _debug.AddGizmoAction(DrawRadius);
     }
 
@@ -64,15 +68,19 @@ public class InteractableComponent : MonoBehaviour, IInteractable
     
     public void Interact()
     {
-
-        foreach (var item in interactConditions)
+        if (interactConditions.Any())
         {
-            if (!item.Invoke())
+            foreach (var item in interactConditions)
             {
-                _debug.Log("Las condiciones dieron falso, no se puede interactuar");
-                return;
+                if (!item.Invoke())
+                {
+                    _debug.Log("Las condiciones dieron falso, no se puede interactuar");
+                    OnInteractFail?.Invoke();
+                    return;
+                }
             }
         }
+       
       
       
         _checkInteractTime = currentInteractTime += Time.deltaTime;
@@ -106,7 +114,8 @@ public class InteractableComponent : MonoBehaviour, IInteractable
     public bool CanInteract(float viewAngle,out float priority) 
     {
         priority = float.MinValue;
-        Transform cam = Camera.main.transform;
+      
+        
         
         // Chequear si esta cerca
         if (!ViewHelper.IsNear(cam.position, _interactableCollider.transform.position, interactDistance)) return false;

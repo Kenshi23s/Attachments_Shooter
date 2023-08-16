@@ -25,12 +25,12 @@ public class Worm_State_Grab_Dirt : Worm_State<Worm_AttackState>
     public override void OnEnter()
     {
         _worm.OnStun += _worm.CancelGrabDirt;
-        _worm.health.OnKilled += _worm.CancelGrabDirt;
+        _worm.health.OnKilled.AddListener(_worm.CancelGrabDirt);
 
         _timeSinceEnter = 0;
 
         dmgCount = 0;
-        _worm.health.OnTakeDamage += AddCount;
+        _worm.health.OnTakeDamage.AddListener(AddCount);
         auxDmgResist = _worm.health.dmgResist;
         _worm.health.dmgResist = 2;
 
@@ -54,9 +54,9 @@ public class Worm_State_Grab_Dirt : Worm_State<Worm_AttackState>
     public override void OnExit()
     {
         _worm.OnStun -= _worm.CancelGrabDirt;
-        _worm.health.OnKilled -= _worm.CancelGrabDirt;
+        _worm.health.OnKilled.RemoveListener(_worm.CancelGrabDirt);
 
-        _worm.health.OnTakeDamage -= AddCount;
+        _worm.health.OnTakeDamage.RemoveListener(AddCount);
         _worm.health.dmgResist = auxDmgResist;
     }
 
@@ -76,7 +76,7 @@ public class Worm_State_Grab_Dirt : Worm_State<Worm_AttackState>
         foreach (var item in col) 
         { 
             item.TakeDamage(explosionDamage);
-            Vector3 dir = item.Position() - _worm.transform.position;
+            Vector3 dir = item.Position - _worm.transform.position;
             item.AddKnockBack(dir * _worm.DefenseKnockback);
         }
     }

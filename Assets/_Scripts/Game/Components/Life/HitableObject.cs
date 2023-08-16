@@ -10,6 +10,7 @@ public class HitableObject : MonoBehaviour,IDamagable,IHealable
     [SerializeField, Range(0.1f,2f)] 
     float damageMultiplier = 1;
 
+    Vector3 IDamagable.Position => transform.position;
 
     void Awake()
     {
@@ -20,6 +21,8 @@ public class HitableObject : MonoBehaviour,IDamagable,IHealable
         else
             Debug.LogError("No hay padre con life component, me destruyo");
             Destroy(gameObject);
+
+        
        
     }
 
@@ -57,8 +60,7 @@ public class HitableObject : MonoBehaviour,IDamagable,IHealable
         _owner.AddKnockBack(force);
     }
 
-    public Vector3 Position()
-    {
-        return transform.position;
-    }
+    //casteo explicito
+    public static explicit operator LifeComponent(HitableObject self) => self._owner;
+
 }

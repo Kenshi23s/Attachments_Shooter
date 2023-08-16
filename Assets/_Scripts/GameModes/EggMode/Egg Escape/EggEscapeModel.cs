@@ -8,6 +8,7 @@ using UnityEngine;
 [RequireComponent(typeof(LifeComponent))]
 [RequireComponent(typeof(DebugableObject))]
 [RequireComponent(typeof(AI_Movement))]
+[RequireComponent(typeof(InteractableComponent))]
 public class EggEscapeModel : MonoBehaviour
 {
     public enum EggStates
@@ -131,8 +132,8 @@ public class EggEscapeModel : MonoBehaviour
     {
         myLife = GetComponent<LifeComponent>();
         myLife.SetNewMaxLife(_eggStats.requiredDmg4stun);
-        myLife.OnTakeDamage += Escape;
-        myLife.OnKilled += Stun;
+        myLife.OnTakeDamage.AddListener(Escape);
+        myLife.OnKilled.AddListener(Stun);
 
         myLife.Initialize();
     }

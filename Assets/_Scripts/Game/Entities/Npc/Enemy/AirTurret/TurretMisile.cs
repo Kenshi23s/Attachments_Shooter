@@ -58,7 +58,7 @@ public class TurretMisile : MonoBehaviour
     private void Awake()
     {
         _lifeComponent = GetComponent<LifeComponent>();
-        _lifeComponent.OnKilled += Explosion;
+        _lifeComponent.OnKilled.AddListener(Explosion);
 
         _rb = GetComponent<Rigidbody>();
 

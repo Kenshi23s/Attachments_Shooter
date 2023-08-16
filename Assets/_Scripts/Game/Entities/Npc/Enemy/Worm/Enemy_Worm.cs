@@ -171,8 +171,8 @@ public class Enemy_Worm : Enemy
         fsm = new StateMachine<EWormStates>();
         fsm.Initialize(_debug); 
 
-        health.OnKilled += DieChange;
-        health.OnTakeDamage += AddStunCharge;
+        health.OnKilled.AddListener(DieChange);
+        health.OnTakeDamage.AddListener(AddStunCharge);
 
         // Creacion de estados
         fsm.CreateState(EWormStates.Idle, new Worm_State_Idle(this));
@@ -212,7 +212,7 @@ public class Enemy_Worm : Enemy
         {
             _debug.Log("le pegue con el melee");
             x.TakeDamage(_meleeDamage);
-            Vector3 dir = x.Position() - transform.position;
+            Vector3 dir = x.Position - transform.position;
             x.AddKnockBack(Vector3.down + dir.normalized * _meleeKnockback);
 
         };

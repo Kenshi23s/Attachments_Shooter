@@ -16,7 +16,7 @@ public class Worm_State_Shoot_Dirt : Worm_State<Worm_AttackState>
     public override void OnEnter()
     {
         _worm.OnStun += _worm.CancelShootDirt;
-        _worm.health.OnKilled += _worm.CancelShootDirt;
+        _worm.health.OnKilled.AddListener(_worm.CancelShootDirt);
 
         _timeSinceEnter = 0;
         _worm.anim.SetTrigger("ShootDirt");
@@ -36,7 +36,7 @@ public class Worm_State_Shoot_Dirt : Worm_State<Worm_AttackState>
     public override void OnExit()
     {
         _worm.OnStun -= _worm.CancelShootDirt;
-        _worm.health.OnKilled -= _worm.CancelShootDirt;
+        _worm.health.OnKilled.RemoveListener(_worm.CancelShootDirt);
     }
 
 }

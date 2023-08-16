@@ -37,7 +37,7 @@ public class Player_UI : MonoBehaviour
     {
         mat = _blitBlood.blitPass.blitMaterial;
         _debug = GetComponent<DebugableObject>();
-        player.GetComponent<LifeComponent>().OnHealthChange += UpdateDamageShader;
+        player.GetComponent<LifeComponent>().OnHealthChange.AddListener(UpdateDamageShader);
 
        #if UNITY_EDITOR
         mat.SetFloat("_Life", 1);

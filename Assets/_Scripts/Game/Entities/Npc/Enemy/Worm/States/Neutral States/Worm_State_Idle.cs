@@ -10,7 +10,7 @@ public class Worm_State_Idle : Worm_State<EWormStates>
     public override void OnEnter()
     {
         _worm.anim.SetBool("Moving", false);
-        _worm.health.OnTakeDamage += Change;
+        _worm.health.OnTakeDamage.AddListener(Change);
     }
 
     public override void OnUpdate()
@@ -23,7 +23,7 @@ public class Worm_State_Idle : Worm_State<EWormStates>
 
     public override void OnExit()
     {
-        _worm.health.OnTakeDamage -= Change;
+        _worm.health.OnTakeDamage.RemoveListener(Change);
     }
 
 }

@@ -18,7 +18,7 @@ public class Worm_State_Shoot_Acid : Worm_State<Worm_AttackState>
         _worm.anim.SetFloat("Speed", 0);
 
         _worm.OnStun += _worm.CancelShootAcid;
-        _worm.health.OnKilled += _worm.CancelShootAcid;
+        _worm.health.OnKilled.AddListener(_worm.CancelShootAcid);
         _worm.StartCoroutine(_worm.ShootAcid());
     }
 
@@ -38,7 +38,7 @@ public class Worm_State_Shoot_Acid : Worm_State<Worm_AttackState>
 
     public override void OnExit() { 
         _worm.OnStun -= _worm.CancelShootAcid;
-        _worm.health.OnKilled -= _worm.CancelShootAcid;
+        _worm.health.OnKilled.RemoveListener(_worm.CancelShootAcid);
         _worm.anim.SetFloat("Speed", 0);
     }
     

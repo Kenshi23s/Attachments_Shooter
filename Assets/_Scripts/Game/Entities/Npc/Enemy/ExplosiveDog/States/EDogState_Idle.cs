@@ -6,13 +6,14 @@ using FacundoColomboMethods;
 using System;
 
 using static E_ExplosiveDog;
+using UnityEngine.Events;
 
 public class EDogState_Idle : IState<EDogStates>
 {
     AI_Movement _agent;
     StateMachine<EDogStates> _fsm;
     LifeComponent myLifeComponent;
-    Action<int> callBackChange;
+    UnityAction<int> _callBackChange;
     Action stopBlink;
     public EDogState_Idle(Action stopBlink, AI_Movement agent, StateMachine<EDogStates> fsm,LifeComponent myLifeComponent)
     {
@@ -20,13 +21,13 @@ public class EDogState_Idle : IState<EDogStates>
         _agent = agent;
         _fsm = fsm;
         this.myLifeComponent = myLifeComponent;
-        callBackChange = (x) => _fsm.ChangeState(EDogStates.PURSUIT);
+        _callBackChange = _=> _fsm.ChangeState(EDogStates.PURSUIT);
     }
 
     public void OnEnter()
     {
         stopBlink?.Invoke();
-        myLifeComponent.OnTakeDamage += callBackChange;
+        myLifeComponent.OnTakeDamage.AddListener(_callBackChange);
         GameManager.instance.StartCoroutine(StayIdle());
        
     }
@@ -79,7 +80,7 @@ public class EDogState_Idle : IState<EDogStates>
 
     public void OnExit()
     {
-        myLifeComponent.OnTakeDamage -= callBackChange;
+        myLifeComponent.OnTakeDamage.RemoveListener(_callBackChange);
     }
 
     

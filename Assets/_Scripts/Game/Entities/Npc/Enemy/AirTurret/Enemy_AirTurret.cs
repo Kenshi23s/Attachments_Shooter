@@ -77,7 +77,7 @@ public class Enemy_AirTurret : Enemy, IDetector
         x.onPause += () => enabled = false;
         x.onPause += () => enabled = true;
         _misileStats.owner = this;
-        GetComponent<LifeComponent>().OnKilled += () => Destroy(gameObject);
+        GetComponent<LifeComponent>().OnKilled.AddListener(() => Destroy(gameObject));
         _debug = GetComponent<DebugableObject>();
         _debug.AddGizmoAction(DrawGizmo);
         SetTurretFSM();

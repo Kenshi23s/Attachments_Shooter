@@ -18,12 +18,12 @@ public class Player_Handler : MonoBehaviour
 
         myHealth = GetComponent<LifeComponent>();
         myMovement = GetComponent<Player_Movement>();
-        myHealth.OnTakeDamage+= (x) => vibrate.AddIntensity(x);
+        myHealth.OnTakeDamage.AddListener((x) => vibrate.AddIntensity(x));
        
     }
     private void Start()
     {
-        myHealth.OnTakeDamage -= myHealth.ShowDamageNumber;
+        myHealth.OnTakeDamage.RemoveListener(myHealth.ShowDamageNumber);
     }
     private void Update()
     {

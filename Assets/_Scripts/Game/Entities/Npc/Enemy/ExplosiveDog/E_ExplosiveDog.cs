@@ -47,7 +47,7 @@ public class E_ExplosiveDog : Enemy
         blinkMat = blinkObject.GetComponent<Renderer>().material;
         _debug = GetComponent<DebugableObject>(); _debug.AddGizmoAction(GizmosDraw);
         _fsm = new StateMachine<EDogStates>(); _fsm.Initialize(_debug);
-        health = GetComponent<LifeComponent>(); health.OnKilled += Explosion;
+        health = GetComponent<LifeComponent>(); health.OnKilled.AddListener(Explosion);
 
         agent = GetComponent<AI_Movement>();
     }
@@ -59,12 +59,12 @@ public class E_ExplosiveDog : Enemy
         //    .Select(x=> x.GetComponent<AI_Movement>()));
 
          poolKey = GameManager.instance.vfxPool.CreateVFXPool(explosionVFX);
-        health.OnKilled += () =>
+        health.OnKilled.AddListener(() =>
         {
             var aux = GameManager.instance.vfxPool.GetVFX(poolKey);
             aux.transform.position = transform.position;
             aux.transform.localScale = new Vector3(_explosionRadius, _explosionRadius, _explosionRadius);
-        };
+        }); 
         _fsm.CreateState(EDogStates.IDLE, new EDogState_Idle(()=> blinkMat.SetInt("_Blink",0), agent, _fsm, health));
         _fsm.CreateState(EDogStates.PURSUIT, new EDogState_Pursuit(() => blinkMat.SetInt("_Blink", 1), _fsm,agent, pursuitMaxSpeed, minJumpDistance));
 
@@ -74,7 +74,7 @@ public class E_ExplosiveDog : Enemy
 
     void Explosion()
     {
-        health.OnKilled -= Explosion;
+        health.OnKilled.RemoveListener(Explosion);
         if (health.life > 0) { health.TakeDamage(int.MaxValue); return; }
        
         foreach (var item in transform.position.GetItemsOFTypeAround<IDamagable>(_explosionRadius))

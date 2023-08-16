@@ -25,7 +25,7 @@ public class Explosion : MonoBehaviour
 
         foreach (var damageable in damageables)
         {
-            Vector3 vector = damageable.Position() - transform.position;
+            Vector3 vector = damageable.Position - transform.position;
             float t = vector.magnitude / radius;
             int damage = (int) Mathf.Lerp(maxDamage, minDamage, t);
             float knockback = Mathf.Lerp(maxKnockback, minKnockback, t);

@@ -16,6 +16,7 @@ public class Projectile_Rock : MonoBehaviour,IDamagable
     [SerializeField] Rigidbody _rb;
     GameObject _owner;
 
+    Vector3 IDamagable.Position => transform.position;
 
     private void Awake()
     {

@@ -11,7 +11,7 @@ public class Pause : MonoBehaviour
 
     private void Start()
     {
-        player.myHealth.OnKilled += PauseMethod;
+        player.myHealth.OnKilled.AddListener(PauseMethod);
       
     }
 

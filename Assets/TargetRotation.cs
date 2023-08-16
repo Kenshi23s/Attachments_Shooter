@@ -18,6 +18,8 @@ public class TargetRotation : MonoBehaviour
 
     [SerializeField] TextAndFiller textnFiller;
 
+    [SerializeField] LifeComponent ownerLife;
+
     private void OnValidate()
     {
         speed = Mathf.Abs(speed);
@@ -29,6 +31,12 @@ public class TargetRotation : MonoBehaviour
         _interactableComponent = GetComponent<InteractableComponent>();
 
         _ogRotation = transform.rotation;
+        ownerLife.OnKilled.AddListener(() =>
+        {
+            StopAllCoroutines();
+            MakeRandomRotation(0);
+            ownerLife.Heal(ownerLife.maxLife);
+        });
 
         OnValidate();       
     }
@@ -46,7 +54,7 @@ public class TargetRotation : MonoBehaviour
     {
         _interactableComponent.OnInteract.RemoveAllListeners();
         Debug.Log(manyTimes);
-        if (0 >= manyTimes) 
+        if (0 > manyTimes) 
         {
             _interactableComponent.OnInteract.AddListener(callbakcRandomRotation);
             StartCoroutine(StartRotatingTowards(0, () => { }));
@@ -59,6 +67,12 @@ public class TargetRotation : MonoBehaviour
         float degrees = Random.Range(-rangeRotation, rangeRotation);
 
         StartCoroutine(StartRotatingTowards(degrees, () => MakeRandomRotation(manyTimes)));
+    }
+
+
+    public void Rotate600Times()
+    {
+        MakeRandomRotation(600);
     }
 
 

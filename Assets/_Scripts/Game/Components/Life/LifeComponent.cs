@@ -1,6 +1,8 @@
 using System;
 using System.Collections;
 using UnityEngine;
+using UnityEngine.Events;
+
 [RequireComponent(typeof(DebugableObject))]
 [RequireComponent(typeof(PausableObject))]
 public class LifeComponent : MonoBehaviour, IDamagable, IHealable
@@ -30,14 +32,17 @@ public class LifeComponent : MonoBehaviour, IDamagable, IHealable
             if (_showdamageNumber == value) return;
 
             if (value)
-                OnTakeDamage += ShowDamageNumber;
+                OnTakeDamage.AddListener(ShowDamageNumber);
             else
-                OnTakeDamage -= ShowDamageNumber;
+                OnTakeDamage.RemoveListener(ShowDamageNumber);
 
             _showdamageNumber = value;
 
         }
     }
+
+    Vector3 IDamagable.Position => transform.position;
+
     bool _showdamageNumber = true;
 
     
@@ -45,13 +50,13 @@ public class LifeComponent : MonoBehaviour, IDamagable, IHealable
     [SerializeField] public bool canBeHealed = true;
 
     #region Events
-    public event Action<Vector3> onKnockBack;
-    public event Action<int, int> OnHealthChange;
-    public event Action OnHeal;
+    public UnityEvent<Vector3> onKnockBack = new UnityEvent<Vector3>();
+    public UnityEvent<int,int> OnHealthChange = new UnityEvent<int,int>();
+    public UnityEvent OnHeal = new UnityEvent();
 
     //pasar TODA LA INFORMACION AL TOMAR DAÑO (USAR EL STRUCT DE DAMAGE DATA)
-    public event Action<int> OnTakeDamage;
-    public event Action OnKilled;
+    public UnityEvent<int> OnTakeDamage = new UnityEvent<int>();
+    public UnityEvent OnKilled = new UnityEvent();
     #endregion
 
 
@@ -70,9 +75,9 @@ public class LifeComponent : MonoBehaviour, IDamagable, IHealable
         // por si tenes hijos que pueden hacer de 
         foreach (var item in GetComponentsInChildren<HitableObject>()) item.SetOwner(this);
         #region SetEvents
-        OnHeal += () => OnHealthChange?.Invoke(life, maxLife);
-        OnTakeDamage += (x) => OnHealthChange?.Invoke(life, maxLife);
-        OnTakeDamage += ShowDamageNumber;
+        OnHeal.AddListener(() => OnHealthChange?.Invoke(life, maxLife));
+        OnTakeDamage.AddListener((x) => OnHealthChange?.Invoke(life, maxLife));
+        OnTakeDamage.AddListener(ShowDamageNumber);
         OnHealthChange?.Invoke(life, maxLife);
         #endregion
         enabled = false;
