@@ -25,6 +25,7 @@ public class ButtonMenuAnim : MonoBehaviour
         fillArrowLeft.transform.position = emptyArrowLeft.transform.position;
         fillArrowLeft.transform.rotation = emptyArrowLeft.transform.rotation;
         fillArrowRight.transform.position = emptyArrowRight.transform.position;
+        //
     }
 
     public void NormalArrows()
