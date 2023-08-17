@@ -10,7 +10,7 @@ public class Projectile_Rock : MonoBehaviour,IDamagable
 {
     [SerializeField]
     int life = 100;
-   public event Action<IEnumerable<Collider>> onExplosion;
+    public event Action<IEnumerable<Collider>> onExplosion;
     [SerializeField]float _radius;
 
     [SerializeField] Rigidbody _rb;
@@ -22,7 +22,7 @@ public class Projectile_Rock : MonoBehaviour,IDamagable
     {
         _rb = GetComponent<Rigidbody>();
         GetComponent<PausableObject>().onPause += () => StartCoroutine(Pause());
-        Destroy(gameObject, 20f);
+        Destroy(gameObject, 8);
     }
     IEnumerator Pause()
     {
@@ -31,26 +31,25 @@ public class Projectile_Rock : MonoBehaviour,IDamagable
         var y = _rb.useGravity;
         _rb.useGravity = false;
         yield return new WaitUntil(ScreenManager.IsPaused);
-        _rb.velocity = x;
-        _rb.useGravity = y;
+        _rb.velocity = x; _rb.useGravity = y;
+
     }
     public void Iniitialize(GameObject owner, float _explosionRadius)
     {
         _owner = owner;
+        
         gameObject.name= $"[{owner.name}] {gameObject.name}";
         _radius = _explosionRadius;
     }
 
     public void LaunchProjectile(Vector3 force)
     {
+        transform.parent = null;
         _rb.useGravity = true;
         _rb.AddForce(force,ForceMode.Impulse);
         transform.forward = force.normalized;
     }
     public void AddDamageOverTime(int TotalDamageToDeal, float TimeAmount) => TakeDamage(TotalDamageToDeal);
-
-   
-
 
     public DamageData TakeDamage(int dmgToDeal)
     {
@@ -96,10 +95,5 @@ public class Projectile_Rock : MonoBehaviour,IDamagable
     public void AddKnockBack(Vector3 force)
     {
        
-    }
-
-    public Vector3 Position()
-    {
-        return transform.position;
     }
 }

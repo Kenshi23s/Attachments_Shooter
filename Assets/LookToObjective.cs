@@ -7,7 +7,9 @@ using static EggEscapeModel;
 public class LookToObjective : MonoBehaviour
 {
     [SerializeField]EggGameChaseMode gamemode;
-    [SerializeField] float rotationSpeed;
+    [SerializeField] float maxDistance;
+    [SerializeField] GameObject signal;
+    Material SignalMat;
     // Start is called before the first frame update
     void Start()
     {
@@ -19,12 +21,15 @@ public class LookToObjective : MonoBehaviour
         {
             Destroy(gameObject);
         }
-       
+      SignalMat = signal.GetComponent<Material>();
+
+
     }
 
     private void OnEnable()
     {
         StopAllCoroutines();
+
         StartCoroutine(LookTowards());
     }
     private void OnDisable()
@@ -42,31 +47,50 @@ public class LookToObjective : MonoBehaviour
       
 
         while (true)
+        {         
+            yield return null;       
+            SignalMat.SetInteger("_SignalStrength", GetArrowCount());
+        }
+    }
+
+
+    int GetArrowCount()
+    {
+        int divideBy = 4;
+        float eggDistance = GetEggDistance();
+        if (eggDistance <= 0) 
         {
-            float time = Time.deltaTime;
-            
-            yield return null;
-            time += Time.deltaTime;
-            transform.forward = Vector3.Lerp(transform.forward,GetObjectiveDir(), time * rotationSpeed);
+            signal.SetActive(false);
+            Debug.LogWarning("Devuelvo 0");
+            return 0;
+        }
+
+        float dividedValue = maxDistance / divideBy;
+        for (int i = 1; i <= divideBy; i++)
+        {
+            if (dividedValue * i >= eggDistance)
+            {
+               
+                return i;
+            }
+               
+                
             
         }
+       
+        return divideBy;
     }
   
 
-    Vector3 GetObjectiveDir()
+    float GetEggDistance()
     {
         Vector3 FinalPos=Vector3.zero;
-        if (gamemode.eggsEscaping.Any(x => x.actualState == EggStates.Kidnapped))
-        {
-            FinalPos = gamemode.incubators
-           .Minimum(x => Vector3.Distance(x.transform.position,Player_Movement.position)).transform.position;
-        }
-        else
-        {
-            FinalPos = gamemode.eggsEscaping
-           .Minimum(x => Vector3.Distance(x.transform.position, Player_Movement.position)).transform.position;
-        }
-        return (FinalPos - Player_Movement.position).normalized;
+
+        if (gamemode.eggsEscaping.Where(x => x.actualState == EggStates.Kidnapped).Any()) return 0;    
+           FinalPos = gamemode.eggsEscaping
+          .Minimum(x => Vector3.Distance(x.transform.position, Player_Movement.position)).transform.position;
+        
+        return (FinalPos - Player_Movement.position).magnitude;
     }
 
    
