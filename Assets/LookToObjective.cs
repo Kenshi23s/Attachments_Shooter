@@ -2,13 +2,14 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
+using UnityEngine.UI;
 using static EggEscapeModel;
 
 public class LookToObjective : MonoBehaviour
 {
-    [SerializeField]EggGameChaseMode gamemode;
+    [SerializeField] EggGameChaseMode gamemode;
     [SerializeField] float maxDistance;
-    [SerializeField] GameObject signal;
+    RawImage _signalImage;
     Material SignalMat;
     // Start is called before the first frame update
     void Start()
@@ -21,7 +22,9 @@ public class LookToObjective : MonoBehaviour
         {
             Destroy(gameObject);
         }
-      SignalMat = signal.GetComponent<Material>();
+
+        _signalImage = GetComponent<RawImage>();
+        SignalMat = GetComponent<RawImage>().material;
 
 
     }
@@ -44,12 +47,12 @@ public class LookToObjective : MonoBehaviour
         {
             yield return null;
         }
-      
+
 
         while (true)
-        {         
-            yield return null;       
-            SignalMat.SetInteger("_SignalStrength", GetArrowCount());
+        {
+            yield return null;
+            SignalMat.SetFloat("_SignalStrength", GetArrowCount());
         }
     }
 
@@ -58,11 +61,15 @@ public class LookToObjective : MonoBehaviour
     {
         int divideBy = 4;
         float eggDistance = GetEggDistance();
-        if (eggDistance <= 0) 
+        if (eggDistance <= 0)
         {
-            signal.SetActive(false);
+            _signalImage.enabled = false;
             Debug.LogWarning("Devuelvo 0");
             return 0;
+        }
+        else
+        {
+            _signalImage.enabled = true;
         }
 
         float dividedValue = maxDistance / divideBy;
@@ -70,28 +77,28 @@ public class LookToObjective : MonoBehaviour
         {
             if (dividedValue * i >= eggDistance)
             {
-               
+
                 return i;
             }
-               
-                
-            
+
+
+
         }
-       
+
         return divideBy;
     }
-  
+
 
     float GetEggDistance()
     {
-        Vector3 FinalPos=Vector3.zero;
+        Vector3 FinalPos = Vector3.zero;
 
-        if (gamemode.eggsEscaping.Where(x => x.actualState == EggStates.Kidnapped).Any()) return 0;    
-           FinalPos = gamemode.eggsEscaping
-          .Minimum(x => Vector3.Distance(x.transform.position, Player_Movement.position)).transform.position;
-        
+        if (gamemode.eggsEscaping.Where(x => x.actualState == EggStates.Kidnapped).Any()) return 0;
+        FinalPos = gamemode.eggsEscaping
+       .Minimum(x => Vector3.Distance(x.transform.position, Player_Movement.position)).transform.position;
+
         return (FinalPos - Player_Movement.position).magnitude;
     }
 
-   
+
 }
