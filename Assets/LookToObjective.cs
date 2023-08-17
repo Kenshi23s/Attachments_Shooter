@@ -72,20 +72,9 @@ public class LookToObjective : MonoBehaviour
             _signalImage.enabled = true;
         }
 
-        float dividedValue = maxDistance / divideBy;
-        for (int i = 1; i <= divideBy; i++)
-        {
-            if (dividedValue * i >= eggDistance)
-            {
-
-                return i;
-            }
-
-
-
-        }
-
-        return divideBy;
+        float dividedValue = (1 - eggDistance / maxDistance) * 4;
+        return (int)Mathf.Max(1,Mathf.Ceil(dividedValue));
+    
     }
 
 
