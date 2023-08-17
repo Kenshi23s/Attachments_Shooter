@@ -19,6 +19,9 @@ public class HitVFX : MonoBehaviour, IHitFeedback
 
     private void Start()
     {
+        if (GameManager.instance == null)
+            return;
+
         GetPool = () => GameManager.instance.vfxPool;
         key = GetPool().CreateVFXPool(_vfxPrefab);
         enabled = false;
