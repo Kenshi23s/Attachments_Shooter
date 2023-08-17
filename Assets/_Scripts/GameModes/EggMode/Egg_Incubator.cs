@@ -24,7 +24,7 @@ public class Egg_Incubator : MonoBehaviour
     {
         _debug = GetComponent<DebugableObject>();
         _interactComponent = GetComponent<InteractableComponent>();
-        _interactComponent.interactConditions.Add(()=>_eggs.Any());
+        _interactComponent.InteractConditions.Add(()=>_eggs.Any());
         _interactComponent.OnInteract.AddListener(IncubateEgg);
 
         _interactComponent.onFocus.AddListener(FocusText);

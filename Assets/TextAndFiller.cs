@@ -19,12 +19,13 @@ public class TextAndFiller : MonoBehaviour
     {
         text.color = color;
     }
+
     public void SetText(string x)
     {
         text.text = x;
     }
 
-    public void SetOverlayText(string x)
+    public void SetSliderText(string x)
     {
         textOverSlider.text = x;
     }
@@ -33,6 +34,7 @@ public class TextAndFiller : MonoBehaviour
     {
         textOverSlider.gameObject.SetActive(false);
         slider.gameObject.SetActive(true);
+        
     }
 
     public void TurnSliderTextOn()

@@ -2,15 +2,16 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Events;
 using static EggEscapeModel;
 
 public class EggState_Kidnaped : EggState<EggStates>
 { 
     float _actualKidnapTime;
-    Action onGrab;
-    Action onRelease;
+    UnityEvent onGrab, onRelease;
+    
 
-    public EggState_Kidnaped(EggStateData data,Action onGrab,Action onRelease) : base(data) 
+    public EggState_Kidnaped(EggStateData data, UnityEvent onGrab, UnityEvent onRelease) : base(data) 
     {         
       this.onGrab = onGrab;
       this.onRelease = onRelease;         

@@ -11,7 +11,7 @@ using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 
-[DisallowMultipleComponent,ExecuteInEditMode]
+[DisallowMultipleComponent]
 
 public class Outline : MonoBehaviour
 {

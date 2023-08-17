@@ -14,15 +14,18 @@ public class InteractableComponent : MonoBehaviour, IInteractable
     float _checkInteractTime;
     [SerializeField] Collider _interactableCollider;
 
-    public UnityEvent onFocus, onUnFocus, OnInteract, onTryingToInteract, OnInteractAbort,OnInteractFail;
+    public UnityEvent onFocus, onUnFocus, OnInteract, onTryingToInteract,OnStartInteracting, OnInteractAbort,OnInteractFail;
 
-    public List<Func<bool>> interactConditions = new List<Func<bool>>();
+
+    public List<Func<bool>> InteractConditions = new List<Func<bool>>();
     Transform cam;
     DebugableObject _debug;
 
+
+    public float NormalizedProgress => currentInteractTime / interactTimeNeeded;
+
     private void Awake()
-    {
-        interactConditions.Add(() => true);
+    {     
         cam = Camera.main.transform;
     }
     private void Start()
@@ -32,22 +35,18 @@ public class InteractableComponent : MonoBehaviour, IInteractable
 
         //_interactableCollider=GetComponent<Collider>();
         _debug = GetComponent<DebugableObject>();
-        OnInteract.AddListener(() => _debug.Log("Interactuan conmigo"));
+        OnInteract.AddListener(() => _debug.Log("Interactuan conmigo!"));
         onFocus.AddListener(() => _debug.Log("Me focusean"));
-        onUnFocus.AddListener(() => _debug.Log("Me dejaron de focusear conmigo"));
+        onUnFocus.AddListener(() => _debug.Log("Me dejaron de focusear"));
         OnInteractFail.AddListener(() => _debug.Log("No se puede interactuar, alguna condicion no se cumplio"));
+        OnInteractAbort.AddListener(() => _debug.Log("Se dejo de presionar el input de interactuar"));
+        OnStartInteracting.AddListener( () => _debug.Log("Se empezo el prograso para interactuar!"));
         _debug.AddGizmoAction(DrawRadius);
     }
 
     private void OnDestroy()
     {
-        InteractablesManager.instance.RemoveInteractableObject(this);
-
-        onFocus.RemoveAllListeners();
-        onUnFocus.RemoveAllListeners();
-        OnInteract.RemoveAllListeners();
-        onTryingToInteract.RemoveAllListeners();
-        OnInteractAbort.RemoveAllListeners();
+        NoMoreInteraction();
     }
 
 
@@ -68,9 +67,9 @@ public class InteractableComponent : MonoBehaviour, IInteractable
     
     public void Interact()
     {
-        if (interactConditions.Any())
+        if (InteractConditions.Any())
         {
-            foreach (var item in interactConditions)
+            foreach (var item in InteractConditions)
             {
                 if (!item.Invoke())
                 {
@@ -80,30 +79,29 @@ public class InteractableComponent : MonoBehaviour, IInteractable
                 }
             }
         }
-       
-      
-      
+             
         _checkInteractTime = currentInteractTime += Time.deltaTime;
-        
-        onTryingToInteract?.Invoke();
-        if (currentInteractTime>=interactTimeNeeded)
+     
+        onTryingToInteract?.Invoke(); onTryingToInteract.RemoveListener(StartInteracting);
+        if (currentInteractTime >= interactTimeNeeded)
         {
             OnInteract?.Invoke();
             currentInteractTime = 0;
-        }
-      
-        
+        }      
     }
+
+    void StartInteracting() => OnStartInteracting?.Invoke();
+   
 
     private void LateUpdate()
     {
         if (_checkInteractTime <= currentInteractTime && currentInteractTime != 0)
         {
             currentInteractTime = Mathf.Clamp(_checkInteractTime, 0, interactTimeNeeded);
-            OnInteractAbort?.Invoke();
+            OnInteractAbort?.Invoke();          
+            onTryingToInteract.AddListener(StartInteracting);
         }
            
-
         _checkInteractTime -= Time.deltaTime;    
     }
 
@@ -114,9 +112,7 @@ public class InteractableComponent : MonoBehaviour, IInteractable
     public bool CanInteract(float viewAngle,out float priority) 
     {
         priority = float.MinValue;
-      
-        
-        
+             
         // Chequear si esta cerca
         if (!ViewHelper.IsNear(cam.position, _interactableCollider.transform.position, interactDistance)) return false;
 

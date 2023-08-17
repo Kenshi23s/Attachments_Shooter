@@ -1,8 +1,7 @@
 using System;
 using System.Linq;
 using UnityEngine;
-
-
+using UnityEngine.Events;
 
 [RequireComponent(typeof(FOVAgent))]
 [RequireComponent(typeof(LifeComponent))]
@@ -50,25 +49,31 @@ public class EggEscapeModel : MonoBehaviour
     FOVAgent _fov;
     AI_Movement _agent;
 
+    public InteractableComponent InteractComponent { get; private set; }
+    public Egg_VFXHandler VFX { get; private set; }
     public GameObject view;
 
     StateMachine<EggStates> _fsm;
     public EggStates actualState => _fsm.actualStateKey;
 
-    EggStats _eggStats;
+    public EggStats CurrentEggStats { get; private set; }
 
-    [Header("EggEscape")]
-    [SerializeField] LineRenderer _playerLinking;
 
-    Action onUpdate;
+    public Action OnUpdate;
 
+    public UnityEvent OnGrab, OnRelease;
 
 
     //Action OnGrab;
     //Action OnRelease;
     private void Awake()
     {
-        enabled= false;
+       
+        InteractComponent = GetComponent<InteractableComponent>();
+        _agent = GetComponent<AI_Movement>();
+        _fov = GetComponent<FOVAgent>();
+        _fsm = new StateMachine<EggStates>();
+        enabled = false;
     }
 
     //tendria que tener 4 estados:
@@ -81,21 +86,18 @@ public class EggEscapeModel : MonoBehaviour
     {
         transform.position = SpawnPos;
 
-        _eggStats = stats;
+        CurrentEggStats = stats;
         SetLife();
-
         #region GetComponents
-        DebugableObject _debug= GetComponent<DebugableObject>();
-        _agent = GetComponent<AI_Movement>();
-        _fov   = GetComponent<FOVAgent>();
-        _fsm   = new StateMachine<EggStates>();
+        DebugableObject _debug = GetComponent<DebugableObject>();
+      
 
-        Debug.Log("inicializo"+gameObject.name);
+        _debug.Log("Inicializo " + gameObject.name);
         #endregion
 
         #region DataSet
         EggState<EggStates>.EggStateData data;
-        data._eggStats = _eggStats;
+        data._eggStats = CurrentEggStats;
         data._fov = _fov;
         data._fsm = _fsm;
         data._agent = _agent;
@@ -103,27 +105,20 @@ public class EggEscapeModel : MonoBehaviour
         data._eggStats.debug= _debug;
         #endregion
 
-        #region Kidnapped CallBacks
-        Action OnGrab = () => 
-        {
-            _playerLinking.gameObject.SetActive(true);
-            onUpdate += UpdateLinkRope;
-        };
-
-        Action OnRelease = () => { _playerLinking.gameObject.SetActive(false); };
-        #endregion
+   
 
         #region Setting Finite State Machine
         _fsm.Initialize(_debug);
         _fsm.CreateState(EggStates.Patrol,    new EggState_Patrol(data));
         _fsm.CreateState(EggStates.Escape,    new EggState_Escape(data));
         _fsm.CreateState(EggStates.Stunned,   new EggState_Stunned(data));
-        _fsm.CreateState(EggStates.Kidnapped, new EggState_Kidnaped(data, OnGrab,OnRelease));
+        _fsm.CreateState(EggStates.Kidnapped, new EggState_Kidnaped(data, OnGrab ,OnRelease));
         //_fsm.CreateState(EggStates.Kidnapped, /*new EggState_Escape(_eggStats, fov, agent, _fsm))*/null);
         #endregion
 
         _fsm.ChangeState(EggStates.Patrol);
-        enabled= true;
+        VFX = GetComponentInChildren<Egg_VFXHandler>(); VFX.Initialize(this);
+        enabled = true;
 
     }
 
@@ -131,7 +126,7 @@ public class EggEscapeModel : MonoBehaviour
     public void SetLife()
     {
         myLife = GetComponent<LifeComponent>();
-        myLife.SetNewMaxLife(_eggStats.requiredDmg4stun);
+        myLife.SetNewMaxLife(CurrentEggStats.requiredDmg4stun);
         myLife.OnTakeDamage.AddListener(Escape);
         myLife.OnKilled.AddListener(Stun);
 
@@ -139,9 +134,9 @@ public class EggEscapeModel : MonoBehaviour
     }
 
 
-    public void Escape(int x )
+    public void Escape(int x)
     {
-        if (_fsm.actualStateKey == EggStates.Patrol&&_fsm.actualStateKey!=EggStates.Escape)
+        if (_fsm.actualStateKey == EggStates.Patrol && _fsm.actualStateKey != EggStates.Escape)
         {
             _fsm.ChangeState(EggStates.Escape);
         }
@@ -149,21 +144,12 @@ public class EggEscapeModel : MonoBehaviour
 
     void Update() => _fsm.Execute();
 
-    void LateUpdate() =>  onUpdate?.Invoke();
-
+    void LateUpdate() => OnUpdate?.Invoke();
 
     public void Grab()
     {
         if (_fsm.actualStateKey != EggStates.Kidnapped)                
             _fsm.ChangeState(EggStates.Kidnapped);                           
-    }
-
-    void UpdateLinkRope()
-    {     
-        _playerLinking.SetPosition(0, transform.position);
-        
-        _playerLinking.SetPosition(1, Vector3.Slerp(transform.position, _eggStats.gameMode.playerPos,0.5f));
-        _playerLinking.SetPosition(2, _eggStats.gameMode.playerPos);      
     }
     
     public void Stun()
@@ -191,8 +177,7 @@ public class EggEscapeModel : MonoBehaviour
 
     private void OnDestroy()
     {
-        _eggStats.gameMode.eggsEscaping.Remove(this);
-
+        CurrentEggStats.gameMode.eggsEscaping.Remove(this);
     }
 
 }
