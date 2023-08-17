@@ -70,6 +70,7 @@ public class EggEscapeModel : MonoBehaviour
     {
        
         InteractComponent = GetComponent<InteractableComponent>();
+        InteractComponent.SetFocusCondition(() => _fsm.actualStateKey != EggStates.Kidnapped);
         _agent = GetComponent<AI_Movement>();
         _fov = GetComponent<FOVAgent>();
         _fsm = new StateMachine<EggStates>();

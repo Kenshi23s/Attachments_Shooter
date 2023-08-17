@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using UnityEngine;
+using System.Collections;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
@@ -32,8 +33,11 @@ public class MenuManager : MonoBehaviour
 
     private void Awake()
     {
-        instance = this;    
+        instance = this;
+        //StartCoroutine(LoadSceneManager.StartPreLoadingLevel(1));        
     }
+
+  
 
 
     public void SelectBackbutton(BackButton var)

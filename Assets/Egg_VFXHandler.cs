@@ -15,16 +15,9 @@ public class Egg_VFXHandler : MonoBehaviour
         Owner = newOwner;
         InteractUI = GetComponentInChildren<TextAndFiller>();
 
-      
-        
-
         Owner.InteractComponent.OnStartInteracting.AddListener(InteractUI.TurnSliderTextOn);
         Owner.InteractComponent.OnInteractAbort.AddListener(InteractUI.TurnSliderTextOff);
         Owner.InteractComponent.onTryingToInteract.AddListener(UpdateInteractUI);
-
-
-
-     
 
         Owner.OnGrab.AddListener(EnableRopeLink);
         Owner.OnRelease.AddListener(DisableRopeLink);
@@ -39,7 +32,7 @@ public class Egg_VFXHandler : MonoBehaviour
     #region Rope
     public void EnableRopeLink() 
     {
-        Debug.LogError(_playerLinking);
+       
         _playerLinking.gameObject.SetActive(true);
         Owner.OnUpdate += UpdateLinkRope;
     } 

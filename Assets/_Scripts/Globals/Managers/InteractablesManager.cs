@@ -61,9 +61,10 @@ public class InteractablesManager : MonoSingleton<InteractablesManager>
     public void UpdateInteractions(Player_Handler player) 
     {
         IInteractable newInteractable = null;
+           
         float highestPriority = float.NegativeInfinity;
 
-        foreach (IInteractable interactableObject in _interactables)
+        foreach (IInteractable interactableObject in _interactables.Where(x => x.CanFocus()))
         {
             
             if (interactableObject.CanInteract(player.InteractFov, out float priority))
@@ -75,6 +76,7 @@ public class InteractablesManager : MonoSingleton<InteractablesManager>
                 }
             }
         }
+
 
         #region test
         //newInteractable = _interactables.OrderBy(x =>

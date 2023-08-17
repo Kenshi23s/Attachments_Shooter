@@ -13,8 +13,10 @@ public class InteractableComponent : MonoBehaviour, IInteractable
     public float interactTimeNeeded, currentInteractTime;
     float _checkInteractTime;
     [SerializeField] Collider _interactableCollider;
-
-    public UnityEvent onFocus, onUnFocus, OnInteract, onTryingToInteract,OnStartInteracting, OnInteractAbort,OnInteractFail;
+    Outline outlineInteractable;
+    public UnityEvent onFocus = new UnityEvent(), onUnFocus = new UnityEvent(), OnInteract = new UnityEvent(),
+        onTryingToInteract = new UnityEvent(),OnStartInteracting = new UnityEvent(),
+        OnInteractAbort = new UnityEvent(),OnInteractFail = new UnityEvent();
 
 
     public List<Func<bool>> InteractConditions = new List<Func<bool>>();
@@ -24,14 +26,36 @@ public class InteractableComponent : MonoBehaviour, IInteractable
 
     public float NormalizedProgress => currentInteractTime / interactTimeNeeded;
 
+    public Func<bool> CanFocus { get; private set; } = () => true;
+
+    public void SetFocusCondition(Func<bool> newCondition)
+    {
+        CanFocus = newCondition;
+    }
+
     private void Awake()
     {     
         cam = Camera.main.transform;
+        if (_interactableCollider != null)
+        {
+            outlineInteractable = _interactableCollider.GetComponent<Outline>();
+            if (outlineInteractable == null) outlineInteractable = _interactableCollider.gameObject.AddComponent<Outline>();
+        }
+        else
+        {
+            outlineInteractable = GetComponent<Outline>();
+            if (outlineInteractable == null) outlineInteractable = gameObject.AddComponent<Outline>();
+        }
+            
+
     }
+
     private void Start()
     {
         InteractablesManager.instance.AddInteractableObject(this);
-      
+        
+        outlineInteractable.enabled = false;
+        outlineInteractable.OutlineMode = Outline.Mode.OutlineVisible;
 
         //_interactableCollider=GetComponent<Collider>();
         _debug = GetComponent<DebugableObject>();
@@ -42,6 +66,10 @@ public class InteractableComponent : MonoBehaviour, IInteractable
         OnInteractAbort.AddListener(() => _debug.Log("Se dejo de presionar el input de interactuar"));
         OnStartInteracting.AddListener( () => _debug.Log("Se empezo el prograso para interactuar!"));
         _debug.AddGizmoAction(DrawRadius);
+
+        onFocus.AddListener(() => outlineInteractable.enabled = true);
+
+        onUnFocus.AddListener(() => outlineInteractable.enabled = false);
     }
 
     private void OnDestroy()
@@ -59,6 +87,7 @@ public class InteractableComponent : MonoBehaviour, IInteractable
         OnInteract.RemoveAllListeners();
         onTryingToInteract.RemoveAllListeners();
         OnInteractAbort.RemoveAllListeners();
+        CanFocus = () => false;
     }
 
     // En vez de estar constantemente agregando y removiendo el interactuable, tal vez sea mejor que la interfaz tenga un metodo 'isActive'
@@ -90,7 +119,7 @@ public class InteractableComponent : MonoBehaviour, IInteractable
         }      
     }
 
-    void StartInteracting() => OnStartInteracting?.Invoke();
+
    
 
     private void LateUpdate()
@@ -104,6 +133,7 @@ public class InteractableComponent : MonoBehaviour, IInteractable
            
         _checkInteractTime -= Time.deltaTime;    
     }
+    void StartInteracting() => OnStartInteracting?.Invoke();
 
     public void Focus() => onFocus?.Invoke();
 

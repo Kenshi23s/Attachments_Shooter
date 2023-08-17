@@ -36,7 +36,7 @@ public class ButtonMenuAnim : MonoBehaviour
 
     public void PlayGame()
     {
-        SceneManager.LoadScene(1);
+        LoadSceneManager.LoadASyncLevel(1);
     }
 
     public void TestUIScene()

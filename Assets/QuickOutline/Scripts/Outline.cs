@@ -12,7 +12,7 @@ using System.Linq;
 using UnityEngine;
 
 [DisallowMultipleComponent]
-
+//[ExecuteInEditMode]
 public class Outline : MonoBehaviour
 {
     private static HashSet<Mesh> registeredMeshes = new HashSet<Mesh>();
@@ -63,7 +63,7 @@ public class Outline : MonoBehaviour
     }
 
     [SerializeField]
-    private Mode outlineMode;
+    private Mode outlineMode = Mode.OutlineVisible;
 
     [SerializeField]
     private Color outlineColor = Color.white;

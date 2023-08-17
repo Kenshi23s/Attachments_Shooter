@@ -41,6 +41,8 @@ public class Egg_Incubator : MonoBehaviour
         {
             StopAllCoroutines(); StartCoroutine(WarningSign());
         });
+
+        
     }
 
     void FocusText()
@@ -62,8 +64,9 @@ public class Egg_Incubator : MonoBehaviour
     
     public void UpdateSlider()
     {      
-        IncubatorText.SetSliderValue(_interactComponent.currentInteractTime / _interactComponent.interactTimeNeeded);      
+        IncubatorText.SetSliderValue(_interactComponent.NormalizedProgress);      
     }
+
     void IncubateEgg()
     {
         if (!_eggs.Any()) return;
