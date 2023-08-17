@@ -153,7 +153,6 @@ public class AttachmentManager : MonoSingleton<AttachmentManager>
     {
         Cursor.lockState = CursorLockMode.None;
         Cursor.visible = true;
-
     }
 
     void HideMouse()
@@ -186,7 +185,6 @@ public class AttachmentManager : MonoSingleton<AttachmentManager>
         if (value.isAttached)
         {
             value.owner.attachmentHandler.RemoveAttachment(value.MyType);
-
         }
         value.Dettach();
 

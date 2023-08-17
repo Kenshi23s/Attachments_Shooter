@@ -152,6 +152,7 @@ public abstract class Attachment : MonoBehaviour
     public void Dettach()
     {
         if (!isAttached) return;
+        gameObject.SetActive(false);
         owner.stats.ChangeStats(Attachment_stats, false);
 
         owner = null; transform.parent = null;

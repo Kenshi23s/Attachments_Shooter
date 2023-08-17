@@ -232,6 +232,7 @@ public class AttachmentHandler : MonoBehaviour
         if (_activeAttachments.TryGetValue(key, out var toRemove))
         {
             _activeAttachments.Remove(key);
+            toRemove.gameObject.SetActive(false);
             SaveAttachment(toRemove);
             if (_DefaultAttachment.TryGetValue(key, out var _default))
                 if (_default != toRemove)
