@@ -13,8 +13,9 @@ MonoBehaviour:
   m_Name: RescueEggsText
   m_EditorClassIdentifier: 
   text: You must rescue three eggs and bring them to the preservation pods. Lucky
-    for you, one of them happens to be close by. Follow the pointer in your HUD to
-    find it. Once you get close enough, grab it and take it with you.
+    for you, one of them happens to be close by. The signal in your HUD indicates
+    your proximity to it. Once you are close enough, grab it and take it with you.
   typeSpeed: 0.01
   duration: 10
+  disappearsAfterDuration: 1
   nextText: {fileID: 11400000, guid: df0005805f933da48a00b7c14f13e677, type: 2}
