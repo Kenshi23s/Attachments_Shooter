@@ -20,6 +20,8 @@ public class WormTail : MonoBehaviour
 {
     [SerializeField] Transform[] TailBones = new Transform[0];
 
+    public Enemy_Worm Owner { get; private set; }
+
     [Header("Sideways Movement")]
     [SerializeField] bool _sidewaysMovement = true;
     [SerializeField] float _sidewaysFrequency = 1.8f;
@@ -49,8 +51,14 @@ public class WormTail : MonoBehaviour
 #endif
     }
 
+    private void Awake()
+    {
+        Owner = GetComponentInParent<Enemy_Worm>();
+    }
+
     private void Start()
     {
+        Owner.health.OnKilled.AddListener(() => enabled = false);
         LoadBoneData();
     }
 
