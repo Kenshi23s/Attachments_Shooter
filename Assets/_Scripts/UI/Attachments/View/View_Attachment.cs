@@ -16,6 +16,8 @@ public class View_Attachment : MonoBehaviour
     public List<View_SliderAttachment> View_SliderAttachment;
     Attachment _actual;
 
+    RectTransform _rectTransform;
+
     public struct AttachmentData
     {
         public AttachmentType type;
@@ -29,13 +31,16 @@ public class View_Attachment : MonoBehaviour
         //Vector3 dir = transform.position - Camera.main.transform.position;
         //transform.forward = dir;
         Debug.Log(_actual.VFX.PickUpCanvasPixelsAbove);
-        
-        transform.position = Camera.main.WorldToScreenPoint(_actual.transform.position) + Vector3.up * _actual.VFX.PickUpCanvasPixelsAbove;
+
+        Vector3 pos = Camera.main.WorldToScreenPoint(_actual.transform.position) + Vector3.up * _actual.VFX.PickUpCanvasPixelsAbove;
+        pos.z = 0;
+        _rectTransform.anchoredPosition3D = pos;
     }
 
     private void Awake()
     {
         _debug = GetComponent<DebugableObject>();
+        _rectTransform = GetComponent<RectTransform>();
     }
 
 
