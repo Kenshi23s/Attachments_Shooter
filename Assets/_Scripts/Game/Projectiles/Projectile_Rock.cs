@@ -31,7 +31,7 @@ public class Projectile_Rock : MonoBehaviour,IDamagable
         var y = _rb.useGravity;
         _rb.useGravity = false;
         yield return new WaitUntil(ScreenManager.IsPaused);
-        _rb.velocity = x; _rb.useGravity = y;
+        _rb.useGravity = y; _rb.velocity = x; 
 
     }
     public void Iniitialize(GameObject owner, float _explosionRadius)

@@ -5,14 +5,14 @@ using UnityEngine;
 using UnityEngine.UI;
 using static Attachment;
 using static StatsHandler;
-
+[RequireComponent(typeof(DebugableObject))]
 public class View_Attachment : MonoBehaviour
 {
     //[SerializeField] GameObject Panel;
     public Text myTypeText;
     public Text nameText;
     public View_SliderAttachment sliderTemplate;
-
+    DebugableObject _debug;
     public List<View_SliderAttachment> View_SliderAttachment;
     Attachment _actual;
 
@@ -28,14 +28,23 @@ public class View_Attachment : MonoBehaviour
         //saco la direccion opuesta para q lo vea bien(????)
         //Vector3 dir = transform.position - Camera.main.transform.position;
         //transform.forward = dir;
-
+        Debug.Log(_actual.VFX.PickUpCanvasPixelsAbove);
+        
         transform.position = Camera.main.WorldToScreenPoint(_actual.transform.position) + Vector3.up * _actual.VFX.PickUpCanvasPixelsAbove;
     }
+
+    private void Awake()
+    {
+        _debug = GetComponent<DebugableObject>();
+    }
+
+
 
     public void NewAttachment(Attachment attachment)
     {
         if (!attachment || _actual == attachment) return;
 
+        _debug.WarningLog("NewAttachment!");
         _actual = attachment; 
         RemoveStats();
 
