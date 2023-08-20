@@ -7,9 +7,10 @@ Material:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: RockTerrainBlendingMat
+  m_Name: MediumRockTBMat
   m_Shader: {fileID: -6465566751694194690, guid: 4ac75c3fd3bfee44e80ab76d2b854922, type: 3}
-  m_ValidKeywords: []
+  m_ValidKeywords:
+  - _USEGRASS
   m_InvalidKeywords: []
   m_LightmapFlags: 4
   m_EnableInstancingVariants: 0
@@ -44,12 +45,20 @@ Material:
         m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
+    - _GrassNoise:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _GrassNormal:
+        m_Texture: {fileID: 2800000, guid: 065f6c29a8f460c409bea1c0dbc493e9, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
     - _GrassTexture:
         m_Texture: {fileID: 2800000, guid: 9b37af08cc3c7d941a455cf7d6a14cf1, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _MainTex:
-        m_Texture: {fileID: 2800000, guid: b4d4b3fca61c39c4897dbc24d02ecf17, type: 3}
+        m_Texture: {fileID: 2800000, guid: 15adc7b5f320a734c973a6f99a4326d8, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _MetallicGlossMap:
@@ -57,7 +66,7 @@ Material:
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _MetallicMap:
-        m_Texture: {fileID: 2800000, guid: 0ad2538cbb2b0ac49b9f6e47e518b905, type: 3}
+        m_Texture: {fileID: 2800000, guid: 2ece788f64fd5cf4eaafc7c3b3f25ce9, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _NoiseTexture:
@@ -65,7 +74,7 @@ Material:
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _NormalMap:
-        m_Texture: {fileID: 2800000, guid: 202ef9875833f294aa6ba7c132754e7d, type: 3}
+        m_Texture: {fileID: 2800000, guid: 2a00521c3d83a2345bd1214de919bb7e, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _OcclusionMap:
@@ -74,6 +83,10 @@ Material:
         m_Offset: {x: 0, y: 0}
     - _ParallaxMap:
         m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _SampleTexture2D_47c89d71be2b47eb9578e79fe27a3a26_Texture_1:
+        m_Texture: {fileID: 2800000, guid: 9b37af08cc3c7d941a455cf7d6a14cf1, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _SampleTexture2D_622c594c36ba49f28d0eb959dcb277c1_Texture_1:
@@ -104,7 +117,7 @@ Material:
     m_Floats:
     - _AlbedoBlendFalloff: 1
     - _AlbedoBlendOffset: 0
-    - _AlbedoBlendThickness: 20
+    - _AlbedoBlendThickness: 2.07
     - _AlbedoFalloff: 1
     - _AlphaClip: 0
     - _Blend: 0
@@ -122,9 +135,15 @@ Material:
     - _GlossMapScale: 0
     - _Glossiness: 0
     - _GlossyReflections: 0
-    - _GrassAngle: 0
+    - _GrassAngle: 72.4
+    - _GrassFalloff: 0.75
+    - _GrassNormalIntensity: 1
+    - _GrassNormalMask: 1
+    - _GrassTiling: 0.05
+    - _HueBlend: 1
     - _Metallic: 0
-    - _NoiseScale: 0.1
+    - _NoiseScale: 1
+    - _NoiseTiling: 0.2
     - _NormalBlendFalloff: 1.88
     - _NormalBlendOffset: -0.2
     - _NormalBlendThickness: 0.4
@@ -134,11 +153,14 @@ Material:
     - _QueueControl: 0
     - _QueueOffset: 0
     - _ReceiveShadows: 1
-    - _Smoothness: 0.8
+    - _SaturationBlend: 0.6
+    - _Smoothness: 0
     - _SmoothnessTextureChannel: 0
     - _SpecularHighlights: 1
     - _SrcBlend: 1
     - _Surface: 0
+    - _USEGRASS: 1
+    - _ValueBlend: 0.6
     - _WorkflowMode: 1
     - _ZWrite: 1
     - _offset: 0
@@ -146,6 +168,8 @@ Material:
     - _BaseColor: {r: 1, g: 1, b: 1, a: 1}
     - _Color: {r: 1, g: 1, b: 1, a: 1}
     - _EmissionColor: {r: 0, g: 0, b: 0, a: 1}
+    - _GrassOffset: {r: 0, g: 0, b: 0, a: 0}
+    - _HSVBlend: {r: 1, g: 1, b: 1, a: 0}
     - _SpecColor: {r: 0.19999996, g: 0.19999996, b: 0.19999996, a: 1}
   m_BuildTextureStacks: []
 --- !u!114 &1054532643083345612
