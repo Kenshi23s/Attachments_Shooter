@@ -44,6 +44,10 @@ Material:
         m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
+    - _GrassTexture:
+        m_Texture: {fileID: 2800000, guid: 9b37af08cc3c7d941a455cf7d6a14cf1, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
     - _MainTex:
         m_Texture: {fileID: 2800000, guid: b4d4b3fca61c39c4897dbc24d02ecf17, type: 3}
         m_Scale: {x: 1, y: 1}
@@ -72,6 +76,10 @@ Material:
         m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
+    - _SampleTexture2D_622c594c36ba49f28d0eb959dcb277c1_Texture_1:
+        m_Texture: {fileID: 2800000, guid: 8c327085e5f85094d88be8a79f2e4453, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
     - _SpecGlossMap:
         m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
@@ -94,8 +102,10 @@ Material:
         m_Offset: {x: 0, y: 0}
     m_Ints: []
     m_Floats:
-    - _AlbedoBlendThickness: 2.83
-    - _AlbedoFalloff: 1.14
+    - _AlbedoBlendFalloff: 1
+    - _AlbedoBlendOffset: 0
+    - _AlbedoBlendThickness: 20
+    - _AlbedoFalloff: 1
     - _AlphaClip: 0
     - _Blend: 0
     - _BlendThickness: 3.96
@@ -112,10 +122,13 @@ Material:
     - _GlossMapScale: 0
     - _Glossiness: 0
     - _GlossyReflections: 0
+    - _GrassAngle: 0
     - _Metallic: 0
     - _NoiseScale: 0.1
-    - _NormalBlendThickness: 0.08
-    - _NormalFalloff: 0.56
+    - _NormalBlendFalloff: 1.88
+    - _NormalBlendOffset: -0.2
+    - _NormalBlendThickness: 0.4
+    - _NormalFalloff: 1
     - _OcclusionStrength: 1
     - _Parallax: 0.005
     - _QueueControl: 0
@@ -128,6 +141,7 @@ Material:
     - _Surface: 0
     - _WorkflowMode: 1
     - _ZWrite: 1
+    - _offset: 0
     m_Colors:
     - _BaseColor: {r: 1, g: 1, b: 1, a: 1}
     - _Color: {r: 1, g: 1, b: 1, a: 1}

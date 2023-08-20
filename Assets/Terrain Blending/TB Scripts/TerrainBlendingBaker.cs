@@ -19,6 +19,14 @@ public class TerrainBlendingBaker : MonoBehaviour
     // La camara atada a este script
     private Camera cam;
 
+    [ContextMenu("Bake All")]
+    public void BakeAll() 
+    {
+        BakeTerrainDepth();
+        BakeTerrainAlbedo();
+        BakeTerrainNormals();
+    }
+
     [ContextMenu("Bake Depth Texture")]
     public void BakeTerrainDepth()
     {
@@ -46,7 +54,6 @@ public class TerrainBlendingBaker : MonoBehaviour
         depthFeature.SetActive(false);
         unlitTerrainFeature.SetActive(false);
         normalFeature.SetActive(true);
-
 
         UpdateBakingCamera();
 
