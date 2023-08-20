@@ -41,7 +41,7 @@ public class ShakeCamera : MonoBehaviour
     [Header("Referencias"), Space(1)]
     public Transform hands;
     public Camera cam;
-    [SerializeField] Player_Movement playerMov;
+    [SerializeField] PlayerMovement playerMov;
     [SerializeField] Rigidbody rb;
     
     [SerializeField] GunHandler myGunHandler;
@@ -118,13 +118,13 @@ public class ShakeCamera : MonoBehaviour
     void SelectHandMovementType(float multiplier = 1)
     {
         // Movimiento de manos cuando corre
-        if (rb.velocity.magnitude > _minRunSpeed && playerMov.onGrounded)
+        if (rb.velocity.magnitude > _minRunSpeed && playerMov.OnGround)
         {
             _camShake = _camShake * _soft + FootStepMotion(_runFrequency, _runAmplitude * multiplier);
             _handsShake = _camShake * _handsAmplitudeScale;
         }
         // Movimiento de manos cuando camina
-        else if (rb.velocity.magnitude > _minWalkSpeed && playerMov.onGrounded)
+        else if (rb.velocity.magnitude > _minWalkSpeed && playerMov.OnGround)
         {
 
             _camShake = _camShake * _soft + FootStepMotion(_walkFrequency, _walkAmplitude * multiplier);

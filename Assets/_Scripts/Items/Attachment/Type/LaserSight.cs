@@ -33,7 +33,7 @@ public class LaserSight : Attachment
     }
    
   
-    private void Update() => UpdateLaser(Camera.main.transform.forward);
+    private void LateUpdate() => UpdateLaser(Camera.main.transform.forward);
     
     IEnumerator StopLaser()
     {
@@ -45,8 +45,6 @@ public class LaserSight : Attachment
 
     void UpdateLaser(Vector3 forward)
     {
-
-        
         _laserLineRender.SetPosition(0, _laserOutPoint.position);
         if (Physics.Raycast(_laserOutPoint.position, forward, out RaycastHit hit))        
             _laserLineRender.SetPosition(1, hit.point);        

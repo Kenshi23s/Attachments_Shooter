@@ -6,7 +6,7 @@ using System;
 [RequireComponent(typeof(DebugableObject))]
 public class Player_UI : MonoBehaviour
 {
-    [SerializeField] Player_Movement player;
+    [SerializeField] Player_Handler player;
     DebugableObject _debug;
 
     [SerializeField] Color _damage=Color.red,_heal=Color.green;

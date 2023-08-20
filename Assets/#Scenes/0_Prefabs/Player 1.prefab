@@ -959,6 +959,68 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
+--- !u!1 &1255772744766244785
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 5721243763107287059}
+  - component: {fileID: 2051150624031333468}
+  - component: {fileID: 5555835487146609585}
+  m_Layer: 8
+  m_Name: Movement Collider
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &5721243763107287059
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1255772744766244785}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 1, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 8568796443268590855}
+  m_RootOrder: 1
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!136 &2051150624031333468
+CapsuleCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1255772744766244785}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  m_Radius: 0.5
+  m_Height: 2
+  m_Direction: 1
+  m_Center: {x: 0, y: 0, z: 0}
+--- !u!114 &5555835487146609585
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1255772744766244785}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9c0745d474229a345b2cd7eb7892e981, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _owner: {fileID: 404769702446859729}
+  isCritSpot: 0
+  damageMultiplier: 1
 --- !u!1 &1256333359051681064
 GameObject:
   m_ObjectHideFlags: 0
@@ -4443,7 +4505,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7937b962a14cbe8408081251610910c1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  player: {fileID: 8568796443268590854}
+  player: {fileID: 8477458626914515890}
   _damage: {r: 1, g: 0, b: 0, a: 1}
   _heal: {r: 0, g: 1, b: 0, a: 1}
   _blitBlood: {fileID: 385626960270167318, guid: 4a8e21d5c33334b11b34a596161b9360, type: 2}
@@ -4585,15 +4647,11 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 8568796443268590855}
-  - component: {fileID: 8568796443268590852}
-  - component: {fileID: 8568796443268590853}
   - component: {fileID: 8477458626914515890}
-  - component: {fileID: 8568796443268590854}
   - component: {fileID: 404769702446859729}
   - component: {fileID: 8166762702143175498}
   - component: {fileID: 5461615312721838801}
   - component: {fileID: 8568796443268590849}
-  - component: {fileID: 8568796443268590906}
   m_Layer: 8
   m_Name: Player 1
   m_TagString: Untagged
@@ -4609,64 +4667,15 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 8568796443268590904}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -106.79375, y: 6.713, z: 18.52656}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 8568796444200242688}
+  - {fileID: 5721243763107287059}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!33 &8568796443268590852
-MeshFilter:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8568796443268590904}
-  m_Mesh: {fileID: 10208, guid: 0000000000000000e000000000000000, type: 0}
---- !u!23 &8568796443268590853
-MeshRenderer:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8568796443268590904}
-  m_Enabled: 0
-  m_CastShadows: 0
-  m_ReceiveShadows: 1
-  m_DynamicOccludee: 1
-  m_StaticShadowCaster: 0
-  m_MotionVectors: 1
-  m_LightProbeUsage: 1
-  m_ReflectionProbeUsage: 1
-  m_RayTracingMode: 2
-  m_RayTraceProcedural: 0
-  m_RenderingLayerMask: 1
-  m_RendererPriority: 0
-  m_Materials:
-  - {fileID: 2100000, guid: 31321ba15b8f8eb4c954353edc038b1d, type: 2}
-  m_StaticBatchInfo:
-    firstSubMesh: 0
-    subMeshCount: 0
-  m_StaticBatchRoot: {fileID: 0}
-  m_ProbeAnchor: {fileID: 0}
-  m_LightProbeVolumeOverride: {fileID: 0}
-  m_ScaleInLightmap: 1
-  m_ReceiveGI: 1
-  m_PreserveUVs: 0
-  m_IgnoreNormalsForChartDetection: 0
-  m_ImportantGI: 0
-  m_StitchLightmapSeams: 1
-  m_SelectedEditorRenderState: 3
-  m_MinimumChartSize: 4
-  m_AutoUVMaxDistance: 0.5
-  m_AutoUVMaxAngle: 89
-  m_LightmapParameters: {fileID: 0}
-  m_SortingLayerID: 0
-  m_SortingLayer: 0
-  m_SortingOrder: 0
-  m_AdditionalVertexStreams: {fileID: 0}
 --- !u!114 &8477458626914515890
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -4679,38 +4688,28 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c3d32a7f4a5e01c459b2fe1c272c978b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  <Movement>k__BackingField:
+    cam: {fileID: 8568796444215729709}
+    lookSensitivity: 1
+    lookUpAngle: 90
+    lookDownAngle: -90
+    walkSpeed: 8
+    runSpeed: 14
+    stealthSpeed: 4
+    maxAcceleration: 70
+    maxAirAcceleration: 35
+    jumpHeight: 1
+    maxGroundAngle: 45
+    maxStairsAngle: 50
+    probeDistance: 1
+    probeMask:
+      serializedVersion: 2
+      m_Bits: 62289
+    stairsMask:
+      serializedVersion: 2
+      m_Bits: 0
   InteractFov: 45
   vibrate: {fileID: 6750984308105810704}
---- !u!114 &8568796443268590854
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8568796443268590904}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: feb594dc6f773a4418d3f7300e7ad0e8, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  MainCam: {fileID: 8568796444215729709}
-  Player: {fileID: 8568796444200242688}
-  mycolision:
-    serializedVersion: 2
-    m_Bits: 14263
-  sens: 2.5
-  onGrounded: 0
-  onRunning: 0
-  onCrouch: 0
-  groundDistance: 1
-  friction: 20
-  speed: 60
-  speedJump: 10
-  maxvelocity: 8
-  heightCrouch: 1
-  heightStand: 0
-  maxRunningVel: 14
-  maxWalkingVel: 8
 --- !u!114 &404769702446859729
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -4781,28 +4780,14 @@ Rigidbody:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 8568796443268590904}
   serializedVersion: 2
-  m_Mass: 2
+  m_Mass: 1
   m_Drag: 0
   m_AngularDrag: 0.05
-  m_UseGravity: 1
+  m_UseGravity: 0
   m_IsKinematic: 0
-  m_Interpolate: 0
+  m_Interpolate: 1
   m_Constraints: 112
   m_CollisionDetection: 0
---- !u!136 &8568796443268590906
-CapsuleCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8568796443268590904}
-  m_Material: {fileID: 13400000, guid: fdd7cbe103d002244b74e5fdc942e1e8, type: 2}
-  m_IsTrigger: 0
-  m_Enabled: 1
-  m_Radius: 0.4
-  m_Height: 2
-  m_Direction: 1
-  m_Center: {x: 0, y: 0, z: 0}
 --- !u!1 &8568796443389817191
 GameObject:
   m_ObjectHideFlags: 0
@@ -4953,7 +4938,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 8568796444200242689}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: 0, y: 1, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -5027,7 +5012,26 @@ MonoBehaviour:
   _returnSpeed: 8
   hands: {fileID: 8568796444031059869}
   cam: {fileID: 8568796442919035190}
-  playerMov: {fileID: 8568796443268590854}
+  playerMov:
+    cam: {fileID: 0}
+    lookSensitivity: 1
+    lookUpAngle: 90
+    lookDownAngle: -90
+    walkSpeed: 8
+    runSpeed: 14
+    stealthSpeed: 4
+    maxAcceleration: 37.5
+    maxAirAcceleration: 20
+    jumpHeight: 1.5
+    maxGroundAngle: 45
+    maxStairsAngle: 50
+    probeDistance: 0.5
+    probeMask:
+      serializedVersion: 2
+      m_Bits: 4294967295
+    stairsMask:
+      serializedVersion: 2
+      m_Bits: 4294967295
   rb: {fileID: 8568796443268590849}
   myGunHandler: {fileID: 375377512}
 --- !u!114 &4777580876267569269
