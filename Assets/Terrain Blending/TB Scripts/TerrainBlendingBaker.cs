@@ -19,12 +19,17 @@ public class TerrainBlendingBaker : MonoBehaviour
     // La camara atada a este script
     private Camera cam;
 
+    Terrain terrain;
+
     [ContextMenu("Bake All")]
     public void BakeAll() 
     {
+        terrain = GetComponentInParent<Terrain>();
+        terrain.drawTreesAndFoliage = false;
         BakeTerrainDepth();
         BakeTerrainAlbedo();
         BakeTerrainNormals();
+        terrain.drawTreesAndFoliage = true;
     }
 
     [ContextMenu("Bake Depth Texture")]
