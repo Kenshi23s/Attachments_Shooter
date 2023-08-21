@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 using UnityEngine;
 [RequireComponent(typeof(PausableObject))]
 public class LaserSight : Attachment
@@ -12,12 +13,8 @@ public class LaserSight : Attachment
     protected override void Initialize()
     {
         MyType = AttachmentType.LaserSight;
-        GetComponent<PausableObject>().onPause += () => {if(this.isActiveAndEnabled) StartCoroutine(StopLaser()); };
-    }
-
-    private void OnValidate()
-    {
-        UpdateLaser(_laserOutPoint.forward);
+        GetComponent<PausableObject>().onPause += () => {if(isActiveAndEnabled) StartCoroutine(StopLaser()); };
+        _laserLineRender.SetPosition(0, Vector3.zero);
     }
 
     protected override void Comunicate() 
@@ -33,23 +30,22 @@ public class LaserSight : Attachment
     }
    
   
-    private void LateUpdate() => UpdateLaser(Camera.main.transform.forward);
+    private void LateUpdate() => UpdateLaser();
     
     IEnumerator StopLaser()
     {
         _enable?.Invoke(false);
-        UpdateLaser(_laserOutPoint.forward);
+        UpdateLaser();
          yield return new WaitWhile(ScreenManager.IsPaused);
         _enable?.Invoke(isAttached);
     }
 
-    void UpdateLaser(Vector3 forward)
+    void UpdateLaser()
     {
-        _laserLineRender.SetPosition(0, _laserOutPoint.position);
-        if (Physics.Raycast(_laserOutPoint.position, forward, out RaycastHit hit))        
-            _laserLineRender.SetPosition(1, hit.point);        
+        if (Physics.Raycast(_laserOutPoint.position, _laserOutPoint.forward, out RaycastHit hit))        
+            _laserLineRender.SetPosition(1, _laserLineRender.transform.InverseTransformPoint(hit.point));        
         else
-            _laserLineRender.SetPosition(1, _laserOutPoint.position + forward * 200f);
+            _laserLineRender.SetPosition(1, _laserLineRender.transform.InverseTransformPoint(_laserOutPoint.position + _laserOutPoint.forward * 200f));
     }
     
 
