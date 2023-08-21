@@ -100,9 +100,9 @@ public class Enemy_AirTurret : Enemy, IDetector
        
     }
 
-    public void OnRangeCallBack(Player_Movement item) => TargetDetected(item.transform);
+    public void OnRangeCallBack(Player_Handler item) => TargetDetected(item.transform);
 
-    public void OutOfRangeCallBack(Player_Movement item) => _target = null;
+    public void OutOfRangeCallBack(Player_Handler item) => _target = null;
 
     private void Update()
     {

@@ -139,7 +139,7 @@ public class InteractableObject : MonoBehaviour
 
     protected virtual void OnTriggerEnter(Collider other)
     {
-        if (other.TryGetComponent(out Player_Movement player))        
+        if (other.TryGetComponent(out Player_Handler player))        
             _canvas.gameObject.SetActive(true);
         
      
@@ -147,7 +147,7 @@ public class InteractableObject : MonoBehaviour
     }
     protected virtual void OnTriggerExit(Collider other)
     {
-        if (other.TryGetComponent(out Player_Movement player))       
+        if (other.TryGetComponent(out Player_Handler player))       
             _canvas.gameObject.SetActive(false);
         
     

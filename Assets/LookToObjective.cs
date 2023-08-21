@@ -84,9 +84,9 @@ public class LookToObjective : MonoBehaviour
 
         if (gamemode.eggsEscaping.Where(x => x.actualState == EggStates.Kidnapped).Any()) return 0;
         FinalPos = gamemode.eggsEscaping
-       .Minimum(x => Vector3.Distance(x.transform.position, Player_Movement.position)).transform.position;
+       .Minimum(x => Vector3.Distance(x.transform.position, Player_Handler.position)).transform.position;
 
-        return (FinalPos - Player_Movement.position).magnitude;
+        return (FinalPos - Player_Handler.position).magnitude;
     }
 
 

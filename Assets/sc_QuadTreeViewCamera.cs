@@ -4,12 +4,12 @@ using UnityEngine;
 
 public class sc_QuadTreeViewCamera : MonoBehaviour
 {
-    Player_Movement myGuide;
+    Player_Handler myGuide;
     [SerializeField] MeshRenderer myRender;
 
     void Start()
     {
-        myGuide = FindObjectOfType<Player_Movement>();
+        myGuide = FindObjectOfType<Player_Handler>();
     }
 
     // Update is called once per frame

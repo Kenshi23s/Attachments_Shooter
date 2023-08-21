@@ -1,12 +1,9 @@
-using AYellowpaper.SerializedCollections;
+
 using System;
 using System.Collections;
 using System.Collections.Generic;
-using System.Linq;
-using UnityEditor;
+
 using UnityEngine;
-using Random = UnityEngine.Random;
-using Worm_AttackState = Worm_State_Attack.Worm_AttackState;
 
 
 [RequireComponent(typeof(AI_Movement))]
@@ -107,7 +104,8 @@ public class Enemy_Worm : Enemy
 
     public float StunTime;
 
-    void AddStunCharge(int dmgTaken) {
+    void AddStunCharge(int dmgTaken)
+    {
         _stunDmgCount += dmgTaken;
 
         if (CanBeStunned && _stunDmgCount >= _dmgNeeded4stun)
@@ -142,7 +140,7 @@ public class Enemy_Worm : Enemy
 
     [SerializeField]
     Transform _hitboxPos;
-    
+
     public event Action OnStun;
 
     public Transform target;
@@ -169,7 +167,7 @@ public class Enemy_Worm : Enemy
         #region Initialize FSM
 
         fsm = new StateMachine<EWormStates>();
-        fsm.Initialize(_debug); 
+        fsm.Initialize(_debug);
 
         health.OnKilled.AddListener(DieChange);
         health.OnTakeDamage.AddListener(AddStunCharge);
@@ -187,7 +185,7 @@ public class Enemy_Worm : Enemy
 
     }
 
-    public IEnumerator MeleeCooldown() 
+    public IEnumerator MeleeCooldown()
     {
         CanMelee = false;
         yield return new WaitForSeconds(_meleeCooldown);
@@ -196,12 +194,12 @@ public class Enemy_Worm : Enemy
 
     IEnumerator PauseWorm()
     {
-        var x = anim.speed;     
-        anim.speed= 0;
+        var x = anim.speed;
+        anim.speed = 0;
         enabled = false;
         yield return new WaitWhile(ScreenManager.IsPaused);
-        enabled= true;
-        anim.speed= x;
+        enabled = true;
+        anim.speed = x;
     }
     private void Start()
     {
@@ -231,45 +229,46 @@ public class Enemy_Worm : Enemy
     {
         yield return new WaitForSeconds(_acidShootTime);
         var x = Instantiate(_prefabAcid, _shootPivot.position, Quaternion.identity);
-        Vector3 dir = Player_Movement.position - _shootPivot.position;
-        Vector3 force = (Vector3.up + new Vector3(dir.x, 0, dir.z)).normalized * (_acidForce+dir.magnitude);
+        Vector3 dir = Player_Handler.position - _shootPivot.position;
+        Vector3 force = (Vector3.up + new Vector3(dir.x, 0, dir.z)).normalized * (_acidForce + dir.magnitude);
         x.Initialize(gameObject, _acidDamage, force);
     }
-    
+
     public void CancelShootAcid()
     {
         StopCoroutine(ShootAcid());
 
-        if (_acidProjectile != null)
-        {
-            // NOTA: Mas adelante esto regresaria a una pool
-            Destroy(_acidProjectile);
-            _acidProjectile = null;
-        }
+        if (_acidProjectile == null) return;
+
+        // NOTA: Mas adelante esto regresaria a una pool
+        Destroy(_acidProjectile);
+        _acidProjectile = null;
+
     }
 
-    public IEnumerator GrabDirt() 
+    public IEnumerator GrabDirt()
     {
         //grab
         yield return new WaitForSeconds(_dirtGrabTime);
+        if (_dirtProjectile != null) Destroy(_dirtProjectile.gameObject);       
         _dirtProjectile = Instantiate(_prefabDirt, _shootPivot.position, Quaternion.identity);
         _dirtProjectile.Iniitialize(gameObject, _dirtRadius);
         _dirtProjectile.transform.SetParent(_shootPivot);
     }
 
-    public void CancelGrabDirt() 
+    public void CancelGrabDirt()
     {
         StopCoroutine(GrabDirt());
-        
-        if (_dirtProjectile != null)
-        {
-            // NOTA: Mas adelante esto regresaria a una pool
-            Destroy(_dirtProjectile);
-            _dirtProjectile = null;
-        }
+
+        if (_dirtProjectile == null) return;
+
+        // NOTA: Mas adelante esto regresaria a una pool
+        Destroy(_dirtProjectile);
+        _dirtProjectile = null;
+
     }
 
-    public IEnumerator ShootDirt() 
+    public IEnumerator ShootDirt()
     {
         //shoot
         yield return new WaitForSeconds(_dirtShootTime);
@@ -289,12 +288,12 @@ public class Enemy_Worm : Enemy
             }
         };
 
-        Vector3 dir = Player_Movement.position - _shootPivot.position;
+        Vector3 dir = Player_Handler.position - _shootPivot.position;
         _dirtProjectile.LaunchProjectile(dir.normalized * _dirtLaunchForce);
         _dirtProjectile = null;
     }
 
-    public void CancelShootDirt() 
+    public void CancelShootDirt()
     {
         StopCoroutine(ShootDirt());
 
@@ -315,7 +314,7 @@ public class Enemy_Worm : Enemy
         _meleeHitbox.DeactivateHitBox();
     }
 
-    public void CancelMelee() 
+    public void CancelMelee()
     {
         StopCoroutine(SpawnMeleeHitbox());
         _meleeHitbox.DeactivateHitBox();
@@ -325,7 +324,7 @@ public class Enemy_Worm : Enemy
     {
         Debug.Log(newtarget);
         target = newtarget != this ? newtarget : target;
-        Debug.Log("Asigno a "+target.ToString()+" como mi target");
+        Debug.Log("Asigno a " + target.ToString() + " como mi target");
     }
 
     public void Destroy()

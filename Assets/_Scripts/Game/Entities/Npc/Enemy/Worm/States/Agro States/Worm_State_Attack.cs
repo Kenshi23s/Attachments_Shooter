@@ -41,9 +41,9 @@ public class Worm_State_Attack : Worm_State<EWormStates>
     {
         // NOTA: Esto se podria optimizar si se sabe que rango es mas chico. En ese caso primero se chequearia por 
         // el rango mas chico, y recien despues por los mas grandes.
-        bool inAcidRange = _worm.AI_move.FOV.IN_FOV(Player_Movement.position, _worm.ShootAcidRadius);
-        bool inDirtRange = _worm.AI_move.FOV.IN_FOV(Player_Movement.position, _worm.ShootDirtRadius);
-        bool inMeleeRange = _worm.AI_move.FOV.IN_FOV(Player_Movement.position, _worm.MeleeAttackRadius);
+        bool inAcidRange = _worm.AI_move.FOV.IN_FOV(Player_Handler.position, _worm.ShootAcidRadius);
+        bool inDirtRange = _worm.AI_move.FOV.IN_FOV(Player_Handler.position, _worm.ShootDirtRadius);
+        bool inMeleeRange = _worm.AI_move.FOV.IN_FOV(Player_Handler.position, _worm.MeleeAttackRadius);
 
         Worm_AttackState key =
           _worm.CanMelee && inMeleeRange ? Worm_AttackState.Melee
@@ -57,7 +57,7 @@ public class Worm_State_Attack : Worm_State<EWormStates>
     public override void OnUpdate()
     {
         // Si se perdio de vista al jugador, pasar al idle
-        if (!_worm.AI_move.FOV.IN_FOV(Player_Movement.position, _worm.LoseSightRadius))
+        if (!_worm.AI_move.FOV.IN_FOV(Player_Handler.position, _worm.LoseSightRadius))
         {
             _worm.fsm.ChangeState(EWormStates.Idle);
             return;

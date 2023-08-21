@@ -21,6 +21,26 @@ namespace FacundoColomboMethods
 
     public static class ColomboMethods
     {
+
+        public static bool IsInCameraSight(this Camera cam, Collider target)
+        {
+            var planes = GeometryUtility.CalculateFrustumPlanes(cam);
+            //si el collider esta entre los 4 planos de la camara, devuelve verdadero
+            return GeometryUtility.TestPlanesAABB(planes, target.bounds);
+        }
+
+        public static IEnumerable<T> AreTheyInCameraSight<T>(this Camera cam, IEnumerable<Tuple<T,Collider>> col)
+        {
+            var planes = GeometryUtility.CalculateFrustumPlanes(cam);   
+            
+            foreach (var x in col)          
+                if (GeometryUtility.TestPlanesAABB(planes, x.Item2.bounds))            
+                    yield return x.Item1;             
+            
+            //si el collider esta entre los 4 planos de la camara, devuelve verdadero
+            
+        }
+
         public static T CreateComponent<T>(this GameObject x) where T : Component
         {
             x.AddComponent(typeof(T));

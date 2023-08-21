@@ -15,9 +15,11 @@ public class E_ExplosiveDog : Enemy
 
     public AI_Movement agent { get; private set; }
     public PausableObject pauseHandler { get; private set; }
+
     #region Idle
     float alarmRadius;
     #endregion
+
     [Header("Pursuit")]
 
     [SerializeField] float pursuitMaxSpeed;
@@ -65,7 +67,8 @@ public class E_ExplosiveDog : Enemy
             aux.transform.position = transform.position;
             aux.transform.localScale = new Vector3(_explosionRadius, _explosionRadius, _explosionRadius);
         }); 
-        _fsm.CreateState(EDogStates.IDLE, new EDogState_Idle(()=> blinkMat.SetInt("_Blink",0), agent, _fsm, health));
+
+        _fsm.CreateState(EDogStates.IDLE, new EDogState_Idle( ()=> blinkMat.SetInt("_Blink",0), agent, _fsm, health));
         _fsm.CreateState(EDogStates.PURSUIT, new EDogState_Pursuit(() => blinkMat.SetInt("_Blink", 1), _fsm,agent, pursuitMaxSpeed, minJumpDistance));
 
         _fsm.CreateState(EDogStates.JUMP_ATTACK, new EDogState_JumpAttack(triggerRadius, Explosion, agent.Movement, unitsAbovePlayer, _fsm));

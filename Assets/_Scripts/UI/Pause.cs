@@ -11,7 +11,7 @@ public class Pause : MonoBehaviour
 
     private void Start()
     {
-        player.myHealth.OnKilled.AddListener(PauseMethod);
+        player.Health.OnKilled.AddListener(PauseMethod);
       
     }
 
@@ -30,6 +30,6 @@ public class Pause : MonoBehaviour
         Cursor.lockState = CursorLockMode.Locked;
         HUD_Restart.SetActive(false);
         player.transform.position = respawnPoint.position;
-        player.myHealth.Heal(int.MaxValue/2);
+        player.Health.Heal(int.MaxValue/2);
     }
 }

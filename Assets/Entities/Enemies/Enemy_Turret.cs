@@ -44,9 +44,9 @@ public class Enemy_Turret : Enemy
         Vector3 dir = _shootPos[_actualShootPos].forward.RandomDirFrom(_spreadAngle);
         if (Physics.Raycast(_shootPos[_actualShootPos].position, dir, out hit))
         {
-            if (hit.transform.TryGetComponent(out Player_Movement player))
+            if (hit.transform.TryGetComponent(out Player_Handler player))
             {
-                player.lifehandler.TakeDamage(_bulletDamage);
+                player.Health.TakeDamage(_bulletDamage);
             }
         }
     }

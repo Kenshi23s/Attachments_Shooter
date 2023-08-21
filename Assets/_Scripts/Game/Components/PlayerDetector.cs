@@ -11,7 +11,7 @@ public class PlayerDetector : MonoBehaviour
     DebugableObject _debug;
     IDetector callBackTarget;
     //[SerializeField]float range = 10f;
-    [SerializeField]Player_Movement target;
+    [SerializeField] Player_Handler target;
 
 
     private void Awake()
@@ -30,7 +30,7 @@ public class PlayerDetector : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
-        if (other.TryGetComponent(out Player_Movement item))
+        if (other.TryGetComponent(out Player_Handler item))
         {
             target = item;
             callBackTarget.OnRangeCallBack(target);
@@ -38,7 +38,7 @@ public class PlayerDetector : MonoBehaviour
     }
     private void OnTriggerExit(Collider other)
     {
-        if (other.TryGetComponent(out Player_Movement item))
+        if (other.TryGetComponent(out Player_Handler item))
         {
             target = default;
             callBackTarget.OutOfRangeCallBack(target);
@@ -48,8 +48,8 @@ public class PlayerDetector : MonoBehaviour
 
 public interface IDetector
 {
-    void OnRangeCallBack(Player_Movement item);
+    void OnRangeCallBack(Player_Handler item);
 
-    void OutOfRangeCallBack(Player_Movement item);
+    void OutOfRangeCallBack(Player_Handler item);
    
 }

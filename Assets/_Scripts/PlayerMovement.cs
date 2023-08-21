@@ -2,12 +2,12 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-[RequireComponent(typeof(Player_Handler), typeof(Rigidbody))]
+[RequireComponent(typeof(Player_Handler), typeof(Rigidbody),typeof(PausableObject))]
 public class PlayerMovement : MonoBehaviour
 {
     [SerializeField] Transform cam;
     Rigidbody rb;
-
+    PausableObject pauseOBJ;
     #region look
     [SerializeField, Range(0f, 10f)]
     float lookVerticalSensitivity, lookHorizontalSensitivity = 1;
@@ -68,6 +68,9 @@ public class PlayerMovement : MonoBehaviour
 
     private void Awake()
     {
+        pauseOBJ = GetComponent<PausableObject>();
+
+        pauseOBJ.onPause += () => StartCoroutine(StopMoving());
         player = GetComponent<Player_Handler>();
         rb = GetComponent<Rigidbody>();
         rb.useGravity = false;
@@ -77,6 +80,23 @@ public class PlayerMovement : MonoBehaviour
         Cursor.visible = false;
 
         OnValidate();
+    }
+
+    IEnumerator StopMoving()
+    {
+        enabled = false;
+        Vector3 actualVelocity = rb.velocity;
+        rb.velocity = Vector3.zero;
+
+        bool gravity = rb.useGravity;
+        rb.useGravity = false;
+        Debug.LogWarning("Pause");
+        yield return new WaitWhile(ScreenManager.IsPaused);
+
+        enabled = true;
+
+        rb.velocity = actualVelocity;
+        rb.useGravity = gravity;
     }
 
     // Se llama a esta función cuando se carga el script o cuando se modifica un valor en el inspector (solo se llama en el editor)

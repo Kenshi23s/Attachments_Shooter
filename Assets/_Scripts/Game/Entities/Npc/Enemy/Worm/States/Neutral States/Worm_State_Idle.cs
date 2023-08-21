@@ -15,7 +15,7 @@ public class Worm_State_Idle : Worm_State<EWormStates>
 
     public override void OnUpdate()
     {
-        if (_worm.AI_move.FOV.IN_FOV(Player_Movement.position, _worm.SightRadius))       
+        if (_worm.AI_move.FOV.IN_FOV(Player_Handler.position, _worm.SightRadius))       
             Change();     
     }
 

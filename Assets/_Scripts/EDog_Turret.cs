@@ -52,12 +52,12 @@ public class EDog_Turret : MonoBehaviour
     IEnumerator ShootCoroutine()
     {
         WaitForSeconds wait = new WaitForSeconds(rateOfFire);
-        while (ammo > 0 || Vector3.Distance(Player_Movement.position, transform.position) > triggerDistance)
+        while (ammo > 0 || Vector3.Distance(Player_Handler.position, transform.position) > triggerDistance)
         {
 
           
-            yield return new WaitUntil(() => owner.agent.FOV.IN_FOV(Player_Movement.position, shootDistance));
-            Vector3 dir = Player_Movement.position - transform.position;
+            yield return new WaitUntil(() => owner.agent.FOV.IN_FOV(Player_Handler.position, shootDistance));
+            Vector3 dir = Player_Handler.position - transform.position;
             transform.forward = new Vector3(dir.x, 0, dir.z);
          
             Shoot();
@@ -102,7 +102,7 @@ public class EDog_Turret : MonoBehaviour
         owner.agent.Movement.maxSpeed = 0;
         yield return new WaitUntil(() =>
         {
-            return ammo <= 0 || Vector3.Distance(Player_Movement.position, transform.position) < triggerDistance;
+            return ammo <= 0 || Vector3.Distance(Player_Handler.position, transform.position) < triggerDistance;
         });
         StopCoroutine(ShootCoroutine());
         owner.agent.Movement.maxForce = aux;

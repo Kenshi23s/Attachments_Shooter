@@ -7,7 +7,7 @@ using UnityEngine.Events;
 public class SideArm_Burst : Burst_Gun
 {
     RaycastComponent _raycast;
-    [SerializeField]Player_Movement p;
+    [SerializeField]Player_Handler p;
 
     protected override void OptionalInitialize()
     {
@@ -28,7 +28,7 @@ public class SideArm_Burst : Burst_Gun
     {
         if (burstCount != bulletsPerBurst) return;
 
-        p.lifehandler.Heal(hit.dmgData.damageDealt/2);
+        p.Health.Heal(hit.dmgData.damageDealt/2);
       
     }
 

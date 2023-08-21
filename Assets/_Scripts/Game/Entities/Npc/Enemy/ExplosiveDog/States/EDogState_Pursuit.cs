@@ -23,7 +23,7 @@ public class EDogState_Pursuit : IState<EDogStates>
 
     public void OnEnter()
     {
-        _agent.SetDestination(Player_Movement.position);
+        _agent.SetDestination(Player_Handler.position);
         _agent.SetMaxSpeed(_pursuitSpeed);
     }
 
@@ -31,16 +31,16 @@ public class EDogState_Pursuit : IState<EDogStates>
 
     public void OnUpdate()
     {
-        if (_agent.Movement.maxForce==0)
+        if (_agent.Movement.maxForce == 0)
         {
-            Vector3 dir  = Player_Movement.position-_agent.transform.position;
+            Vector3 dir  = Player_Handler.position-_agent.transform.position;
             _agent.transform.forward = new Vector3(dir.x,0,dir.z);
         }
         else
         {
-            _agent.SetDestination(Player_Movement.position);
-            if (Vector3.Distance(_agent.transform.position, Player_Movement.position) <= _jumpRadius)
-                if (_agent.transform.position.InLineOffSight(Player_Movement.position, AI_Manager.instance.wall_Mask))
+            _agent.SetDestination(Player_Handler.position);
+            if (Vector3.Distance(_agent.transform.position, Player_Handler.position) <= _jumpRadius)
+                if (_agent.transform.position.InLineOffSight(Player_Handler.position, AI_Manager.instance.wall_Mask))
                 {
                     _fsm.ChangeState(EDogStates.JUMP_ATTACK);
                 }
@@ -60,7 +60,7 @@ public class EDogState_Pursuit : IState<EDogStates>
 
     public void GizmoShow()
     {
-        Vector3 dir = Player_Movement.position - _agent.transform.position;
+        Vector3 dir = Player_Handler.position - _agent.transform.position;
         Gizmos.color = Color.red;
         if (Physics.Raycast(_agent.transform.position, dir, out RaycastHit hit, _jumpRadius, AI_Manager.instance.wall_Mask))
         {

@@ -14,7 +14,7 @@ public class Worm_State_Search : Worm_State<EWormStates>
     public override void OnEnter()
     {
         _enterPos = _worm.transform.position;
-        _worm.AI_move.SetDestination(Player_Movement.position);
+        _worm.AI_move.SetDestination(Player_Handler.position);
 
         // Si el gusano llega a su destino sin encontrar al jugador, que regrese a su posicion original
         _worm.AI_move.OnDestinationReached += ReturnToEnterPosition;
@@ -25,7 +25,7 @@ public class Worm_State_Search : Worm_State<EWormStates>
     public override void OnUpdate()
     {
         // Mientras el jugador no este a la vista, permanecer en este estado
-        if (_worm.AI_move.FOV.IN_FOV(Player_Movement.position, _worm.SightRadius))
+        if (_worm.AI_move.FOV.IN_FOV(Player_Handler.position, _worm.SightRadius))
             _fsm.ChangeState(EWormStates.Attack);
     }
 

@@ -27,10 +27,10 @@ public class Worm_State_Flank : Worm_State<Worm_AttackState>
         Vector3 randomPos = flankPositions[Random.Range(0, flankPositions.Length)];
 
         // Conseguir posicion en espacio de mundo
-        Vector3 dirToPlayer = Player_Movement.position - _worm.transform.position;
+        Vector3 dirToPlayer = Player_Handler.position - _worm.transform.position;
         dirToPlayer.y = 0;
         Vector3 flankPosDirFromPlayer = Quaternion.FromToRotation(Vector3.forward, randomPos) * dirToPlayer.normalized; 
-        Vector3 flankPosition = Player_Movement.position + flankPosDirFromPlayer * _worm.FlankDistance;
+        Vector3 flankPosition = Player_Handler.position + flankPosDirFromPlayer * _worm.FlankDistance;
 
         // Conseguir direccion a esa posicion
         //Vector3 flankDir = flankPosition - _worm.transform.position;
@@ -42,7 +42,7 @@ public class Worm_State_Flank : Worm_State<Worm_AttackState>
         //}
 
         _worm.AI_move.OnDestinationReached += FlankComplete;
-        _worm.AI_move.SetDestinationButLookAt(flankPosition, Player_Movement.StaticPlayer);
+        _worm.AI_move.SetDestinationButLookAt(flankPosition, Player_Handler.Transform);
         _flankPos = _worm.AI_move.Destination;
     }
 

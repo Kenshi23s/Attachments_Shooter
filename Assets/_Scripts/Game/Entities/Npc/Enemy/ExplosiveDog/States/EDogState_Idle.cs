@@ -37,7 +37,7 @@ public class EDogState_Idle : IState<EDogStates>
     IEnumerator StayIdle()
     {
         Debug.Log("Stay Idle Called");
-        if (_agent.FOV.IN_FOV(Player_Movement.position))
+        if (_agent.FOV.IN_FOV(Player_Handler.position))
         {
             Debug.Log("ENCONTRE AL JUGADOR");
             _fsm.Debug("Veo al player"); _fsm.ChangeState(EDogStates.PURSUIT);
@@ -61,7 +61,7 @@ public class EDogState_Idle : IState<EDogStates>
             //.Where(x => _agent.transform.position.InLineOffSight(x.transform.position, IA_Manager.instance.wall_Mask))
             //.First();
             //buscar alguna manera que no sea calculando la posicion
-            if (_agent.FOV.IN_FOV(Player_Movement.position))
+            if (_agent.FOV.IN_FOV(Player_Handler.position))
             {
                 _fsm.Debug("Veo al player"); _fsm.ChangeState(EDogStates.PURSUIT);
                 break;

@@ -18,9 +18,9 @@ public class Worm_State_Pursuit : Worm_State<Worm_AttackState>
     {
         // NOTA: Esto se podria optimizar si se sabe que rango es mas chico. En ese caso primero se chequearia por 
         // el rango mas chico, y recien despues por los mas grandes.
-        bool inAcidRange = _worm.AI_move.FOV.IN_FOV(Player_Movement.position, _worm.ShootAcidRadius);
-        bool inDirtRange = _worm.AI_move.FOV.IN_FOV(Player_Movement.position, _worm.ShootDirtRadius);
-        bool inMeleeRange = _worm.AI_move.FOV.IN_FOV(Player_Movement.position, _worm.MeleeAttackRadius);
+        bool inAcidRange = _worm.AI_move.FOV.IN_FOV(Player_Handler.position, _worm.ShootAcidRadius);
+        bool inDirtRange = _worm.AI_move.FOV.IN_FOV(Player_Handler.position, _worm.ShootDirtRadius);
+        bool inMeleeRange = _worm.AI_move.FOV.IN_FOV(Player_Handler.position, _worm.MeleeAttackRadius);
 
          Worm_AttackState key =
            _worm.CanMelee && inMeleeRange ? Worm_AttackState.Melee
@@ -31,7 +31,7 @@ public class Worm_State_Pursuit : Worm_State<Worm_AttackState>
         if (key != default)
         {
             _fsm.ChangeState(key);
-            Vector3 dir = Player_Movement.position-_worm.transform.position;
+            Vector3 dir = Player_Handler.position-_worm.transform.position;
             if (Physics.Raycast(_worm.transform.position, dir,out RaycastHit hit))
             {
                 
@@ -41,7 +41,7 @@ public class Worm_State_Pursuit : Worm_State<Worm_AttackState>
         }
            
         else 
-            _worm.AI_move.SetDestination(Player_Movement.position);
+            _worm.AI_move.SetDestination(Player_Handler.position);
     }
 
     public override void OnExit()

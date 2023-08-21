@@ -15,7 +15,7 @@ public class TestShoot : MonoBehaviour
     {
         if (Input.GetKeyDown(KeyCode.L))
         {
-          var z =  Instantiate(sample, Player_Movement.position+Vector3.up*30f, Quaternion.identity);
+          var z =  Instantiate(sample, Player_Handler.position+Vector3.up*30f, Quaternion.identity);
            
         }
     }

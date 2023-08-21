@@ -4,8 +4,12 @@ using UnityEngine.Events;
 [RequireComponent(typeof(PlayerMovement))]
 public class Player_Handler : MonoBehaviour
 {
-    public GunHandler myGunHandler { get; private set;}
-    public LifeComponent myHealth { get; private set;}
+    public GunHandler GunHandler { get; private set;}
+    public LifeComponent Health { get; private set;}
+
+    public static Transform Transform;
+    public static Vector3 position,Velocity;
+  
 
     [field: SerializeField] public PlayerMovement Movement { get; private set; }
 
@@ -19,21 +23,26 @@ public class Player_Handler : MonoBehaviour
 
     private void Awake()
     {
-        myGunHandler = GetComponentInChildren<GunHandler>();
-        myGunHandler.SetPlayer(this);
+        GunHandler = GetComponentInChildren<GunHandler>(); GunHandler.SetPlayer(this);
+
         Movement = GetComponent<PlayerMovement>();
 
-        myHealth = GetComponent<LifeComponent>();
-        myHealth.OnTakeDamage.AddListener((x) => vibrate.AddIntensity(x));
+        Health = GetComponent<LifeComponent>();
+        Health.OnTakeDamage.AddListener((x) => vibrate.AddIntensity(x));
+
+        Transform = transform;
+       
     }
 
     private void Start()
     {
-        myHealth.OnTakeDamage.RemoveListener(myHealth.ShowDamageNumber);
+        Health.OnTakeDamage.RemoveListener(Health.ShowDamageNumber);
     }
 
     private void Update()
     {
         InteractablesManager.instance.UpdateInteractions(this);
+        position = transform.position;
+        Velocity = Movement.Velocity;
     }
 }
