@@ -4652,6 +4652,7 @@ GameObject:
   - component: {fileID: 8166762702143175498}
   - component: {fileID: 5461615312721838801}
   - component: {fileID: 8568796443268590849}
+  - component: {fileID: 8972738175332708162}
   m_Layer: 8
   m_Name: Player 1
   m_TagString: Untagged
@@ -4688,26 +4689,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c3d32a7f4a5e01c459b2fe1c272c978b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  <Movement>k__BackingField:
-    cam: {fileID: 8568796444215729709}
-    lookSensitivity: 1
-    lookUpAngle: 90
-    lookDownAngle: -90
-    walkSpeed: 8
-    runSpeed: 14
-    stealthSpeed: 4
-    maxAcceleration: 70
-    maxAirAcceleration: 35
-    jumpHeight: 1
-    maxGroundAngle: 45
-    maxStairsAngle: 50
-    probeDistance: 1
-    probeMask:
-      serializedVersion: 2
-      m_Bits: 62289
-    stairsMask:
-      serializedVersion: 2
-      m_Bits: 0
+  <Movement>k__BackingField: {fileID: 0}
   InteractFov: 45
   vibrate: {fileID: 6750984308105810704}
 --- !u!114 &404769702446859729
@@ -4788,6 +4770,38 @@ Rigidbody:
   m_Interpolate: 1
   m_Constraints: 112
   m_CollisionDetection: 0
+--- !u!114 &8972738175332708162
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8568796443268590904}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ad28d0de6593d8a4fb7fbd6ddd59fd52, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  cam: {fileID: 8568796444215729709}
+  lookVerticalSensitivity: 2
+  lookHorizontalSensitivity: 2
+  lookUpAngle: 90
+  lookDownAngle: -90
+  walkSpeed: 8
+  runSpeed: 14
+  stealthSpeed: 4
+  maxAcceleration: 37.5
+  maxAirAcceleration: 20
+  jumpHeight: 1.5
+  maxGroundAngle: 45
+  maxStairsAngle: 50
+  probeDistance: 0.5
+  probeMask:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  stairsMask:
+    serializedVersion: 2
+    m_Bits: 4294967295
 --- !u!1 &8568796443389817191
 GameObject:
   m_ObjectHideFlags: 0
@@ -5012,26 +5026,7 @@ MonoBehaviour:
   _returnSpeed: 8
   hands: {fileID: 8568796444031059869}
   cam: {fileID: 8568796442919035190}
-  playerMov:
-    cam: {fileID: 0}
-    lookSensitivity: 1
-    lookUpAngle: 90
-    lookDownAngle: -90
-    walkSpeed: 8
-    runSpeed: 14
-    stealthSpeed: 4
-    maxAcceleration: 37.5
-    maxAirAcceleration: 20
-    jumpHeight: 1.5
-    maxGroundAngle: 45
-    maxStairsAngle: 50
-    probeDistance: 0.5
-    probeMask:
-      serializedVersion: 2
-      m_Bits: 4294967295
-    stairsMask:
-      serializedVersion: 2
-      m_Bits: 4294967295
+  playerMov: {fileID: 8972738175332708162}
   rb: {fileID: 8568796443268590849}
   myGunHandler: {fileID: 375377512}
 --- !u!114 &4777580876267569269

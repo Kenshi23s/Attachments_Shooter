@@ -1,6 +1,7 @@
 using UnityEngine;
 using UnityEngine.Events;
 
+[RequireComponent(typeof(PlayerMovement))]
 public class Player_Handler : MonoBehaviour
 {
     public GunHandler myGunHandler { get; private set;}
@@ -16,22 +17,14 @@ public class Player_Handler : MonoBehaviour
 
     UnityEvent<Collision> WhenCollisionEnter, WhenCollisionStay, WhenCollisionExit = new UnityEvent<Collision>();
 
-    private void OnValidate()
-    {
-        Movement.Validate();
-    }
-
     private void Awake()
     {
         myGunHandler = GetComponentInChildren<GunHandler>();
         myGunHandler.SetPlayer(this);
-
+        Movement = GetComponent<PlayerMovement>();
 
         myHealth = GetComponent<LifeComponent>();
         myHealth.OnTakeDamage.AddListener((x) => vibrate.AddIntensity(x));
-
-        Movement.Configure(this);
-        Movement.Validate();
     }
 
     private void Start()
@@ -42,21 +35,5 @@ public class Player_Handler : MonoBehaviour
     private void Update()
     {
         InteractablesManager.instance.UpdateInteractions(this);
-        Movement.Update();
-    }
-
-    private void FixedUpdate()
-    {
-        Movement.FixedUpdate();
-    }
-
-    private void LateUpdate()
-    {
-        Movement.LateUpdate();
-    }
-
-    private void OnCollisionStay(Collision collision)
-    {
-        Movement.EvaluateCollision(collision);
     }
 }
