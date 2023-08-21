@@ -64,6 +64,8 @@ public class PlayerMovement : MonoBehaviour
 
     Player_Handler player;
 
+    [SerializeField] bool holdShiftToRun = true;
+
     private void Awake()
     {
         player = GetComponent<Player_Handler>();
@@ -156,7 +158,10 @@ public class PlayerMovement : MonoBehaviour
 
         inputMoveDirection.Normalize();
 
+        bool desiredForward = Vector3.Dot(inputMoveDirection, transform.forward) > 0;
+
         desiredStealth = Input.GetKey(KeyCode.LeftControl);
+
 
         // ¿Por qué '|=' en vez de '='?
         // El input de salto se toma en el Update, pero el salto se ejecuta dentor del FixedUpdate.
@@ -167,7 +172,21 @@ public class PlayerMovement : MonoBehaviour
         desiredJump |= Input.GetButtonDown("Jump");
 
         // Si la tecla esta apretada, el jugador quiere correr.
-        desiredRun = Input.GetKey(KeyCode.LeftShift) && Vector3.Dot(inputMoveDirection, transform.forward) > 0;
+        if (holdShiftToRun)
+        {
+            desiredRun = Input.GetKey(KeyCode.LeftShift) && desiredRun;
+        }
+        else
+        {
+            if (!desiredForward)
+            {
+                desiredRun = false;
+            }
+            else if (Input.GetKeyDown(KeyCode.LeftShift))
+            {
+                desiredRun = !desiredRun;
+            }
+        }
 
 
         lookHorizontal += Input.GetAxisRaw("Mouse X") * lookHorizontalSensitivity;
