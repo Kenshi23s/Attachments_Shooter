@@ -1,10 +1,13 @@
+using FacundoColomboMethods;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Events;
 
-[RequireComponent(typeof(Player_Handler), typeof(Rigidbody),typeof(PausableObject))]
+[RequireComponent(typeof(Player_Handler), typeof(Rigidbody), typeof(PausableObject))]
 public class PlayerMovement : MonoBehaviour
 {
+    public UnityEvent OnLand, OnJump = new UnityEvent();
     [SerializeField] Transform cam;
     Rigidbody rb;
     PausableObject pauseOBJ;
@@ -65,7 +68,12 @@ public class PlayerMovement : MonoBehaviour
     Player_Handler player;
 
     [SerializeField] bool holdShiftToRun = true;
-
+    #region AirDashVariables
+    [SerializeField] float dashImpulse = 2f;
+    [SerializeField] bool DashAvailable = true;
+    [SerializeField] float dashCooldown;
+    KeyCode lastKeyPresed;
+    #endregion
     private void Awake()
     {
         pauseOBJ = GetComponent<PausableObject>();
@@ -114,7 +122,7 @@ public class PlayerMovement : MonoBehaviour
     public void Update()
     {
         GetInputs();
-
+        LastMovementKey();
         float speed = desiredStealth ? stealthSpeed : desiredRun ? runSpeed : walkSpeed;
         desiredVelocity = inputMoveDirection * speed;
 
@@ -122,11 +130,78 @@ public class PlayerMovement : MonoBehaviour
         transform.rotation = Quaternion.Euler(0, lookHorizontal, 0);
     }
 
+   
+   
+
     void LateUpdate()
     {
         // Rotacion vertical. Gira solamente la camara. (La cabeza del personaje)
         cam.localRotation = Quaternion.Euler(lookVertical, 0, 0);
     }
+
+    #region AirDash Logic
+
+    void LastMovementKey()
+    {
+        if (Input.GetKey(KeyCode.A))
+        {
+            lastKeyPresed = KeyCode.A;
+            return;
+        }
+        
+        if (Input.GetKey(KeyCode.D))
+        {
+            lastKeyPresed = KeyCode.D;
+            return;
+        }
+        if (Input.GetKey(KeyCode.W))
+        {
+            lastKeyPresed = KeyCode.W;
+            return;
+        }
+        if (Input.GetKey(KeyCode.S))
+        {
+            lastKeyPresed = KeyCode.S;
+            return;
+        }
+        lastKeyPresed = default;
+
+
+    }
+
+    IEnumerator DashCD()
+    {
+        DashAvailable = false;
+        yield return new WaitForSeconds(dashCooldown);
+        DashAvailable = true;
+
+    }
+
+    void AirDash()
+    {
+        velocity = Vector3.zero;
+        Vector3 DashDir = Vector3.zero;
+
+        switch (lastKeyPresed)
+        {
+            case KeyCode.W:
+                DashDir = Vector3.forward;
+                break;
+            case KeyCode.D:
+                DashDir = Vector3.right;
+                break;
+            case KeyCode.A:
+                DashDir = Vector3.left;
+                break;
+            default:
+                DashDir = Vector3.back;
+                break;
+        }
+        DashDir = DashDir.GetOrientedVector(transform);
+        velocity += DashDir.normalized * dashImpulse;
+        StartCoroutine(DashCD());
+    }
+    #endregion
 
     void FixedUpdate()
     {
@@ -137,6 +212,12 @@ public class PlayerMovement : MonoBehaviour
         {
             AdjustVelocity();
         }
+        if (!OnGround && Input.GetAxis("Mouse ScrollWheel") < 0f && DashAvailable)
+        {
+            AirDash();
+        }
+
+
 
         // Salto
         if (desiredJump)
@@ -158,6 +239,8 @@ public class PlayerMovement : MonoBehaviour
         EvaluateCollision(collision);
     }
 
+   
+
     void Jump()
     {
         if (OnGround)
@@ -168,6 +251,7 @@ public class PlayerMovement : MonoBehaviour
             // Si estamos en una pendiente, el salto debería ser en la direccion a la que apunta la normal de esta.
             // Estos saltos no alcanzarán tanta altura, pero afectarán la velocidad horizontal.
             velocity += jumpForce * groundContactNormal;
+            OnJump.Invoke();
         }
     }
 
