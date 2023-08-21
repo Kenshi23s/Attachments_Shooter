@@ -2,15 +2,15 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-[System.Serializable]
-public class PlayerMovement
+[RequireComponent(typeof(Player_Handler), typeof(Rigidbody))]
+public class PlayerMovement : MonoBehaviour
 {
     [SerializeField] Transform cam;
     Rigidbody rb;
 
     #region look
     [SerializeField, Range(0f, 10f)]
-    float lookSensitivity = 1;
+    float lookVerticalSensitivity, lookHorizontalSensitivity = 1;
     float lookVertical, lookHorizontal;
 
     [SerializeField, Range(0, 90)] float lookUpAngle = 90;
@@ -64,23 +64,21 @@ public class PlayerMovement
 
     Player_Handler player;
 
-    Transform transform;
-
-    public void Configure(Player_Handler player)
+    private void Awake()
     {
-        this.player = player;
-        transform = player.transform;
-        rb = this.player.GetComponent<Rigidbody>();
+        player = GetComponent<Player_Handler>();
+        rb = GetComponent<Rigidbody>();
         rb.useGravity = false;
 
+        // !!! Esta logica deberia ir en otro lado.
         Cursor.lockState = CursorLockMode.Locked;
         Cursor.visible = false;
 
-        Validate();
+        OnValidate();
     }
 
     // Se llama a esta función cuando se carga el script o cuando se modifica un valor en el inspector (solo se llama en el editor)
-    public void Validate()
+    public void OnValidate()
     {
         // Estas variables son una optimizacion para chequear si el jugador puede caminar por la superficie en la que se encuentra.
         minGroundDotProduct = Mathf.Cos(maxGroundAngle * Mathf.Deg2Rad);
@@ -100,17 +98,15 @@ public class PlayerMovement
 
         // Rotacion horizontal. Gira solamente la camara. (La cabeza del personaje)
         transform.rotation = Quaternion.Euler(0, lookHorizontal, 0);
-
-        // TODO: Agacharse
     }
 
-    public void LateUpdate()
+    void LateUpdate()
     {
         // Rotacion vertical. Gira solamente la camara. (La cabeza del personaje)
         cam.localRotation = Quaternion.Euler(lookVertical, 0, 0);
     }
 
-    public void FixedUpdate()
+    void FixedUpdate()
     {
         UpdateState();
 
@@ -131,6 +127,11 @@ public class PlayerMovement
         rb.velocity = velocity;
 
         ClearState();
+    }
+
+    private void OnCollisionStay(Collision collision)
+    {
+        EvaluateCollision(collision);
     }
 
     void Jump()
@@ -169,9 +170,9 @@ public class PlayerMovement
         desiredRun = Input.GetKey(KeyCode.LeftShift);
 
 
-        lookHorizontal += Input.GetAxisRaw("Mouse X");
+        lookHorizontal += Input.GetAxisRaw("Mouse X") * lookHorizontalSensitivity;
 
-        lookVertical -= Input.GetAxisRaw("Mouse Y") * lookSensitivity;
+        lookVertical -= Input.GetAxisRaw("Mouse Y") * lookVerticalSensitivity;
         lookVertical = Mathf.Clamp(lookVertical, lookDownAngle, lookUpAngle);
     }
 
