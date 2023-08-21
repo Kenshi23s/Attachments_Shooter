@@ -4,9 +4,10 @@ using UnityEngine;
 using UnityEngine.Events;
 using System;
 using UnityEngine.Rendering.Universal;
+using System.Linq;
 
 [RequireComponent(typeof(Camera))]
-public class TerrainBlendingBaker : MonoBehaviour
+public class TerrainBlendingBaker : MonoSingleton<TerrainBlendingBaker>
 {
     public RenderTexture depthTexture;
     public RenderTexture normalTexture;
@@ -18,23 +19,89 @@ public class TerrainBlendingBaker : MonoBehaviour
 
     // La camara atada a este script
     private Camera cam;
+    [SerializeField]Transform FollowTarget;
+    public float UnitsBeforReBaking = 100;
 
     Terrain terrain;
 
+    List<TerrainFlag> terrainList = new List<TerrainFlag>();
+
+    public void AddTerrain(TerrainFlag x)
+    {
+        terrainList.Add(x);
+    }
+
+    protected override void SingletonAwake()
+    {
+        cam = GetComponent<Camera>();
+    }
+    private void Start()
+    {
+        BakeEveryXUnits();
+        StartCoroutine(BakeEveryXUnits());
+    }
+
+
+
+    IEnumerator BakeEveryXUnits()
+    {
+        yield return null;
+        while (FollowTarget != null)
+        {
+            Vector3 CamPos = FollowTarget.position;
+            CamPos.y = transform.position.y;
+            transform.position = CamPos;
+
+            Plane[] planes = GeometryUtility.CalculateFrustumPlanes(cam);
+
+            FList<Terrain> onCamera = new FList<Terrain>();
+            foreach (var item in terrainList)
+            {
+                if (item.OnBakingCamera(planes))                      
+                    onCamera += item.Terrain;                        
+            }
+
+            BakeTerrainDepth(onCamera);
+            yield return null; BakeTerrainNormals(onCamera);
+            yield return null; BakeTerrainAlbedo(onCamera);
+        
+   
+            yield return new WaitUntil(() => Vector3.Distance(transform.position, FollowTarget.position) > UnitsBeforReBaking);
+        }
+    }
+
+
+
+    public void OffTrees(IEnumerable<Terrain> collection)
+    {
+        foreach (var item in collection)
+        {
+            item.drawTreesAndFoliage = false;
+        }
+    }
+
+    public void OnTrees(IEnumerable<Terrain> collection)
+    {
+        foreach (var item in collection)
+        {
+            item.drawTreesAndFoliage = true;
+        }
+    }
     [ContextMenu("Bake All")]
-    public void BakeAll() 
+    public void BakeAll()
     {
         terrain = GetComponentInParent<Terrain>();
-        terrain.drawTreesAndFoliage = false;
-        BakeTerrainDepth();
-        BakeTerrainAlbedo();
-        BakeTerrainNormals();
-        terrain.drawTreesAndFoliage = true;
+       
+        BakeTerrainDepth(FList.Create(terrain));
+        BakeTerrainAlbedo(FList.Create(terrain));
+        BakeTerrainNormals(FList.Create(terrain));
+      
     }
 
     [ContextMenu("Bake Depth Texture")]
-    public void BakeTerrainDepth()
+    public void BakeTerrainDepth(IEnumerable<Terrain> col)
     {
+        OffTrees(col);
         unlitTerrainFeature.SetActive(false);
         normalFeature.SetActive(false);
         depthFeature.SetActive(true);
@@ -51,11 +118,13 @@ public class TerrainBlendingBaker : MonoBehaviour
         Shader.SetGlobalTexture("TB_DEPTH", depthTexture);
 
         cam.Render();
+        OnTrees(col);
     }
 
     [ContextMenu("Bake Normal Texture")]
-    public void BakeTerrainNormals()
+    public void BakeTerrainNormals(IEnumerable<Terrain> col)
     {
+        OffTrees(col);
         depthFeature.SetActive(false);
         unlitTerrainFeature.SetActive(false);
         normalFeature.SetActive(true);
@@ -72,12 +141,14 @@ public class TerrainBlendingBaker : MonoBehaviour
         Shader.SetGlobalTexture("TB_NORMAL", normalTexture);
 
         cam.Render();
+        OnTrees(col);
     }
 
 
     [ContextMenu("Bake Albedo Texture")]
-    public void BakeTerrainAlbedo()
+    public void BakeTerrainAlbedo(IEnumerable<Terrain> col)
     {
+        OffTrees(col);
         depthFeature.SetActive(false);
         normalFeature.SetActive(false);
         unlitTerrainFeature.SetActive(true);
@@ -94,6 +165,7 @@ public class TerrainBlendingBaker : MonoBehaviour
         Shader.SetGlobalTexture("TB_ALBEDO", albedoTexture);
 
         cam.Render();
+        OnTrees(col);
     }
 
     private void UpdateBakingCamera()
@@ -115,5 +187,6 @@ public class TerrainBlendingBaker : MonoBehaviour
         // El plano de recorte lejano para saber el rango de valores en 'y' en la textura de profundidad
         Shader.SetGlobalFloat("TB_FARCLIP", cam.farClipPlane);
     }
+
 
 }
