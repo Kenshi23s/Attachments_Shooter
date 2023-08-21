@@ -12,11 +12,13 @@ public class ButtonMenuAnim : MonoBehaviour
     float speed = 0.1f;
     Vector3 initialPosLeftFillArrow;
     Vector3 initialPosRightFillArrow;
+    AudioSource audioData;
  
     private void Start()
     {
         initialPosLeftFillArrow = fillArrowLeft.transform.position;
         initialPosRightFillArrow = fillArrowRight.transform.position;
+        audioData = GetComponent<AudioSource>();
     }
 
 
@@ -25,7 +27,7 @@ public class ButtonMenuAnim : MonoBehaviour
         fillArrowLeft.transform.position = emptyArrowLeft.transform.position;
         fillArrowLeft.transform.rotation = emptyArrowLeft.transform.rotation;
         fillArrowRight.transform.position = emptyArrowRight.transform.position;
-        //
+        audioData.Play();
     }
 
     public void NormalArrows()
