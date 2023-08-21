@@ -10,6 +10,8 @@ public class LaserSight : Attachment
     [SerializeField] Transform _laserOutPoint;
     Action<bool> _enable;
 
+    [SerializeField] float _laserDistance = 200f;
+
     protected override void Initialize()
     {
         MyType = AttachmentType.LaserSight;
@@ -43,9 +45,9 @@ public class LaserSight : Attachment
     void UpdateLaser()
     {
         if (Physics.Raycast(_laserOutPoint.position, _laserOutPoint.forward, out RaycastHit hit))        
-            _laserLineRender.SetPosition(1, _laserLineRender.transform.InverseTransformPoint(hit.point));        
+            _laserLineRender.SetPosition(1, Vector3.forward * hit.distance);        
         else
-            _laserLineRender.SetPosition(1, _laserLineRender.transform.InverseTransformPoint(_laserOutPoint.position + _laserOutPoint.forward * 200f));
+            _laserLineRender.SetPosition(1, Vector3.forward * _laserDistance);
     }
     
 
