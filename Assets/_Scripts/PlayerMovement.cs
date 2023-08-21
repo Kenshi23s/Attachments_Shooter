@@ -167,7 +167,7 @@ public class PlayerMovement : MonoBehaviour
         desiredJump |= Input.GetButtonDown("Jump");
 
         // Si la tecla esta apretada, el jugador quiere correr.
-        desiredRun = Input.GetKey(KeyCode.LeftShift);
+        desiredRun = Input.GetKey(KeyCode.LeftShift) && Vector3.Dot(inputMoveDirection, transform.forward) > 0;
 
 
         lookHorizontal += Input.GetAxisRaw("Mouse X") * lookHorizontalSensitivity;
