@@ -112,9 +112,11 @@ public class PlayerMovement : MonoBehaviour
     {
         UpdateState();
 
-        
 
-        AdjustVelocity();
+        if (OnGround || inputMoveDirection != Vector3.zero)
+        {
+            AdjustVelocity();
+        }
 
         // Salto
         if (desiredJump)
