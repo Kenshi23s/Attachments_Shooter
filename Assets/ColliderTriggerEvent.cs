@@ -12,15 +12,15 @@ public class ColliderTriggerEvent : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
-        if (!other.TryGetComponent(out Player_Handler player))
+        if (!other.transform.root.TryGetComponent(out Player_Handler player))
             return;
-
+        Debug.LogWarning("Enter"+ gameObject.name);
         OnEnter.Invoke();
     }
 
     private void OnTriggerStay(Collider other)
     {
-        if (!other.TryGetComponent(out Player_Handler player))
+        if (!other.transform.root.TryGetComponent(out Player_Handler player))
             return;
 
         OnEnter.Invoke();
@@ -28,7 +28,7 @@ public class ColliderTriggerEvent : MonoBehaviour
 
     private void OnTriggerExit(Collider other)
     {
-        if (!other.TryGetComponent(out Player_Handler player))
+        if (!other.transform.root.TryGetComponent(out Player_Handler player))
             return;
 
         OnExit.Invoke();

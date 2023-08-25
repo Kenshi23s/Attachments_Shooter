@@ -42,7 +42,7 @@ public class StandardElevator : MonoBehaviour
             if (myOrders.Invoke(this.transform))
             {
                 myOrders = null;
-                myInput.OnActivate();
+                myInput?.OnActivate();
             }
         }
     }

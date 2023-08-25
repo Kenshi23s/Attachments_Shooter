@@ -130,7 +130,6 @@ public class EggEscapeModel : MonoBehaviour
         myLife.SetNewMaxLife(CurrentEggStats.requiredDmg4stun);
         myLife.OnTakeDamage.AddListener(Escape);
         myLife.OnKilled.AddListener(Stun);
-
         myLife.Initialize();
     }
 
