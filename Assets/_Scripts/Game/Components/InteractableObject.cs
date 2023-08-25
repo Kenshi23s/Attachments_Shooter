@@ -139,18 +139,41 @@ public class InteractableObject : MonoBehaviour
 
     protected virtual void OnTriggerEnter(Collider other)
     {
-        if (other.TryGetComponent(out Player_Handler player))        
+        Player_Handler player = other.GetComponent<Player_Handler>();
+        if (player)
+        {
             _canvas.gameObject.SetActive(true);
+            return;
+        }
+
+        player = GetComponentInParent<Player_Handler>();
+
+        if (player)
+        {
+            _canvas.gameObject.SetActive((true));
+            return;
+        }
         
-     
-        
+        Debug.Log("NO SE ENCONTRO AL PLAYER");
+
+
+
     }
     protected virtual void OnTriggerExit(Collider other)
     {
-        if (other.TryGetComponent(out Player_Handler player))       
+        Player_Handler player = other.GetComponent<Player_Handler>();
+        if (player)
+        {
             _canvas.gameObject.SetActive(false);
-        
-    
+            return;
+        }
+
+        player = GetComponentInParent<Player_Handler>();
+
+        if (player)
+        {
+            _canvas.gameObject.SetActive((false));
+        }
         
     }
 
