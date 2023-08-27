@@ -40,7 +40,7 @@ public class EDogState_Pursuit : IState<EDogStates>
         {
             _agent.SetDestination(Player_Handler.position);
             if (Vector3.Distance(_agent.transform.position, Player_Handler.position) <= _jumpRadius)
-                if (_agent.transform.position.InLineOffSight(Player_Handler.position, AI_Manager.instance.wall_Mask))
+                if (_agent.transform.position.InLineOffSight(Player_Handler.position, AI_Manager.instance.WallMask))
                 {
                     _fsm.ChangeState(EDogStates.JUMP_ATTACK);
                 }
@@ -62,7 +62,7 @@ public class EDogState_Pursuit : IState<EDogStates>
     {
         Vector3 dir = Player_Handler.position - _agent.transform.position;
         Gizmos.color = Color.red;
-        if (Physics.Raycast(_agent.transform.position, dir, out RaycastHit hit, _jumpRadius, AI_Manager.instance.wall_Mask))
+        if (Physics.Raycast(_agent.transform.position, dir, out RaycastHit hit, _jumpRadius, AI_Manager.instance.WallMask))
         {
             Gizmos.DrawLine(_agent.transform.position, hit.point);
             Gizmos.DrawWireSphere(hit.point, 2f);
