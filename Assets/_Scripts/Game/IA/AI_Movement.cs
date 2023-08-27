@@ -80,10 +80,10 @@ public class AI_Movement : MonoBehaviour
 
         _destination = destination;        
 
-        if (transform.position.InLineOffSight(destination,AI_Manager.instance.wall_Mask))
+        if (transform.position.InLineOffSight(destination,AI_Manager.instance.WallMask))
         {
             // Conseguir la posicion en el piso
-            if (Physics.Raycast(destination, Vector3.down, out RaycastHit hitInfo, 10f, AI_Manager.instance.wall_Mask))
+            if (Physics.Raycast(destination, Vector3.down, out RaycastHit hitInfo, 10f, AI_Manager.instance.WallMask))
             {
                 destination = hitInfo.point;
                 _destination = destination;
@@ -125,10 +125,10 @@ public class AI_Movement : MonoBehaviour
 
         _destination = destination;
 
-        if (transform.position.InLineOffSight(destination, AI_Manager.instance.wall_Mask))
+        if (transform.position.InLineOffSight(destination, AI_Manager.instance.WallMask))
         {
             // Conseguir la posicion en el piso
-            if (Physics.Raycast(destination, Vector3.down, out RaycastHit hitInfo, 10f, AI_Manager.instance.wall_Mask)) 
+            if (Physics.Raycast(destination, Vector3.down, out RaycastHit hitInfo, 10f, AI_Manager.instance.WallMask)) 
             {
                 destination = hitInfo.point;
                 _destination = destination;
@@ -212,7 +212,7 @@ public class AI_Movement : MonoBehaviour
 
         if (keyNodes.Item1!=null && keyNodes.Item2 !=null)
         {
-            path = keyNodes.CalculateThetaStar(I.wall_Mask, target);
+            path = keyNodes.CalculateThetaStar(I.WallMask, target);
             return path.Any();
         }
         return false;
