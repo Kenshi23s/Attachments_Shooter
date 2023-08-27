@@ -1,5 +1,3 @@
-using System;
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using Random = UnityEngine.Random;
@@ -7,12 +5,13 @@ using static EggEscapeModel;
 using System.Linq;
 public class EggGameChaseMode : GameModeBaseClass
 {
+    public static EggGameChaseMode Instance { get; private set; }
 
     [Header("EggGameMode")]
     [SerializeField] EggEscapeModel model; 
 
-    public float interactRadius => _egg_interactRadius;
-    [SerializeField] float _egg_interactRadius;
+    [field : SerializeField]public float InteractRadius { get; private set; }
+
 
     [SerializeField, Tooltip("huevos en el mapa, solo lectura")]
     public List<EggEscapeModel> eggsEscaping { get; private set; }
@@ -36,8 +35,8 @@ public class EggGameChaseMode : GameModeBaseClass
     public override void InitializeMode()
     {     
         eggStats.gameMode = this;
-        
 
+        Instance = this;
         // preguntarle a algun profe o compañero si esto esta bien
         incubators = IncubatorFather.GetComponentsInChildren<Egg_Incubator>();
        EggEscapeModel[] localArrayEggsEscaping = new EggEscapeModel[incubators.Length-alreadySpawned.Length];
