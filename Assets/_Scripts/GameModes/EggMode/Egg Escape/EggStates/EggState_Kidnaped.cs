@@ -33,8 +33,7 @@ public class EggState_Kidnaped : EggState<EggStates>
         _actualKidnapTime -= Time.deltaTime;
         if (Vector3.Distance(_eggStats.gameMode.playerPos,_manual_Movement.transform.position) > _eggStats.kidnapFollowRadius)
         {
-            _agent.SetDestination(_eggStats.gameMode.playerPos);
-           
+            _agent.SetDestination(_eggStats.gameMode.playerPos);          
         }
         else
         {
@@ -44,8 +43,20 @@ public class EggState_Kidnaped : EggState<EggStates>
        
         
         if (_actualKidnapTime <= 0)
+        {
             _fsm.ChangeState(EggStates.Escape);
+            return;
+        }
+        if (Input.GetKeyDown(KeyCode.Q))
+        {
+            Vector3 dir = _eggStats.gameMode.playerPos-_manual_Movement.transform.position;
+            _agent.Movement._rb.AddForce(dir.normalized * 1.5f , ForceMode.Force);
+        }
+           
+
     } 
+
+    
   
    
   

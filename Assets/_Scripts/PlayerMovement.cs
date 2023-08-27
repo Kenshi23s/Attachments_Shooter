@@ -1,4 +1,5 @@
 using FacundoColomboMethods;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -9,7 +10,10 @@ public class PlayerMovement : MonoBehaviour
 {
     public UnityEvent OnLand, OnJump = new UnityEvent();
     [SerializeField] Transform cam;
-    Rigidbody rb;
+    public Rigidbody RB { get; private set; }
+
+    [field : SerializeField] public Player_Handler HandlerOwner { get; private set; }
+
     PausableObject pauseOBJ;
     #region look
     [SerializeField, Range(0f, 10f)]
@@ -65,23 +69,23 @@ public class PlayerMovement : MonoBehaviour
 
     Vector3 groundContactNormal, steepNormal;
 
-    Player_Handler player;
+
 
     [SerializeField] bool holdShiftToRun = true;
     #region AirDashVariables
-    [SerializeField] float dashImpulse = 2f;
-    [SerializeField] bool DashAvailable = true;
-    [SerializeField] float dashCooldown;
-    KeyCode lastKeyPresed;
+   
+   
+
+    
     #endregion
     private void Awake()
     {
         pauseOBJ = GetComponent<PausableObject>();
 
         pauseOBJ.onPause += () => StartCoroutine(StopMoving());
-        player = GetComponent<Player_Handler>();
-        rb = GetComponent<Rigidbody>();
-        rb.useGravity = false;
+        HandlerOwner = GetComponent<Player_Handler>();
+        RB = GetComponent<Rigidbody>();
+        RB.useGravity = false;
 
         // !!! Esta logica deberia ir en otro lado.
         Cursor.lockState = CursorLockMode.Locked;
@@ -93,18 +97,18 @@ public class PlayerMovement : MonoBehaviour
     IEnumerator StopMoving()
     {
         enabled = false;
-        Vector3 actualVelocity = rb.velocity;
-        rb.velocity = Vector3.zero;
+        Vector3 actualVelocity = RB.velocity;
+        RB.velocity = Vector3.zero;
 
-        bool gravity = rb.useGravity;
-        rb.useGravity = false;
+        bool gravity = RB.useGravity;
+        RB.useGravity = false;
         Debug.LogWarning("Pause");
         yield return new WaitWhile(ScreenManager.IsPaused);
 
         enabled = true;
 
-        rb.velocity = actualVelocity;
-        rb.useGravity = gravity;
+        RB.velocity = actualVelocity;
+        RB.useGravity = gravity;
     }
 
     // Se llama a esta función cuando se carga el script o cuando se modifica un valor en el inspector (solo se llama en el editor)
@@ -122,7 +126,7 @@ public class PlayerMovement : MonoBehaviour
     public void Update()
     {
         GetInputs();
-        LastMovementKey();
+     
         float speed = desiredStealth ? stealthSpeed : desiredRun ? runSpeed : walkSpeed;
         desiredVelocity = inputMoveDirection * speed;
 
@@ -139,69 +143,11 @@ public class PlayerMovement : MonoBehaviour
         cam.localRotation = Quaternion.Euler(lookVertical, 0, 0);
     }
 
-    #region AirDash Logic
-
-    void LastMovementKey()
+   
+    public void ClearForces()
     {
-        if (Input.GetKey(KeyCode.A))
-        {
-            lastKeyPresed = KeyCode.A;
-            return;
-        }
-        
-        if (Input.GetKey(KeyCode.D))
-        {
-            lastKeyPresed = KeyCode.D;
-            return;
-        }
-        if (Input.GetKey(KeyCode.W))
-        {
-            lastKeyPresed = KeyCode.W;
-            return;
-        }
-        if (Input.GetKey(KeyCode.S))
-        {
-            lastKeyPresed = KeyCode.S;
-            return;
-        }
-        lastKeyPresed = default;
-
-
+        RB.velocity = Vector3.zero;
     }
-
-    IEnumerator DashCD()
-    {
-        DashAvailable = false;
-        yield return new WaitForSeconds(dashCooldown);
-        DashAvailable = true;
-
-    }
-
-    void AirDash()
-    {
-        velocity = Vector3.zero;
-        Vector3 DashDir = Vector3.zero;
-
-        switch (lastKeyPresed)
-        {
-            case KeyCode.W:
-                DashDir = Vector3.forward;
-                break;
-            case KeyCode.D:
-                DashDir = Vector3.right;
-                break;
-            case KeyCode.A:
-                DashDir = Vector3.left;
-                break;
-            default:
-                DashDir = Vector3.back;
-                break;
-        }
-        DashDir = DashDir.GetOrientedVector(transform);
-        velocity += DashDir.normalized * dashImpulse;
-        StartCoroutine(DashCD());
-    }
-    #endregion
 
     void FixedUpdate()
     {
@@ -212,10 +158,7 @@ public class PlayerMovement : MonoBehaviour
         {
             AdjustVelocity();
         }
-        if (!OnGround && Input.GetAxis("Mouse ScrollWheel") < 0f && DashAvailable)
-        {
-            AirDash();
-        }
+       
 
 
 
@@ -229,7 +172,7 @@ public class PlayerMovement : MonoBehaviour
         // Aplicar gravedad
         velocity += Physics.gravity * Time.deltaTime;
 
-        rb.velocity = velocity;
+        RB.velocity = velocity;
 
         ClearState();
     }
@@ -305,7 +248,7 @@ public class PlayerMovement : MonoBehaviour
     {
         stepsSinceLastGrounded++;
         stepsSinceLastJump++;
-        velocity = rb.velocity;
+        velocity = RB.velocity;
 
         if (OnGround || SnapToGround() || CheckSteepContacts())
         {
@@ -412,7 +355,7 @@ public class PlayerMovement : MonoBehaviour
 
 
         // Solo queremos snappear al piso cuando hay suelo debajo al que adherirse.
-        if (!Physics.Raycast(rb.position, Vector3.down, out RaycastHit hit, probeDistance, probeMask))
+        if (!Physics.Raycast(RB.position, Vector3.down, out RaycastHit hit, probeDistance, probeMask))
         {
             return false;
         }

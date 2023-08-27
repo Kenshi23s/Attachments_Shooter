@@ -9,12 +9,13 @@ public class HitVFX : MonoBehaviour, IHitFeedback
     DebugableObject _debug;
     Func<ParticlePool> GetPool;
     int key;
+    public const float PositionOffSet = 0.25f; 
     
 
     private void Awake()
     {
         if (_vfxPrefab == null) Destroy(this);
-        _debug= GetComponent<DebugableObject>();    
+        _debug = GetComponent<DebugableObject>();    
     }
 
     private void Start()
@@ -32,8 +33,9 @@ public class HitVFX : MonoBehaviour, IHitFeedback
     {
         _debug.Log("HIT!, muestro feedback");
         var aux = GetPool().GetVFX(key);
-        aux.transform.position = hitPoint;  
+        aux.transform.position = hitPoint - hitDir * PositionOffSet;  
         aux.transform.forward = hitDir;
+
         StartCoroutine(aux.CooldownDecrease());
     }
 

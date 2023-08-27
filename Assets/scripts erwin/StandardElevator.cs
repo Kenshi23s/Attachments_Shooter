@@ -42,7 +42,7 @@ public class StandardElevator : MonoBehaviour
             if (myOrders.Invoke(this.transform))
             {
                 myOrders = null;
-                myInput.OnActivate();
+                myInput?.OnActivate();
             }
         }
     }
@@ -112,7 +112,23 @@ public class StandardElevator : MonoBehaviour
 
         myOrders = new myActions(MovePlataform);
     }
+    
+    public void OnNewInteract()
+    { 
+        //intercambia el estado
+        _activated = !_activated;
 
+        if (_activated)
+        {
+            objective = _originalPos + otherPos;
+        }
+        else
+        {
+            objective = _originalPos;
+        }
+
+        myOrders = new myActions(MovePlataform);
+    }
     private void OnDrawGizmos()
     {
 

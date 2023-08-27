@@ -9,7 +9,8 @@ public class Player_Handler : MonoBehaviour
 
     public static Transform Transform;
     public static Vector3 position,Velocity;
-  
+
+    [field: SerializeField] public RectTransform AbilitiesPanel { get; private set; }
 
     [field: SerializeField] public PlayerMovement Movement { get; private set; }
 
