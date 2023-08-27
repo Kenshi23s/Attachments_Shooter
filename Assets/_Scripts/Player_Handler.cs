@@ -4,7 +4,7 @@ using UnityEngine.Events;
 [RequireComponent(typeof(PlayerMovement))]
 public class Player_Handler : MonoBehaviour
 {
-    public GunHandler GunHandler { get; private set;}
+    //public GunHandler GunHandler { get; private set;}
     public LifeComponent Health { get; private set;}
 
     public static Transform Transform;
@@ -24,7 +24,7 @@ public class Player_Handler : MonoBehaviour
 
     private void Awake()
     {
-        GunHandler = GetComponentInChildren<GunHandler>(); GunHandler.SetPlayer(this);
+        //GunHandler = GetComponentInChildren<GunHandler>(); GunHandler.SetPlayer(this);
 
         Movement = GetComponent<PlayerMovement>();
 
@@ -45,5 +45,6 @@ public class Player_Handler : MonoBehaviour
         InteractablesManager.instance.UpdateInteractions(this);
         position = transform.position;
         Velocity = Movement.Velocity;
+       
     }
 }

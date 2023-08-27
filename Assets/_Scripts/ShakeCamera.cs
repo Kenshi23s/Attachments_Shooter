@@ -87,12 +87,12 @@ public class ShakeCamera : MonoBehaviour
 
         ListenInputs();
 
-        float handling = myGunHandler.ActualGun.stats.GetStat(StatNames.Handling);
-        float multiplier = aiming ? _aimMultiplier : 1f;
-        multiplier *= 1 - handling / 100f;
-        //Debug.Log("handling: " + handling);
+        //float handling = myGunHandler.ActualGun.stats.GetStat(StatNames.Handling);
+        //float multiplier = aiming ? _aimMultiplier : 1f;
+        //multiplier *= 1 - handling / 100f;
+        ////Debug.Log("handling: " + handling);
 
-        SelectHandMovementType(multiplier);
+        SelectHandMovementType(1);
         AimTransition();
 
         cam.transform.localPosition = _ogCamLocalPos + _camShake;
@@ -230,6 +230,7 @@ public class ShakeCamera : MonoBehaviour
 
     void LerpCameraFOV(float t)
     {
+        return;
         float multiplyZoom = 1;
       
         if (myGunHandler.ActualGun.attachmentHandler.TryGetAttachment<Sight>(AttachmentType.Sight,out var sight))        
