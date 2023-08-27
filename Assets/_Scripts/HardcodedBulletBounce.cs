@@ -46,7 +46,7 @@ public class HardcodedBulletBounce : MonoBehaviour
         GunRef.onHit -= Bounce;
 
         IDamagable enemy = hit._impactPos.GetItemsOFTypeAround<IDamagable>(1000f).Where(x=>x!=hit.dmgData.victim)
-            .Where(x => hit._impactPos.InLineOffSight(x.Position, AI_Manager.instance.wall_Mask))
+            .Where(x => hit._impactPos.InLineOffSight(x.Position, AI_Manager.instance.WallMask))
             .Minimum(x=>Vector3.Distance(x.Position, hit._impactPos));
         Debug.Log("enter bounce");
         if (enemy!=null)
