@@ -20,13 +20,13 @@ public class Node : MonoBehaviour
    
     public void IntializeNode()
     {
-        if (Physics.Raycast(transform.position, Vector3.down, out RaycastHit hitInfo, 5f, AI_Manager.instance.wall_Mask))
+        if (Physics.Raycast(transform.position, Vector3.down, out RaycastHit hitInfo, 5f, AI_Manager.instance.WallMask))
             groundPosition = hitInfo.point;
         else
             groundPosition = transform.position;
         
    
-        LayerMask wallMask = AI_Manager.instance.wall_Mask;
+        LayerMask wallMask = AI_Manager.instance.WallMask;
 
         Neighbors = AI_Manager.instance.nodes.GetWhichAreOnSight(transform.position, wallMask, RaycastType.Sphere, 1f)
                     .Where(x=> x!=this).Where(x=>Vector3.Distance(x.transform.position,transform.position)<100f).ToList();

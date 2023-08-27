@@ -23,7 +23,7 @@ public class FOVAgent : MonoBehaviour
         if (dir.magnitude <= _viewRadius)
         {
             if (Vector3.Angle(transform.forward, dir) <= viewAngle / 2)                     
-                return ColomboMethods.InLineOffSight(transform.position, target, AI_Manager.instance.wall_Mask);      
+                return ColomboMethods.InLineOffSight(transform.position, target, AI_Manager.instance.WallMask);      
         }
         return false;
     }
@@ -35,7 +35,7 @@ public class FOVAgent : MonoBehaviour
         if (dir.magnitude <= viewRadius)
         {
             if (Vector3.Angle(transform.forward, dir) <= viewAngle / 2)
-                return ColomboMethods.InLineOffSight(transform.position, target, AI_Manager.instance.wall_Mask);
+                return ColomboMethods.InLineOffSight(transform.position, target, AI_Manager.instance.WallMask);
         }
 
         return false;

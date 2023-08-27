@@ -278,6 +278,13 @@ namespace FacundoColomboMethods
             return !Physics.Raycast(start, dir, dir.magnitude, maskWall);
         }
 
+        public static bool InLineOffSight(this Vector3 start, Vector3 end, LayerMask maskWall,float distance)
+        {
+            Vector3 dir = end - start;
+
+            return !Physics.Raycast(start, dir, distance, maskWall);
+        }
+
         public static Vector3 CheckForwardRayColision(Vector3 pos, Vector3 dir, float range = 15)
         {
             //aca se guardan los datos de con lo que impacte el rayo
