@@ -141,14 +141,14 @@ public class ShakeCamera : MonoBehaviour
     void ListenInputs()
     {
         // Detectar inputs
-        if (Input.GetKeyDown(KeyCode.Mouse1))
-        {
-            AimInput();
-        }
-        else if (Input.GetKeyUp(KeyCode.Mouse1))
-        {
-            ReleaseAimInput();
-        }
+        //if (Input.GetKeyDown(KeyCode.Mouse1))
+        //{
+        //    AimInput();
+        //}
+        //else if (Input.GetKeyUp(KeyCode.Mouse1))
+        //{
+        //    ReleaseAimInput();
+        //}
     }
 
     public void AimInput()

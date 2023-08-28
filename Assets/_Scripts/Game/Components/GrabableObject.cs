@@ -13,6 +13,10 @@ public class GrabableObject : MonoBehaviour, IGrabable
 
     public Transform Transform => transform;
 
+    public MonoBehaviour Owner { get; private set; }
+
+ 
+
     private void Awake()
     {
         _interactableComponent = GetComponent<InteractableComponent>();
@@ -31,9 +35,15 @@ public class GrabableObject : MonoBehaviour, IGrabable
 
     public void Unequip() => OnUnEquip?.Invoke();
   
+    public void SetOwner(MonoBehaviour newOwner)
+    {
+        Owner = newOwner;
+    }
 }
 public interface IGrabable
 {
+    public bool HasOwner => Owner != null;
+    public MonoBehaviour Owner { get; }
     public Transform Transform { get; }
     void Grab();  
     void Equip();

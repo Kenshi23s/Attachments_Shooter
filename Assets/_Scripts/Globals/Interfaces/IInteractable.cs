@@ -5,7 +5,7 @@ using UnityEngine;
 
 public interface IInteractable
 {
-    void Interact();
+    bool Interact();
     void Focus();
     void Unfocus();
     bool CanInteract(float viewRadius,out float priority);

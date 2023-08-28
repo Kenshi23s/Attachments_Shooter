@@ -6,8 +6,8 @@ using UnityEngine.Events;
 [RequireComponent(typeof(FOVAgent))]
 [RequireComponent(typeof(LifeComponent))]
 [RequireComponent(typeof(DebugableObject))]
-[RequireComponent(typeof(AI_Movement))]
-[RequireComponent(typeof(InteractableComponent))]
+[RequireComponent(typeof(NewAIMovement))]
+[RequireComponent(typeof(GrabableObject))]
 public class EggEscapeModel : MonoBehaviour
 {
     public enum EggStates
@@ -47,9 +47,10 @@ public class EggEscapeModel : MonoBehaviour
 
     LifeComponent myLife;
     FOVAgent _fov;
-    AI_Movement _agent;
+    NewAIMovement _agent;
 
     public InteractableComponent InteractComponent { get; private set; }
+    public GrabableObject GrabableComponent { get; private set; }
     public Egg_VFXHandler VFX { get; private set; }
     public GameObject view;
 
@@ -71,10 +72,39 @@ public class EggEscapeModel : MonoBehaviour
        
         InteractComponent = GetComponent<InteractableComponent>();
         InteractComponent.SetFocusCondition(() => _fsm.actualStateKey != EggStates.Kidnapped);
-        _agent = GetComponent<AI_Movement>();
+
+        GrabableComponent = GetComponent<GrabableObject>();
+
+        GrabableComponent.OnGrab.AddListener(DisableEggLogic);
+        GrabableComponent.OnRelease.AddListener(EnableEggLogic);
+
+        _agent = GetComponent<NewAIMovement>();
         _fov = GetComponent<FOVAgent>();
         _fsm = new StateMachine<EggStates>();
         enabled = false;
+    }
+
+    public void DisableEggLogic() 
+    {
+        _agent.ManualMovement.ClearForces();
+        //_agent.ManualMovement.Rigidbody.isKinematic = true;
+        _agent.ManualMovement.Rigidbody.useGravity = false;
+        _agent.ManualMovement.enabled = false;
+        _agent.enabled = false;
+        enabled = false;
+
+        GetComponent<BoxCollider>().enabled = false;
+
+    }
+
+    public void EnableEggLogic()
+    {
+        //_agent.ManualMovement.Rigidbody.isKinematic = false;
+        _agent.ManualMovement.Rigidbody.useGravity = true;
+        _agent.ManualMovement.enabled = true;
+        _agent.enabled = true;
+        enabled = true;
+        GetComponent<BoxCollider>().enabled = true;
     }
 
     //tendria que tener 4 estados:
@@ -102,7 +132,7 @@ public class EggEscapeModel : MonoBehaviour
         data._fov = _fov;
         data._fsm = _fsm;
         data._agent = _agent;
-        data.manual_Movement = _agent.Movement;
+        data.manual_Movement = _agent.ManualMovement;
         data._eggStats.debug= _debug;
         #endregion
 
@@ -123,7 +153,6 @@ public class EggEscapeModel : MonoBehaviour
 
     }
 
-
     public void SetLife()
     {
         myLife = GetComponent<LifeComponent>();
@@ -132,7 +161,6 @@ public class EggEscapeModel : MonoBehaviour
         myLife.OnKilled.AddListener(Stun);
         myLife.Initialize();
     }
-
 
     public void Escape(int x)
     {
@@ -171,9 +199,6 @@ public class EggEscapeModel : MonoBehaviour
             _fsm.StateGizmos();
         }     
     }
-
-
-
 
     private void OnDestroy()
     {

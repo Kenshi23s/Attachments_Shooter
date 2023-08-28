@@ -19,10 +19,11 @@ public class EggState_Kidnaped : EggState<EggStates>
 
     public override void OnEnter()
     {
-        onGrab?.Invoke();
-        _actualKidnapTime = _eggStats.kidnapedTime;
-        _agent.SetMaxSpeed(_eggStats.kidnapSpeed);
-        _agent.Movement.maxForce = _eggStats.kidnapSpeed;
+        //onGrab?.Invoke();
+        //_actualKidnapTime = _eggStats.kidnapedTime;
+        //_agent.SetMaxSpeed(_eggStats.kidnapSpeed);
+        //_agent.ManualMovement.MaxSpeed= _actualKidnapTime;
+        //_agent.Movement.maxForce = _eggStats.kidnapSpeed;
         _agent.CancelMovement();
        
     }
@@ -30,28 +31,29 @@ public class EggState_Kidnaped : EggState<EggStates>
   
     public override void OnUpdate()
     {
-        _actualKidnapTime -= Time.deltaTime;
-        if (Vector3.Distance(_eggStats.gameMode.playerPos,_manual_Movement.transform.position) > _eggStats.kidnapFollowRadius)
-        {
-            _agent.SetDestination(_eggStats.gameMode.playerPos);          
-        }
-        else
-        {
-            _manual_Movement.RemoveForces();
-        }
+        //return;
+        //_actualKidnapTime -= Time.deltaTime;
+        //if (Vector3.Distance(_eggStats.gameMode.playerPos,_manual_Movement.transform.position) > _eggStats.kidnapFollowRadius)
+        //{
+        //    _agent.SetDestination(_eggStats.gameMode.playerPos);          
+        //}
+        //else
+        //{
+        //    _manual_Movement.RemoveForces();
+        //}
       
        
         
-        if (_actualKidnapTime <= 0)
-        {
-            _fsm.ChangeState(EggStates.Escape);
-            return;
-        }
-        if (Input.GetKeyDown(KeyCode.Q))
-        {
-            Vector3 dir = _eggStats.gameMode.playerPos-_manual_Movement.transform.position;
-            _agent.Movement._rb.AddForce(dir.normalized * 1.5f , ForceMode.Force);
-        }
+        //if (_actualKidnapTime <= 0)
+        //{
+        //    _fsm.ChangeState(EggStates.Escape);
+        //    return;
+        //}
+        //if (Input.GetKeyDown(KeyCode.Q))
+        //{
+        //    Vector3 dir = _eggStats.gameMode.playerPos -_manual_Movement.transform.position;
+        //    _agent.Movement._rb.AddForce(dir.normalized * 1.5f , ForceMode.Force);
+        //}
            
 
     } 

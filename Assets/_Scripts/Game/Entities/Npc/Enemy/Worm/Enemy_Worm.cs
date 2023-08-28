@@ -229,7 +229,7 @@ public class Enemy_Worm : Enemy
     {
         yield return new WaitForSeconds(_acidShootTime);
         var x = Instantiate(_prefabAcid, _shootPivot.position, Quaternion.identity);
-        Vector3 dir = Player_Handler.position - _shootPivot.position;
+        Vector3 dir = Player_Handler.Position - _shootPivot.position;
         Vector3 force = (Vector3.up + new Vector3(dir.x, 0, dir.z)).normalized * (_acidForce + dir.magnitude);
         x.Initialize(gameObject, _acidDamage, force);
     }
@@ -288,7 +288,7 @@ public class Enemy_Worm : Enemy
             }
         };
 
-        Vector3 dir = Player_Handler.position - _shootPivot.position;
+        Vector3 dir = Player_Handler.Position - _shootPivot.position;
         _dirtProjectile.LaunchProjectile(dir.normalized * _dirtLaunchForce);
         _dirtProjectile = null;
     }
