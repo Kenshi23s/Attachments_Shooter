@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 using UnityEngine.Events;
 
@@ -8,11 +9,13 @@ public class Player_Handler : MonoBehaviour
     public LifeComponent Health { get; private set;}
 
     public static Transform Transform;
-    public static Vector3 position,Velocity;
+    public static Vector3 Position,Velocity;
 
     [field: SerializeField] public RectTransform AbilitiesPanel { get; private set; }
 
     [field: SerializeField] public PlayerMovement Movement { get; private set; }
+
+    [field: SerializeField] public GrabableHandler GrabHandler { get; private set; }
 
     [SerializeField,Range(0,180)] public float InteractFov;
 
@@ -22,12 +25,14 @@ public class Player_Handler : MonoBehaviour
 
     UnityEvent<Collision> WhenCollisionEnter, WhenCollisionStay, WhenCollisionExit = new UnityEvent<Collision>();
 
+    public Action<IGrabable> GrabCallback;
+
     private void Awake()
     {
         //GunHandler = GetComponentInChildren<GunHandler>(); GunHandler.SetPlayer(this);
 
         Movement = GetComponent<PlayerMovement>();
-
+        GrabHandler = GetComponent<GrabableHandler>();
         Health = GetComponent<LifeComponent>();
         Health.OnTakeDamage.AddListener((x) => vibrate.AddIntensity(x));
 
@@ -43,7 +48,7 @@ public class Player_Handler : MonoBehaviour
     private void Update()
     {
         InteractablesManager.instance.UpdateInteractions(this);
-        position = transform.position;
+        Position = transform.position;
         Velocity = Movement.Velocity;
        
     }

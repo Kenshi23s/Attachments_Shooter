@@ -31,7 +31,7 @@ public class Worm_State_Shoot_Acid : Worm_State<Worm_AttackState>
             return;
         }
 
-        Vector3 dir = Player_Handler.position - _worm.transform.position;
+        Vector3 dir = Player_Handler.Position - _worm.transform.position;
         _worm.transform.forward = new Vector3(dir.x, 0, dir.z);
     }
 

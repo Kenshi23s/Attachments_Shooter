@@ -12,9 +12,9 @@ public abstract class EggState<T> : IState<T>
     {
         public EggStats _eggStats;
         public FOVAgent _fov;
-        public AI_Movement _agent;
+        public NewAIMovement _agent;
         public StateMachine<EggStates> _fsm;
-        public Physics_Movement manual_Movement;
+        public NewPhysicsMovement manual_Movement;
     }
 
     public EggState(EggStateData data)
@@ -30,11 +30,11 @@ public abstract class EggState<T> : IState<T>
     //pero quedaba muy ilegible el codigo, pq uso estas variables muy seguido
     //y siempre ponia data."Variable" 
     //EggStateData data;
-    public Physics_Movement _manual_Movement;
+    public NewPhysicsMovement _manual_Movement;
     public Vector3 myPos => _manual_Movement.transform.position; 
     public EggStats _eggStats;
     public FOVAgent _fov;
-    public AI_Movement _agent;
+    public NewAIMovement _agent;
     public StateMachine<EggStates> _fsm;
     
     public virtual void OnEnter() { }

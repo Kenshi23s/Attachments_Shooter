@@ -64,12 +64,14 @@ public class InteractableComponent : MonoBehaviour, IInteractable
         onUnFocus.AddListener(() => _debug.Log("Me dejaron de focusear"));
         OnInteractFail.AddListener(() => _debug.Log("No se puede interactuar, alguna condicion no se cumplio"));
         OnInteractAbort.AddListener(() => _debug.Log("Se dejo de presionar el input de interactuar"));
-        OnStartInteracting.AddListener( () => _debug.Log("Se empezo el prograso para interactuar!"));
-        _debug.AddGizmoAction(DrawRadius);
+        OnStartInteracting.AddListener( () => _debug.Log("Se empezo el progreso para interactuar!"));
+       
 
         onFocus.AddListener(() => outlineInteractable.enabled = true);
 
         onUnFocus.AddListener(() => outlineInteractable.enabled = false);
+
+        _debug.AddGizmoAction(DrawRadius);
     }
 
     private void OnDestroy()
@@ -94,7 +96,7 @@ public class InteractableComponent : MonoBehaviour, IInteractable
     // y que mediante esta se determine si se debe interactuar o no con ella.
 
     
-    public void Interact()
+    public bool Interact()
     {
         if (InteractConditions.Any())
         {
@@ -104,7 +106,7 @@ public class InteractableComponent : MonoBehaviour, IInteractable
                 {
                     _debug.Log("Las condiciones dieron falso, no se puede interactuar");
                     OnInteractFail?.Invoke();
-                    return;
+                    return false;
                 }
             }
         }
@@ -116,7 +118,9 @@ public class InteractableComponent : MonoBehaviour, IInteractable
         {
             OnInteract?.Invoke();
             currentInteractTime = 0;
+            return true;
         }      
+        return false;
     }
 
 

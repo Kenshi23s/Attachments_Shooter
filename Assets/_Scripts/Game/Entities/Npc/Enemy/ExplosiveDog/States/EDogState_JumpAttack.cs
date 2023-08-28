@@ -32,7 +32,7 @@ public class EDogState_JumpAttack : IState<EDogStates>
 
     public void OnEnter()
     {
-        jumpWp = Player_Handler.position + Vector3.up * unitsAbovePlayer;
+        jumpWp = Player_Handler.Position + Vector3.up * unitsAbovePlayer;
         state = Jump;
         onEnter?.Invoke();
         //_move._rb.constraints = RigidbodyConstraints.None;
@@ -51,7 +51,7 @@ public class EDogState_JumpAttack : IState<EDogStates>
     public void OnUpdate()
     {
         state?.Invoke();
-        if (Vector3.Distance(_move.transform.position, Player_Handler.position) < _triggerRadius)
+        if (Vector3.Distance(_move.transform.position, Player_Handler.Position) < _triggerRadius)
             _explosion?.Invoke();
     } 
 

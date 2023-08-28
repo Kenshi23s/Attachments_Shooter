@@ -23,7 +23,7 @@ public class EggState_Patrol : EggState<EggStates>
         
         _actualWaypoint = _getRandomWaypoint?.Invoke();
 
-        _agent.SetMaxSpeed(_eggStats.patrolSpeed);
+        _agent.ManualMovement.MaxSpeed = _eggStats.patrolSpeed;
         _agent.SetDestination(_actualWaypoint.position);
     } 
 
@@ -32,7 +32,7 @@ public class EggState_Patrol : EggState<EggStates>
     {
         _eggStats.debug.Log(_actualWaypoint.position.ToString()) ;
         float distance = Vector3.Distance(_actualWaypoint.position, myPos);     
-        if (_eggStats.gameMode.interactRadius > distance)
+        if (_eggStats.gameMode.InteractRadius > distance)
         {
             _actualWaypoint = _getRandomWaypoint?.Invoke();
             _agent.SetDestination(_actualWaypoint.position);
@@ -48,7 +48,7 @@ public class EggState_Patrol : EggState<EggStates>
     public override void GizmoShow()
     {
         Gizmos.color = Color.green;
-        Gizmos.DrawWireSphere(_actualWaypoint.position, _eggStats.gameMode.interactRadius);
+        Gizmos.DrawWireSphere(_actualWaypoint.position, _eggStats.gameMode.InteractRadius);
     }
   
 }

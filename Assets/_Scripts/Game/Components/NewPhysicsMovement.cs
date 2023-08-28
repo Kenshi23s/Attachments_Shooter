@@ -141,7 +141,7 @@ public class NewPhysicsMovement : MonoBehaviour
     private void Awake()
     {
         Rigidbody = GetComponent<Rigidbody>();
-
+       
         _debug = GetComponent<DebugableObject>();
         _debug.AddGizmoAction(DrawSpeedArrow);
     }

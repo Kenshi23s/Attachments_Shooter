@@ -1,27 +1,27 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using UnityEngine;
-
+[RequireComponent(typeof(DebugableObject))]
 public class GrabableHandler : MonoBehaviour
 {
     public List<IGrabable> Inventory { get; private set; } = new List<IGrabable>();
     public IGrabable CurrentlyEquipped { get; private set; }
-
+    DebugableObject _debug;
     [SerializeField] Transform DesiredPosition;
 
     [field: SerializeField]
     public int InventoryCapacity { get; private set; }
 
-    [Range(0, 10f), SerializeField] float ThrowForce;
+    [Range(0, 10f), SerializeField] float _throwForce = 2;
 
-    public bool SomethingInHand => CurrentlyEquipped != null;
+    public bool HasSomethingInHand => CurrentlyEquipped != null || CurrentlyEquipped != default;
 
 
     private void Awake()
     {
-
-
+        _debug = GetComponent<DebugableObject>();
     }
 
     private void Start()
@@ -30,11 +30,29 @@ public class GrabableHandler : MonoBehaviour
             CurrentlyEquipped = Inventory.Where(x => x != null).First();
     }
 
+    private void Update()
+    {
+        if (Input.GetKeyDown(KeyCode.G))
+        {
+            Throw(CurrentlyEquipped);
+        }
+    }
+
 
     public void GrabItem(IGrabable item)
     {
+        _debug.Log($"Añado el item {(item as MonoBehaviour).name}");
         Inventory.Add(item);
-        item.Unequip();
+        
+        if (!HasSomethingInHand)
+        {
+            Equip(item);
+        }
+        else
+        {
+            item.Unequip();
+        }
+
     }
 
     public void Equip(IGrabable item)
@@ -44,14 +62,14 @@ public class GrabableHandler : MonoBehaviour
         item.Equip();
         CurrentlyEquipped = item;
 
+        CurrentlyEquipped.Transform.position = DesiredPosition.position;
         CurrentlyEquipped.Transform.parent = DesiredPosition;
-        CurrentlyEquipped.Transform.position = Vector3.zero;
         CurrentlyEquipped.Transform.forward = DesiredPosition.forward;
     }
 
     public void UnEquipCurrent()
     {
-        if (!SomethingInHand) return;
+        if (!HasSomethingInHand) return;
 
         CurrentlyEquipped.Unequip();
         CurrentlyEquipped.Transform.gameObject.SetActive(false);
@@ -61,14 +79,14 @@ public class GrabableHandler : MonoBehaviour
 
     public void InspectCurrent()
     {
-        if (!SomethingInHand) return;
+        if (!HasSomethingInHand) return;
         CurrentlyEquipped.Inspect();
     }
 
     //usa el item actualmente equipado
     public void UseCurrent()
     {
-        if (!SomethingInHand) return;
+        if (!HasSomethingInHand) return;
         CurrentlyEquipped.Use();
     }
 
@@ -95,7 +113,7 @@ public class GrabableHandler : MonoBehaviour
             rb = item.Transform.gameObject.AddComponent<Rigidbody>();
             DestroyRigidbody(rb);
         }
-        rb.AddForce(Camera.main.transform.forward * ThrowForce, ForceMode.Impulse);
+        rb.AddForce(Camera.main.transform.forward * _throwForce, ForceMode.Impulse);
     }
 
 

@@ -16,7 +16,7 @@ public class InteractablesManager : MonoSingleton<InteractablesManager>
     public ReadOnlyCollection<IInteractable> Interactables { get; private set; }
 
     protected override void SingletonAwake()
-    { 
+    {
         Interactables = _interactables.AsReadOnly();
     }
 
@@ -24,7 +24,7 @@ public class InteractablesManager : MonoSingleton<InteractablesManager>
     public void AddInteractableObject(IInteractable interactable)
     {
 
-     
+
         if (_database.Contains(interactable))
         {
             Debug.LogWarning("Trying to add interactable which is already on the list. Returning...");
@@ -33,7 +33,7 @@ public class InteractablesManager : MonoSingleton<InteractablesManager>
 
         _database.Add(interactable);
         _interactables.Add(interactable);
-       
+
     }
 
     public void RemoveInteractableObject(IInteractable interactable)
@@ -57,16 +57,16 @@ public class InteractablesManager : MonoSingleton<InteractablesManager>
         }
     }
 
-   
-    public void UpdateInteractions(Player_Handler player) 
+
+    public void UpdateInteractions(Player_Handler player)
     {
         IInteractable newInteractable = null;
-           
+
         float highestPriority = float.NegativeInfinity;
 
         foreach (IInteractable interactableObject in _interactables.Where(x => x.CanFocus()))
         {
-            
+
             if (interactableObject.CanInteract(player.InteractFov, out float priority))
             {
                 if (priority > highestPriority)
@@ -113,7 +113,20 @@ public class InteractablesManager : MonoSingleton<InteractablesManager>
 
         if (_currentInteractable != null && Input.GetKey(KeyCode.E)) // Example key to trigger interaction
         {
-            _currentInteractable.Interact();
+            if (!_currentInteractable.Interact()) return;
+
+            var cast = _currentInteractable as MonoBehaviour;
+
+            if (cast == null) return;
+
+            if (cast.TryGetComponent(out IGrabable grabable))
+            {
+                player.GrabHandler.GrabItem(grabable);
+            }
+            
+
+
+
         }
     }
 

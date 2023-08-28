@@ -16,8 +16,7 @@ public class EggState_Escape : EggState<EggStates>
 
     public override void OnEnter()
     {
-        _agent.SetMaxSpeed(_eggStats.escapeSpeed);
-        _agent.Movement.maxForce = _eggStats.escapeSpeed;
+        _agent.ManualMovement.MaxSpeed=_eggStats.escapeSpeed;
         _actualWaypoint = GetFurthestWaypoint();
         _agent.SetDestination(_actualWaypoint.position);
     }
@@ -25,7 +24,7 @@ public class EggState_Escape : EggState<EggStates>
     public override void OnUpdate() 
     {
         float distance = Vector3.Distance(_actualWaypoint.position, _agent.transform.position);
-        if (distance < _eggStats.gameMode.interactRadius)
+        if (distance < _eggStats.gameMode.InteractRadius)
         {
             if (!_fov.IN_FOV(_eggStats.gameMode.playerPos))
             {
@@ -40,7 +39,7 @@ public class EggState_Escape : EggState<EggStates>
     public override void GizmoShow()
     {
         Gizmos.color = Color.red;
-        Gizmos.DrawWireSphere(_actualWaypoint.position, _eggStats.gameMode.interactRadius);
+        Gizmos.DrawWireSphere(_actualWaypoint.position, _eggStats.gameMode.InteractRadius);
     }
 
     public override void OnExit() {_actualWaypoint = null;}

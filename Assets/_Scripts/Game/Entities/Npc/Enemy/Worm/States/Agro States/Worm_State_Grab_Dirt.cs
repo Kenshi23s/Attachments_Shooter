@@ -47,7 +47,7 @@ public class Worm_State_Grab_Dirt : Worm_State<Worm_AttackState>
             _fsm.ChangeState(Worm_AttackState.ShootDirt);
             return;
         }
-        Vector3 dirToPlayer = Player_Handler.position - _worm.transform.position;
+        Vector3 dirToPlayer = Player_Handler.Position - _worm.transform.position;
         float MaxRadiansDelta = 180f * Mathf.Deg2Rad * Time.deltaTime;
         _worm.transform.rotation = Quaternion.LookRotation(Vector3.RotateTowards(_worm.transform.forward, dirToPlayer, MaxRadiansDelta, 0), Vector3.up);
     }
