@@ -2107,6 +2107,7 @@ GameObject:
   - component: {fileID: 4640686647569103781}
   - component: {fileID: 4640686647569103780}
   - component: {fileID: 4640686647569103783}
+  - component: {fileID: 4236841134622295797}
   - component: {fileID: 4640686647569103782}
   - component: {fileID: 4640686647569103785}
   - component: {fileID: 447336810258648381}
@@ -2224,18 +2225,30 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 4640686647569103782}
-        m_TargetAssemblyTypeName: ButtonMenuAnim, Assembly-CSharp
-        m_MethodName: PlayGame
-        m_Mode: 1
+      - m_Target: {fileID: 4236841134622295797}
+        m_TargetAssemblyTypeName: ChangeSceneButton, Assembly-CSharp
+        m_MethodName: ChangeScene
+        m_Mode: 5
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
           m_IntArgument: 0
           m_FloatArgument: 0
-          m_StringArgument: 
+          m_StringArgument: Level1_New
           m_BoolArgument: 0
         m_CallState: 2
+--- !u!114 &4236841134622295797
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4640686647569103787}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 454ec261985cebb4eb16a9f5d69f81dc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!114 &4640686647569103782
 MonoBehaviour:
   m_ObjectHideFlags: 0
