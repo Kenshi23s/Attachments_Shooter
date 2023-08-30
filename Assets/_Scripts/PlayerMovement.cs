@@ -17,7 +17,7 @@ public class PlayerMovement : MonoBehaviour
     PausableObject pauseOBJ;
     #region look
     [SerializeField, Range(0f, 10f)]
-    float lookVerticalSensitivity, lookHorizontalSensitivity = 1;
+    public float lookVerticalSensitivity, lookHorizontalSensitivity = 1;
     float lookVertical, lookHorizontal;
 
     [SerializeField, Range(0, 90)] float lookUpAngle = 90;
