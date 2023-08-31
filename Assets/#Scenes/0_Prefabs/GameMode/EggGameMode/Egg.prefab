@@ -200,6 +200,7 @@ GameObject:
   - component: {fileID: 2307399318860750864}
   - component: {fileID: 2931200110201961575}
   - component: {fileID: 6356770549206311380}
+  - component: {fileID: 8970671558890454384}
   m_Layer: 0
   m_Name: Egg
   m_TagString: Untagged
@@ -346,7 +347,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   interactDistance: 5
-  interactTimeNeeded: 1.5
+  interactTimeNeeded: 0
   currentInteractTime: 0
   _interactableCollider: {fileID: 7508314453134862469}
   onFocus:
@@ -554,6 +555,36 @@ MonoBehaviour:
   obstacleMask:
     serializedVersion: 2
     m_Bits: 8192
+--- !u!114 &8970671558890454384
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4518308652061995904}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9b5f4d49a00823049afd3cd6d4a44107, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  OnGrab:
+    m_PersistentCalls:
+      m_Calls: []
+  OnEquip:
+    m_PersistentCalls:
+      m_Calls: []
+  OnUnEquip:
+    m_PersistentCalls:
+      m_Calls: []
+  OnRelease:
+    m_PersistentCalls:
+      m_Calls: []
+  OnUse:
+    m_PersistentCalls:
+      m_Calls: []
+  OnInspect:
+    m_PersistentCalls:
+      m_Calls: []
 --- !u!1001 &2070150739573700269
 PrefabInstance:
   m_ObjectHideFlags: 0

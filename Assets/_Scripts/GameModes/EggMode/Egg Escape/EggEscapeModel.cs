@@ -87,7 +87,7 @@ public class EggEscapeModel : MonoBehaviour
     public void DisableEggLogic() 
     {
         _agent.ManualMovement.ClearForces();
-        //_agent.ManualMovement.Rigidbody.isKinematic = true;
+        _agent.ManualMovement.Rigidbody.isKinematic = true;
         _agent.ManualMovement.Rigidbody.useGravity = false;
         _agent.ManualMovement.enabled = false;
         _agent.enabled = false;
@@ -99,7 +99,7 @@ public class EggEscapeModel : MonoBehaviour
 
     public void EnableEggLogic()
     {
-        //_agent.ManualMovement.Rigidbody.isKinematic = false;
+        _agent.ManualMovement.Rigidbody.isKinematic = false;
         _agent.ManualMovement.Rigidbody.useGravity = true;
         _agent.ManualMovement.enabled = true;
         _agent.enabled = true;
