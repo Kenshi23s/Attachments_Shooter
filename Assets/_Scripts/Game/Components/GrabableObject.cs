@@ -45,6 +45,7 @@ public interface IGrabable
     public bool HasOwner => Owner != null;
     public MonoBehaviour Owner { get; }
     public Transform Transform { get; }
+    void SetOwner(MonoBehaviour newOwner);
     void Grab();  
     void Equip();
     void Release();

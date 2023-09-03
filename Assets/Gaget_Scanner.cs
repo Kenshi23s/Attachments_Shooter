@@ -2,7 +2,6 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
-using static UnityEditor.Progress;
 
 public class Gadget_Scanner : Gadget
 {
@@ -83,5 +82,8 @@ public class Gadget_Scanner : Gadget
         return false;
     }
 
-  
+    public override void AwakeContinue()
+    {
+        throw new System.NotImplementedException();
+    }
 }

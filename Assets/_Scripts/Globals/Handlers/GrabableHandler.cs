@@ -1,6 +1,5 @@
 using System.Collections;
 using System.Collections.Generic;
-using System.Diagnostics;
 using System.Linq;
 using UnityEngine;
 [RequireComponent(typeof(DebugableObject))]
@@ -32,9 +31,16 @@ public class GrabableHandler : MonoBehaviour
 
     private void Update()
     {
-        if (Input.GetKeyDown(KeyCode.G))
+        if (Input.GetKeyDown(KeyCode.T))
         {
+            Debug.Log("Tiro Objeto");
             Throw(CurrentlyEquipped);
+        }
+
+        if (Input.GetKeyDown(KeyCode.Mouse0))
+        {
+            Debug.Log("Uso Objeto");
+            UseCurrent();
         }
     }
 
@@ -47,6 +53,7 @@ public class GrabableHandler : MonoBehaviour
         if (!HasSomethingInHand)
         {
             Equip(item);
+            item.SetOwner(this);
         }
         else
         {
@@ -86,7 +93,11 @@ public class GrabableHandler : MonoBehaviour
     //usa el item actualmente equipado
     public void UseCurrent()
     {
-        if (!HasSomethingInHand) return;
+        if (!HasSomethingInHand) 
+        {
+            Debug.Log("No tengo nada en la mano");
+            return;
+        }
         CurrentlyEquipped.Use();
     }
 
@@ -98,12 +109,17 @@ public class GrabableHandler : MonoBehaviour
     /// <param name="item"></param>
     void Throw(IGrabable item)
     {
-        if (!Inventory.Contains(item)) return;
+        if (!Inventory.Contains(item)) 
+        {
+            Debug.Log("No tiro nada");
+            return;
+        } 
 
+        Debug.Log("Tiro Objeto");
         Inventory.Remove(item);
 
-        item.Unequip();
-
+        UnEquipCurrent();
+        item.Release();
         item.Transform.gameObject.SetActive(true);
         Rigidbody rb = null;
         if (item.Transform.root.TryGetComponent(out Rigidbody x))
@@ -111,7 +127,7 @@ public class GrabableHandler : MonoBehaviour
         else
         {
             rb = item.Transform.gameObject.AddComponent<Rigidbody>();
-            DestroyRigidbody(rb);
+            StartCoroutine(DestroyRigidbody(rb)); 
         }
         rb.AddForce(Camera.main.transform.forward * _throwForce, ForceMode.Impulse);
     }

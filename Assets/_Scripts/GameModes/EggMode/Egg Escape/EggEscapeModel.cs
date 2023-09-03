@@ -77,6 +77,7 @@ public class EggEscapeModel : MonoBehaviour
 
         GrabableComponent.OnGrab.AddListener(DisableEggLogic);
         GrabableComponent.OnRelease.AddListener(EnableEggLogic);
+        
 
         _agent = GetComponent<NewAIMovement>();
         _fov = GetComponent<FOVAgent>();
@@ -86,6 +87,7 @@ public class EggEscapeModel : MonoBehaviour
 
     public void DisableEggLogic() 
     {
+        Debug.Log("DesHabilito Logica Huevo");
         _agent.ManualMovement.ClearForces();
         _agent.ManualMovement.Rigidbody.isKinematic = true;
         _agent.ManualMovement.Rigidbody.useGravity = false;
@@ -93,18 +95,19 @@ public class EggEscapeModel : MonoBehaviour
         _agent.enabled = false;
         enabled = false;
 
-        GetComponent<BoxCollider>().enabled = false;
+        GetComponent<Collider>().enabled = false;
 
     }
 
     public void EnableEggLogic()
     {
+        Debug.Log("Habilito Logica Huevo");
         _agent.ManualMovement.Rigidbody.isKinematic = false;
         _agent.ManualMovement.Rigidbody.useGravity = true;
         _agent.ManualMovement.enabled = true;
         _agent.enabled = true;
         enabled = true;
-        GetComponent<BoxCollider>().enabled = true;
+        GetComponent<Collider>().enabled = true;
     }
 
     //tendria que tener 4 estados:

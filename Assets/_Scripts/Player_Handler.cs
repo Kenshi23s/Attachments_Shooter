@@ -21,7 +21,7 @@ public class Player_Handler : MonoBehaviour
 
     [SerializeField] sc_vibrateCamera vibrate;
 
-    UnityEvent OnStart, OnUpdate, OnLateUpdate, OnFixedUpdate = new UnityEvent();
+    UnityEvent OnUpdate, OnLateUpdate, OnFixedUpdate = new UnityEvent();
 
     UnityEvent<Collision> WhenCollisionEnter, WhenCollisionStay, WhenCollisionExit = new UnityEvent<Collision>();
 
