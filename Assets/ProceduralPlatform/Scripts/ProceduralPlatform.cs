@@ -70,7 +70,7 @@ public class ProceduralPlatform : MonoBehaviour
     public struct PlatformsParameters
     {
         [NonSerialized] public Vector3 CenterPosition, CrossResult;
-       
+        public LayerMask SolidMasks;
         public float Radius, SeparationBetweenPlatforms,Slice;
         public int ConstructionDelay;
         public Vector3 CubeArea => Vector3.one * Radius;
@@ -184,8 +184,6 @@ public class ProceduralPlatform : MonoBehaviour
     public async Task CreatePlatform(Vector3 position, PlatformsParameters parameters)
     {
 
-        
-
 
         //var direction = hitWith.bounds.center - transform.position;
         float RemainingRadius = parameters.Radius - Vector3.Distance(parameters.CenterPosition, position);
@@ -227,7 +225,7 @@ public class ProceduralPlatform : MonoBehaviour
 
             newGO.name = WatchDog.ToString();
             
-             newGO.CreatePlatform(newPosition, parameters);
+            newGO.CreatePlatform(newPosition, parameters);
 
         }
 

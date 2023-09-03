@@ -26550,9 +26550,12 @@ MonoBehaviour:
   shootPosition: {fileID: 724859933}
   sample: {fileID: 4310897374564260047, guid: 9cdb0ab4a39d67d4d89295abbcb438a4, type: 3}
   <PlatformParameters>k__BackingField:
-    Radius: 10
-    SeparationBetweenPlatforms: 0.2
-    Slice: 0
+    SolidMasks:
+      serializedVersion: 2
+      m_Bits: 65523
+    Radius: 3
+    SeparationBetweenPlatforms: 1
+    Slice: 2
     ConstructionDelay: 5
   cooldownShoot: 0.5
   shootForce: 30
