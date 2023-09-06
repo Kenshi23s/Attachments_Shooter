@@ -136,15 +136,15 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 1570be0c54fc56e49b7359fbbbf1dc2c, type: 3}
       propertyPath: m_LocalPosition.x
-      value: -486.21307
+      value: -486.4
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 1570be0c54fc56e49b7359fbbbf1dc2c, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 1.027643
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 1570be0c54fc56e49b7359fbbbf1dc2c, type: 3}
       propertyPath: m_LocalPosition.z
-      value: -383.12692
+      value: -385
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 1570be0c54fc56e49b7359fbbbf1dc2c, type: 3}
       propertyPath: m_LocalRotation.w
@@ -27007,6 +27007,7 @@ MonoBehaviour:
     Radius: 3
     SeparationBetweenPlatforms: 1
     Slice: 2
+    LifeTime: 0
     ConstructionDelay: 5
   cooldownShoot: 0.5
   shootForce: 30
