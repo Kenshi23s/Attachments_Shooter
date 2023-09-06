@@ -14,7 +14,7 @@ using Random = UnityEngine.Random;
 
 public class ProceduralPlatform : MonoBehaviour
 {
-    public static int WatchDog = 200;
+   
     #region Directions
     //chat gpt :3 //no iba a escribir esto a mano
     //vivan las IAs que me sacaran mi trabajo
@@ -71,7 +71,7 @@ public class ProceduralPlatform : MonoBehaviour
     {
         [NonSerialized] public Vector3 CenterPosition, CrossResult;
         public LayerMask SolidMasks;
-        public float Radius, SeparationBetweenPlatforms,Slice;
+        public float Radius, SeparationBetweenPlatforms,Slice,LifeTime;
         public int ConstructionDelay;
         public Vector3 CubeArea => Vector3.one * Radius;
 
@@ -183,11 +183,8 @@ public class ProceduralPlatform : MonoBehaviour
 
     public async Task CreatePlatform(Vector3 position, PlatformsParameters parameters)
     {
-
-
         //var direction = hitWith.bounds.center - transform.position;
         float RemainingRadius = parameters.Radius - Vector3.Distance(parameters.CenterPosition, position);
-
 
         transform.position = position;
 
@@ -200,7 +197,7 @@ public class ProceduralPlatform : MonoBehaviour
         await Task.Delay(parameters.ConstructionDelay);
         await Ramify(parameters);
 
-        Destroy(gameObject, parameters.ConstructionDelay* 1000);
+        Destroy(gameObject, parameters.LifeTime);
     }
 
     async Task Ramify(PlatformsParameters parameters)
@@ -221,16 +218,15 @@ public class ProceduralPlatform : MonoBehaviour
 
             if (col.Any()) continue;
 
-            var newGO = Instantiate(this, newPosition, Quaternion.identity);
+            var newGO = ProceduralPlatformManager.instance.pool.Get();
 
-            newGO.name = WatchDog.ToString();
+            
             
             newGO.CreatePlatform(newPosition, parameters);
 
         }
 
     }
-
 
     bool InDistance(PlatformsParameters x, Vector3 newPos)
     {
@@ -241,7 +237,7 @@ public class ProceduralPlatform : MonoBehaviour
     bool InSlice(Vector3 orientation, Vector3 DistanceFromCenter, float dist)
     {
         orientation = orientation.normalized;
-        return new Vector3(orientation.x * DistanceFromCenter.x,orientation.y * DistanceFromCenter.y,orientation.z* DistanceFromCenter.z).magnitude > dist;
+        return new Vector3(orientation.x * DistanceFromCenter.x,orientation.y * DistanceFromCenter.y,orientation.z * DistanceFromCenter.z).magnitude > dist;
     }
 
 
@@ -249,7 +245,7 @@ public class ProceduralPlatform : MonoBehaviour
     /// <summary>
     /// aca se deberia hacer toda la logica de volver a la pool y demas
     /// </summary>
-    void CleanObject()
+    public void CleanObject()
     {
         Neighbors.Clear(); Foundations.Clear();
         OnFoundationDestroyed = delegate { };

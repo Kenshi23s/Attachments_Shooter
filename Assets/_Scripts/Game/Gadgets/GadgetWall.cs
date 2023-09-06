@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -13,6 +14,7 @@ public class GadgetWall : Gadget
     public float cooldownShoot;
     public float shootForce;
     public bool CanShoot = true;
+  
 
     public override bool UseGadget()
     {
@@ -35,6 +37,6 @@ public class GadgetWall : Gadget
 
     public override void AwakeContinue()
     {
-        
+      
     }
 }

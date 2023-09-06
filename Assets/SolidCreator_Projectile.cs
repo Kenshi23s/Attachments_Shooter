@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
@@ -13,6 +14,8 @@ public class SolidCreator_Projectile : MonoBehaviour
     public ProceduralPlatform Sample;
     PlatformsParameters parameters;
     Vector3 InitialPosition;
+
+    Func<ProceduralPlatform> GetSample = () => ProceduralPlatformManager.instance.pool.Get();
 
     private void Awake()
     {
@@ -37,7 +40,7 @@ public class SolidCreator_Projectile : MonoBehaviour
             parameters.CenterPosition = point;
             //creo la plataforma
             Debug.Log("Collider");
-            var x = Instantiate(Sample, point, Quaternion.identity);
+            var x = GetSample();
             x.CreatePlatform(point, parameters);
             Destroy(gameObject);
         }

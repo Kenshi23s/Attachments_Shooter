@@ -18,9 +18,9 @@ public class PoolObject<T>
     // al crearse una "PoolObject" se le deberan pasar estas referencias para que funcione correctamente
     public void Intialize(Action<T> _turnOn, Action<T> _turnOff, Func<T> _build, int prewarm = 5)
     {
-        this.turnOn = _turnOn;
-        this.turnOff = _turnOff;
-        this.build = _build;
+        turnOn = _turnOn;
+        turnOff = _turnOff;
+        build = _build;
         this.prewarm = prewarm;
 
         AddMore();
