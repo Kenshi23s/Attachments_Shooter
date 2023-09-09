@@ -22,8 +22,8 @@ public class GadgetWall : Gadget
 
         var x = Instantiate(sample,shootPosition.position,Quaternion.identity);
         x.transform.forward = shootPosition.forward;
-        Debug.Log(GrabableComponent.Owner.gameObject);
-        x.LaunchProjectile(shootForce * shootPosition.forward, FList.Create(gameObject) + GrabableComponent.Owner.gameObject ,PlatformParameters);
+        FList<GameObject> owners = FList.Create(gameObject) + GrabableComponent.Owner.gameObject;
+        x.LaunchProjectile(shootForce * shootPosition.forward, owners, PlatformParameters);
 
         return true;
     }

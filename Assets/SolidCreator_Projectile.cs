@@ -11,7 +11,6 @@ public class SolidCreator_Projectile : MonoBehaviour
 
     public Rigidbody RB { get; private set; }
     public List<GameObject> Owners { get; private set; }
-    public ProceduralPlatform Sample;
     PlatformsParameters parameters;
     Vector3 InitialPosition;
 
@@ -20,6 +19,7 @@ public class SolidCreator_Projectile : MonoBehaviour
     private void Awake()
     {
         RB = GetComponent<Rigidbody>();
+        GetSample = () => ProceduralPlatformManager.instance.pool.Get();
     }
 
     public void LaunchProjectile(Vector3 ImpulseForce, IEnumerable<GameObject> newOwner,PlatformsParameters newParameters)
@@ -34,7 +34,7 @@ public class SolidCreator_Projectile : MonoBehaviour
     {
         if (CollisionInbound(out var normal,out var point))
         {
-            Vector3 dir = transform.position - InitialPosition;
+          
             //relleno datos restantes
             parameters.CrossResult = GetPerpendicular(transform.forward, normal);
             parameters.CenterPosition = point;

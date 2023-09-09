@@ -14,7 +14,7 @@ using Random = UnityEngine.Random;
 
 public class ProceduralPlatform : MonoBehaviour
 {
-   
+
     #region Directions
     //chat gpt :3 //no iba a escribir esto a mano
     //vivan las IAs que me sacaran mi trabajo
@@ -71,16 +71,10 @@ public class ProceduralPlatform : MonoBehaviour
     {
         [NonSerialized] public Vector3 CenterPosition, CrossResult;
         public LayerMask SolidMasks;
-        public float Radius, SeparationBetweenPlatforms,Slice,LifeTime;
+        public float Radius, SeparationBetweenPlatforms, Slice, InitialLifeTime, DecayDelaySeconds;
         public int ConstructionDelay;
-        public Vector3 CubeArea => Vector3.one * Radius;
 
     }
-    Action onGizmoDraw = delegate { };
-
-    public List<ProceduralPlatform> Neighbors = new List<ProceduralPlatform>();
-
-    public List<ProceduralPlatform> Foundations = new List<ProceduralPlatform>();
 
     public bool IsFoundation { get; private set; }
 
@@ -88,146 +82,146 @@ public class ProceduralPlatform : MonoBehaviour
 
     public event Action<ProceduralPlatform> OnNeighborDestroyed = delegate { };
 
+    float _currentLifeTime, _maxLifeTime;
+    public float _decayDelaySeconds { get; private set; }
+
+    [SerializeField] GameObject _view;
+
+    [SerializeField] Gradient _gradient;
+
+    #region View
+    private void Start()
+    {
+        //rotacion random para el view
+        Vector3 rotation = Vector3.zero;
+        for (int i = 0; i < 3; i++)    
+            rotation[i] = Random.Range(0, 4) * 90;
+        
+        _view.transform.localRotation = Quaternion.Euler(rotation);
+    }
+
+    #endregion
+
+    Material myMat;
+    private void Awake()
+    {
+        myMat = _view.GetComponent<Renderer>().material;
+        myMat.color = _gradient.Evaluate(1);
+        Debug.Log(myMat);
+    }
+    private void LateUpdate()
+    {
+
+        _currentLifeTime -= Time.deltaTime;
+        myMat.color = _gradient.Evaluate(_currentLifeTime / _maxLifeTime);
+        if (_currentLifeTime <= 0) StoreNode();
+    }
+
+    void StoreNode()
+    {
+        var col = ProceduralPlatformManager.instance.GetNeighbors(this);
+        ProceduralPlatformManager.instance.RemoveOwner(this);
+        foreach (var item in col)
+            item.RemoveNeighbor(this);
+
+        ProceduralPlatformManager.instance.StorePlatform(this);
+    }
+
+    void RemoveNeighbor(ProceduralPlatform neighbor)
+    {
+        if (!ProceduralPlatformManager.instance.RemoveNode(this, neighbor)) return;
+
+        if (!neighbor.IsFoundation) return;
+
+        if (!AnyFoundationLeft(FList.Create(this))) ProceduralPlatformManager.instance.ChainStoreAll(this);
+
+    }
     #region Recusrion Logic
-    public void SetNeighbors(List<ProceduralPlatform> NewNeighbors)
+
+    public bool AnyFoundationLeft(FList<ProceduralPlatform> alreadyChecked)
     {
-        //esto (creo) me genera una nueva instancia de la lista y no es una referencia
-        Neighbors = NewNeighbors.ToList();
-
-        foreach (var item in Neighbors)
+        if (IsFoundation) return true;
+        alreadyChecked += this;
+        foreach (var item in ProceduralPlatformManager.instance.GetNeighbors(this).Where(x => !alreadyChecked.Contains(x)).Distinct())
         {
-            item.OnNeighborDestroyed += RemoveNeighbor;
+
+            if (item.AnyFoundationLeft(alreadyChecked))
+                return true;
+
+            alreadyChecked += item;
         }
-
-        //los divido en 2 colecciones, los que son Fundaciones, y los que no son Fundaciones
-        //(recien cuando lo termine me di cuenta q no nesecito dividirlos en 2 colecciones)
-        //por ahora lo dejo asi para prototipar, luego volvere...
-        var Split = Neighbors
-            .Where(x => x != this)
-            .SelectMany(x => x.Neighbors)
-            .Distinct()
-            .ToLookup(x => x.IsFoundation);
-
-        //si no hay fundaciones entre mis vecinos y yo no soy una fundacion
-        if (!Split[true].Any() && !IsFoundation)
-        {
-            //me destruyo, al no haber fundaciones no tiene sentido seguir(porque se esta cayendo todo abajo)
-            OnNeighborDestroyed(this);
-            Destroy(gameObject);
-        }
-
-        //cuando las fundaciones se destruyan, quiero que me avisen
-        foreach (var item in Split[true])
-        {
-            item.OnFoundationDestroyed += RemoveFoundation;
-        }
-    }
-
-
-    //esto despues lo podria tener con async
-    void RemoveFoundation(ProceduralPlatform oldFoundation)
-    {
-        if (Foundations.Contains(oldFoundation))
-        {
-            Foundations.Remove(oldFoundation);
-        }
-
-        if (!Foundations.Any())
-        {
-            OnNeighborDestroyed(this);
-            CleanObject();
-            Destroy(gameObject);
-        }
-    }
-
-    void RemoveNeighbor(ProceduralPlatform oldNeighbor)
-    {
-        if (Neighbors.Contains(oldNeighbor))
-        {
-            Neighbors.Remove(oldNeighbor);
-        }
-
-        if (!Neighbors.Any())
-        {
-            OnNeighborDestroyed(this);
-            CleanObject();
-            Destroy(gameObject);
-        }
-    }
-
-
-    void AddFoundation(ProceduralPlatform newFoundation)
-    {
-
-    }
-
-    void AddNeighbors(ProceduralPlatform NewNeighbor)
-    {
-
+        return false;
     }
 
     #endregion
 
     #region Creation Logic
 
-    [SerializeField] GameObject _view;
-    #region View
-    private void Start()
-    {
-        //rotacion random para el view
-        
-        _view.transform.rotation =  Quaternion.Euler(Random.Range(0, 4) * 90, Random.Range(0, 4) * 90, Random.Range(0, 4) * 90);
-    }
-
-    #endregion
-
     public async Task CreatePlatform(Vector3 position, PlatformsParameters parameters)
-    {
-        //var direction = hitWith.bounds.center - transform.position;
-        float RemainingRadius = parameters.Radius - Vector3.Distance(parameters.CenterPosition, position);
-
+    {     
         transform.position = position;
-
-        //Debug.DrawLine(position, position + parameters.CrossResult * 20, Color.green, Mathf.Infinity);
-        onGizmoDraw += () =>
+        _view.transform.localPosition = Vector3.zero;
+        IsFoundation = false;
+        foreach (var dir in SixDirections)
         {
-            //Gizmos.color = Color.cyan;
-            //Gizmos.DrawWireSphere(position, parameters.SeparationBetweenPlatforms);
-        };
+            if (!Physics.Raycast(transform.position, dir, _view.transform.localScale.magnitude, parameters.SolidMasks, QueryTriggerInteraction.Ignore)) continue;
+
+            IsFoundation = true; break;
+        }
+
+        _maxLifeTime = _currentLifeTime = parameters.InitialLifeTime;
+
+        _decayDelaySeconds = parameters.DecayDelaySeconds;
         await Task.Delay(parameters.ConstructionDelay);
         await Ramify(parameters);
 
-        Destroy(gameObject, parameters.LifeTime);
     }
 
     async Task Ramify(PlatformsParameters parameters)
     {
-       
+
         foreach (Vector3 direction in SixDirections)
         {
 
-            var newPosition = transform.position + direction * parameters.SeparationBetweenPlatforms;
+            var newPosition = transform.position + direction.normalized * parameters.SeparationBetweenPlatforms;
             if (!InDistance(parameters, newPosition)) continue;
 
-            //agrege el slice, pero por razones de la vida todavia no funciona bien
-            if (InSlice(parameters.CrossResult, newPosition - parameters.CenterPosition, parameters.Slice)) continue;
+            Vector3 dirToMiddle = newPosition - parameters.CenterPosition;
+            if (InSlice(parameters.CrossResult, dirToMiddle, parameters.Slice)) continue;
 
-            var col = Physics.RaycastAll(transform.position, direction, parameters.SeparationBetweenPlatforms).Where(x => x.transform != this.transform).ToArray();
+            var col = Physics.RaycastAll(transform.position, direction, parameters.SeparationBetweenPlatforms, parameters.SolidMasks)
+                .Where(x => x.transform != transform)
+                .ToArray();
+
             Debug.DrawLine(transform.position, transform.position + direction.normalized * parameters.SeparationBetweenPlatforms, Color.cyan, Mathf.Infinity);
 
 
-            if (col.Any()) continue;
+            if (!col.Any())
+            {
+                var newGO = ProceduralPlatformManager.instance.pool.Get();
+                ProceduralPlatformManager.instance.AddNode(this, newGO);
+                newGO.CreatePlatform(newPosition, parameters);
+            }
+            else
+            {
+                //esto esta bien feo lo del getComponent
+                //es una de las razones por las que se nos lagueaba el tp de IA 2
+                //pero no podes castear un raycast hit a proceduralplatform(creo)
+                //consultar el martes
+                var existingPlatform = col
+                    .Select(x => x.transform.GetComponent<ProceduralPlatform>())
+                    .Where(x => x != null)
+                    .First();
 
-            var newGO = ProceduralPlatformManager.instance.pool.Get();
+                if (existingPlatform == null || existingPlatform == default) continue;
 
-            
-            
-            newGO.CreatePlatform(newPosition, parameters);
+                ProceduralPlatformManager.instance.AddNode(this, existingPlatform);
+            }
+
 
         }
-
     }
-
+    #region Useful Questions
     bool InDistance(PlatformsParameters x, Vector3 newPos)
     {
         var distance = Vector3.Distance(x.CenterPosition, newPos);
@@ -237,55 +231,30 @@ public class ProceduralPlatform : MonoBehaviour
     bool InSlice(Vector3 orientation, Vector3 DistanceFromCenter, float dist)
     {
         orientation = orientation.normalized;
-        return new Vector3(orientation.x * DistanceFromCenter.x,orientation.y * DistanceFromCenter.y,orientation.z * DistanceFromCenter.z).magnitude > dist;
+        return new Vector3(
+            orientation.x * DistanceFromCenter.x,
+            orientation.y * DistanceFromCenter.y,
+            orientation.z * DistanceFromCenter.z).magnitude > dist;
     }
-
-
+    #endregion
     #endregion
     /// <summary>
     /// aca se deberia hacer toda la logica de volver a la pool y demas
     /// </summary>
     public void CleanObject()
     {
-        Neighbors.Clear(); Foundations.Clear();
         OnFoundationDestroyed = delegate { };
         OnNeighborDestroyed = delegate { };
         IsFoundation = false;
-        onGizmoDraw = delegate { };
-    }
-
-    private void OnDrawGizmos()
-    {
-
-        onGizmoDraw?.Invoke();
-
-    }
-
-    public List<ProceduralPlatform> GetNeighbors()
-    {
-        List<ProceduralPlatform> neighbors = new List<ProceduralPlatform>();
-        for (int i = 0; i < AllDirections.Length; i++)
-        {
-            if (!Physics.Raycast(transform.position, AllDirections[i], out var hit)) continue;
-            if (!hit.transform.TryGetComponent(out ProceduralPlatform x)) continue;
-            neighbors.Add(x);
-        }
-
-        return Neighbors;
     }
 
     #region UsefulMethods
-    public static Vector3 OrientVector(Transform tr, Vector3 dir)
-    {
-        return new Vector3(tr.right.x * dir.x, tr.up.y * dir.y, tr.forward.z * dir.z);
-    }
 
     public static Vector3 GetPerpendicular(Vector3 dir, Vector3 wallNormal)
     {
         Vector3 firstPerpendicular = Vector3.Cross(dir.normalized, wallNormal);
         return Vector3.Cross(firstPerpendicular, wallNormal).normalized;
     }
-
 
     #endregion
 

@@ -7,7 +7,7 @@ public class PoolObject<T>
 {
     public PoolObject() { }
 
-    [SerializeField]public Stack<T> pool = new Stack<T>();
+    [SerializeField] public Stack<T> pool = new Stack<T>();
 
     Action<T> turnOn;
     Action<T> turnOff;
@@ -22,13 +22,13 @@ public class PoolObject<T>
         turnOff = _turnOff;
         build = _build;
         this.prewarm = prewarm;
-
+        pool = new();
         AddMore();
     }
     // obtiene el objeto de la lista, si no puede obtener ninguno instancia mas
     public T Get()
     {
-        if(pool.Count <= 0) AddMore();
+        if (pool.Count == 0) AddMore();
         var obj = pool.Pop();
         turnOn(obj);
         return obj;
@@ -42,12 +42,17 @@ public class PoolObject<T>
     // añade mas objetos a la lista
     void AddMore()
     {
-        for (int i = 0; i < prewarm; i++)
+        var getName = build.Invoke();
+        pool.Push(getName);
+        turnOff(getName);
+        string x = getName.ToString();
+        for (int i = 0; i < prewarm - 1; i++)
         {
             var obj = build.Invoke();
             pool.Push(obj);
             turnOff(obj);
         }
+        Debug.LogWarning($"instancio  {prewarm} {x}");
     }
 
 }
