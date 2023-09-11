@@ -18,40 +18,40 @@ public class ProceduralPlatform : MonoBehaviour
     #region Directions
     //chat gpt :3 //no iba a escribir esto a mano
     //vivan las IAs que me sacaran mi trabajo
-    private static readonly Vector3[] AllDirections = new Vector3[]
-    {
-          //direcciones
-           Vector3.right,
-           Vector3.up,
-           Vector3.forward,
-           -Vector3.right,
-           -Vector3.up,
-           -Vector3.forward,
+    //private static readonly Vector3[] AllDirections = new Vector3[]
+    //{
+    //      //direcciones
+    //       Vector3.right,
+    //       Vector3.up,
+    //       Vector3.forward,
+    //       -Vector3.right,
+    //       -Vector3.up,
+    //       -Vector3.forward,
 
-           //diagonales
-           Vector3.right + Vector3.up,
-           Vector3.up + Vector3.forward,
-           Vector3.forward + Vector3.right,
-           Vector3.right - Vector3.up,
-           Vector3.up - Vector3.forward,
-           Vector3.forward - Vector3.right,
-           Vector3.right - Vector3.forward,
-           Vector3.up - Vector3.right,
-           Vector3.forward - Vector3.up,
-           -Vector3.right + Vector3.forward,
-           -Vector3.up + Vector3.right,
-           -Vector3.forward + Vector3.up,
+    //       //diagonales
+    //       Vector3.right + Vector3.up,
+    //       Vector3.up + Vector3.forward,
+    //       Vector3.forward + Vector3.right,
+    //       Vector3.right - Vector3.up,
+    //       Vector3.up - Vector3.forward,
+    //       Vector3.forward - Vector3.right,
+    //       Vector3.right - Vector3.forward,
+    //       Vector3.up - Vector3.right,
+    //       Vector3.forward - Vector3.up,
+    //       -Vector3.right + Vector3.forward,
+    //       -Vector3.up + Vector3.right,
+    //       -Vector3.forward + Vector3.up,
 
-           //doble diagonales
-           Vector3.right + Vector3.up + Vector3.forward,
-           Vector3.right - Vector3.up + Vector3.forward,
-           Vector3.right + Vector3.up - Vector3.forward,
-           -Vector3.right + Vector3.up + Vector3.forward,
-           -Vector3.right - Vector3.up + Vector3.forward,
-           -Vector3.right + Vector3.up - Vector3.forward,
-           Vector3.right - Vector3.up - Vector3.forward,
-           -Vector3.right - Vector3.up - Vector3.forward
-    };
+    //       //doble diagonales
+    //       Vector3.right + Vector3.up + Vector3.forward,
+    //       Vector3.right - Vector3.up + Vector3.forward,
+    //       Vector3.right + Vector3.up - Vector3.forward,
+    //       -Vector3.right + Vector3.up + Vector3.forward,
+    //       -Vector3.right - Vector3.up + Vector3.forward,
+    //       -Vector3.right + Vector3.up - Vector3.forward,
+    //       Vector3.right - Vector3.up - Vector3.forward,
+    //       -Vector3.right - Vector3.up - Vector3.forward
+    //};
 
     private static readonly Vector3[] SixDirections = new Vector3[]
     {
@@ -71,7 +71,7 @@ public class ProceduralPlatform : MonoBehaviour
     {
         [NonSerialized] public Vector3 CenterPosition, CrossResult;
         public LayerMask SolidMasks;
-        public float Radius, SeparationBetweenPlatforms, Slice, InitialLifeTime, DecayDelaySeconds;
+        public float wallSeparation,Radius, SeparationBetweenPlatforms, Slice, InitialLifeTime, DecayDelaySeconds;
         public int ConstructionDelay;
 
     }
@@ -179,47 +179,50 @@ public class ProceduralPlatform : MonoBehaviour
 
     async Task Ramify(PlatformsParameters parameters)
     {
-
+        int count= 0;
         foreach (Vector3 direction in SixDirections)
         {
 
             var newPosition = transform.position + direction.normalized * parameters.SeparationBetweenPlatforms;
             if (!InDistance(parameters, newPosition)) continue;
-
+            count++;
+            Debug.Log(count);
             Vector3 dirToMiddle = newPosition - parameters.CenterPosition;
             if (InSlice(parameters.CrossResult, dirToMiddle, parameters.Slice)) continue;
 
             var col = Physics.RaycastAll(transform.position, direction, parameters.SeparationBetweenPlatforms, parameters.SolidMasks)
                 .Where(x => x.transform != transform)
                 .ToArray();
-
+          
             Debug.DrawLine(transform.position, transform.position + direction.normalized * parameters.SeparationBetweenPlatforms, Color.cyan, Mathf.Infinity);
 
 
             if (!col.Any())
-            {
+            {   
                 var newGO = ProceduralPlatformManager.instance.pool.Get();
                 ProceduralPlatformManager.instance.AddNode(this, newGO);
                 newGO.CreatePlatform(newPosition, parameters);
             }
-            else
-            {
-                //esto esta bien feo lo del getComponent
-                //es una de las razones por las que se nos lagueaba el tp de IA 2
-                //pero no podes castear un raycast hit a proceduralplatform(creo)
-                //consultar el martes
-                var existingPlatform = col
-                    .Select(x => x.transform.GetComponent<ProceduralPlatform>())
-                    .Where(x => x != null)
-                    .First();
+            //else
+            //{
+            //    //esto esta bien feo lo del getComponent
+            //    //es una de las razones por las que se nos lagueaba el tp de IA 2
+            //    //pero no podes castear un raycast hit a proceduralplatform(creo)
+            //    //consultar el martes
+            //    var existingPlatform = col
+            //        .Select(x => x.transform.GetComponent<ProceduralPlatform>())
+            //        .Where(x => x != null)
+            //        .ToArray()
+            //        .First();
+            //    Debug.Log("Ya habia plataforma, asi q la hago mi vecino y no creo otra");
+            //    if (existingPlatform == null || existingPlatform == default) continue;
 
-                if (existingPlatform == null || existingPlatform == default) continue;
-
-                ProceduralPlatformManager.instance.AddNode(this, existingPlatform);
-            }
+            //    ProceduralPlatformManager.instance.AddNode(this, existingPlatform);
+            //}
 
 
         }
+        
     }
     #region Useful Questions
     bool InDistance(PlatformsParameters x, Vector3 newPos)
@@ -246,6 +249,8 @@ public class ProceduralPlatform : MonoBehaviour
         OnFoundationDestroyed = delegate { };
         OnNeighborDestroyed = delegate { };
         IsFoundation = false;
+
+
     }
 
     #region UsefulMethods

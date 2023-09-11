@@ -30,39 +30,41 @@ public class SolidCreator_Projectile : MonoBehaviour
         parameters = newParameters;
     }
 
-    private void LateUpdate()
+
+    private void FixedUpdate()
     {
-        if (CollisionInbound(out var normal,out var point))
+        if (CollisionInbound(out var normal, out var point))
         {
-          
+
+            
             //relleno datos restantes
             parameters.CrossResult = GetPerpendicular(transform.forward, normal);
-            parameters.CenterPosition = point;
+            parameters.CenterPosition = point + normal * parameters.wallSeparation;
             //creo la plataforma
-            Debug.Log("Collider");
+            Debug.DrawLine(parameters.CenterPosition, parameters.CenterPosition + Vector3.up * 3,Color.yellow,Mathf.Infinity);
             var x = GetSample();
-            x.CreatePlatform(point, parameters);
+            x.CreatePlatform(parameters.CenterPosition, parameters);
             Destroy(gameObject);
         }
     }
 
-    private void OnTriggerEnter(Collider other)
-    {
-        if (!Owners.Where(x => x != other.gameObject).Any()) return;
+    //private void OnTriggerEnter(Collider other)
+    //{
+    //    if (!Owners.Where(x => x != other.gameObject).Any()) return;
 
-        Vector3 closestPoint = other.ClosestPointOnBounds(transform.position);
-        Ray ray = new Ray(transform.position , RB.velocity.normalized);
-        if (other.Raycast(ray, out var hit , float.MaxValue))
-        {
+    //    Vector3 closestPoint = other.ClosestPointOnBounds(transform.position);
+    //    Ray ray = new Ray(transform.position , RB.velocity.normalized);
+    //    if (other.Raycast(ray, out var hit , float.MaxValue))
+    //    {
             
 
-        }
+    //    }
 
        
       
         
 
-    }
+    //}
 
     bool CollisionInbound(out Vector3 normal,out Vector3 point)
     {
