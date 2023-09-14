@@ -132,17 +132,8 @@ public class PlayerMovement : MonoBehaviour
 
         // Rotacion horizontal. Gira solamente la camara. (La cabeza del personaje)
         transform.rotation = Quaternion.Euler(0, lookHorizontal, 0);
-    }
-
-   
-   
-
-    void LateUpdate()
-    {
-        // Rotacion vertical. Gira solamente la camara. (La cabeza del personaje)
         cam.localRotation = Quaternion.Euler(lookVertical, 0, 0);
     }
-
    
     public void ClearForces()
     {
@@ -151,6 +142,7 @@ public class PlayerMovement : MonoBehaviour
 
     void FixedUpdate()
     {
+
         UpdateState();
 
 
