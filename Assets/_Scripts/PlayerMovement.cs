@@ -229,7 +229,6 @@ public class PlayerMovement : MonoBehaviour
             }
         }
 
-
         lookHorizontal += Input.GetAxisRaw("Mouse X") * lookHorizontalSensitivity;
 
         lookVertical -= Input.GetAxisRaw("Mouse Y") * lookVerticalSensitivity;
