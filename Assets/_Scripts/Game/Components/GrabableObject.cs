@@ -1,21 +1,18 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
 
 [RequireComponent(typeof(InteractableComponent))]
 public class GrabableObject : MonoBehaviour, IGrabable
 {
-
     InteractableComponent _interactableComponent;
 
-    public UnityEvent OnGrab, OnEquip,OnUnEquip ,OnRelease,OnUse,OnInspect = new UnityEvent();
+    public UnityEvent OnGrab, OnEquip,OnUnEquip ,OnRelease,OnInspect = new UnityEvent();
+
+    public UnityEvent<IGadgetOwner> OnUse = new UnityEvent<IGadgetOwner>();
 
     public Transform Transform => transform;
 
-    public MonoBehaviour Owner { get; private set; }
-
- 
+    public IGadgetOwner Owner { get; private set; }
 
     private void Awake()
     {
@@ -29,27 +26,25 @@ public class GrabableObject : MonoBehaviour, IGrabable
    
     public void Release() => OnRelease?.Invoke();
     
-    public void Use() => OnUse?.Invoke();
+    public void Use(IGadgetOwner owner) => OnUse?.Invoke(owner);
     
     public void Inspect() => OnInspect?.Invoke();
 
     public void Unequip() => OnUnEquip?.Invoke();
   
-    public void SetOwner(MonoBehaviour newOwner)
-    {
-        Owner = newOwner;
-    }
+    public void SetOwner(IGadgetOwner newOwner) => Owner = newOwner;
 }
+
 public interface IGrabable
 {
     public bool HasOwner => Owner != null;
-    public MonoBehaviour Owner { get; }
+    public IGadgetOwner Owner { get; }
     public Transform Transform { get; }
-    void SetOwner(MonoBehaviour newOwner);
+    void SetOwner(IGadgetOwner newOwner);
     void Grab();  
     void Equip();
     void Release();
-    void Use();
+    void Use(IGadgetOwner owner);
     void Unequip();
     void Inspect();
 }

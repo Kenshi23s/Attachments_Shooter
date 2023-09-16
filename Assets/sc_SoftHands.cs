@@ -33,7 +33,7 @@ public class sc_SoftHands : MonoBehaviour
 
     public void GetVars()
     {
-        mov = myp.RB.velocity;
+        mov = myp.RigidBody.velocity;
         rot = Mathf.Clamp(myp.lookHorizontalSensitivity * Input.GetAxisRaw("Mouse X"),-limitRot,limitRot);
     }
 

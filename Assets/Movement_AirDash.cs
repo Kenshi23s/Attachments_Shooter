@@ -114,7 +114,7 @@ public class Movement_AirDash : MonoBehaviour
 
         DashDir = DashDir.GetOrientedVector(transform);
 
-        MovementOwner.RB.AddForce(DashDir.normalized * dashImpulse, ForceMode.Impulse);
+        MovementOwner.RigidBody.AddForce(DashDir.normalized * dashImpulse, ForceMode.Impulse);
         OnDash?.Invoke();
         StartCoroutine(DashCD());
     }

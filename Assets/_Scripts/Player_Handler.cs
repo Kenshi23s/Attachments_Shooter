@@ -2,7 +2,6 @@ using System;
 using UnityEngine;
 using UnityEngine.Events;
 
-[RequireComponent(typeof(PlayerMovement))]
 public class Player_Handler : MonoBehaviour
 {
     //public GunHandler GunHandler { get; private set;}
@@ -14,6 +13,8 @@ public class Player_Handler : MonoBehaviour
     [field: SerializeField] public RectTransform AbilitiesPanel { get; private set; }
 
     [field: SerializeField] public PlayerMovement Movement { get; private set; }
+
+    public Rigidbody Rigidbody => Movement.RigidBody;
 
     [field: SerializeField] public GrabableHandler GrabHandler { get; private set; }
 
@@ -35,6 +36,7 @@ public class Player_Handler : MonoBehaviour
         GrabHandler = GetComponent<GrabableHandler>();
         Health = GetComponent<LifeComponent>();
         Health.OnTakeDamage.AddListener((x) => vibrate.AddIntensity(x));
+     
 
         Transform = transform;
        

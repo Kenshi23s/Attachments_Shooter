@@ -1,9 +1,10 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 [RequireComponent(typeof(DebugableObject))]
-public class GrabableHandler : MonoBehaviour
+public class GrabableHandler : MonoBehaviour, IGadgetOwner
 {
     public List<IGrabable> Inventory { get; private set; } = new List<IGrabable>();
     public IGrabable CurrentlyEquipped { get; private set; }
@@ -16,12 +17,29 @@ public class GrabableHandler : MonoBehaviour
     [Range(0, 10f), SerializeField] float _throwForce = 2;
 
     public bool HasSomethingInHand => CurrentlyEquipped != null || CurrentlyEquipped != default;
+    #region GadgetOwner 
+    public Player_Handler Owner { get; private set; }
 
+    public int OwnerLife => Owner.Health.life;
 
-    private void Awake()
+    public Vector3 Velocity => Owner.Rigidbody.velocity;
+
+    public Vector3 OwnerPosition => transform.position;
+
+    public Quaternion OwnerRotation => transform.rotation;
+
+    public Type OwnerType => GetType();
+
+    public Type[] TargetTypes => new Type [] {typeof(EggEscapeModel),typeof(GrabableObject),typeof(negroputo)};
+
+    public GameObject OwnerGameObject => gameObject;
+
+    #endregion
+    private void Awake() 
     {
         _debug = GetComponent<DebugableObject>();
-    }
+        Owner = GetComponent<Player_Handler>(); 
+    }  
 
     private void Start()
     {
@@ -55,11 +73,9 @@ public class GrabableHandler : MonoBehaviour
             Equip(item);
             item.SetOwner(this);
         }
-        else
-        {
+        else     
             item.Unequip();
-        }
-
+        
     }
 
     public void Equip(IGrabable item)
@@ -98,7 +114,7 @@ public class GrabableHandler : MonoBehaviour
             Debug.Log("No tengo nada en la mano");
             return;
         }
-        CurrentlyEquipped.Use();
+        CurrentlyEquipped.Use(this);
     }
 
     /// <summary>
@@ -129,7 +145,8 @@ public class GrabableHandler : MonoBehaviour
             rb = item.Transform.gameObject.AddComponent<Rigidbody>();
             StartCoroutine(DestroyRigidbody(rb)); 
         }
-        rb.AddForce(Camera.main.transform.forward * _throwForce, ForceMode.Impulse);
+        float scalar = Velocity.magnitude + 1;
+        rb.AddForce(Camera.main.transform.forward * _throwForce * scalar, ForceMode.Impulse);
     }
 
 
@@ -142,5 +159,5 @@ public class GrabableHandler : MonoBehaviour
         Destroy(tempRB);
     }
 
-
+   
 }

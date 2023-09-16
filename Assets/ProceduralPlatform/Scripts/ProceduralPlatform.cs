@@ -61,12 +61,10 @@ public class ProceduralPlatform : MonoBehaviour
         Vector3.down,          // Abajo
         Vector3.left,         // Izquierda
         Vector3.right,       // Derecha
-
-
     };
     #endregion
 
-    [System.Serializable]
+    [Serializable]
     public struct PlatformsParameters
     {
         [NonSerialized] public Vector3 CenterPosition, CrossResult;
@@ -106,12 +104,11 @@ public class ProceduralPlatform : MonoBehaviour
     private void Awake()
     {
         myMat = _view.GetComponent<Renderer>().material;
-        myMat.color = _gradient.Evaluate(1);
-        Debug.Log(myMat);
+        myMat.color = _gradient.Evaluate(1);     
     }
+
     private void LateUpdate()
     {
-
         _currentLifeTime -= Time.deltaTime;
         myMat.color = _gradient.Evaluate(_currentLifeTime / _maxLifeTime);
         if (_currentLifeTime <= 0) StoreNode();
@@ -179,14 +176,13 @@ public class ProceduralPlatform : MonoBehaviour
 
     async Task Ramify(PlatformsParameters parameters)
     {
-        int count= 0;
+        int count = 0;
         foreach (Vector3 direction in SixDirections)
         {
 
             var newPosition = transform.position + direction.normalized * parameters.SeparationBetweenPlatforms;
             if (!InDistance(parameters, newPosition)) continue;
             count++;
-            Debug.Log(count);
             Vector3 dirToMiddle = newPosition - parameters.CenterPosition;
             if (InSlice(parameters.CrossResult, dirToMiddle, parameters.Slice)) continue;
 
@@ -205,6 +201,7 @@ public class ProceduralPlatform : MonoBehaviour
             }
             //else
             //{
+              
             //    //esto esta bien feo lo del getComponent
             //    //es una de las razones por las que se nos lagueaba el tp de IA 2
             //    //pero no podes castear un raycast hit a proceduralplatform(creo)
@@ -212,11 +209,9 @@ public class ProceduralPlatform : MonoBehaviour
             //    var existingPlatform = col
             //        .Select(x => x.transform.GetComponent<ProceduralPlatform>())
             //        .Where(x => x != null)
-            //        .ToArray()
             //        .First();
-            //    Debug.Log("Ya habia plataforma, asi q la hago mi vecino y no creo otra");
-            //    if (existingPlatform == null || existingPlatform == default) continue;
-
+            //    //Debug.Log("Ya habia plataforma, asi q la hago mi vecino y no creo otra");
+            //    if (existingPlatform != null && existingPlatform != default) 
             //    ProceduralPlatformManager.instance.AddNode(this, existingPlatform);
             //}
 
@@ -254,11 +249,14 @@ public class ProceduralPlatform : MonoBehaviour
     }
 
     #region UsefulMethods
-
+  
+   
     public static Vector3 GetPerpendicular(Vector3 dir, Vector3 wallNormal)
     {
-        Vector3 firstPerpendicular = Vector3.Cross(dir.normalized, wallNormal);
-        return Vector3.Cross(firstPerpendicular, wallNormal).normalized;
+      
+        Vector3 WallPerpendicular = Vector3.Cross(dir.normalized, wallNormal);
+       
+        return Vector3.Cross(WallPerpendicular, wallNormal).normalized;
     }
 
     #endregion

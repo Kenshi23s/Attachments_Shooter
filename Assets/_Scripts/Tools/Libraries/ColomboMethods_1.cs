@@ -131,8 +131,9 @@ namespace FacundoColomboMethods
         public static T[] GetItemsOFTypeAround<T>(this Vector3 pos, float radius)
         {
             return Physics.OverlapSphere(pos, radius)
-                 .Where(x => x.TryGetComponent(out T arg))
-                 .Select(x => x.GetComponent<T>()).ToArray();
+                 .Select(x => x.GetComponent<T>())
+                 .Where(x => x != null)
+                 .ToArray();
 
         }
 

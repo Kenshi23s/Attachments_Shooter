@@ -9,20 +9,22 @@ public class GadgetWall : Gadget
     public Transform shootPosition;
     public SolidCreator_Projectile sample;
 
-   [field: SerializeField] public PlatformsParameters PlatformParameters { get; private set; }
-
     public float cooldownShoot;
     public float shootForce;
     public bool CanShoot = true;
-  
 
-    public override bool UseGadget()
+    [field: SerializeField] public PlatformsParameters PlatformParameters { get; private set; }
+
+
+    public override bool UseGadget(IGadgetOwner owner)
     {
         if (!CanShoot) return false;
 
+        //instancio y posiciono proyectil
         var x = Instantiate(sample,shootPosition.position,Quaternion.identity);
         x.transform.forward = shootPosition.forward;
-        FList<GameObject> owners = FList.Create(gameObject) + GrabableComponent.Owner.gameObject;
+        //seteo los dueños de la bala
+        FList<GameObject> owners = FList.Create(gameObject) + owner.OwnerGameObject;
         x.LaunchProjectile(shootForce * shootPosition.forward, owners, PlatformParameters);
 
         return true;
@@ -35,8 +37,6 @@ public class GadgetWall : Gadget
         CanShoot = false;
     }
 
-    public override void AwakeContinue()
-    {
-      
-    }
+    public override void AwakeContinue() { }
+    
 }
