@@ -10,7 +10,7 @@ public class PlayerMovement : MonoBehaviour
 {
     public UnityEvent OnLand, OnJump = new UnityEvent();
     [SerializeField] Transform cam;
-    public Rigidbody RB { get; private set; }
+    public Rigidbody RigidBody { get; private set; }
 
     [field : SerializeField] public Player_Handler HandlerOwner { get; private set; }
 
@@ -84,8 +84,8 @@ public class PlayerMovement : MonoBehaviour
 
         pauseOBJ.onPause += () => StartCoroutine(StopMoving());
         HandlerOwner = GetComponent<Player_Handler>();
-        RB = GetComponent<Rigidbody>();
-        RB.useGravity = false;
+        RigidBody = GetComponent<Rigidbody>();
+        RigidBody.useGravity = false;
 
         // !!! Esta logica deberia ir en otro lado.
         Cursor.lockState = CursorLockMode.Locked;
@@ -97,18 +97,18 @@ public class PlayerMovement : MonoBehaviour
     IEnumerator StopMoving()
     {
         enabled = false;
-        Vector3 actualVelocity = RB.velocity;
-        RB.velocity = Vector3.zero;
+        Vector3 actualVelocity = RigidBody.velocity;
+        RigidBody.velocity = Vector3.zero;
 
-        bool gravity = RB.useGravity;
-        RB.useGravity = false;
+        bool gravity = RigidBody.useGravity;
+        RigidBody.useGravity = false;
         Debug.LogWarning("Pause");
         yield return new WaitWhile(ScreenManager.IsPaused);
 
         enabled = true;
 
-        RB.velocity = actualVelocity;
-        RB.useGravity = gravity;
+        RigidBody.velocity = actualVelocity;
+        RigidBody.useGravity = gravity;
     }
 
     // Se llama a esta función cuando se carga el script o cuando se modifica un valor en el inspector (solo se llama en el editor)
@@ -137,7 +137,7 @@ public class PlayerMovement : MonoBehaviour
    
     public void ClearForces()
     {
-        RB.velocity = Vector3.zero;
+        RigidBody.velocity = Vector3.zero;
     }
 
     void FixedUpdate()
@@ -164,7 +164,7 @@ public class PlayerMovement : MonoBehaviour
         // Aplicar gravedad
         velocity += Physics.gravity * Time.deltaTime;
 
-        RB.velocity = velocity;
+        RigidBody.velocity = velocity;
 
         ClearState();
     }
@@ -239,7 +239,7 @@ public class PlayerMovement : MonoBehaviour
     {
         stepsSinceLastGrounded++;
         stepsSinceLastJump++;
-        velocity = RB.velocity;
+        velocity = RigidBody.velocity;
 
         if (OnGround || SnapToGround() || CheckSteepContacts())
         {
@@ -346,7 +346,7 @@ public class PlayerMovement : MonoBehaviour
 
 
         // Solo queremos snappear al piso cuando hay suelo debajo al que adherirse.
-        if (!Physics.Raycast(RB.position, Vector3.down, out RaycastHit hit, probeDistance, probeMask))
+        if (!Physics.Raycast(RigidBody.position, Vector3.down, out RaycastHit hit, probeDistance, probeMask))
         {
             return false;
         }

@@ -9,18 +9,18 @@ public class ContractPanel : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if(Input.GetKeyDown(KeyCode.P))
-        {
-            Debug.Log("Doy play");
-            animatorPanel.SetBool("ActivePanel", true);
+        if(Input.GetKeyDown(KeyCode.P))        
+            ActivatePanel(true);
+        
 
-            
-        }
-
-        if (Input.GetKeyDown(KeyCode.L))
-        {
-            Debug.Log("Cierro panel");
-            animatorPanel.SetBool("ActivePanel", false);
-        }
+        if (Input.GetKeyDown(KeyCode.L))        
+            ActivatePanel(false);
+        
     }
+
+    void ActivatePanel(bool arg)
+    {
+        animatorPanel.SetBool("ActivePanel", arg);
+    }
+
 }
