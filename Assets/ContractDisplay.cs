@@ -4,8 +4,9 @@ using TMPro;
 using System;
 using System.Linq;
 using UnityEngine.EventSystems;
+using UnityEngine.SceneManagement;
 
-public class ContractDisplay : MonoBehaviour, IObjectSelectable
+public class ContractDisplay : MonoBehaviour
 {
     public enum ComentColor
     {
@@ -97,41 +98,7 @@ public class ContractDisplay : MonoBehaviour, IObjectSelectable
 
     public void SelectContract()
     {
-
+        SceneManager.LoadScene(0);
     }
 
-    public void OnPointerEnter(PointerEventData eventData)
-    {
-        throw new NotImplementedException();
-    }
-
-    public void OnPointerExit(PointerEventData eventData)
-    {
-        throw new NotImplementedException();
-    }
-
-    public void OnPointerClick(PointerEventData eventData)
-    {
-        throw new NotImplementedException();
-    }
-
-    public void OnPointerDown(PointerEventData eventData)
-    {
-        throw new NotImplementedException();
-    }
-
-    public void OnPointerUp(PointerEventData eventData)
-    {
-        throw new NotImplementedException();
-    }
-
-    public void OnSelect(BaseEventData eventData)
-    {
-        throw new NotImplementedException();
-    }
-
-    public void OnDeselect(BaseEventData eventData)
-    {
-        throw new NotImplementedException();
-    }
 }

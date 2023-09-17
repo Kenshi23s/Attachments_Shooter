@@ -21,6 +21,21 @@ namespace FacundoColomboMethods
 
     public static class ColomboMethods
     {
+        public static Vector3 CustomSmoothTransitionVector(this Vector3 actualPos, Vector3 from, Vector3 to,float velocity = 1 ,float floor = 1)
+        {
+            
+            Vector3 dir = to - from;
+            dir.Normalize();
+
+            return actualPos + dir * actualPos.CustomSmoothTransitionFloat(from,to,velocity,floor);
+        }
+
+        public static float CustomSmoothTransitionFloat(this Vector3 actualPos, Vector3 from, Vector3 to, float velocity = 1, float floor = 1)
+        {
+            float lowest = Mathf.Min(Vector3.Distance(actualPos, from), Vector3.Distance(actualPos, to) + 0.001f);
+           
+            return Mathf.Clamp01(lowest * floor) * velocity * Time.deltaTime;
+        }
 
         public static bool IsInCameraSight(this Camera cam, Collider target)
         {

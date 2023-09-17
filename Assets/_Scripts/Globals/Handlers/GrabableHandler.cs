@@ -30,7 +30,7 @@ public class GrabableHandler : MonoBehaviour, IGadgetOwner
 
     public Type OwnerType => GetType();
 
-    public Type[] TargetTypes => new Type [] {typeof(EggEscapeModel),typeof(GrabableObject),typeof(negroputo)};
+    public Type[] TargetTypes => new Type [] {typeof(EggEscapeModel),typeof(GrabableObject)};
 
     public GameObject OwnerGameObject => gameObject;
 

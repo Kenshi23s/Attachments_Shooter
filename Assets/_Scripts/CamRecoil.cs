@@ -27,7 +27,7 @@ public class CamRecoil : MonoBehaviour
     private void Start()
     {
         //_gunHandler.ActualGun.onShoot += Recoil;
-        Debug.Log(_gunHandler);
+        
       
     }
 
