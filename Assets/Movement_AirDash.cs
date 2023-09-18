@@ -15,7 +15,7 @@ public class Movement_AirDash : MonoBehaviour
     [SerializeField] float dashCooldown;
     [SerializeField] bool ExecuteDash, DesiredDash;
 
-    [SerializeField] DashUI _dashUI;
+  
 
     [field: SerializeField] public bool DashAvailable { get; private set; } = true;
     public void Awake()
@@ -26,7 +26,7 @@ public class Movement_AirDash : MonoBehaviour
     private void Start()
     {
         if (MovementOwner == null) { Destroy(this); return; }
-        _dashUI = Instantiate(_dashUI); _dashUI.SetOwner(this);
+      
       
 
     }

@@ -2,8 +2,6 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using static StatsHandler;
-using static Attachment;
 [RequireComponent(typeof(PausableObject))]
 public class ShakeCamera : MonoBehaviour
 {
@@ -44,7 +42,6 @@ public class ShakeCamera : MonoBehaviour
     [SerializeField] PlayerMovement playerMov;
     [SerializeField] Rigidbody rb;
     
-    [SerializeField] GunHandler myGunHandler;
 
     public event Action OnCamUpdate;
 
@@ -156,7 +153,7 @@ public class ShakeCamera : MonoBehaviour
         aiming = true;
         OnHipPosReached?.Invoke();
         // el hands aim local pos se deberia setear en un OnSightChange
-        Vector3 offset = cam.transform.parent.InverseTransformPoint(myGunHandler.SightPosition);
+        Vector3 offset = Vector3.zero;
         offset.y -= _handsShake.y;
         offset.x -= _handsShake.x;
         offset.z = 0;
@@ -233,8 +230,7 @@ public class ShakeCamera : MonoBehaviour
         return;
         float multiplyZoom = 1;
       
-        if (myGunHandler.ActualGun.attachmentHandler.TryGetAttachment<Sight>(AttachmentType.Sight,out var sight))        
-            multiplyZoom = sight.zoomMultiplier;
+       
         
         cam.fieldOfView = Mathf.Lerp(_hipFOV, _aimFOV/Mathf.Max(1,multiplyZoom), t);
     }

@@ -5,6 +5,12 @@ using UnityEngine;
 [RequireComponent(typeof(BoxCollider))]
 public class HitBox : MonoBehaviour
 {
+    public struct HitData
+    {
+        public Vector3 _impactPos;
+        public DamageData dmgData;
+        
+    }
     public GameObject owner { get; private set; }
     HashSet<IDamagable> alreadydmged = new HashSet<IDamagable>();
 
