@@ -11,6 +11,7 @@ GameObject:
   - component: {fileID: 5442219747023200956}
   - component: {fileID: 8946820208767544601}
   - component: {fileID: 6615096097506384339}
+  - component: {fileID: 3256328726064013757}
   m_Layer: 0
   m_Name: piedra6_(low)
   m_TagString: Untagged
@@ -25,7 +26,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 4669518861175846918}
-  m_LocalRotation: {x: -0.00000006642172, y: -0.0687024, z: -0.000000004574141, w: -0.9976372}
+  m_LocalRotation: {x: -0, y: -0.06870308, z: 0, w: -0.99763715}
   m_LocalPosition: {x: -13.643738, y: 1.37, z: 18.823608}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -83,3 +84,17 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
+--- !u!64 &3256328726064013757
+MeshCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4669518861175846918}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 4
+  m_Convex: 1
+  m_CookingOptions: 30
+  m_Mesh: {fileID: 3952583820999193484, guid: 6ae4494fcf0696e4c9f3bbf552d1552a, type: 3}
