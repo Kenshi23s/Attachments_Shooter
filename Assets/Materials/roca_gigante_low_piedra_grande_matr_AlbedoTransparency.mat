@@ -23,7 +23,8 @@ Material:
   m_Name: roca_gigante_low_piedra_grande_matr_AlbedoTransparency
   m_Shader: {fileID: -6465566751694194690, guid: 4ac75c3fd3bfee44e80ab76d2b854922, type: 3}
   m_ValidKeywords: []
-  m_InvalidKeywords: []
+  m_InvalidKeywords:
+  - _USEGRASS
   m_LightmapFlags: 2
   m_EnableInstancingVariants: 0
   m_DoubleSidedGI: 0
@@ -33,6 +34,18 @@ Material:
   m_SavedProperties:
     serializedVersion: 3
     m_TexEnvs:
+    - _GrassNoise:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _GrassNormal:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _GrassTexture:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
     - _MainTex:
         m_Texture: {fileID: 2800000, guid: b4d4b3fca61c39c4897dbc24d02ecf17, type: 3}
         m_Scale: {x: 1, y: 1}
@@ -67,11 +80,27 @@ Material:
         m_Offset: {x: 0, y: 0}
     m_Ints: []
     m_Floats:
+    - _AlbedoBlendFalloff: 1
+    - _AlbedoBlendOffset: 0
+    - _AlbedoBlendThickness: 1
     - _BlendThickness: 1
     - _Falloff: 1
+    - _GrassAngle: 65
+    - _GrassFalloff: 1
+    - _GrassNormalIntensity: 1
+    - _GrassTiling: 10
+    - _HueBlend: 1
     - _NoiseScale: 0.2
+    - _NoiseTiling: 0.2
+    - _NormalBlendFalloff: 1
+    - _NormalBlendOffset: 0
+    - _NormalBlendThickness: 1
+    - _PosterizeSteps: 255
     - _QueueControl: 0
     - _QueueOffset: 0
+    - _SaturationBlend: 1
     - _Smoothness: 0.5
+    - _USEGRASS: 1
+    - _ValueBlend: 1
     m_Colors: []
   m_BuildTextureStacks: []
