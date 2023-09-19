@@ -11,7 +11,7 @@ public class HitBox : MonoBehaviour
         public DamageData dmgData;
         
     }
-    public GameObject owner { get; private set; }
+    public GameObject Owner { get; private set; }
     HashSet<IDamagable> alreadydmged = new HashSet<IDamagable>();
 
     BoxCollider hitbox;
@@ -42,7 +42,7 @@ public class HitBox : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
-        if (other!=owner&&other.TryGetComponent(out IDamagable target))       
+        if (other!=Owner&&other.TryGetComponent(out IDamagable target))       
         if (!alreadydmged.Contains(target))
         {
                 //DamageData data = target.TakeDamage(damage);
@@ -60,6 +60,6 @@ public class HitBox : MonoBehaviour
 
     public void SetSize(Vector3 newSize) => size = Vector3.Max(newSize, Vector3.zero);
     public void SetDamage(int newDamage) => damage = Mathf.Min(newDamage, 1);
-    public void SetOwner(GameObject newOwner) => owner =newOwner;
+    public void SetOwner(GameObject newOwner) => Owner =newOwner;
 
 }

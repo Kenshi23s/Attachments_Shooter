@@ -6,7 +6,10 @@ using UnityEngine;
 [RequireComponent(typeof(DebugableObject))]
 public class GrabableHandler : MonoBehaviour, IGadgetOwner
 {
-    public List<IGrabable> Inventory { get; private set; } = new List<IGrabable>();
+    //[field: SerializeReference]
+    public List<IGrabable> Inventory { get; private set; } = new();
+
+    //[field: SerializeReference]
     public IGrabable CurrentlyEquipped { get; private set; }
     DebugableObject _debug;
     [SerializeField] Transform DesiredPosition;
@@ -17,6 +20,7 @@ public class GrabableHandler : MonoBehaviour, IGadgetOwner
     [Range(0, 10f), SerializeField] float _throwForce = 2;
 
     public bool HasSomethingInHand => CurrentlyEquipped != null || CurrentlyEquipped != default;
+
     #region GadgetOwner 
     public Player_Handler Owner { get; private set; }
 
@@ -30,16 +34,17 @@ public class GrabableHandler : MonoBehaviour, IGadgetOwner
 
     public Type OwnerType => GetType();
 
-    public Type[] TargetTypes => new Type [] {typeof(EggEscapeModel),typeof(GrabableObject),typeof(TestClass)};
+    public Type[] TargetTypes => new Type[] { typeof(EggEscapeModel), typeof(GrabableObject), typeof(TestClass) };
 
     public GameObject OwnerGameObject => gameObject;
 
     #endregion
-    private void Awake() 
+
+    private void Awake()
     {
         _debug = GetComponent<DebugableObject>();
-        Owner = GetComponent<Player_Handler>(); 
-    }  
+        Owner = GetComponent<Player_Handler>();
+    }
 
     private void Start()
     {
@@ -60,6 +65,31 @@ public class GrabableHandler : MonoBehaviour, IGadgetOwner
             Debug.Log("Uso Objeto");
             UseCurrent();
         }
+        float scrlwheel = Input.GetAxis("Mouse ScrollWheel");
+        if (scrlwheel != 0)
+            SwapGadget(scrlwheel);
+
+
+    }
+
+
+    void SwapGadget(float wheelValue)
+    {
+        if (!Inventory.Any()) return;
+
+        int newIndex = Inventory.IndexOf(CurrentlyEquipped);
+        // evaluo el indice siguiente al que deberia acceder
+        if (wheelValue > 0)
+            newIndex = newIndex + 1 >= Inventory.Count ? 0 : ++newIndex;
+        else if (wheelValue < 0)
+            newIndex = newIndex - 1 < 0 ? Inventory.Count - 1 : --newIndex;
+        //hacer --x te devuelve el resultado DESPUES de realizar la operacion
+        //si haces x-- te devuelve el resultado ANTES de la operacion
+        //ejemplo
+        //https://learn.microsoft.com/en-us/dotnet/csharp/language-reference/operators/arithmetic-operators#code-try-0
+
+
+        Equip(Inventory[newIndex]);
     }
 
 
@@ -67,15 +97,16 @@ public class GrabableHandler : MonoBehaviour, IGadgetOwner
     {
         _debug.Log($"Añado el item {(item as MonoBehaviour).name}");
         Inventory.Add(item);
-        
+
         if (!HasSomethingInHand)
         {
             Equip(item);
             item.SetOwner(this);
+
         }
-        else     
+        else
             item.Unequip();
-        
+
     }
 
     public void Equip(IGrabable item)
@@ -109,7 +140,7 @@ public class GrabableHandler : MonoBehaviour, IGadgetOwner
     //usa el item actualmente equipado
     public void UseCurrent()
     {
-        if (!HasSomethingInHand) 
+        if (!HasSomethingInHand)
         {
             Debug.Log("No tengo nada en la mano");
             return;
@@ -125,11 +156,11 @@ public class GrabableHandler : MonoBehaviour, IGadgetOwner
     /// <param name="item"></param>
     void Throw(IGrabable item)
     {
-        if (!Inventory.Contains(item)) 
+        if (!Inventory.Contains(item))
         {
             Debug.Log("No tiro nada");
             return;
-        } 
+        }
 
         Debug.Log("Tiro Objeto");
         Inventory.Remove(item);
@@ -143,7 +174,7 @@ public class GrabableHandler : MonoBehaviour, IGadgetOwner
         else
         {
             rb = item.Transform.gameObject.AddComponent<Rigidbody>();
-            StartCoroutine(DestroyRigidbody(rb)); 
+            StartCoroutine(DestroyRigidbody(rb));
         }
         float scalar = Velocity.magnitude + 1;
         rb.AddForce(Camera.main.transform.forward * _throwForce * scalar, ForceMode.Impulse);
@@ -159,5 +190,5 @@ public class GrabableHandler : MonoBehaviour, IGadgetOwner
         Destroy(tempRB);
     }
 
-   
+
 }
