@@ -14,10 +14,14 @@ public class GrabableObject : MonoBehaviour, IGrabable
 
     public IGadgetOwner Owner { get; private set; }
 
+    //quiero q esto lo rellene el dueño del componente
+    public bool IsPriorityObject => throw new System.NotImplementedException();
+
     private void Awake()
     {
         _interactableComponent = GetComponent<InteractableComponent>();
         _interactableComponent.OnInteract.AddListener(Grab);
+        //_interactableComponent.SetFocusCondition(() => );
     }
 
     public void Grab() => OnGrab?.Invoke();
@@ -38,6 +42,7 @@ public class GrabableObject : MonoBehaviour, IGrabable
 public interface IGrabable
 {
     public bool HasOwner => Owner != null;
+    public bool IsPriorityObject { get; }
     public IGadgetOwner Owner { get; }
     public Transform Transform { get; }
     void SetOwner(IGadgetOwner newOwner);
