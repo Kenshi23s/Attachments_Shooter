@@ -60,7 +60,7 @@ public class Gadget_Scanner : Gadget
 
         yield return new WaitForSeconds(OutlineActiveTime);
 
-        ScanField.localScale = Vector3.one;
+        ScanField.localScale = Vector3.zero;
         yield return new WaitForSeconds(CD_waitingTime);
         IsActive = false;
         ScanField.gameObject.SetActive(false);

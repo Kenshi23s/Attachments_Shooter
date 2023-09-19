@@ -98,6 +98,8 @@ public class ContractDisplay : MonoBehaviour
 
     public void SelectContract()
     {
+        if (!ContractSO.Available) return;
+     
         SceneManager.LoadScene(0);
     }
 
