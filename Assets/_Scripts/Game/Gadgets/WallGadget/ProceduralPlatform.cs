@@ -11,7 +11,7 @@ using Random = UnityEngine.Random;
 //tambien deberian hacerce algunas cosas entre frames y no de golpe
 //ahora estoy prototipando, pero en un fututo(apenas funcione bien esto)
 //tendria que ponerme a optimizar
-
+[SelectionBase]
 public class ProceduralPlatform : MonoBehaviour
 {
 
@@ -68,12 +68,15 @@ public class ProceduralPlatform : MonoBehaviour
     public struct PlatformsParameters
     {
         [NonSerialized] public Vector3 CenterPosition, CrossResult;
-        public LayerMask SolidMasks;
-        public float wallSeparation,Radius, SeparationBetweenPlatforms, Slice, InitialLifeTime, DecayDelaySeconds;
+        public LayerMask FoamMask;
+        public LayerMask WallMask;
+        public LayerMask SolidMasks => FoamMask + WallMask;
+        public float wallSeparation, Radius, SeparationBetweenPlatforms, Slice, InitialLifeTime, DecayDelaySeconds;
         public int ConstructionDelay;
 
     }
 
+    [field : SerializeField]
     public bool IsFoundation { get; private set; }
 
     public event Action<ProceduralPlatform> OnFoundationDestroyed = delegate { };
@@ -92,9 +95,9 @@ public class ProceduralPlatform : MonoBehaviour
     {
         //rotacion random para el view
         Vector3 rotation = Vector3.zero;
-        for (int i = 0; i < 3; i++)    
+        for (int i = 0; i < 3; i++)
             rotation[i] = Random.Range(0, 4) * 90;
-        
+
         _view.transform.localRotation = Quaternion.Euler(rotation);
     }
 
@@ -104,7 +107,7 @@ public class ProceduralPlatform : MonoBehaviour
     private void Awake()
     {
         myMat = _view.GetComponent<Renderer>().material;
-        myMat.color = _gradient.Evaluate(1);     
+        myMat.color = _gradient.Evaluate(1);
     }
 
     private void LateUpdate()
@@ -155,13 +158,13 @@ public class ProceduralPlatform : MonoBehaviour
     #region Creation Logic
 
     public async Task CreatePlatform(Vector3 position, PlatformsParameters parameters)
-    {     
+    {
         transform.position = position;
         _view.transform.localPosition = Vector3.zero;
         IsFoundation = false;
         foreach (var dir in SixDirections)
         {
-            if (!Physics.Raycast(transform.position, dir, _view.transform.localScale.magnitude, parameters.SolidMasks, QueryTriggerInteraction.Ignore)) continue;
+            if (!Physics.Raycast(transform.position, dir, _view.transform.localScale.magnitude, parameters.WallMask  ,QueryTriggerInteraction.Ignore)) continue;
 
             IsFoundation = true; break;
         }
@@ -189,35 +192,42 @@ public class ProceduralPlatform : MonoBehaviour
             var col = Physics.RaycastAll(transform.position, direction, parameters.SeparationBetweenPlatforms, parameters.SolidMasks)
                 .Where(x => x.transform != transform)
                 .ToArray();
-          
+
             Debug.DrawLine(transform.position, transform.position + direction.normalized * parameters.SeparationBetweenPlatforms, Color.cyan, Mathf.Infinity);
 
 
             if (!col.Any())
-            {   
+            {
                 var newGO = ProceduralPlatformManager.instance.pool.Get();
                 ProceduralPlatformManager.instance.AddNode(this, newGO);
                 newGO.CreatePlatform(newPosition, parameters);
             }
-            //else
-            //{
-              
-            //    //esto esta bien feo lo del getComponent
-            //    //es una de las razones por las que se nos lagueaba el tp de IA 2
-            //    //pero no podes castear un raycast hit a proceduralplatform(creo)
-            //    //consultar el martes
-            //    var existingPlatform = col
-            //        .Select(x => x.transform.GetComponent<ProceduralPlatform>())
-            //        .Where(x => x != null)
-            //        .First();
-            //    //Debug.Log("Ya habia plataforma, asi q la hago mi vecino y no creo otra");
-            //    if (existingPlatform != null && existingPlatform != default) 
-            //    ProceduralPlatformManager.instance.AddNode(this, existingPlatform);
-            //}
+            else
+            {
+
+                //esto esta bien feo lo del getComponent
+                //es una de las razones por las que se nos lagueaba el tp de IA 2
+                //pero no podes castear un raycast hit a proceduralplatform(creo)
+                //consultar el martes
+                //var existingPlatform = col
+                //    .Select(x => x.transform.GetComponent<ProceduralPlatform>())
+                //    .Where(x => x != null)
+                //    .First();
+
+
+                foreach (var item in col)
+                {
+                    if (!item.transform.TryGetComponent(out ProceduralPlatform x)) continue;
+                    if (x == this) continue;
+
+                    ProceduralPlatformManager.instance.AddNode(this, x);
+                }
+
+            }
 
 
         }
-        
+
     }
     #region Useful Questions
     bool InDistance(PlatformsParameters x, Vector3 newPos)
@@ -249,13 +259,13 @@ public class ProceduralPlatform : MonoBehaviour
     }
 
     #region UsefulMethods
-  
-   
+
+
     public static Vector3 GetPerpendicular(Vector3 dir, Vector3 wallNormal)
     {
-      
+
         Vector3 WallPerpendicular = Vector3.Cross(dir.normalized, wallNormal);
-       
+
         return Vector3.Cross(WallPerpendicular, wallNormal).normalized;
     }
 
