@@ -152,9 +152,12 @@ MonoBehaviour:
   shootForce: 30
   CanShoot: 1
   <PlatformParameters>k__BackingField:
-    SolidMasks:
+    FoamMask:
       serializedVersion: 2
-      m_Bits: 102400
+      m_Bits: 65536
+    WallMask:
+      serializedVersion: 2
+      m_Bits: 4096
     wallSeparation: 0.3
     Radius: 5
     SeparationBetweenPlatforms: 2

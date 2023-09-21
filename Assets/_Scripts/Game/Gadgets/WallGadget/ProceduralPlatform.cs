@@ -129,11 +129,14 @@ public class ProceduralPlatform : MonoBehaviour
 
     void RemoveNeighbor(ProceduralPlatform neighbor)
     {
-        if (!ProceduralPlatformManager.instance.RemoveNode(this, neighbor)) return;
+        if (!ProceduralPlatformManager.instance.RemoveNode(this, neighbor)) { Debug.Log("1"); return; };
 
-        if (!neighbor.IsFoundation) return;
+        if (!neighbor.IsFoundation) { Debug.Log("2"); return; }
 
-        if (!AnyFoundationLeft(FList.Create(this))) ProceduralPlatformManager.instance.ChainStoreAll(this);
+        if (AnyFoundationLeft(FList.Create(this))) { Debug.Log("3"); return; }
+
+        Debug.Log("tiro todo abajo");
+        ProceduralPlatformManager.instance.ChainStoreAll(this);
 
     }
     #region Recusrion Logic
@@ -146,10 +149,15 @@ public class ProceduralPlatform : MonoBehaviour
         {
 
             if (item.AnyFoundationLeft(alreadyChecked))
+            {
+                Debug.Log("Hay Fundacion");
                 return true;
+            }
+              
 
             alreadyChecked += item;
         }
+    
         return false;
     }
 
@@ -164,7 +172,7 @@ public class ProceduralPlatform : MonoBehaviour
         IsFoundation = false;
         foreach (var dir in SixDirections)
         {
-            if (!Physics.Raycast(transform.position, dir, _view.transform.localScale.magnitude, parameters.WallMask  ,QueryTriggerInteraction.Ignore)) continue;
+           if (!Physics.Raycast(transform.position, dir, _view.transform.localScale.magnitude, parameters.WallMask  ,QueryTriggerInteraction.Ignore)) continue;
 
             IsFoundation = true; break;
         }

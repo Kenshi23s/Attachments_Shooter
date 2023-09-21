@@ -49,6 +49,7 @@ public class ProceduralPlatformManager : MonoSingleton<ProceduralPlatformManager
 
     public void AddNode(ProceduralPlatform owner, ProceduralPlatform NewNeighbor)
     {
+      
         if (!platforms.ContainsKey(owner))
             platforms.Add(owner, new List<ProceduralPlatform>());
 
@@ -61,6 +62,7 @@ public class ProceduralPlatformManager : MonoSingleton<ProceduralPlatformManager
         if (!platforms[owner].Contains(oldNeighbor)) return false;
 
         platforms[owner].Remove(oldNeighbor);
+       
         return true;
     }
 

@@ -37,21 +37,24 @@ public class testPerpendicular : MonoBehaviour
         Gizmos.color = Color.blue;
 
         Vector3 doubleCross = Vector3.Cross(WallPerpendicular, hit.normal).normalized;
+#if UNITY_EDITOR
         DrawDisc(startPos, doubleCross, 1);
+#endif
 
 
         Gizmos.DrawLine(startPos, startPos + doubleCross);
     }
-
+#if UNITY_EDITOR
     private void DrawDisc(Vector3 origin,Vector3 normal,float radius)
     {
        
         Handles.color = Color.red;
         Handles.DrawWireDisc(origin, normal, radius);
     }
+#endif
 }
 
 
 
-   
+
 
