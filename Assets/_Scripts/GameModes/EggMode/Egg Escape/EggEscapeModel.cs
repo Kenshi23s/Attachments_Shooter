@@ -205,7 +205,7 @@ public class EggEscapeModel : MonoBehaviour
 
     private void OnDestroy()
     {
-        CurrentEggStats.gameMode.eggsEscaping.Remove(this);
+        //CurrentEggStats.gameMode.eggsEscaping.Remove(this);
     }
 
 }

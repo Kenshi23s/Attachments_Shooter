@@ -11,8 +11,8 @@ public class UI_Manager : MonoBehaviour
 
     void Start()
     {
-        ModesManager.instance.actualMode.onPointsChange += UpdateEggCount;
-        txt_EggTotal.text = "/" + ModesManager.instance.actualMode.maxPoints.ToString(); 
+        //ModesManager.instance.actualMode.onPointsChange += UpdateEggCount;
+        //txt_EggTotal.text = "/" + ModesManager.instance.actualMode.maxPoints.ToString(); 
     }
 
     void UpdateEggCount(int num)
