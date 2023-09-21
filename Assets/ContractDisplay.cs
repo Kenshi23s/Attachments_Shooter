@@ -3,10 +3,9 @@ using UnityEngine.UI;
 using TMPro;
 using System;
 using System.Linq;
-using UnityEngine.EventSystems;
 using UnityEngine.SceneManagement;
 
-public class ContractDisplay : MonoBehaviour
+public class ContractDisplay : InteractableCard
 {
     public enum ComentColor
     {
@@ -46,14 +45,7 @@ public class ContractDisplay : MonoBehaviour
         SetContract();
     }
 
-    public void ScaleButton()
-    {
-        transform.localScale = Vector3.one *  1.25f;
-    }
-    public void UnScaleButton()
-    {
-        transform.localScale = Vector3.one;
-    }
+    
 
 
 
@@ -62,7 +54,7 @@ public class ContractDisplay : MonoBehaviour
     {
         if (ContractSO == null) return;
 
-        Cross.SetActive(ContractSO.Available);
+        Cross.SetActive(!ContractSO.Available);
         SpeciesImage.sprite = ContractSO.SpeciesImage;
         SpecieIdentifierText.text = ContractSO.GenerateIdentifier();
         ContractNameText.text = ContractSO.contractName;

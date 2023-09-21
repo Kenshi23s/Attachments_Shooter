@@ -1,7 +1,7 @@
 using System;
 using UnityEngine;
 
-[CreateAssetMenu(fileName = "Contract")]
+[CreateAssetMenu(fileName = "Contract", menuName = "Card/Contract")]
 
 public class ContractSO : ScriptableObject
 {

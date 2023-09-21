@@ -54,6 +54,8 @@ public class GrabableHandler : MonoBehaviour, IGadgetOwner
 
     private void Update()
     {
+        if (ScreenManager.IsPaused()) return;
+        
         if (Input.GetKeyDown(KeyCode.T))
         {
             Debug.Log("Tiro Objeto");

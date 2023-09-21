@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
+using UnityEngine.EventSystems;
 using Random = UnityEngine.Random;
 
 namespace FacundoColomboMethods
@@ -21,6 +22,20 @@ namespace FacundoColomboMethods
 
     public static class ColomboMethods
     {
+
+        public static EventTrigger.Entry CreateEvent(Action method, EventTriggerType triggerType)
+        {
+            EventTrigger.Entry entry = new EventTrigger.Entry();
+            entry.eventID = triggerType;
+            entry.callback.AddListener(x => { method(); });
+            return entry;
+
+        }
+        public static void CreateAndAddEvent(this EventTrigger trigger, Action method, EventTriggerType triggerType)
+        {
+            trigger.triggers.Add(CreateEvent(method, triggerType));
+        }
+
         public static Vector3 CustomSmoothTransitionVector(this Vector3 actualPos, Vector3 from, Vector3 to,float velocity = 1 ,float floor = 1)
         {
             

@@ -52,7 +52,7 @@ public class PoolObject<T>
             pool.Push(obj);
             turnOff(obj);
         }
-        Debug.LogWarning($"instancio  {prewarm} {x} mas para su respectiva pool");
+        Debug.LogWarning($"instancio  {prewarm} {x} mas para su respectiva pool".ToUpper());
     }
 
 }
