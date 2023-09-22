@@ -11,11 +11,11 @@ public class sc_guid : MonoBehaviour
     public List<sc_guid> neighbors;
 
 
-    private void Awake()
-    {
-        Destroy(gameObject);
+    //private void Awake()
+    //{
+    //    Destroy(gameObject);
 
-    }
+    //}
     public void GetNeighbors(float distance)
     {
         neighbors = myManager.GetComponentsInChildren<sc_guid>().Where(x => x != this).Where(x => (x.transform.position - transform.position).magnitude < distance).ToList();
