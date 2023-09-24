@@ -12,7 +12,11 @@ public class UI_GrabableItem : MonoBehaviour
     public Image UI;
     IconParameters myParameters = new();
 
+    //el canvas group me permite bajarle la opacidad a todos los hijos del GO
+    public CanvasGroup MyCanvasGroup { get; private set; }
 
+
+  
 
     public struct IconParameters
     {
@@ -21,6 +25,15 @@ public class UI_GrabableItem : MonoBehaviour
         public Sprite icon;
         public string name;
     }
+
+    private void Awake()
+    {
+        MyCanvasGroup = GetComponent<CanvasGroup>();
+
+    }
+
+    public void SetOpacity(float x) => MyCanvasGroup.alpha = x;
+
     public void SetOwner(GrabableInventory x) => InventoryOwner = x;
 
 
@@ -29,15 +42,18 @@ public class UI_GrabableItem : MonoBehaviour
         IndexText.text = x.index.ToString();
         TextName.text = x.name;
         myParameters = x;
+        SetOpacity(1);
     }
 
     public void Focus()
     {
         transform.localScale = Vector3.one * InventoryOwner.ScaleFocusBy;
+        UI.color = InventoryOwner.FocusColor;
     }
 
     public void UnFocus()
     {
         transform.localScale = Vector3.one;
+        UI.color = InventoryOwner.UnfocusColor;
     }
 }

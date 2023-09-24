@@ -11358,6 +11358,10 @@ PrefabInstance:
       propertyPath: m_IsActive
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 7161855898416758111, guid: 19df4d93d639c934c8d02faa236475f9, type: 3}
+      propertyPath: DecreaseOpacitySpeed
+      value: 0.5
+      objectReference: {fileID: 0}
     - target: {fileID: 7469725058451778775, guid: 19df4d93d639c934c8d02faa236475f9, type: 3}
       propertyPath: m_Constraint
       value: 2
@@ -16916,28 +16920,6 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 60a06704a53dfc244a9e462078345daa, type: 3}
---- !u!1 &1923713552 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 7929616159668181872, guid: 19df4d93d639c934c8d02faa236475f9, type: 3}
-  m_PrefabInstance: {fileID: 670449687}
-  m_PrefabAsset: {fileID: 0}
---- !u!114 &1923713557
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1923713552}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f8a1ae07af207134f94646057328c115, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  <ScaleFocusBy>k__BackingField: 1.25
-  FocusColor: {r: 1, g: 0.50518686, b: 0, a: 0.65882355}
-  UnfocusColor: {r: 0.6226415, g: 0.31498337, b: 0, a: 0.65882355}
-  <Sample>k__BackingField: {fileID: 1966543764470221812, guid: 9daf5ebd749b83e488765d10ad63f989, type: 3}
-  <CanvasInventory>k__BackingField: {fileID: 0}
 --- !u!1001 &1984635966
 PrefabInstance:
   m_ObjectHideFlags: 0

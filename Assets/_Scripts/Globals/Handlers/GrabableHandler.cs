@@ -121,8 +121,8 @@ public class GrabableHandler : MonoBehaviour, IGrabableOwner
         CurrentlyEquipped = item;
 
         CurrentlyEquipped.Transform.position = DesiredPosition.position;
-        CurrentlyEquipped.Transform.parent = DesiredPosition;
-        CurrentlyEquipped.Transform.forward = DesiredPosition.forward;
+        CurrentlyEquipped.Transform.parent   = DesiredPosition;
+        CurrentlyEquipped.Transform.forward  = DesiredPosition.forward;
         OnEquip?.Invoke();
     }
 
