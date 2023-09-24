@@ -31,5 +31,5 @@ public abstract class Gadget : MonoBehaviour
     }
 
     public abstract void AwakeContinue();
-    public abstract bool UseGadget(IGadgetOwner owner);
+    public abstract bool UseGadget(IGrabableOwner owner);
 }

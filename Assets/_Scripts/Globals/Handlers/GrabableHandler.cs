@@ -3,8 +3,10 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
+using UnityEngine.Events;
+
 [RequireComponent(typeof(DebugableObject))]
-public class GrabableHandler : MonoBehaviour, IGadgetOwner
+public class GrabableHandler : MonoBehaviour, IGrabableOwner
 {
     //[field: SerializeReference]
     public List<IGrabable> Inventory { get; private set; } = new();
@@ -18,6 +20,8 @@ public class GrabableHandler : MonoBehaviour, IGadgetOwner
     public int InventoryCapacity { get; private set; }
 
     [Range(0, 10f), SerializeField] float _throwForce = 2;
+
+    public int EquippedIndex => Inventory.IndexOf(CurrentlyEquipped);
 
     public bool HasSomethingInHand => CurrentlyEquipped != null || CurrentlyEquipped != default;
 
@@ -39,6 +43,8 @@ public class GrabableHandler : MonoBehaviour, IGadgetOwner
     public GameObject OwnerGameObject => gameObject;
 
     #endregion
+
+    public UnityEvent OnEquip,OnGrab,OnUnEquip,onThrow;
 
     private void Awake()
     {
@@ -121,6 +127,7 @@ public class GrabableHandler : MonoBehaviour, IGadgetOwner
         CurrentlyEquipped.Transform.position = DesiredPosition.position;
         CurrentlyEquipped.Transform.parent = DesiredPosition;
         CurrentlyEquipped.Transform.forward = DesiredPosition.forward;
+        OnEquip?.Invoke();
     }
 
     public void UnEquipCurrent()
@@ -131,6 +138,7 @@ public class GrabableHandler : MonoBehaviour, IGadgetOwner
         CurrentlyEquipped.Transform.gameObject.SetActive(false);
         CurrentlyEquipped.Transform.parent = null;
         CurrentlyEquipped = null;
+        OnUnEquip?.Invoke();
     }
 
     public void InspectCurrent()
@@ -180,6 +188,7 @@ public class GrabableHandler : MonoBehaviour, IGadgetOwner
         }
         float scalar = Velocity.magnitude + 1;
         rb.AddForce(Camera.main.transform.forward * _throwForce * scalar, ForceMode.Impulse);
+        onThrow?.Invoke();
     }
 
 

@@ -92,7 +92,7 @@ public class Gadget_Scanner : Gadget
         OnTimeOut();
     }
 
-    public override bool UseGadget(IGadgetOwner x)
+    public override bool UseGadget(IGrabableOwner x)
     {
         if (IsActive)
             return false;

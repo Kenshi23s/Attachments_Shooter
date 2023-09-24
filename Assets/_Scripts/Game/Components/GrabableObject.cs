@@ -8,11 +8,11 @@ public class GrabableObject : MonoBehaviour, IGrabable
 
     public UnityEvent OnGrab, OnEquip,OnUnEquip ,OnRelease,OnInspect = new UnityEvent();
 
-    public UnityEvent<IGadgetOwner> OnUse = new UnityEvent<IGadgetOwner>();
+    public UnityEvent<IGrabableOwner> OnUse = new UnityEvent<IGrabableOwner>();
 
     public Transform Transform => transform;
 
-    public IGadgetOwner Owner { get; private set; }
+    public IGrabableOwner Owner { get; private set; }
 
     //quiero q esto lo rellene el dueño del componente
     public bool IsPriorityObject => throw new System.NotImplementedException();
@@ -30,26 +30,26 @@ public class GrabableObject : MonoBehaviour, IGrabable
    
     public void Release() => OnRelease?.Invoke();
     
-    public void Use(IGadgetOwner owner) => OnUse?.Invoke(owner);
+    public void Use(IGrabableOwner owner) => OnUse?.Invoke(owner);
     
     public void Inspect() => OnInspect?.Invoke();
 
     public void Unequip() => OnUnEquip?.Invoke();
   
-    public void SetOwner(IGadgetOwner newOwner) => Owner = newOwner;
+    public void SetOwner(IGrabableOwner newOwner) => Owner = newOwner;
 }
 
 public interface IGrabable
 {
     public bool HasOwner => Owner != null;
     public bool IsPriorityObject { get; }
-    public IGadgetOwner Owner { get; }
+    public IGrabableOwner Owner { get; }
     public Transform Transform { get; }
-    void SetOwner(IGadgetOwner newOwner);
+    void SetOwner(IGrabableOwner newOwner);
     void Grab();  
     void Equip();
     void Release();
-    void Use(IGadgetOwner owner);
+    void Use(IGrabableOwner owner);
     void Unequip();
     void Inspect();
 }

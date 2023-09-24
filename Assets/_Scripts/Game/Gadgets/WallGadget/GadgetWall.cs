@@ -16,7 +16,7 @@ public class GadgetWall : Gadget
     [field: SerializeField] public PlatformsParameters PlatformParameters { get; private set; }
 
 
-    public override bool UseGadget(IGadgetOwner owner)
+    public override bool UseGadget(IGrabableOwner owner)
     {
         if (!CanShoot) return false;
 
