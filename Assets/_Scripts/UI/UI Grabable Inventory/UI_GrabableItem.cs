@@ -21,8 +21,9 @@ public class UI_GrabableItem : MonoBehaviour
         public Sprite icon;
         public string name;
     }
+    public void SetOwner(GrabableInventory x) => InventoryOwner = x;
 
-    
+
     public void UpdateUI_Item(IconParameters x)
     {
         IndexText.text = x.index.ToString();

@@ -10,13 +10,12 @@ public class Player_Handler : MonoBehaviour
     public static Transform Transform;
     public static Vector3 Position,Velocity;
 
-    [field: SerializeField] public RectTransform AbilitiesPanel { get; private set; }
 
-    [field: SerializeField] public PlayerMovement Movement { get; private set; }
+    public PlayerMovement Movement { get; private set; }
 
     public Rigidbody Rigidbody => Movement.RigidBody;
 
-    [field: SerializeField] public GrabableHandler GrabHandler { get; private set; }
+    public GrabableHandler GrabHandler { get; private set; }
 
     [SerializeField,Range(0,180)] public float InteractFov;
 

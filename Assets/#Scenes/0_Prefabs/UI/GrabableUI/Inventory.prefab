@@ -12,6 +12,7 @@ GameObject:
   - component: {fileID: 2927280443196478073}
   - component: {fileID: 6796430849293464362}
   - component: {fileID: 487963722447603264}
+  - component: {fileID: 146462405968582600}
   m_Layer: 5
   m_Name: Inventory
   m_TagString: Untagged
@@ -101,3 +102,20 @@ MonoBehaviour:
   m_Spacing: {x: 70, y: 0}
   m_Constraint: 0
   m_ConstraintCount: 2
+--- !u!114 &146462405968582600
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1110125027613110759}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f8a1ae07af207134f94646057328c115, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  <ScaleFocusBy>k__BackingField: 1.25
+  FocusColor: {r: 1, g: 0, b: 0, a: 0.78039217}
+  UnfocusColor: {r: 0.49056602, g: 0, b: 0, a: 0.57254905}
+  <Sample>k__BackingField: {fileID: 1966543764470221812, guid: 9daf5ebd749b83e488765d10ad63f989, type: 3}
+  <CanvasInventory>k__BackingField: {fileID: 9166254027798376359}

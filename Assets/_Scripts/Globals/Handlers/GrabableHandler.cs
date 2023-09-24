@@ -44,7 +44,7 @@ public class GrabableHandler : MonoBehaviour, IGrabableOwner
 
     #endregion
 
-    public UnityEvent OnEquip,OnGrab,OnUnEquip,onThrow;
+    public UnityEvent OnEquip, OnGrab, OnUnEquip, onThrow;
 
     private void Awake()
     {
@@ -61,7 +61,7 @@ public class GrabableHandler : MonoBehaviour, IGrabableOwner
     private void Update()
     {
         if (ScreenManager.IsPaused()) return;
-        
+
         if (Input.GetKeyDown(KeyCode.T))
         {
             Debug.Log("Tiro Objeto");
@@ -83,7 +83,8 @@ public class GrabableHandler : MonoBehaviour, IGrabableOwner
 
     void SwapGadget(float wheelValue)
     {
-        if (!Inventory.Any()) return;
+        if (Inventory.Count <= 1) return;
+        Debug.Log(Inventory.Count);
 
         int newIndex = Inventory.IndexOf(CurrentlyEquipped);
         // evaluo el indice siguiente al que deberia acceder
@@ -96,7 +97,6 @@ public class GrabableHandler : MonoBehaviour, IGrabableOwner
         //ejemplo
         //https://learn.microsoft.com/en-us/dotnet/csharp/language-reference/operators/arithmetic-operators#code-try-0
 
-
         Equip(Inventory[newIndex]);
     }
 
@@ -105,15 +105,11 @@ public class GrabableHandler : MonoBehaviour, IGrabableOwner
     {
         _debug.Log($"Añado el item {(item as MonoBehaviour).name}");
         Inventory.Add(item);
-
-        if (!HasSomethingInHand)
-        {
-            Equip(item);
-            item.SetOwner(this);
-
-        }
+        item.SetOwner(this);
+        if (!HasSomethingInHand)       
+            Equip(item);       
         else
-            item.Unequip();
+            UnEquipItem(item);
 
     }
 
@@ -134,10 +130,15 @@ public class GrabableHandler : MonoBehaviour, IGrabableOwner
     {
         if (!HasSomethingInHand) return;
 
-        CurrentlyEquipped.Unequip();
-        CurrentlyEquipped.Transform.gameObject.SetActive(false);
-        CurrentlyEquipped.Transform.parent = null;
-        CurrentlyEquipped = null;
+        UnEquipItem(CurrentlyEquipped);
+      
+    }
+
+    public void UnEquipItem(IGrabable item)
+    {
+        item.Unequip();
+        item.Transform.gameObject.SetActive(false);
+        item.Transform.parent = null;
         OnUnEquip?.Invoke();
     }
 

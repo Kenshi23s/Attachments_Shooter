@@ -28,7 +28,7 @@ public class Gadget_Scanner : Gadget
     IEnumerator TurnOnRadar(Type[] targets)
     {
         FList<MonoBehaviour> alreadyScanned = FList.Create<MonoBehaviour>(this);
-       
+
         IsActive = true;
         ScanField.gameObject.SetActive(true);
         ScanField.localScale = Vector3.zero;
@@ -38,9 +38,9 @@ public class Gadget_Scanner : Gadget
 
             ScanField.localScale += Vector3.one * Time.deltaTime * IncreaseSpeed;
 
-             // esto va a ser pesadisimo, debe haber una manera mas optima.
-             // existe. habria que usar las queries de IA 2, pero conviene meterlo en nuestro proyecto?
-             // consultar el martes
+            // esto va a ser pesadisimo, debe haber una manera mas optima.
+            // existe. habria que usar las queries de IA 2, pero conviene meterlo en nuestro proyecto?
+            // consultar el martes
             var col = ScanField.position.GetItemsOFTypeAround<MonoBehaviour>(ScanField.localScale.magnitude)
                 .Where(x => !alreadyScanned.Contains(x))
                 .Distinct()
@@ -65,6 +65,7 @@ public class Gadget_Scanner : Gadget
         IsActive = false;
         ScanField.gameObject.SetActive(false);
     }
+
     IEnumerator SetOutline(MonoBehaviour target)
     {
         Outline outline = default;
@@ -72,16 +73,16 @@ public class Gadget_Scanner : Gadget
         if (target.TryGetComponent(out Outline x))
         {
             outline = x;
-            OnTimeOut = () => 
-            { 
+            OnTimeOut = () =>
+            {
                 outline.OutlineMode = Outline.Mode.OutlineAll;
                 outline.enabled = false;
-            }; 
-        }                   
+            };
+        }
         else
         {
             outline = target.gameObject.AddComponent<Outline>();
-            OnTimeOut = () => { Destroy(outline); };
+            OnTimeOut = () => Destroy(outline);
         }
 
 
@@ -94,14 +95,13 @@ public class Gadget_Scanner : Gadget
 
     public override bool UseGadget(IGrabableOwner x)
     {
-        if (IsActive)
-            return false;
-
+        if (IsActive) return false;
+        gameObject.SetActive(true);
         StopAllCoroutines();
         StartCoroutine(TurnOnRadar(x.TargetTypes));
 
         return true;
     }
 
-    
+
 }

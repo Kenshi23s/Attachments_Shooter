@@ -21,7 +21,7 @@ public class GrabableObject : MonoBehaviour, IGrabable
     {
         _interactableComponent = GetComponent<InteractableComponent>();
         _interactableComponent.OnInteract.AddListener(Grab);
-        //_interactableComponent.SetFocusCondition(() => );
+        _interactableComponent.SetFocusCondition(() => Owner == null);
     }
 
     public void Grab() => OnGrab?.Invoke();

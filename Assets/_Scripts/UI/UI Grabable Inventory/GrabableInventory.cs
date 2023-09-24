@@ -24,6 +24,7 @@ public class GrabableInventory : MonoBehaviour
 
     private void Awake()
     {
+        GHandler = transform.root.GetComponent<GrabableHandler>();
         GHandler.OnEquip.AddListener(UpdateUI);
         GHandler.OnUnEquip.AddListener(UpdateUI);
         GHandler.OnGrab.AddListener(UpdateUI);
@@ -39,6 +40,7 @@ public class GrabableInventory : MonoBehaviour
             for (int i = 0; i < quantity; i++)
             {
                 var x = Instantiate(Sample, CanvasInventory);
+                x.SetOwner(this);
                 GrabableItemsIcons.Add(x);
             }
         }
