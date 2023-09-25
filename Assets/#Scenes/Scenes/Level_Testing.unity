@@ -11359,8 +11359,28 @@ PrefabInstance:
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 7161855898416758111, guid: 19df4d93d639c934c8d02faa236475f9, type: 3}
+      propertyPath: FadeInStartTime
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 7161855898416758111, guid: 19df4d93d639c934c8d02faa236475f9, type: 3}
+      propertyPath: TimeBeforeFading
+      value: 2.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 7161855898416758111, guid: 19df4d93d639c934c8d02faa236475f9, type: 3}
       propertyPath: DecreaseOpacitySpeed
-      value: 0.5
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7161855898416758111, guid: 19df4d93d639c934c8d02faa236475f9, type: 3}
+      propertyPath: IncreaseOpacitySpeed
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 7161855898416758111, guid: 19df4d93d639c934c8d02faa236475f9, type: 3}
+      propertyPath: <FadeOutStartTime>k__BackingField
+      value: 1.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 7161855898416758111, guid: 19df4d93d639c934c8d02faa236475f9, type: 3}
+      propertyPath: <InitialItemTimeActive>k__BackingField
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 7469725058451778775, guid: 19df4d93d639c934c8d02faa236475f9, type: 3}
       propertyPath: m_Constraint
