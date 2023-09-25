@@ -26,12 +26,12 @@ namespace FacundoColomboMethods
         {
             if (sign == 0) return list;
 
-           //direccion a la que muevo los items
+            //direccion a la que muevo los items
             int dir = (int)GetNearestNumber(sign, -1, 1);
             //hago un to list para crear una nueva instancia de la lista
             var ReOrderedList = list.ToList();
             // el largo de la coleccion(?) seria largo si queda en 0?
-            int lenght = 0; 
+            int lenght = 0;
             //de donde empieza la coleccion
             int startFrom = 0;
 
@@ -45,14 +45,14 @@ namespace FacundoColomboMethods
             // si quiero mover los items hacia adelante
             if (dir == 1)
             {
-               //el largo seria el maximo de la coleccion
+                //el largo seria el maximo de la coleccion
                 lenght = ReOrderedList.Count - 1;
                 //empiezo de 0
                 startFrom = 0;
                 // y mi predicado seria mientras que el indice
                 // sea menor a el largo de la coleccion
                 predicte = index => index < lenght;
-                
+
             }
             // si quiero mover los items hacia atras
             else if (dir == -1)
@@ -63,7 +63,7 @@ namespace FacundoColomboMethods
                 startFrom = ReOrderedList.Count - 1;
                 //y mi predicado es mientras que mi indice sea mayor a lenght
                 //(el indice lo sumo o resto dependiendo de dir)
-                predicte = index => index > lenght;           
+                predicte = index => index > lenght;
             }
 
             // itero las veces que quiera
@@ -73,13 +73,17 @@ namespace FacundoColomboMethods
             for (int j = manyTimes; j > 0; j--)
             {
                 //me guardo el auxiliar de mi largo para despues remplazarlo 
-                var swapAux = ReOrderedList[lenght];
-                for (int i = startFrom; predicte(i); i += dir)              
+                var swapAux = ReOrderedList[startFrom];
+                for (int i = startFrom; predicte(i); i += dir)
                     ReOrderedList[i] = ReOrderedList[i + dir];
                 // lo remplazo
-                ReOrderedList.Insert(startFrom , swapAux);
+                ReOrderedList[lenght] = swapAux;
             }
-           
+
+            for (int i = 0; i < ReOrderedList.Count - 1; i++)
+            {
+                Debug.LogError(ReOrderedList[i] + " " + i);
+            }
             return ReOrderedList;
 
         }
