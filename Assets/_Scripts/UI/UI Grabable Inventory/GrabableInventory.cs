@@ -6,8 +6,6 @@ using static UnityEditor.Progress;
 
 public class GrabableInventory : MonoBehaviour
 {
-    [field: SerializeField, Range(1f, 2f)]
-    public float ScaleFocusBy { get; private set; } = 1.25f;
 
     public Color FocusColor, UnfocusColor;
 
@@ -23,9 +21,26 @@ public class GrabableInventory : MonoBehaviour
 
     List<UI_GrabableItem> GrabableItemsIcons = new();
 
-    public float ItemTimeActive { get; private set; }
+
+    [field: SerializeField, Range(1f, 2f)]
+    public float ScaleFocusBy { get; private set; } = 1.25f;
+
+    [Header("Item Fade"), Header("FadeOut")]
+    public float TimeBeforeFading;
+    [field: SerializeField]
+    public float FadeOutStartTime { get; private set; }
+
     public float DecreaseOpacitySpeed;
-    float _currentTimeActive;
+    float _currentFadeOutTime;
+
+    [Header("FadeIn")]
+    public float IncreaseOpacitySpeed;
+    float _currentFadeInTime;
+    [field: SerializeField]
+    float FadeInStartTime;
+
+
+    bool FadingIn = false;
 
     private void Awake()
     {
@@ -44,12 +59,33 @@ public class GrabableInventory : MonoBehaviour
 
     IEnumerator FadeOut()
     {
-        while (_currentTimeActive > 0)
+        yield return new WaitForSeconds(TimeBeforeFading);
+        _currentFadeOutTime = FadeOutStartTime;
+        while (_currentFadeOutTime > 0)
         {
             foreach (var item in GrabableItemsIcons)
-                item.SetOpacity(_currentTimeActive / ItemTimeActive);
+                item.SetOpacity(_currentFadeOutTime / FadeOutStartTime);
 
-            _currentTimeActive -= DecreaseOpacitySpeed * Time.deltaTime;
+            _currentFadeOutTime -= DecreaseOpacitySpeed * Time.deltaTime;
+            yield return null;
+        }
+        foreach (var item in GrabableItemsIcons)
+            item.SetOpacity(0);
+    }
+
+    IEnumerator FadeIn()
+    {
+        if (FadingIn) yield break;
+
+        FadingIn = true;
+        _currentFadeInTime = FadeInStartTime;
+        float t = 0;
+        while (t < 1)
+        {
+            foreach (var item in GrabableItemsIcons)
+                item.SetOpacity(Mathf.Lerp(0, 1, t));
+
+            _currentFadeInTime += IncreaseOpacitySpeed * Time.deltaTime;
             yield return null;
         }
         foreach (var item in GrabableItemsIcons)
@@ -58,9 +94,9 @@ public class GrabableInventory : MonoBehaviour
 
     void UpdateUI()
     {
+        StopAllCoroutines();
         if (GHandler.Inventory.Count > GrabableItemsIcons.Count)
             CreateMoreIcons(GHandler.Inventory.Count - GrabableItemsIcons.Count);
-
 
         for (int i = 0; i < GrabableItemsIcons.Count; i++)
         {
@@ -74,7 +110,10 @@ public class GrabableInventory : MonoBehaviour
             x.index = i;
 
             GrabableItemsIcons[i].UpdateUI_Item(x);
+            GrabableItemsIcons[i].SetOpacity(1);
+
         }
+        StartCoroutine(FadeOut());
     }
 
     IconParameters MakeParameters(IGrabable item)
