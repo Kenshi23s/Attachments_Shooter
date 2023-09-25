@@ -89,7 +89,7 @@ public class GrabableInventory : MonoBehaviour
             yield return null;
         }
         foreach (var item in GrabableItemsIcons)
-            item.SetOpacity(0);
+            item.SetOpacity(1);
     }
 
     void UpdateUI()

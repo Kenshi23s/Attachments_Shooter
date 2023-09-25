@@ -35,7 +35,7 @@ namespace FacundoColomboMethods
             //de donde empieza la coleccion
             int startFrom = 0;
 
-            Func<float, bool> predicte = default;
+            Func<float, bool> predicate = default;
             // si ordeno los items para atras entonces:
             //el indice 0 de la coleccion deberia valer el indice maximo de mi coleccion
             //si ordeno los items hacia adelante
@@ -51,7 +51,7 @@ namespace FacundoColomboMethods
                 startFrom = 0;
                 // y mi predicado seria mientras que el indice
                 // sea menor a el largo de la coleccion
-                predicte = index => index < lenght;
+                predicate = index => index < lenght;
 
             }
             // si quiero mover los items hacia atras
@@ -63,7 +63,7 @@ namespace FacundoColomboMethods
                 startFrom = ReOrderedList.Count - 1;
                 //y mi predicado es mientras que mi indice sea mayor a lenght
                 //(el indice lo sumo o resto dependiendo de dir)
-                predicte = index => index > lenght;
+                predicate = index => index > lenght;
             }
 
             // itero las veces que quiera
@@ -74,7 +74,7 @@ namespace FacundoColomboMethods
             {
                 //me guardo el auxiliar de mi largo para despues remplazarlo 
                 var swapAux = ReOrderedList[startFrom];
-                for (int i = startFrom; predicte(i); i += dir)
+                for (int i = startFrom; predicate(i); i += dir)
                     ReOrderedList[i] = ReOrderedList[i + dir];
                 // lo remplazo
                 ReOrderedList[lenght] = swapAux;
