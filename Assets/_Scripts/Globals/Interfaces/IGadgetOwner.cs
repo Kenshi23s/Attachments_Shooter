@@ -1,7 +1,7 @@
 using System;
 using UnityEngine;
 
-public interface IGadgetOwner
+public interface IGrabableOwner
 {
     int OwnerLife { get; }
 

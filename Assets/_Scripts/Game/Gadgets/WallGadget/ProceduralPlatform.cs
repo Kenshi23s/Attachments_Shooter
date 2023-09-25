@@ -68,15 +68,26 @@ public class ProceduralPlatform : MonoBehaviour
     public struct PlatformsParameters
     {
         [NonSerialized] public Vector3 CenterPosition, CrossResult;
+        [Header("Layer Masks")]
         public LayerMask FoamMask;
         public LayerMask WallMask;
         public LayerMask SolidMasks => FoamMask + WallMask;
-        public float wallSeparation, Radius, SeparationBetweenPlatforms, Slice, InitialLifeTime, DecayDelaySeconds;
+        [Header("Expansion")]
+        public float wallSeparation;
+        public float Radius,
+                     SeparationBetweenPlatforms,
+                     Slice;
         public int ConstructionDelay;
 
+
+        [Header("LifeTime")]
+        public float InitialLifeTime;
+        public float DecayDelaySeconds;
+
+      
     }
 
-    [field : SerializeField]
+    [field: SerializeField]
     public bool IsFoundation { get; private set; }
 
     public event Action<ProceduralPlatform> OnFoundationDestroyed = delegate { };
@@ -153,11 +164,11 @@ public class ProceduralPlatform : MonoBehaviour
                 Debug.Log("Hay Fundacion");
                 return true;
             }
-              
+
 
             alreadyChecked += item;
         }
-    
+
         return false;
     }
 
@@ -172,7 +183,7 @@ public class ProceduralPlatform : MonoBehaviour
         IsFoundation = false;
         foreach (var dir in SixDirections)
         {
-           if (!Physics.Raycast(transform.position, dir, _view.transform.localScale.magnitude, parameters.WallMask  ,QueryTriggerInteraction.Ignore)) continue;
+            if (!Physics.Raycast(transform.position, dir, _view.transform.localScale.magnitude, parameters.WallMask, QueryTriggerInteraction.Ignore)) continue;
 
             IsFoundation = true; break;
         }

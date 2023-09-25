@@ -3,8 +3,11 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
+using UnityEngine.Events;
+using FacundoColomboMethods;
+
 [RequireComponent(typeof(DebugableObject))]
-public class GrabableHandler : MonoBehaviour, IGadgetOwner
+public class GrabableHandler : MonoBehaviour, IGrabableOwner
 {
     //[field: SerializeReference]
     public List<IGrabable> Inventory { get; private set; } = new();
@@ -18,6 +21,8 @@ public class GrabableHandler : MonoBehaviour, IGadgetOwner
     public int InventoryCapacity { get; private set; }
 
     [Range(0, 10f), SerializeField] float _throwForce = 2;
+
+    public int EquippedIndex => Inventory.IndexOf(CurrentlyEquipped);
 
     public bool HasSomethingInHand => CurrentlyEquipped != null || CurrentlyEquipped != default;
 
@@ -40,6 +45,8 @@ public class GrabableHandler : MonoBehaviour, IGadgetOwner
 
     #endregion
 
+    public UnityEvent OnEquip, OnGrab, OnUnEquip, onThrow,UpdateUI;
+
     private void Awake()
     {
         _debug = GetComponent<DebugableObject>();
@@ -55,7 +62,7 @@ public class GrabableHandler : MonoBehaviour, IGadgetOwner
     private void Update()
     {
         if (ScreenManager.IsPaused()) return;
-        
+
         if (Input.GetKeyDown(KeyCode.T))
         {
             Debug.Log("Tiro Objeto");
@@ -77,8 +84,10 @@ public class GrabableHandler : MonoBehaviour, IGadgetOwner
 
     void SwapGadget(float wheelValue)
     {
-        if (!Inventory.Any()) return;
+        if (Inventory.Count <= 1) return;
+       
 
+        Inventory = Inventory.MoveItems(wheelValue);
         int newIndex = Inventory.IndexOf(CurrentlyEquipped);
         // evaluo el indice siguiente al que deberia acceder
         if (wheelValue > 0)
@@ -90,24 +99,27 @@ public class GrabableHandler : MonoBehaviour, IGadgetOwner
         //ejemplo
         //https://learn.microsoft.com/en-us/dotnet/csharp/language-reference/operators/arithmetic-operators#code-try-0
 
-
+        
         Equip(Inventory[newIndex]);
+       
     }
+
+
+    
+
+
+
 
 
     public void GrabItem(IGrabable item)
     {
         _debug.Log($"Añado el item {(item as MonoBehaviour).name}");
         Inventory.Add(item);
-
-        if (!HasSomethingInHand)
-        {
-            Equip(item);
-            item.SetOwner(this);
-
-        }
+        item.SetOwner(this);
+        if (!HasSomethingInHand)       
+            Equip(item);       
         else
-            item.Unequip();
+            UnEquipItem(item);
 
     }
 
@@ -119,18 +131,25 @@ public class GrabableHandler : MonoBehaviour, IGadgetOwner
         CurrentlyEquipped = item;
 
         CurrentlyEquipped.Transform.position = DesiredPosition.position;
-        CurrentlyEquipped.Transform.parent = DesiredPosition;
-        CurrentlyEquipped.Transform.forward = DesiredPosition.forward;
+        CurrentlyEquipped.Transform.parent   = DesiredPosition;
+        CurrentlyEquipped.Transform.forward  = DesiredPosition.forward;
+        OnEquip?.Invoke();
     }
 
     public void UnEquipCurrent()
     {
         if (!HasSomethingInHand) return;
 
-        CurrentlyEquipped.Unequip();
-        CurrentlyEquipped.Transform.gameObject.SetActive(false);
-        CurrentlyEquipped.Transform.parent = null;
-        CurrentlyEquipped = null;
+        UnEquipItem(CurrentlyEquipped);
+      
+    }
+
+    public void UnEquipItem(IGrabable item)
+    {
+        item.Unequip();
+        item.Transform.gameObject.SetActive(false);
+        item.Transform.parent = null;
+        OnUnEquip?.Invoke();
     }
 
     public void InspectCurrent()
@@ -180,6 +199,7 @@ public class GrabableHandler : MonoBehaviour, IGadgetOwner
         }
         float scalar = Velocity.magnitude + 1;
         rb.AddForce(Camera.main.transform.forward * _throwForce * scalar, ForceMode.Impulse);
+        onThrow?.Invoke();
     }
 
 

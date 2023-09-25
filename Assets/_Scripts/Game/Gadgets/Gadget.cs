@@ -18,6 +18,7 @@ public abstract class Gadget : MonoBehaviour
         GrabableComponent.OnUse.AddListener(x => UseGadget(x));
         GrabableComponent.OnGrab.AddListener(() => ActivatePhysics(false));
         GrabableComponent.OnRelease.AddListener(() => ActivatePhysics(true));
+        GrabableComponent.OnEquip.AddListener(() => gameObject.SetActive(true));
         AwakeContinue();
     }
 
@@ -31,5 +32,5 @@ public abstract class Gadget : MonoBehaviour
     }
 
     public abstract void AwakeContinue();
-    public abstract bool UseGadget(IGadgetOwner owner);
+    public abstract bool UseGadget(IGrabableOwner owner);
 }
