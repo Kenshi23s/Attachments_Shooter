@@ -22,6 +22,74 @@ namespace FacundoColomboMethods
 
     public static class ColomboMethods
     {
+        public static List<T> MoveItems<T>(this List<T> list, float sign, int manyTimes = 1)
+        {
+            if (sign == 0) return list;
+
+           //direccion a la que muevo los items
+            int dir = (int)GetNearestNumber(sign, -1, 1);
+            //hago un to list para crear una nueva instancia de la lista
+            var ReOrderedList = list.ToList();
+            // el largo de la coleccion(?) seria largo si queda en 0?
+            int lenght = 0; 
+            //de donde empieza la coleccion
+            int startFrom = 0;
+
+            Func<float, bool> predicte = default;
+            // si ordeno los items para atras entonces:
+            //el indice 0 de la coleccion deberia valer el indice maximo de mi coleccion
+            //si ordeno los items hacia adelante
+            //el indice maximo debe valer lo mismo que el indice 0
+            Action<T> SwapPlace = SwapPlace = x => ReOrderedList.Insert(startFrom, x);
+
+            // si quiero mover los items hacia adelante
+            if (dir == 1)
+            {
+               //el largo seria el maximo de la coleccion
+                lenght = ReOrderedList.Count - 1;
+                //empiezo de 0
+                startFrom = 0;
+                // y mi predicado seria mientras que el indice
+                // sea menor a el largo de la coleccion
+                predicte = index => index < lenght;
+                
+            }
+            // si quiero mover los items hacia atras
+            else if (dir == -1)
+            {
+                //mi largo seria 0
+                lenght = 0;
+                //empiezo desde el inicio de la coleccion
+                startFrom = ReOrderedList.Count - 1;
+                //y mi predicado es mientras que mi indice sea mayor a lenght
+                //(el indice lo sumo o resto dependiendo de dir)
+                predicte = index => index > lenght;           
+            }
+
+            // itero las veces que quiera
+            //(talvez podria poner un wait until o algo asi para que lo haga cada x frames
+            // o espere x condicion para seguir iterando?)
+
+            for (int j = manyTimes; j > 0; j--)
+            {
+                //me guardo el auxiliar de mi largo para despues remplazarlo 
+                var swapAux = ReOrderedList[lenght];
+                for (int i = startFrom; predicte(i); i += dir)              
+                    ReOrderedList[i] = ReOrderedList[i + dir];
+                // lo remplazo
+                ReOrderedList.Insert(startFrom , swapAux);
+            }
+           
+            return ReOrderedList;
+
+        }
+
+        public static float GetNearestNumber(float evaluated, float x, float y)
+        {
+            float distanceX = Mathf.Abs(evaluated - x);
+            float distanceY = Mathf.Abs(evaluated - y);
+            return distanceX > distanceY ? y : x;
+        }
 
         public static EventTrigger.Entry CreateEvent(Action method, EventTriggerType triggerType)
         {
@@ -36,19 +104,19 @@ namespace FacundoColomboMethods
             trigger.triggers.Add(CreateEvent(method, triggerType));
         }
 
-        public static Vector3 CustomSmoothTransitionVector(this Vector3 actualPos, Vector3 from, Vector3 to,float velocity = 1 ,float floor = 1)
+        public static Vector3 CustomSmoothTransitionVector(this Vector3 actualPos, Vector3 from, Vector3 to, float velocity = 1, float floor = 1)
         {
-            
+
             Vector3 dir = to - from;
             dir.Normalize();
 
-            return actualPos + dir * actualPos.CustomSmoothTransitionFloat(from,to,velocity,floor);
+            return actualPos + dir * actualPos.CustomSmoothTransitionFloat(from, to, velocity, floor);
         }
 
         public static float CustomSmoothTransitionFloat(this Vector3 actualPos, Vector3 from, Vector3 to, float velocity = 1, float floor = 1)
         {
             float lowest = Mathf.Min(Vector3.Distance(actualPos, from), Vector3.Distance(actualPos, to) + 0.001f);
-           
+
             return Mathf.Clamp01(lowest * floor) * velocity * Time.deltaTime;
         }
 
@@ -59,16 +127,16 @@ namespace FacundoColomboMethods
             return GeometryUtility.TestPlanesAABB(planes, target.bounds);
         }
 
-        public static IEnumerable<T> AreTheyInCameraSight<T>(this Camera cam, IEnumerable<Tuple<T,Collider>> col)
+        public static IEnumerable<T> AreTheyInCameraSight<T>(this Camera cam, IEnumerable<Tuple<T, Collider>> col)
         {
-            var planes = GeometryUtility.CalculateFrustumPlanes(cam);   
-            
-            foreach (var x in col)          
-                if (GeometryUtility.TestPlanesAABB(planes, x.Item2.bounds))            
-                    yield return x.Item1;             
-            
+            var planes = GeometryUtility.CalculateFrustumPlanes(cam);
+
+            foreach (var x in col)
+                if (GeometryUtility.TestPlanesAABB(planes, x.Item2.bounds))
+                    yield return x.Item1;
+
             //si el collider esta entre los 4 planos de la camara, devuelve verdadero
-            
+
         }
 
         public static T CreateComponent<T>(this GameObject x) where T : Component
@@ -77,25 +145,25 @@ namespace FacundoColomboMethods
             return x.GetComponent<T>();
         }
 
-        public static Color SetAlpha(this Color color,float newAlpha)
+        public static Color SetAlpha(this Color color, float newAlpha)
         {
             return new Color(color.r, color.g, color.b, newAlpha);
         }
-        public static Vector3 TryGetMeshCollision(this Vector3 myPos,Vector3 dir,LayerMask layer)
+        public static Vector3 TryGetMeshCollision(this Vector3 myPos, Vector3 dir, LayerMask layer)
         {
-            if (Physics.Raycast(myPos,dir,out RaycastHit hit,Mathf.Infinity,layer))            
-                return hit.point;           
+            if (Physics.Raycast(myPos, dir, out RaycastHit hit, Mathf.Infinity, layer))
+                return hit.point;
             else
                 return myPos;
         }
 
-        public static Tuple<float,Vector3> GetNormalAngleOfFloor(this Vector3 myPos,LayerMask layer)
+        public static Tuple<float, Vector3> GetNormalAngleOfFloor(this Vector3 myPos, LayerMask layer)
         {
             if (Physics.Raycast(myPos, Vector3.down, out RaycastHit hit, Mathf.Infinity, layer))
             {
-                return Tuple.Create<float, Vector3>(Vector3.Angle(hit.normal, Vector3.up),hit.normal); 
+                return Tuple.Create<float, Vector3>(Vector3.Angle(hit.normal, Vector3.up), hit.normal);
             }
-            return Tuple.Create<float, Vector3>(0,Vector3.zero);
+            return Tuple.Create<float, Vector3>(0, Vector3.zero);
         }
 
         public static Vector3 GetOrientedVector(this Transform tr, Vector3 T)
@@ -103,7 +171,7 @@ namespace FacundoColomboMethods
             return T.x * tr.right + T.y * tr.up + tr.forward * T.z;
         }
 
-        public static Vector3 GetOrientedVector(this Vector3 T,Transform tr)
+        public static Vector3 GetOrientedVector(this Vector3 T, Transform tr)
         {
             return T.x * tr.right + T.y * tr.up + tr.forward * T.z;
         }
@@ -134,7 +202,7 @@ namespace FacundoColomboMethods
 
         public static int LayerMaskToLayerNumber(this LayerMask x) => Mathf.RoundToInt(Mathf.Log(x, 2));
 
-        public static void CheckAndAdd<T>(this List<T> col,T item)
+        public static void CheckAndAdd<T>(this List<T> col, T item)
         {
             if (!col.Contains(item))
             {
@@ -148,14 +216,14 @@ namespace FacundoColomboMethods
         }
         public static bool InBetween(this float value, float lessThan, float moreThan) => value < lessThan && value > moreThan;
 
-        public static float InverseDistanceScalar(this Vector3 pos,Vector3 target,float radius)
+        public static float InverseDistanceScalar(this Vector3 pos, Vector3 target, float radius)
         {
             // la distancia / el radio
             // pongo 1 - (valor entre 0 y 1) porque:
             // si esta en el limite de la distancia, la division me daria 1, por lo que recibiria la maxima fuerza si no lo restara por -1
             // y por si estoy en el centro, la division seria " 0 / 1" y en caso de que no le restara -1, no recibiria la maxima fuerza
             // deberia informarme mas de matematica para videojuegos, sin jocha no podria haber sacado esta "Magnitud Inversa"
-            return Mathf.Max(1 - (Vector3.Distance(pos, target) / radius),0f);           
+            return Mathf.Max(1 - (Vector3.Distance(pos, target) / radius), 0f);
         }
 
         public static T[] GetItemsOFTypeAround<T>(this Vector3 pos, float radius)
@@ -175,12 +243,12 @@ namespace FacundoColomboMethods
         /// <param name="angle"></param>
         /// <returns></returns>
         /// 
-        public static Vector3 RandomDirFrom(this Vector3 myDir,float angle)
+        public static Vector3 RandomDirFrom(this Vector3 myDir, float angle)
         {
             // el angulo maximo entre 2 vectores es 180, si se pasa vuelvea a empezar de 0
             Vector3 random = Random.insideUnitSphere;
 
-            angle =  Mathf.Clamp(MathF.Abs(angle),0,180);
+            angle = Mathf.Clamp(MathF.Abs(angle), 0, 180);
             // lo divido por 180 para "Remapearlo a un valor mas bajo"     
             return Vector3.Slerp(myDir.normalized, random, angle / 180f); ;
         }
@@ -248,7 +316,7 @@ namespace FacundoColomboMethods
         /// <returns></returns>
         public static bool CheckNearbyInSigth<T>(this Transform pos, float radius, LayerMask Wall) where T : MonoBehaviour
         {
-            
+
             Collider[] colliders = Physics.OverlapSphere(pos.position, radius);
             foreach (Collider Object in colliders)
             {
@@ -274,7 +342,7 @@ namespace FacundoColomboMethods
         /// <param name="radius"></param>
         /// <param name="Wall"></param>
         /// <returns></returns>
-        public static List<T> GetALLNearbyInSigth<T>(this Transform pos, float radius,LayerMask Wall) where T: MonoBehaviour
+        public static List<T> GetALLNearbyInSigth<T>(this Transform pos, float radius, LayerMask Wall) where T : MonoBehaviour
         {
             List<T> list = new List<T>();
             Collider[] colliders = Physics.OverlapSphere(pos.position, radius);
@@ -284,11 +352,11 @@ namespace FacundoColomboMethods
                 var item = Object.GetComponent<T>();
                 if (item != null)
                 {
-                    if (InLineOffSight(pos.position,item.transform.position, Wall))
+                    if (InLineOffSight(pos.position, item.transform.position, Wall))
                     {
                         list.Add(item);
                     }
-                  
+
                 }
             }
 
@@ -309,7 +377,7 @@ namespace FacundoColomboMethods
             return !Physics.Raycast(start, dir, dir.magnitude, maskWall);
         }
 
-        public static bool InLineOffSight(this Vector3 start, Vector3 end, LayerMask maskWall,float distance)
+        public static bool InLineOffSight(this Vector3 start, Vector3 end, LayerMask maskWall, float distance)
         {
             Vector3 dir = end - start;
 
@@ -414,13 +482,13 @@ namespace FacundoColomboMethods
         /// <param name="myPos"></param>
         /// <param name="walls"></param>
         /// <returns></returns>
-        public static T GetNearestOnSigth<T>(this Vector3 myPos, List<T> objPosition,LayerMask walls) where T : MonoBehaviour
+        public static T GetNearestOnSigth<T>(this Vector3 myPos, List<T> objPosition, LayerMask walls) where T : MonoBehaviour
         {
-            List<T> listOnSigth = GetWhichAreOnSight(objPosition, myPos,walls);
-           
+            List<T> listOnSigth = GetWhichAreOnSight(objPosition, myPos, walls);
+
             switch (listOnSigth.Count)
             {
-                  
+
                 //ninguno a la vista
                 case 0:
                     return null;
@@ -429,25 +497,25 @@ namespace FacundoColomboMethods
                     return listOnSigth[0];
                 //mas de  1 a la vista
                 default:
-                 float nearestMagnitude = (listOnSigth[0].transform.position - myPos).magnitude;
-                 int nearestIndex = 0;
+                    float nearestMagnitude = (listOnSigth[0].transform.position - myPos).magnitude;
+                    int nearestIndex = 0;
 
-                 for (int i = 1; i < listOnSigth.Count; i++)
-                 {
-                     float tempMagnitude = (listOnSigth[i].transform.position - myPos).magnitude;
-                   
-                     if (nearestMagnitude > tempMagnitude)
-                     {
-                         nearestMagnitude = tempMagnitude;
-                         nearestIndex = i;
-                     }
+                    for (int i = 1; i < listOnSigth.Count; i++)
+                    {
+                        float tempMagnitude = (listOnSigth[i].transform.position - myPos).magnitude;
 
-                 }
-                  
-                 return listOnSigth[nearestIndex];
+                        if (nearestMagnitude > tempMagnitude)
+                        {
+                            nearestMagnitude = tempMagnitude;
+                            nearestIndex = i;
+                        }
 
-                    
-            }                          
+                    }
+
+                    return listOnSigth[nearestIndex];
+
+
+            }
         }
 
         /// <summary>
@@ -460,19 +528,19 @@ namespace FacundoColomboMethods
         /// <param name="wallMask"></param>
         /// <param name="radius"></param>
         /// <returns></returns>
-        public static List<T> GetWhichAreOnSight<T>(this List<T> itemsPassed, Vector3 pos,  LayerMask wallMask = default, RaycastType type = RaycastType.Default, float radius=10f) where T : MonoBehaviour
+        public static List<T> GetWhichAreOnSight<T>(this List<T> itemsPassed, Vector3 pos, LayerMask wallMask = default, RaycastType type = RaycastType.Default, float radius = 10f) where T : MonoBehaviour
         {
-           
+
             switch (type)
             {
                 case RaycastType.Sphere:
-                    return FacundoSphereCastAll(pos, itemsPassed,radius, wallMask);                 
-                    
+                    return FacundoSphereCastAll(pos, itemsPassed, radius, wallMask);
+
                 default:
-                  return FacundoRaycastAll(pos, itemsPassed);
-                    
+                    return FacundoRaycastAll(pos, itemsPassed);
+
             }
-          
+
         }
         /// <summary>
         /// devuelve el objeto T si
@@ -491,7 +559,7 @@ namespace FacundoColomboMethods
             switch (type)
             {
                 case RaycastType.Sphere:
-                    if (FacundoSphereCast(pos, dir,sphereRadius,layer))
+                    if (FacundoSphereCast(pos, dir, sphereRadius, layer))
                     {
                         return item;
                     }
@@ -512,7 +580,7 @@ namespace FacundoColomboMethods
         static bool FacundoRaycast<T>(Vector3 pos, Vector3 dir, T item) where T : MonoBehaviour
         {
             RaycastHit hit;
-            if (!Physics.Raycast(pos, dir, out hit,dir.magnitude))
+            if (!Physics.Raycast(pos, dir, out hit, dir.magnitude))
             {
                 return true;
             }
@@ -537,19 +605,19 @@ namespace FacundoColomboMethods
                 return FacundoRaycast(pos, dir, x);
             }).ToList();
 
-            return Tlist.Count >= 1 ? Tlist: new List<T>();
-        
+            return Tlist.Count >= 1 ? Tlist : new List<T>();
+
 
 
         }
 
-        static bool FacundoSphereCast(Vector3 pos, Vector3 dir, float radius,LayerMask layer) 
+        static bool FacundoSphereCast(Vector3 pos, Vector3 dir, float radius, LayerMask layer)
         {
             return !Physics.SphereCast(pos, radius, dir, out RaycastHit hit, dir.magnitude, layer);
         }
 
-        static List<T> FacundoSphereCastAll<T>(Vector3 pos, List<T> items, float radius,LayerMask wallMask) where T : MonoBehaviour
-        {   
+        static List<T> FacundoSphereCastAll<T>(Vector3 pos, List<T> items, float radius, LayerMask wallMask) where T : MonoBehaviour
+        {
             return items.Where(x =>
             {
                 Vector3 dir = x.transform.position - pos;

@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 using UnityEngine.Events;
+using FacundoColomboMethods;
 
 [RequireComponent(typeof(DebugableObject))]
 public class GrabableHandler : MonoBehaviour, IGrabableOwner
@@ -44,7 +45,7 @@ public class GrabableHandler : MonoBehaviour, IGrabableOwner
 
     #endregion
 
-    public UnityEvent OnEquip, OnGrab, OnUnEquip, onThrow;
+    public UnityEvent OnEquip, OnGrab, OnUnEquip, onThrow,UpdateUI;
 
     private void Awake()
     {
@@ -84,8 +85,9 @@ public class GrabableHandler : MonoBehaviour, IGrabableOwner
     void SwapGadget(float wheelValue)
     {
         if (Inventory.Count <= 1) return;
-        Debug.Log(Inventory.Count);
+       
 
+        Inventory = Inventory.MoveItems(wheelValue);
         int newIndex = Inventory.IndexOf(CurrentlyEquipped);
         // evaluo el indice siguiente al que deberia acceder
         if (wheelValue > 0)
@@ -97,8 +99,16 @@ public class GrabableHandler : MonoBehaviour, IGrabableOwner
         //ejemplo
         //https://learn.microsoft.com/en-us/dotnet/csharp/language-reference/operators/arithmetic-operators#code-try-0
 
+        
         Equip(Inventory[newIndex]);
+       
     }
+
+
+    
+
+
+
 
 
     public void GrabItem(IGrabable item)
