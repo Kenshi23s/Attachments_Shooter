@@ -13,6 +13,8 @@ public class ContractSO : ScriptableObject
     }
     public new string contractName, speciesName;
     public new int Reward = 300;
+
+    public string SceneToLoad = default;
     public Sprite SpeciesImage;
 
     public CommentaryFill[] Comments;

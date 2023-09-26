@@ -91,8 +91,16 @@ public class ContractDisplay : InteractableCard
     public void SelectContract()
     {
         if (!ContractSO.Available) return;
-     
-        SceneManager.LoadScene(0);
+
+        if (SceneManager.GetActiveScene().name == ContractSO.SceneToLoad)
+        {
+            //logica de iniciar mision?
+        }
+        else
+        {
+            SceneManager.LoadScene(ContractSO.SceneToLoad);
+        }
+       
     }
 
 }
