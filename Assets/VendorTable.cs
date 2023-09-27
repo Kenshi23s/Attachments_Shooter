@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using System;
 using UnityEngine.Events;
 using TMPro;
+using FacundoColomboMethods;
 
 [RequireComponent(typeof(InteractableComponent))]
 public class VendorTable : MonoBehaviour
@@ -12,8 +13,6 @@ public class VendorTable : MonoBehaviour
     InteractableComponent InteractableComponent;
 
     [SerializeField] Transform desiredCamPos;
-
-    Transform originalCameraParent;
 
     public UnityEvent OnEnterInventory, OnCloseInventory;
 
@@ -23,11 +22,17 @@ public class VendorTable : MonoBehaviour
     public bool InsideInventory = false;
 
     public TextMeshProUGUI VendorText;
+
+    Camera _tempCamera;
+    IEnumerable<Camera> _camerasToReactivate;
     private void Awake()
     {
+  
         InteractableComponent = GetComponent<InteractableComponent>();
+        //sete que la condicion para que se pueda interactuar sea que NO esta en el inventario
         InteractableComponent.SetFocusCondition(() => !InsideInventory);
         InteractableComponent.OnInteract.AddListener(OpenInventory);
+
         if (VendorText == null) return;
         OnEnterInventory.AddListener(() => VendorText.gameObject.SetActive(false));
         OnCloseInventory.AddListener(() => VendorText.gameObject.SetActive(true));
@@ -37,20 +42,20 @@ public class VendorTable : MonoBehaviour
 
 
 
-    //si abro el inventario creo otra camara en la posicion del jugador?
-    //o muevo la camara del jugador hacia el inventario?
+ //abre el inventario, lerpea la camara y escucha los inputs para salir
     async void OpenInventory()
     {
         InsideInventory = true;
         ScreenManager.PauseGame();
-        await LerpCamera(desiredCamPos);
-        Cursor.lockState = CursorLockMode.None;
-        Cursor.visible = true;
+        await LerpNewCamera(desiredCamPos);
+
+       //sumo el listen inputs para saber cuando salir del inventario
         OnUpdate += ListenInputs;
         TableContent.SetActive(true);
         OnEnterInventory.Invoke();
     }
 
+    //esto solo se llama si el inventario esta abierto
     void ListenInputs()
     {
         if (Input.GetKeyDown(KeyCode.Escape))
@@ -68,59 +73,66 @@ public class VendorTable : MonoBehaviour
     {
         InsideInventory = false;
         ScreenManager.ResumeGame();
-        Cursor.lockState = CursorLockMode.Locked;
-        Cursor.visible = false;
+        ColomboMethods.UnlockMouse();
         OnUpdate -= ListenInputs;
         OnCloseInventory.Invoke();
         TableContent.SetActive(false);
-        await ReturnCamera();
+        await ReturnToMainCamera();
 
     }
-
-    public async Task LerpCamera(Transform DesiredCamPos)
+    /// <summary>
+    /// hace un lerpeo entre la posicion del jugador y la posicion deseada para ver la mesa
+    /// </summary>
+    /// <param name="DesiredCamPos"></param>
+    /// <returns></returns>
+    public async Task LerpNewCamera(Transform DesiredCamPos)
     {
+        //creo una nueva camara para esto y desactivo las otras 
+        _tempCamera = Instantiate(Camera.main, Camera.main.transform.position, Camera.main.transform.rotation);
+        _camerasToReactivate = _tempCamera.DeactivateAllCamerasExcept();
 
-        Vector3 InitialPos = Camera.main.transform.position;
-        Quaternion InitialRot = Camera.main.transform.rotation;
-
-        //para despues hacerlo hijo de su "pivote original"
-        originalCameraParent = Camera.main.transform.parent != null ? Camera.main.transform.parent : null;
+        //seteo las variables que deben lerpear
+        Vector3 InitialPos = _tempCamera.transform.position;
+        Quaternion InitialRot = _tempCamera.transform.rotation;
 
         float t = Time.deltaTime;
-
+        //lerpeo
         while (t < 1)
         {
 
-            Camera.main.transform.position = Vector3.Lerp(InitialPos, DesiredCamPos.position, t);
-            Camera.main.transform.rotation = Quaternion.Lerp(InitialRot, DesiredCamPos.rotation, t);
-            await Task.Yield();
+            _tempCamera.transform.position = Vector3.Lerp(InitialPos, DesiredCamPos.position, t);
+            _tempCamera.transform.rotation = Quaternion.Lerp(InitialRot, DesiredCamPos.rotation, t);
+            await Task.Yield();//esto es igual a yield return
             t += Time.deltaTime;
         }
-
-        Camera.main.transform.position = DesiredCamPos.position;
-        Camera.main.transform.rotation = DesiredCamPos.rotation;
+        //si se paso de 1, lo seteo como que ya llego
+        _tempCamera.transform.position = DesiredCamPos.position;
+        _tempCamera.transform.rotation = DesiredCamPos.rotation;
     }
 
 
-
-    async Task ReturnCamera()
+    //re activa las camaras activada y destruye la temporal
+    async Task ReturnToMainCamera()
     {
-        Camera.main.transform.parent = originalCameraParent != null
-            ? originalCameraParent.transform
-            : null;
+        
+        foreach (Camera item in _camerasToReactivate)      
+            item.gameObject.SetActive(true);
 
-        Vector3 actualPos = Camera.main.transform.position;
-        Vector3 actualRot = Camera.main.transform.localEulerAngles;
+        Destroy(_tempCamera);
+        //aca hacia una transicion de nuevo hacia donde estaba el jugador, decidi descartarlo
+        //return;
+        //Vector3 actualPos = Camera.main.transform.position;
+        //Vector3 actualRot = Camera.main.transform.localEulerAngles;
 
-        float t = Time.deltaTime;
-        while (t < 1)
-        {
-            Camera.main.transform.position = Vector3.Lerp(actualPos, Vector3.zero, t);
-            Camera.main.transform.localEulerAngles = Vector3.Lerp(actualRot, Vector3.zero, t);
-            await Task.Yield();
-            t += Time.deltaTime;
-        }
-        Camera.main.transform.position = Vector3.zero;
-        Camera.main.transform.eulerAngles = Vector3.zero;
+        //float t = Time.deltaTime;
+        //while (t < 1)
+        //{
+        //    Camera.main.transform.position = Vector3.Lerp(actualPos, Vector3.zero, t);
+        //    Camera.main.transform.localEulerAngles = Vector3.Lerp(actualRot, Vector3.zero, t);
+        //    await Task.Yield();
+        //    t += Time.deltaTime;
+        //}
+        //Camera.main.transform.position = Vector3.zero;
+        //Camera.main.transform.eulerAngles = Vector3.zero;
     }
 }

@@ -45,7 +45,9 @@ public class BurnCollider : MonoBehaviour
         //creo que esto no me da exactamente el punto de colision
         Debug.Log("Lo quemo");
         Vector3 impactOn = other.ClosestPoint(transform.position);
-        x.AddStacks(StackScalar * Time.deltaTime, impactOn);
+        float y = StackScalar * Time.deltaTime;
+        Debug.Log(y);
+        x.AddStacks(y, impactOn);
 
 
     }

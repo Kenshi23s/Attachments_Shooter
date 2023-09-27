@@ -1,4 +1,5 @@
 
+using Microsoft.Cci;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -22,6 +23,33 @@ namespace FacundoColomboMethods
 
     public static class ColomboMethods
     {
+
+        public static IEnumerable<Camera> DeactivateAllCamerasExcept(this Camera exception)
+        {
+            var cams = Camera.allCameras
+                .Where(x => x != exception)
+                .Where(x => x.gameObject.activeSelf);
+            foreach (var item in cams.Select(x => x.gameObject))
+            {
+                item.SetActive(false);
+            }
+            return cams;
+        }
+        //shortcut para unLockear mouse
+        public static void UnlockMouse()
+        {
+            Cursor.lockState = CursorLockMode.None;
+            Cursor.visible = true;
+        }
+        //shortcut para Lockear mouse
+        public static void LockMouse()
+        {
+            Cursor.lockState = CursorLockMode.Locked;
+            Cursor.visible = false;
+        }
+        //debe haber una manera mas facil de mover 1 item adelante en la list
+        //o pasarlo para atras
+        //alguna funcion de linq debe existir...
         public static List<T> MoveItems<T>(this List<T> list, float sign, int manyTimes = 1)
         {
             if (sign == 0) return list;
@@ -80,10 +108,7 @@ namespace FacundoColomboMethods
                 ReOrderedList[lenght] = swapAux;
             }
 
-            for (int i = 0; i < ReOrderedList.Count - 1; i++)
-            {
-                Debug.LogError(ReOrderedList[i] + " " + i);
-            }
+          
             return ReOrderedList;
 
         }

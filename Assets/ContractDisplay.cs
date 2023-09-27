@@ -99,6 +99,7 @@ public class ContractDisplay : InteractableCard
         else
         {
             SceneManager.LoadScene(ContractSO.SceneToLoad);
+           
         }
        
     }

@@ -31,9 +31,11 @@ public class ShopHandler : MonoBehaviour
     [Header("Preview"), SerializeField]
     Transform previewParent;
     [SerializeField] Image _iconPreview;
-    [SerializeField] TMP_Text _previewName, _previewCost, _previewDescription;
+    [SerializeField] TMP_Text _previewName, _previewDescription;
 
-    [field: SerializeField] public Button BuyButton { get; private set; }
+    [field : SerializeField,Header("Buy Parameters")] 
+    public Button BuyButton { get; private set; }
+    [SerializeField] TMP_Text _previewCost;
 
     public TMP_Text BalanceText;
 
@@ -67,8 +69,7 @@ public class ShopHandler : MonoBehaviour
     }
 
     public void DisplayItems()
-    {
-        
+    {      
         foreach (var item in itemsOnStock.Where(x => x.ItemData != null && x.Quantity > 0))
         {
             var x = Instantiate(Sample, stockTransform);
@@ -76,6 +77,7 @@ public class ShopHandler : MonoBehaviour
             _shopItems.Add(x);
         }
     }
+
 
     public void PreviewItem(CurrencyShopItemsSO item)
     {
@@ -90,9 +92,9 @@ public class ShopHandler : MonoBehaviour
 
     public void StopDisplay()
     {
-        foreach (var item in _shopItems) Destroy(item);
-        _shopItems.Clear();
-   
+        foreach (var item in _shopItems) { Destroy(item.gameObject); }
+        Debug.Log("Borro"+_shopItems.Count +" items");
+        _shopItems.Clear(); 
         ClearPreview();
     }
 
