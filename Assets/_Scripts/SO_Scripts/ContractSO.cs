@@ -16,7 +16,6 @@ public class ContractSO : ScriptableObject
 
     public string SceneToLoad = default;
     public Sprite SpeciesImage;
-    public Texture sadtex;
 
     public CommentaryFill[] Comments;
 
