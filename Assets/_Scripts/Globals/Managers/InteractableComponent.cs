@@ -147,7 +147,7 @@ public class InteractableComponent : MonoBehaviour, IInteractable
     {
         priority = float.MinValue;
 
-       
+        if (cam == null) return false;       
         // Chequear si esta cerca
         if (!ViewHelper.IsNear(cam.position, _interactableCollider.transform.position, interactDistance)) return false;
 

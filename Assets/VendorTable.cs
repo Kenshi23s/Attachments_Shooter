@@ -46,7 +46,8 @@ public class VendorTable : MonoBehaviour
     async void OpenInventory()
     {
         InsideInventory = true;
-        ScreenManager.PauseGame();
+        ScreenManager.PauseGame(); ColomboMethods.UnlockMouse();
+
         await LerpNewCamera(desiredCamPos);
 
        //sumo el listen inputs para saber cuando salir del inventario
@@ -73,7 +74,7 @@ public class VendorTable : MonoBehaviour
     {
         InsideInventory = false;
         ScreenManager.ResumeGame();
-        ColomboMethods.UnlockMouse();
+        ColomboMethods.LockMouse();
         OnUpdate -= ListenInputs;
         OnCloseInventory.Invoke();
         TableContent.SetActive(false);
@@ -118,7 +119,7 @@ public class VendorTable : MonoBehaviour
         foreach (Camera item in _camerasToReactivate)      
             item.gameObject.SetActive(true);
 
-        Destroy(_tempCamera);
+        Destroy(_tempCamera.gameObject);
         //aca hacia una transicion de nuevo hacia donde estaba el jugador, decidi descartarlo
         //return;
         //Vector3 actualPos = Camera.main.transform.position;

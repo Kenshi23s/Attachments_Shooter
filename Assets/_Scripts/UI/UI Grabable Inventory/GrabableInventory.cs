@@ -93,6 +93,8 @@ public class GrabableInventory : MonoBehaviour
 
     void UpdateUI()
     {
+        if (GHandler.Inventory.Count <= 0) return;
+       
         StopAllCoroutines();
         if (GHandler.Inventory.Count > GrabableItemsIcons.Count)
             CreateMoreIcons(GHandler.Inventory.Count - GrabableItemsIcons.Count);

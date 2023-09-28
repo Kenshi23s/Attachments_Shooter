@@ -19,8 +19,8 @@ public class Egg_VFXHandler : MonoBehaviour
         Owner.InteractComponent.OnInteractAbort.AddListener(InteractUI.TurnSliderTextOff);
         Owner.InteractComponent.onTryingToInteract.AddListener(UpdateInteractUI);
 
-        Owner.OnGrab.AddListener(EnableRopeLink);
-        Owner.OnRelease.AddListener(DisableRopeLink);
+        //Owner.OnGrab.AddListener(EnableRopeLink);
+        //Owner.OnRelease.AddListener(DisableRopeLink);
     }
 
     
@@ -30,26 +30,26 @@ public class Egg_VFXHandler : MonoBehaviour
     }
 
     #region Rope
-    public void EnableRopeLink() 
-    {
+    //public void EnableRopeLink() 
+    //{
        
-        _playerLinking.gameObject.SetActive(true);
-        Owner.OnUpdate += UpdateLinkRope;
-    } 
+    //    _playerLinking.gameObject.SetActive(true);
+    //    Owner.OnUpdate += UpdateLinkRope;
+    //} 
 
-    public void DisableRopeLink()
-    {
-        Owner.OnUpdate -= UpdateLinkRope;
-        _playerLinking.gameObject.SetActive(false);
-    } 
+    //public void DisableRopeLink()
+    //{
+    //    Owner.OnUpdate -= UpdateLinkRope;
+    //    _playerLinking.gameObject.SetActive(false);
+    //} 
 
 
-    void UpdateLinkRope()
-    {
-        _playerLinking.SetPosition(0, transform.position);
-        var playerPos = Owner.CurrentEggStats.gameMode.playerPos;
-        _playerLinking.SetPosition(1, Vector3.Slerp(transform.position, playerPos, 0.5f));
-        _playerLinking.SetPosition(2, playerPos);
-    }
+    //void UpdateLinkRope()
+    //{
+    //    _playerLinking.SetPosition(0, transform.position);
+    //    //var playerPos = Owner.CurrentEggStats.gameMode.playerPos;
+    //    _playerLinking.SetPosition(1, Vector3.Slerp(transform.position, playerPos, 0.5f));
+    //    _playerLinking.SetPosition(2, playerPos);
+    //}
     #endregion
 }

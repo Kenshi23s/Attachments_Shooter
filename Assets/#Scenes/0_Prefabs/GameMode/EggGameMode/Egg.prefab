@@ -196,10 +196,7 @@ GameObject:
   - component: {fileID: 7508314453134862469}
   - component: {fileID: 2371435201304580149}
   - component: {fileID: 2047470659758414097}
-  - component: {fileID: 3601748017417277284}
   - component: {fileID: 2307399318860750864}
-  - component: {fileID: 2931200110201961575}
-  - component: {fileID: 6356770549206311380}
   - component: {fileID: 8970671558890454384}
   m_Layer: 0
   m_Name: Egg
@@ -479,20 +476,6 @@ MonoBehaviour:
   OnInteractFail:
     m_PersistentCalls:
       m_Calls: []
---- !u!114 &3601748017417277284
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4518308652061995904}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: b58395a485a348a4d90394e6f684cde8, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _viewRadius: 15
-  viewAngle: 70
 --- !u!114 &2307399318860750864
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -511,50 +494,6 @@ MonoBehaviour:
   precomputeOutline: 0
   bakeKeys: []
   bakeValues: []
---- !u!114 &2931200110201961575
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4518308652061995904}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 19091eb5ad3751d47aa20f1183e0bb48, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  Movement: 0
-  _acceleration: 37.5
-  _maxSpeed: 8
-  _maxGroundAngle: 45
-  GroundSnapping: 1
-  _groundProbeDistance: 0.5
-  GroundMask:
-    serializedVersion: 2
-    m_Bits: 4294967295
-  Alignment: 0
-  _alignmentMix: 0.5
-  AlignmentTarget: {fileID: 0}
-  _alignTime: 0
-  FreezeXAlignment: 1
-  FreezeYAlignment: 0
-  FreezeZAlignment: 1
---- !u!114 &6356770549206311380
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4518308652061995904}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: a9baa3c953fd6534b9a216d81f39b9f4, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  DestinationArriveDistance: 1
-  obstacleMask:
-    serializedVersion: 2
-    m_Bits: 8192
 --- !u!114 &8970671558890454384
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -579,10 +518,10 @@ MonoBehaviour:
   OnRelease:
     m_PersistentCalls:
       m_Calls: []
-  OnUse:
+  OnInspect:
     m_PersistentCalls:
       m_Calls: []
-  OnInspect:
+  OnUse:
     m_PersistentCalls:
       m_Calls: []
 --- !u!1001 &2070150739573700269
