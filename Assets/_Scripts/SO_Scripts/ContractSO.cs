@@ -1,6 +1,7 @@
 using System;
 using UnityEngine;
-
+// genera una ventana en el menu de create
+//me base en este video para hacerlo : https://www.youtube.com/watch?v=aPXvoWVabPY
 [CreateAssetMenu(fileName = "Contract", menuName = "Card/Contract")]
 
 public class ContractSO : ScriptableObject
@@ -8,7 +9,6 @@ public class ContractSO : ScriptableObject
     [Serializable]
     public struct CommentaryFill
     {
-        public ContractDisplay.ComentColor color;
         public string Comment;
     }
     public new string contractName, speciesName;
@@ -16,12 +16,15 @@ public class ContractSO : ScriptableObject
 
     public string SceneToLoad = default;
     public Sprite SpeciesImage;
+    public Texture sadtex;
 
     public CommentaryFill[] Comments;
 
     public bool Available = true;
 
 
+
+    //genera un 
     public string GenerateIdentifier()
     {
         var identifier = speciesName + "#";

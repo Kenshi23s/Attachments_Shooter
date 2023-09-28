@@ -7,17 +7,13 @@ using UnityEngine.SceneManagement;
 
 public class ContractDisplay : InteractableCard
 {
-    public enum ComentColor
-    {
-        Red, Green, Yellow
-    }
+   
     [Serializable]
     public struct ContractComentary
     {
-        public TMP_Text comment;
-        public Image icon;
-       
+        public TMP_Text comment;     
     }
+
     public ContractSO ContractSO;
 
     [Header("Contract")]
@@ -27,6 +23,7 @@ public class ContractDisplay : InteractableCard
     public TMP_Text SpecieIdentifierText;
     public Image SpeciesImage;
 
+    //para saber 
     [Header("Availability")]
     public GameObject Cross;
     public Tuple<Image, string> SpecieImage;
@@ -48,7 +45,7 @@ public class ContractDisplay : InteractableCard
     
 
 
-
+    //setea los cambios en base al Scriptable object del contrato pasado por referencia
     [ContextMenu("SetChanges")]
     void SetContract()
     {
@@ -67,27 +64,12 @@ public class ContractDisplay : InteractableCard
             if (i > ContractSO.Comments.Length) break;
 
             comentaries[i].comment.text = ContractSO.Comments[i].Comment;
-            comentaries[i].icon.color = ColorFromEnum(ContractSO.Comments[i].color);
+            //comentaries[i].icon.color = ColorFromEnum(ContractSO.Comments[i].color);
         }
 
     }
 
-    Color ColorFromEnum(ComentColor Selectedcolor)
-    {
-        switch (Selectedcolor)
-        {
-            case ComentColor.Red:
-                return Color.red;
-
-            case ComentColor.Green:
-                return Color.green;
-
-            default:
-                return Color.yellow;
-           
-        }
-    } 
-
+   
     public void SelectContract()
     {
         if (!ContractSO.Available) return;
