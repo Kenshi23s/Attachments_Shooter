@@ -11,12 +11,12 @@ public class DashUI : MonoBehaviour
 
     public void SetOwner(Movement_AirDash NewOwner)
     {
-        Owner = NewOwner;
-        transform.parent = Owner.MovementOwner.HandlerOwner.AbilitiesPanel;
-        var x = GetComponent<RectTransform>();
-        x.anchoredPosition3D = Vector3.zero;
-        x.localScale= Vector3.one;
-        x.rotation = Quaternion.identity;
+        // Owner = NewOwner;
+        // transform.parent = Owner.MovementOwner.HandlerOwner.AbilitiesPanel;
+        // var x = GetComponent<RectTransform>();
+        // x.anchoredPosition3D = Vector3.zero;
+        // x.localScale= Vector3.one;
+        // x.rotation = Quaternion.identity;
 
     }
 

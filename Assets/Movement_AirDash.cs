@@ -86,37 +86,37 @@ public class Movement_AirDash : MonoBehaviour
 
     void AirDash()
     {
-        DesiredDash = false;
-        MovementOwner.ClearForces();
-        //lo tengo para debugear por si no entra a ninguna(no deberia pasar)
-        Vector3 DashDir = Vector3.up * 100;
-        Debug.Log("Dash");
-        LastMovementKey();
-        switch (LastKeyPresed)
-        {
-            case KeyCode.W:
-                DashDir = Vector3.forward;
-                break;
-
-            case KeyCode.D:
-                DashDir = Vector3.right;
-                break;
-
-            case KeyCode.A:
-                DashDir = Vector3.left;
-                break;
-
-            default:
-                DashDir = Vector3.back;
-                break;
-
-        }
-
-        DashDir = DashDir.GetOrientedVector(transform);
-
-        MovementOwner.RB.AddForce(DashDir.normalized * dashImpulse, ForceMode.Impulse);
-        OnDash?.Invoke();
-        StartCoroutine(DashCD());
+        // DesiredDash = false;
+        // MovementOwner.ClearForces();
+        // //lo tengo para debugear por si no entra a ninguna(no deberia pasar)
+        // Vector3 DashDir = Vector3.up * 100;
+        // Debug.Log("Dash");
+        // LastMovementKey();
+        // switch (LastKeyPresed)
+        // {
+        //     case KeyCode.W:
+        //         DashDir = Vector3.forward;
+        //         break;
+        //
+        //     case KeyCode.D:
+        //         DashDir = Vector3.right;
+        //         break;
+        //
+        //     case KeyCode.A:
+        //         DashDir = Vector3.left;
+        //         break;
+        //
+        //     default:
+        //         DashDir = Vector3.back;
+        //         break;
+        //
+        // }
+        //
+        // DashDir = DashDir.GetOrientedVector(transform);
+        //
+        // MovementOwner.RB.AddForce(DashDir.normalized * dashImpulse, ForceMode.Impulse);
+        // OnDash?.Invoke();
+        // StartCoroutine(DashCD());
     }
     #endregion
 }
